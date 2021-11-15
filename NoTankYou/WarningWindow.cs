@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
 using ImGuiNET;
-using Dalamud.Game.ClientState;
-using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.ClientState.Conditions;
-using System.Threading;
 using Dalamud.Interface.Windowing;
 
 namespace NoTankYou
@@ -27,7 +21,6 @@ namespace NoTankYou
 
         private ImGuiWindowFlags noClickthroughFlags = 
                     ImGuiWindowFlags.NoScrollbar |
-                    ImGuiWindowFlags.NoScrollWithMouse |
                     ImGuiWindowFlags.NoTitleBar |
                     ImGuiWindowFlags.NoCollapse |
                     ImGuiWindowFlags.NoResize |
@@ -46,7 +39,7 @@ namespace NoTankYou
 
             WindowSize = new Vector2(500, 100);
 
-            this.SizeConstraints = new WindowSizeConstraints()
+            SizeConstraints = new WindowSizeConstraints()
             {
                 MinimumSize = new(WindowSize.X, WindowSize.Y),
                 MaximumSize = new(WindowSize.X, WindowSize.Y)
@@ -61,7 +54,7 @@ namespace NoTankYou
             // If force show, will cause this window to always be displayed (unless render is being delayed)
             if (Service.Configuration.ForceShowNoTankWarning == true)
             {
-                ImGui.Image(this.warningImage.ImGuiHandle, new Vector2(this.warningImage.Width, this.warningImage.Height));
+                ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
             }
 
             // Is the player in a party? and also in a duty?
@@ -78,7 +71,7 @@ namespace NoTankYou
                     if (tankPresent.Item2 != null && !PartyOperations.IsTankStanceFound(tankPresent.Item2))
                     {
                         // Display warning banner
-                        ImGui.Image(this.warningImage.ImGuiHandle, new Vector2(this.warningImage.Width, this.warningImage.Height));
+                        ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
                     }
                 }
             }
@@ -92,14 +85,14 @@ namespace NoTankYou
         }
         public void Dispose()
         {
-            this.warningImage.Dispose();
+            warningImage.Dispose();
         }
 
         // If we need to move the window around, we have to enable clickthrough
         public override void PreDraw()
         {
             base.PreDraw();
-            ImGuiWindowFlags windowflags = Service.Configuration.DisableClickthrough ? noClickthroughFlags : defaultWindowFlags;
+            ImGuiWindowFlags windowflags = Service.Configuration.EnableClickthrough ?  noClickthroughFlags : defaultWindowFlags;
 
             Flags = windowflags;
         }

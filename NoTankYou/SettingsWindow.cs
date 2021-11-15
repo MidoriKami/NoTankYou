@@ -1,10 +1,6 @@
 ﻿using ImGuiNET;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 using Dalamud.Interface.Windowing;
 
@@ -21,7 +17,7 @@ namespace NoTankYou
         {
             WindowSize = new Vector2(350, 250);
 
-            this.SizeConstraints = new WindowSizeConstraints()
+            SizeConstraints = new WindowSizeConstraints()
             {
                 MinimumSize = new(WindowSize.X, WindowSize.Y),
                 MaximumSize = new(WindowSize.X, WindowSize.Y)
@@ -35,55 +31,36 @@ namespace NoTankYou
             
         }
 
-        private void DrawForceShowWindowButton()
+        private void DrawForceShowBannerCheckbox()
         {
-            if (Service.Configuration.ForceShowNoTankWarning == true)
-            {
-                if (ImGui.Button("Disable Force Show Warning"))
-                {
-                    Service.Configuration.ForceShowNoTankWarning = false;
-                }
-            }
-            else
-            {
-                if (ImGui.Button("Enable Force Show Warning"))
-                {
-                    Service.Configuration.ForceShowNoTankWarning = true;
-                }
-            }
+            ImGui.Text("Force show 'Tank Stance' warning banner");
+            ImGui.Checkbox("Force show warning banner", ref Service.Configuration.ForceShowNoTankWarning);
+            ImGui.Spacing();
         }
 
         private void DrawEnablePluginButton()
         {
-            if (Service.Configuration.ShowNoTankWarning == true)
-            {
-                if (ImGui.Button("Disable No Tank Stance Warning"))
-                {
-                    Service.Configuration.ShowNoTankWarning = false;
-                }
-            }
-            else
-            {
-                if (ImGui.Button("Enable No Tank Stance Warning"))
-                {
-                    Service.Configuration.ShowNoTankWarning = true;
-                }
-            }
+            ImGui.Checkbox("Enable Plugin", ref Service.Configuration.ShowNoTankWarning);
+            ImGui.Spacing();
         }
 
         private void DrawInstanceLoadDelayTimeTextField()
         {
-            ImGui.Text("Hide Warning for x milliseconds on mapload");
+            ImGui.Text("Hide warning banner on map change for (milliseconds)");
             ImGui.InputInt("", ref Service.Configuration.InstanceLoadDelayTime, 1000, 5000);
+            ImGui.Spacing();
         }
         private void DrawDisableInAllianceRaidsCheckbox()
         {
+            ImGui.Text("Should the banner show in Alliance raids");
             ImGui.Checkbox("Disable in Alliance Raids", ref Service.Configuration.DisableInAllianceRaids);
+            ImGui.Spacing();
         }
 
         private void DrawEnableClickThroughCheckbox()
         {
-            ImGui.Checkbox("Disable Clickthrough", ref Service.Configuration.DisableClickthrough);
+            ImGui.Checkbox("Enable Clickthrough", ref Service.Configuration.EnableClickthrough);
+            ImGui.Spacing();
         }
 
         public override void Draw()
@@ -95,7 +72,7 @@ namespace NoTankYou
             else
             {
                 DrawEnablePluginButton();
-                DrawForceShowWindowButton();
+                DrawForceShowBannerCheckbox();
                 DrawEnableClickThroughCheckbox();
                 DrawInstanceLoadDelayTimeTextField();
                 DrawDisableInAllianceRaidsCheckbox();

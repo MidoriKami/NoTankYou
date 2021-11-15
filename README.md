@@ -1,40 +1,18 @@
 # SamplePlugin
-Simple example plugin for XivLauncher/Dalamud, that shows both a working plugin and an associated UI test project, to allow for building and tweaking the UI without having to run the game.
+Plugin for XivLauncher/Dalamud, shows a warning banner ingame if none of the tanks in your party have their tank stance on.
 
-This is not designed to be the simplest possible example, but neither is it designed to cover everything you might want to do.
+Why would this be useful you ask?
 
-I'm mostly hoping this helps some people to build out their UIs without having to constantly jump in and out of game.
+Ever charged headfirst into a dungeon following you tank as a DPS, and all of a sudden realize a lot of aggro is changing?
+And then realize moments later that you are building up a lot of aggro?
+Then moments later... you are laying on the ground dead, thinking "oh, tank forgot their stance".
 
+Well fret no more!
 
-### Main Points
-* Simple functional plugin
-  * Slash command
-  * Main UI
-  * Settings UI
-  * Image loading
-  * Plugin json
-* Simple, slightly-improved plugin configuration handling
-* Basic ImGui testbed application project
-  * Allows testing UI changes without needing to run the game
-  * UI environment provided should match what is seen in game
-  * Defaults to an invisible fullscreen overlay; can easily be changed to use an opaque window etc
-  * Currently relies more on copy/paste of your UI code than fully generic objects (though this could be done)
-* Project organization
-  * Copies all necessary plugin files to the output directory
-    * Does not copy dependencies that are provided by dalamud
-    * Output directory can be zipped directly and have exactly what is required
-  * Hides data files from visual studio to reduce clutter
-    * Also allows having data files in different paths than VS would usually allow if done in the IDE directly
-    
-  
-  The intention is less that any of this is used directly in other projects, and more to show how similar things can be done.
-  
-  The UIDev project could be used as-is, with just the UITest.cs file needing to be redone for your specific project UI.
-  
-  ### To Use
-  You'll need to fixup the library dependencies (for both projects), to point at your local dalamud binary directory.
-  
-  This will either be a custom dalamud build, or `%APPDATA%\XivLauncher\addon\Hooks\` for the current live release.
-  
-  After that, clear out what you don't need in UITest.cs, and implement your own local UI under Draw()
-  
+This plugin does have some overlap with tools that warn you if YOUR tank stance is off, however those tools don't warn you if OTHER's are off.
+
+### Why is this useful?
+* Avoiding confrontation and death
+* Helping a friend when they forget their tank stance
+* Realizing that a sprout keeps accidentally toggling stance repeatedly
+* Personal reminder to put your own stance on 

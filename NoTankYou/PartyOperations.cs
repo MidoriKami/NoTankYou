@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Dalamud.Game.ClientState.Party;
+﻿using Dalamud.Game.ClientState.Party;
 
 namespace NoTankYou
 {
@@ -30,6 +24,7 @@ namespace NoTankYou
             }
         }
 
+        // Returns tuple(bool, partymember), partymember is only valid if the boolean is true
         public static (bool, PartyMember?) IsTankPresent(PartyList partyList)
         {
             foreach (var player in partyList)

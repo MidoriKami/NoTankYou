@@ -11,8 +11,8 @@ namespace NoTankYou
 
         public bool ShowNoTankWarning = false;
         public bool ForceShowNoTankWarning = false;
-        public bool DisableClickthrough = false;
-        public int InstanceLoadDelayTime = 5000;
+        public bool EnableClickthrough = true;
+        public int InstanceLoadDelayTime = 8000;
         public bool DisableInAllianceRaids = true;
 
         [NonSerialized]
@@ -25,7 +25,7 @@ namespace NoTankYou
 
         public void Save()
         {
-            this.pluginInterface!.SavePluginConfig(this);
+            pluginInterface!.SavePluginConfig(this);
         }
     }
 }
