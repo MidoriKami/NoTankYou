@@ -1,4 +1,4 @@
-# SamplePlugin
+# No Tank You
 Plugin for XivLauncher/Dalamud, shows a warning banner ingame if none of the tanks in your party have their tank stance on.
 
 Why would this be useful you ask?
