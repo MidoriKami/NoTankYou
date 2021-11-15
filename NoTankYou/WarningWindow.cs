@@ -60,14 +60,24 @@ namespace NoTankYou
             else if (PartyOperations.IsInParty(Service.PartyList) && Service.Condition[ConditionFlag.BoundByDuty])
             {
                 // Is there a tank present in the party? (often false for things like Palace of the Dead)
-                var tankPresent = PartyOperations.IsTankPresent(Service.PartyList);
+                var partyTanks = PartyOperations.GetTanksList(Service.PartyList);
 
-                // Item1 boolean, true if a tank was found, false if not
-                if (tankPresent.Item1 == true)
+                // If we found any tanks
+                if (partyTanks.Count > 0)
                 {
-                    // Item2 PartyMember object, the first found tank
-                    // Do they have a tank stance status?
-                    if (tankPresent.Item2 != null && !PartyOperations.IsTankStanceFound(tankPresent.Item2))
+                    bool tankStanceFound = false;
+
+                    // Check each tank for a tank stance
+                    foreach(var tank in partyTanks)
+                    {
+                        if (PartyOperations.IsTankStanceFound(tank))
+                        {
+                            tankStanceFound = true;
+                        }
+                    }
+                    
+                    // If none of the tanks have their stance on
+                    if (!tankStanceFound)
                     {
                         // Display warning banner
                         ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));

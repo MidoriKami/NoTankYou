@@ -1,4 +1,5 @@
 ﻿using Dalamud.Game.ClientState.Party;
+using System.Collections.Generic;
 
 namespace NoTankYou
 {
@@ -24,18 +25,20 @@ namespace NoTankYou
             }
         }
 
-        // Returns tuple(bool, partymember), partymember is only valid if the boolean is true
-        public static (bool, PartyMember?) IsTankPresent(PartyList partyList)
+        // Returns a list of all tanks, list will be empty if no tanks are found
+        public static List<PartyMember> GetTanksList(PartyList partyList)
         {
+            var tankList = new List<PartyMember>();
+
             foreach (var player in partyList)
             {
                 if (IsTank(player.ClassJob.GameData.Name))
                 {
-                    return (true, player);
+                    tankList.Add(player);
                 }
             }
 
-            return (false, null);
+            return tankList;
         }
 
         public static bool IsTankStanceFound(PartyMember member)
