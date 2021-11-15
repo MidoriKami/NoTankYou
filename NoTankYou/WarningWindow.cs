@@ -16,8 +16,7 @@ namespace NoTankYou
                     ImGuiWindowFlags.NoScrollWithMouse |
                     ImGuiWindowFlags.NoTitleBar |
                     ImGuiWindowFlags.NoCollapse |
-                    ImGuiWindowFlags.NoResize |
-                    ImGuiWindowFlags.NoBackground;
+                    ImGuiWindowFlags.NoResize;
 
         private ImGuiWindowFlags noClickthroughFlags = 
                     ImGuiWindowFlags.NoScrollbar |
@@ -25,7 +24,7 @@ namespace NoTankYou
                     ImGuiWindowFlags.NoCollapse |
                     ImGuiWindowFlags.NoResize |
                     ImGuiWindowFlags.NoBackground |
-                    ImGuiWindowFlags.NoMouseInputs;
+                    ImGuiWindowFlags.NoInputs;
 
         private bool pauseDisplay = false;
         private Vector2 WindowSize { get; set; }
@@ -80,6 +79,7 @@ namespace NoTankYou
         // On map change, we want to hide the banner for "InstanceLoadDelayTime" milliseconds
         private void TriggerRenderDelay(object? s, ushort u)
         {
+            IsOpen = true;
             pauseDisplay = true;
             Task.Delay(Service.Configuration.InstanceLoadDelayTime).ContinueWith(t => { pauseDisplay = false; });
         }
@@ -113,6 +113,11 @@ namespace NoTankYou
                     CheckForTankStanceAndDraw();
                 }
             }
+        }
+
+        public override void OnClose()
+        {
+            IsOpen = true;
         }
     }
 }

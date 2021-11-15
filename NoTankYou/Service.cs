@@ -18,7 +18,6 @@ namespace NoTankYou
     [PluginService] public static PartyList PartyList { get; private set; }
     [PluginService] public static CommandManager Commands { get; private set; }
     [PluginService] public static Condition Condition { get; private set; }
-    [PluginService] public static object SigScanner { get; internal set; }
                     public static Configuration Configuration { get; set; }
                     public static WindowSystem WindowSystem { get; set; }
 
