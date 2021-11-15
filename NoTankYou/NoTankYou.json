@@ -1,0 +1,11 @@
+{
+  "Author": "MidoriKami",
+  "Name": "No Tank You",
+  "Punchline": "Simple plugin to show a warning if none of you tanks have tank stance on",
+  "Description": "/notankconfig",
+  "InternalName": "NoTankYou",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "plugin"
+  ]
+}
