@@ -39,7 +39,7 @@ namespace NoTankYou
             // Register Slash Commands
             Service.Commands.AddHandler(settingsCommand, new CommandInfo(OnCommand)
             {
-                HelpMessage = "No Tank You plugin options menu."
+                HelpMessage = "/notankconfig <off|on|force>"
             });
 
             // Register draw callbacks
@@ -64,7 +64,27 @@ namespace NoTankYou
 
         private void OnCommand(string command, string arguments)
         {
-            SettingsWindow.IsOpen = true;
+            if(arguments == "off")
+            {
+                Service.Configuration.ShowNoTankWarning = false;
+                Service.Configuration.ForceShowNoTankWarning = false;
+            }
+            else if ( arguments == "on")
+            {
+                Service.Configuration.ShowNoTankWarning = true;
+                Service.Configuration.ForceShowNoTankWarning = false;
+            }
+            else if ( arguments == "force")
+            {
+                Service.Configuration.ForceShowNoTankWarning = true;
+                Service.Configuration.ShowNoTankWarning = true;
+            }
+            else
+            {
+                SettingsWindow.IsOpen = true;
+            }
+
+            Service.Configuration.Save();
         }
 
         public void Dispose()

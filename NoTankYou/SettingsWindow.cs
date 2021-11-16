@@ -50,12 +50,6 @@ namespace NoTankYou
             ImGui.InputInt("", ref Service.Configuration.InstanceLoadDelayTime, 1000, 5000);
             ImGui.Spacing();
         }
-        private void DrawDisableInAllianceRaidsCheckbox()
-        {
-            ImGui.Text("Should the banner show in Alliance raids");
-            ImGui.Checkbox("Disable in Alliance Raids", ref Service.Configuration.DisableInAllianceRaids);
-            ImGui.Spacing();
-        }
 
         private void DrawEnableClickThroughCheckbox()
         {
@@ -75,7 +69,6 @@ namespace NoTankYou
                 DrawForceShowBannerCheckbox();
                 DrawEnableClickThroughCheckbox();
                 DrawInstanceLoadDelayTimeTextField();
-                DrawDisableInAllianceRaidsCheckbox();
             }
         }
 

@@ -112,10 +112,6 @@ namespace NoTankYou
             {
                 return;
             }
-            else if (Service.PartyList.IsAlliance && Service.Configuration.DisableInAllianceRaids)
-            {
-                return;
-            }
             else
             { 
                 if (!pauseDisplay)
@@ -127,6 +123,7 @@ namespace NoTankYou
 
         public override void OnClose()
         {
+            base.OnClose();
             IsOpen = true;
         }
     }
