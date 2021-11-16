@@ -4,6 +4,7 @@ using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Enums;
+using System.Linq;
 
 namespace NoTankYou
 {
@@ -22,26 +23,6 @@ namespace NoTankYou
             }
 
             return playerList;
-        }
-
-        public static bool AnyPlayersAllianceMembers(List<PlayerCharacter> characters)
-        {
-            foreach (var character in characters)
-            {
-                if (character.StatusFlags.HasFlag(StatusFlags.AllianceMember))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static bool IsInAlliance()
-        {
-            var players = GetAllPlayerCharacters();
-
-            return AnyPlayersAllianceMembers(players);
         }
 
         public static bool IsInParty(PartyList partyList)

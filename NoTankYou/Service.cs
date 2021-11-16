@@ -7,6 +7,7 @@ using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Game.ClientState.Objects;
+using Dalamud.Data;
 
 namespace NoTankYou
 {
@@ -20,6 +21,7 @@ namespace NoTankYou
     [PluginService] public static CommandManager Commands { get; private set; }
     [PluginService] public static Condition Condition { get; private set; }
     [PluginService] public static ObjectTable ObjectTable { get; private set; }
+    [PluginService] public static DataManager DataManager { get; private set; }
                     public static Configuration Configuration { get; set; }
                     public static WindowSystem WindowSystem { get; set; }
 

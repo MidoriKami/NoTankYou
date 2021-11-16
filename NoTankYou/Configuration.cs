@@ -8,7 +8,7 @@ namespace NoTankYou
     public class Configuration : IPluginConfiguration
     {
         public int Version { get; set; } = 0;
-
+        public bool DisableInAllianceRaid = true;
         public bool ShowNoTankWarning = false;
         public bool ForceShowNoTankWarning = false;
         public bool EnableClickthrough = true;

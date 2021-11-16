@@ -1,7 +1,6 @@
 ﻿using ImGuiNET;
 using System;
 using System.Numerics;
-
 using Dalamud.Interface.Windowing;
 
 namespace NoTankYou
@@ -10,12 +9,11 @@ namespace NoTankYou
     {
         public bool visible = false;
 
-        private Vector2 WindowSize { get; set; }
+        private readonly Vector2 WindowSize = new Vector2(350, 275);
 
         public SettingsWindow() : 
             base("Settings Window")
         {
-            WindowSize = new Vector2(350, 250);
 
             SizeConstraints = new WindowSizeConstraints()
             {
@@ -56,6 +54,31 @@ namespace NoTankYou
             ImGui.Checkbox("Enable Clickthrough", ref Service.Configuration.EnableClickthrough);
             ImGui.Spacing();
         }
+        private void DrawDisableInAllianceRaid()
+        {
+            ImGui.Checkbox("Disable in Alliance Raid", ref Service.Configuration.DisableInAllianceRaid);
+            ImGui.Spacing();
+        }
+
+        private void DrawSaveAndCloseButtons()
+        {
+            ImGui.BeginTable("SaveTable", 2);
+
+            ImGui.TableNextColumn();
+            if( ImGui.Button("Save", new(100, 25)) )
+            {
+                Service.Configuration.Save();
+            }
+
+            ImGui.TableNextColumn();
+            if( ImGui.Button("Save & Close", new(150, 25)))
+            {
+                Service.Configuration.Save();
+                IsOpen = false;
+            }
+            ImGui.EndTable();
+            ImGui.Spacing();
+        }
 
         public override void Draw()
         {
@@ -69,6 +92,8 @@ namespace NoTankYou
                 DrawForceShowBannerCheckbox();
                 DrawEnableClickThroughCheckbox();
                 DrawInstanceLoadDelayTimeTextField();
+                DrawDisableInAllianceRaid();
+                DrawSaveAndCloseButtons();
             }
         }
 
