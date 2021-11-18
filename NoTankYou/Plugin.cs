@@ -39,7 +39,7 @@ namespace NoTankYou
             // Register Slash Commands
             Service.Commands.AddHandler(settingsCommand, new CommandInfo(OnCommand)
             {
-                HelpMessage = "/notankconfig <off|on|force>"
+                HelpMessage = "(on off force) enables or disables the display of the warning banner"
             });
 
             // Register draw callbacks
