@@ -11,6 +11,17 @@ Well fret no more!
 
 This plugin does have some overlap with tools that warn you if YOUR tank stance is off, however those tools don't warn you if OTHER's are off.
 
+### How does it work?
+When enabled, if a tank is detected in your party, a warning banner will show if none of the tanks have their tank stance on.
+
+When in a 8-person raid with two tanks, only one of the tanks need to have their stance on.
+
+There is user-configurable delay on instance change to allow a "grace period" before showing the warning.
+
+There is also a configuration option to disable checking while in an alliance raid.
+
+![TankStance](https://user-images.githubusercontent.com/9083275/142379197-9cba7a62-4fe4-46bb-b346-9cdead65f06e.png)
+
 ### Why is this useful?
 * Avoiding confrontation and death
 * Helping a friend when they forget their tank stance
