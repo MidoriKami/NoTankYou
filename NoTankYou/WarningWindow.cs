@@ -5,7 +5,9 @@ using ImGuiNET;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
 using Lumina.Excel.GeneratedSheets;
+using Dalamud.Game.ClientState.Party;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace NoTankYou
 {
@@ -35,6 +37,9 @@ namespace NoTankYou
         private bool IsAllianceRaid = false;
 
         private bool pauseDisplay = false;
+
+        private int storedPartySize = 0;
+        private List<PartyMember> tankList;
 
         public WarningWindow(ImGuiScene.TextureWrap warningImage) : 
             base("Tank Stance Warning Window")
@@ -67,19 +72,25 @@ namespace NoTankYou
         // Checks all party members for a tank stance then displays the banner
         public void CheckForTankStanceAndDraw()
         {
+            int partySize = Service.PartyList.Length;
+
             // Is the player in a party? and also in a duty?
-            if (PartyOperations.IsInParty(Service.PartyList) && Service.Condition[ConditionFlag.BoundByDuty])
+            if ( (partySize > 0) && Service.Condition[ConditionFlag.BoundByDuty] )
             {
-                // Is there a tank present in the party? (often false for things like Palace of the Dead)
-                var partyTanks = PartyOperations.GetTanksList(Service.PartyList);
+                // If the partysize has changed, we need up update the tank list
+                if(partySize != storedPartySize)
+                {
+                    tankList = PartyOperations.GetTanksList(Service.PartyList);
+                    storedPartySize = partySize;
+                }
 
                 // If we found any tanks
-                if (partyTanks.Count > 0)
+                if (tankList.Count > 0)
                 {
                     bool tankStanceFound = false;
 
                     // Check each tank for a tank stance
-                    foreach(var tank in partyTanks)
+                    foreach(var tank in tankList)
                     {
                         if (PartyOperations.IsTankStanceFound(tank))
                         {
