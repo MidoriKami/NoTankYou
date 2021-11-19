@@ -46,7 +46,7 @@ namespace NoTankYou
         {
             this.warningImage = warningImage;
 
-            Service.ClientState.TerritoryChanged += TriggerRenderDelay;
+            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
 
             SizeConstraints = new WindowSizeConstraints()
             {
@@ -108,8 +108,10 @@ namespace NoTankYou
             }
         }
 
+        // Event triggers on map change
         // On map change, we want to hide the banner for "InstanceLoadDelayTime" milliseconds
-        private void TriggerRenderDelay(object? s, ushort u)
+        // Additionally we want to check if we entered an alliance raid
+        private void OnTerritoryChanged(object? s, ushort u)
         {
             IsAllianceRaid = AllianceRaidTerritoryTypes.Contains(u);
 
