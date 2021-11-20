@@ -38,7 +38,7 @@ namespace NoTankYou
 
         private bool pauseDisplay = false;
 
-        private int storedPartySize = 0;
+        private int lastPartyCount = 0;
         private List<PartyMember> tankList;
 
         public WarningWindow(ImGuiScene.TextureWrap warningImage) : 
@@ -69,21 +69,25 @@ namespace NoTankYou
             }
         }
 
-        // Checks all party members for a tank stance then displays the banner
-        public void CheckForTankStanceAndDraw()
+        public void UpdateTankList()
         {
             int partySize = Service.PartyList.Length;
 
-            // Is the player in a party? and also in a duty?
-            if ( (partySize > 0) && Service.Condition[ConditionFlag.BoundByDuty] )
+            if (lastPartyCount != partySize)
             {
-                // If the partysize has changed, we need up update the tank list
-                if(partySize != storedPartySize)
-                {
-                    tankList = PartyOperations.GetTanksList(Service.PartyList);
-                    storedPartySize = partySize;
-                }
+                tankList = PartyOperations.GetTanksList(Service.PartyList);
+                lastPartyCount = partySize;
+            }
+        }
 
+        // Checks all party members for a tank stance then displays the banner
+        public void CheckForTankStanceAndDraw()
+        {
+            UpdateTankList();
+
+            // Is the player in a party? and also in a duty?
+            if ( PartyOperations.IsInParty(Service.PartyList) && Service.Condition[ConditionFlag.BoundByDuty] )
+            {
                 // If we found any tanks
                 if (tankList.Count > 0)
                 {
@@ -148,10 +152,11 @@ namespace NoTankYou
             }
 
             // Else if we are in an alliance raid, and we want to hide for an alliance raid
-            if(IsAllianceRaid && Service.Configuration.DisableInAllianceRaid)
+            else if(IsAllianceRaid && Service.Configuration.DisableInAllianceRaid)
             {
                 return;
             }
+
             else
             { 
                 // If we aren't waiting for the loading screen to complete
