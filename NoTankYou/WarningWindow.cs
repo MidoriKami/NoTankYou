@@ -99,6 +99,7 @@ namespace NoTankYou
                         if (PartyOperations.IsTankStanceFound(tank))
                         {
                             tankStanceFound = true;
+                            break;
                         }
                     }
                     
