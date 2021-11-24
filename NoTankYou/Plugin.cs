@@ -79,6 +79,10 @@ namespace NoTankYou
                 Service.Configuration.ForceShowNoTankWarning = true;
                 Service.Configuration.ShowNoTankWarning = true;
             }
+            else if ( arguments == "pause")
+            {
+                Service.Configuration.PluginPaused = true;
+            }
             else
             {
                 SettingsWindow.IsOpen = true;

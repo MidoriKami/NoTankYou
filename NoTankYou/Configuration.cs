@@ -13,6 +13,7 @@ namespace NoTankYou
         public bool ForceShowNoTankWarning = false;
         public bool EnableClickthrough = true;
         public int InstanceLoadDelayTime = 8000;
+        public bool PluginPaused = false;
 
         [NonSerialized]
         private DalamudPluginInterface? pluginInterface;

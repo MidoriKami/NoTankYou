@@ -120,6 +120,7 @@ namespace NoTankYou
         {
             IsAllianceRaid = AllianceRaidTerritoryTypes.Contains(u);
 
+            Service.Configuration.PluginPaused = false;
             IsOpen = true;
             pauseDisplay = true;
             Task.Delay(Service.Configuration.InstanceLoadDelayTime).ContinueWith(t => { pauseDisplay = false; });
@@ -147,7 +148,7 @@ namespace NoTankYou
             }
 
             // Else if this window is disabled exit
-            else if (!Service.Configuration.ShowNoTankWarning && IsOpen)
+            else if (!Service.Configuration.ShowNoTankWarning && IsOpen && !Service.Configuration.PluginPaused)
             {
                 return;
             }
