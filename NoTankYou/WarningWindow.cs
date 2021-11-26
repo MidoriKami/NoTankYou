@@ -47,6 +47,7 @@ namespace NoTankYou
             this.warningImage = warningImage;
 
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
+            Service.Configuration.PluginPaused = false;
 
             SizeConstraints = new WindowSizeConstraints()
             {
@@ -120,6 +121,8 @@ namespace NoTankYou
         {
             IsAllianceRaid = AllianceRaidTerritoryTypes.Contains(u);
 
+            Service.Chat.Print($"Territory Changed. NewID:{u}");
+
             Service.Configuration.PluginPaused = false;
             IsOpen = true;
             pauseDisplay = true;
@@ -129,6 +132,7 @@ namespace NoTankYou
         public void Dispose()
         {
             warningImage.Dispose();
+            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
         }
 
         // If we need to move the window around, we have to enable clickthrough
@@ -148,13 +152,23 @@ namespace NoTankYou
             }
 
             // Else if this window is disabled exit
-            else if (!Service.Configuration.ShowNoTankWarning && IsOpen && !Service.Configuration.PluginPaused)
+            else if (!Service.Configuration.ShowNoTankWarning && IsOpen)
+            {
+                return;
+            }
+
+            else if (Service.Configuration.PluginPaused)
             {
                 return;
             }
 
             // Else if we are in an alliance raid, and we want to hide for an alliance raid
-            else if(IsAllianceRaid && Service.Configuration.DisableInAllianceRaid)
+            else if (IsAllianceRaid && Service.Configuration.DisableInAllianceRaid)
+            {
+                return;
+            }
+
+            else if (Service.Configuration.TerritoryBlacklist.Contains(Service.ClientState.TerritoryType))
             {
                 return;
             }

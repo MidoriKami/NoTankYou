@@ -11,7 +11,7 @@ namespace NoTankYou
     {
         public string Name => "No Tank You";
 
-        private const string settingsCommand = "/notankconfig";
+        private const string settingsCommand = "/notankyou";
 
         private SettingsWindow SettingsWindow { get; init; }
         private WarningWindow WarningWindow { get; init; }
@@ -51,6 +51,8 @@ namespace NoTankYou
 
             Service.WindowSystem.AddWindow(SettingsWindow);
             Service.WindowSystem.AddWindow(WarningWindow);
+
+            Service.Chat.Enable();
         }
 
         private void DrawUI()
@@ -64,28 +66,50 @@ namespace NoTankYou
 
         private void OnCommand(string command, string arguments)
         {
-            if(arguments == "off")
+            switch(arguments)
             {
-                Service.Configuration.ShowNoTankWarning = false;
-                Service.Configuration.ForceShowNoTankWarning = false;
-            }
-            else if ( arguments == "on")
-            {
-                Service.Configuration.ShowNoTankWarning = true;
-                Service.Configuration.ForceShowNoTankWarning = false;
-            }
-            else if ( arguments == "force")
-            {
-                Service.Configuration.ForceShowNoTankWarning = true;
-                Service.Configuration.ShowNoTankWarning = true;
-            }
-            else if ( arguments == "pause")
-            {
-                Service.Configuration.PluginPaused = true;
-            }
-            else
-            {
-                SettingsWindow.IsOpen = true;
+                case "off":
+                    Service.Configuration.ShowNoTankWarning = false;
+                    Service.Configuration.ForceShowNoTankWarning = false;
+                    break;
+
+                case "on":
+                    Service.Configuration.ShowNoTankWarning = true;
+                    Service.Configuration.ForceShowNoTankWarning = false;
+                    break;
+
+                case "force":
+                    Service.Configuration.ForceShowNoTankWarning = true;
+                    Service.Configuration.ShowNoTankWarning = true;
+                    break;
+
+                case "pause":
+                    Service.Configuration.PluginPaused = true;
+                    break;
+
+                case "unpause":
+                    Service.Configuration.PluginPaused = false;
+                    break;
+
+                case "status":
+                    Service.Configuration.PrintStatus();
+                    break;
+
+                case "blackliststatus":
+                    Service.Configuration.PrintBlacklist();
+                    break;
+
+                case "blacklist":
+                    Service.Configuration.AddCurrentTerritoryToBlacklist();
+                    break;
+
+                case "whitelist":
+                    Service.Configuration.RemoveCurrentTerritoryFromBlacklist();
+                    break;
+
+                default:
+                    SettingsWindow.IsOpen = true;
+                    break;
             }
 
             Service.Configuration.Save();
