@@ -39,7 +39,7 @@ namespace NoTankYou
             // Register Slash Commands
             Service.Commands.AddHandler(settingsCommand, new CommandInfo(OnCommand)
             {
-                HelpMessage = "(on off force) enables or disables the display of the warning banner"
+                HelpMessage = "open configuration window"
             });
 
             // Register draw callbacks
@@ -83,28 +83,18 @@ namespace NoTankYou
                     Service.Configuration.ShowNoTankWarning = true;
                     break;
 
-                case "pause":
-                    Service.Configuration.PluginPaused = true;
-                    break;
-
-                case "unpause":
-                    Service.Configuration.PluginPaused = false;
-                    break;
-
                 case "status":
                     Service.Configuration.PrintStatus();
                     break;
 
-                case "blackliststatus":
-                    Service.Configuration.PrintBlacklist();
-                    break;
-
                 case "blacklist":
                     Service.Configuration.AddCurrentTerritoryToBlacklist();
+                    Service.Configuration.PrintBlacklist();
                     break;
 
                 case "whitelist":
                     Service.Configuration.RemoveCurrentTerritoryFromBlacklist();
+                    Service.Configuration.PrintBlacklist();
                     break;
 
                 default:

@@ -38,6 +38,7 @@ namespace NoTankYou
             if(!TerritoryBlacklist.Contains(currentTerritory))
             {
                 TerritoryBlacklist.Add(currentTerritory);
+                Service.Chat.Print($"Added {currentTerritory} to blacklist");
             }
         }
 
@@ -48,6 +49,7 @@ namespace NoTankYou
             if(TerritoryBlacklist.Contains(currentTerritory))
             {
                 TerritoryBlacklist.Remove(currentTerritory);
+                Service.Chat.Print($"Removed {currentTerritory} from blacklist");
             }
         }
 
