@@ -47,7 +47,6 @@ namespace NoTankYou
             this.warningImage = warningImage;
 
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
-            Service.Configuration.PluginPaused = false;
 
             SizeConstraints = new WindowSizeConstraints()
             {
@@ -123,7 +122,6 @@ namespace NoTankYou
 
             Service.Chat.Print($"Territory Changed. NewID:{u}");
 
-            Service.Configuration.PluginPaused = false;
             IsOpen = true;
             pauseDisplay = true;
             Task.Delay(Service.Configuration.InstanceLoadDelayTime).ContinueWith(t => { pauseDisplay = false; });
@@ -153,11 +151,6 @@ namespace NoTankYou
 
             // Else if this window is disabled exit
             else if (!Service.Configuration.ShowNoTankWarning && IsOpen)
-            {
-                return;
-            }
-
-            else if (Service.Configuration.PluginPaused)
             {
                 return;
             }

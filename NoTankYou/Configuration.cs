@@ -14,7 +14,6 @@ namespace NoTankYou
         public bool ForceShowNoTankWarning = false;
         public bool EnableClickthrough = true;
         public int InstanceLoadDelayTime = 8000;
-        public bool PluginPaused = false;
         public List<int> TerritoryBlacklist;
 
         public void PrintBlacklist()
@@ -63,7 +62,6 @@ namespace NoTankYou
             chat.Print($"Force Show No Tank Warning: {ForceShowNoTankWarning}");
             chat.Print($"Enable Clickthrough: {EnableClickthrough}");
             chat.Print($"Instance Load Delay Time: {InstanceLoadDelayTime}");
-            chat.Print($"Paused: {PluginPaused}");
         }
 
         [NonSerialized]
