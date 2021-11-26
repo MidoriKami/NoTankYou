@@ -76,7 +76,7 @@ namespace NoTankYou
 
             if (lastPartyCount != partySize)
             {
-                tankList = PartyOperations.GetTanksList(Service.PartyList);
+                tankList = PartyOperations.GetTanksList();
                 lastPartyCount = partySize;
             }
         }
@@ -87,7 +87,7 @@ namespace NoTankYou
             UpdateTankList();
 
             // Is the player in a party? and also in a duty?
-            if ( PartyOperations.IsInParty(Service.PartyList) && Service.Condition[ConditionFlag.BoundByDuty] )
+            if ( Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty] )
             {
                 // If we found any tanks
                 if (tankList.Count > 0)

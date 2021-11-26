@@ -10,46 +10,20 @@ namespace NoTankYou
 {
     public static class PartyOperations
     {
-        public static List<PlayerCharacter> GetAllPlayerCharacters()
-        {
-            var playerList = new List<PlayerCharacter>();
-
-            foreach(var obj in Service.ObjectTable)
-            {
-                if(obj.ObjectKind == ObjectKind.Player)
-                {
-                    playerList.Add((PlayerCharacter)obj);
-                }
-            }
-
-            return playerList;
-        }
-
-        public static bool IsInParty(PartyList partyList)
-        {
-            return partyList.Length > 0;
-        }
+        private static readonly List<string> TankClasses = new() { "paladin", "darkknight", "warrior", "gunbreaker" };
+        private static readonly List<string> TankStances = new() { "Iron Will", "Defiance", "Grit", "Royal Guard" };
 
         public static bool IsTank(string name)
         {
-            switch (name)
-            {
-                case "paladin":
-                case "dark knight":
-                case "warrior":
-                case "gunbreaker":
-                    return true;
-                default:
-                    return false;
-            }
+            return TankClasses.Contains(name);
         }
 
         // Returns a list of all tanks, list will be empty if no tanks are found
-        public static List<PartyMember> GetTanksList(PartyList partyList)
+        public static List<PartyMember> GetTanksList()
         {
             var tankList = new List<PartyMember>();
 
-            foreach (var player in partyList)
+            foreach (var player in Service.PartyList)
             {
                 if (IsTank(player.ClassJob.GameData.Name))
                 {
@@ -73,16 +47,7 @@ namespace NoTankYou
 
         public static bool IsTankStance(string skillName)
         {
-            switch (skillName)
-            {
-                case "Iron Will":
-                case "Defiance":
-                case "Grit":
-                case "Royal Guard":
-                    return true;
-                default:
-                    return false;
-            }
+            return TankStances.Contains(skillName);
         }
     }
 }
