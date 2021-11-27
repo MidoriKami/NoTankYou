@@ -20,19 +20,19 @@ namespace NoTankYou
 
             Service.Chat.Print("[NoTankYou] Blacklist: {" + string.Join(", ", TerritoryBlacklist) + "}");
             Service.Chat.Print($"[NoTankYou] Current Territory: {currentTerritory}");
-            
+
         }
 
         public void AddCurrentTerritoryToBlacklist()
         {
             var currentTerritory = Service.ClientState.TerritoryType;
 
-            if(TerritoryBlacklist == null)
+            if (TerritoryBlacklist == null)
             {
                 TerritoryBlacklist = new List<int>();
             }
 
-            if(!TerritoryBlacklist.Contains(currentTerritory))
+            if (!TerritoryBlacklist.Contains(currentTerritory))
             {
                 TerritoryBlacklist.Add(currentTerritory);
                 Service.Chat.Print($"[NoTankYou] Added {currentTerritory} to blacklist");
@@ -43,7 +43,7 @@ namespace NoTankYou
         {
             var currentTerritory = Service.ClientState.TerritoryType;
 
-            if(TerritoryBlacklist.Contains(currentTerritory))
+            if (TerritoryBlacklist.Contains(currentTerritory))
             {
                 TerritoryBlacklist.Remove(currentTerritory);
                 Service.Chat.Print($"[NoTankYou] Removed {currentTerritory} from blacklist");

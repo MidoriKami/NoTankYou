@@ -1,10 +1,5 @@
 ﻿using Dalamud.Game.ClientState.Party;
 using System.Collections.Generic;
-using Dalamud.Game.ClientState.Objects;
-using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Game.ClientState.Objects.SubKinds;
-using Dalamud.Game.ClientState.Objects.Enums;
-using System.Linq;
 
 namespace NoTankYou
 {

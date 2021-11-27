@@ -1,13 +1,10 @@
-﻿using System;
-using System.Numerics;
-using System.Threading.Tasks;
-using ImGuiNET;
-using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Interface.Windowing;
-using Lumina.Excel.GeneratedSheets;
+﻿using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Party;
-using System.Linq;
+using Dalamud.Interface.Windowing;
+using ImGuiNET;
+using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace NoTankYou
 {
@@ -22,7 +19,7 @@ namespace NoTankYou
                     ImGuiWindowFlags.NoCollapse |
                     ImGuiWindowFlags.NoResize;
 
-        private readonly ImGuiWindowFlags clickthroughFlags = 
+        private readonly ImGuiWindowFlags clickthroughFlags =
                     ImGuiWindowFlags.NoScrollbar |
                     ImGuiWindowFlags.NoTitleBar |
                     ImGuiWindowFlags.NoCollapse |
@@ -39,7 +36,7 @@ namespace NoTankYou
         private int lastPartyCount = 0;
         private List<PartyMember> tankList;
 
-        public WarningWindow(ImGuiScene.TextureWrap warningImage) : 
+        public WarningWindow(ImGuiScene.TextureWrap warningImage) :
             base("Tank Stance Warning Window")
         {
             this.warningImage = warningImage;
@@ -106,7 +103,7 @@ namespace NoTankYou
             UpdateTankList();
 
             // Is the player in a party? and also in a duty?
-            if ( Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty] )
+            if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
             {
                 // If we found any tanks
                 if (tankList.Count > 0)
@@ -114,7 +111,7 @@ namespace NoTankYou
                     bool tankStanceFound = false;
 
                     // Check each tank for a tank stance
-                    foreach(var tank in tankList)
+                    foreach (var tank in tankList)
                     {
                         if (PartyOperations.IsTankStanceFound(tank))
                         {
@@ -122,7 +119,7 @@ namespace NoTankYou
                             break;
                         }
                     }
-                    
+
                     // If none of the tanks have their stance on
                     if (!tankStanceFound)
                     {

@@ -1,7 +1,7 @@
-﻿using ImGuiNET;
+﻿using Dalamud.Interface.Windowing;
+using ImGuiNET;
 using System;
 using System.Numerics;
-using Dalamud.Interface.Windowing;
 
 namespace NoTankYou
 {
@@ -11,7 +11,7 @@ namespace NoTankYou
 
         private readonly Vector2 WindowSize = new Vector2(325, 190);
 
-        public SettingsWindow() : 
+        public SettingsWindow() :
             base("Settings Window")
         {
             SizeConstraints = new WindowSizeConstraints()
@@ -53,13 +53,13 @@ namespace NoTankYou
             ImGui.BeginTable("SaveTable", 2);
 
             ImGui.TableNextColumn();
-            if( ImGui.Button("Save", new(100, 25)) )
+            if (ImGui.Button("Save", new(100, 25)))
             {
                 Service.Configuration.Save();
             }
 
             ImGui.TableNextColumn();
-            if( ImGui.Button("Save & Close", new(150, 25)))
+            if (ImGui.Button("Save & Close", new(150, 25)))
             {
                 Service.Configuration.Save();
                 IsOpen = false;
@@ -70,7 +70,7 @@ namespace NoTankYou
 
         public override void Draw()
         {
-            if(!IsOpen)
+            if (!IsOpen)
             {
                 return;
             }

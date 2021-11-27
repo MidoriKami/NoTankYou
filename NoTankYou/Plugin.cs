@@ -3,7 +3,6 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using System.IO;
 using System.Reflection;
-using Dalamud.Interface.Windowing;
 
 namespace NoTankYou
 {
@@ -65,7 +64,7 @@ namespace NoTankYou
 
         private void OnCommand(string command, string arguments)
         {
-            switch(arguments)
+            switch (arguments)
             {
                 case "off":
                     WarningWindow.Active = false;
