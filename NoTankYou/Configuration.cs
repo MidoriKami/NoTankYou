@@ -8,11 +8,9 @@ namespace NoTankYou
     [Serializable]
     public class Configuration : IPluginConfiguration
     {
-        public int Version { get; set; } = 0;
+        public int Version { get; set; } = 1;
         public bool DisableInAllianceRaid = true;
-        public bool ShowNoTankWarning = false;
-        public bool ForceShowNoTankWarning = false;
-        public bool EnableClickthrough = true;
+        public bool ShowMoveWarningBanner = true;
         public int InstanceLoadDelayTime = 8000;
         public List<int> TerritoryBlacklist;
 
@@ -20,8 +18,8 @@ namespace NoTankYou
         {
             var currentTerritory = Service.ClientState.TerritoryType;
 
-            Service.Chat.Print("Blacklist: {" + string.Join(", ", TerritoryBlacklist) + "}");
-            Service.Chat.Print($"Current Territory: {currentTerritory}");
+            Service.Chat.Print("[NoTankYou] Blacklist: {" + string.Join(", ", TerritoryBlacklist) + "}");
+            Service.Chat.Print($"[NoTankYou] Current Territory: {currentTerritory}");
             
         }
 
@@ -37,7 +35,7 @@ namespace NoTankYou
             if(!TerritoryBlacklist.Contains(currentTerritory))
             {
                 TerritoryBlacklist.Add(currentTerritory);
-                Service.Chat.Print($"Added {currentTerritory} to blacklist");
+                Service.Chat.Print($"[NoTankYou] Added {currentTerritory} to blacklist");
             }
         }
 
@@ -48,7 +46,7 @@ namespace NoTankYou
             if(TerritoryBlacklist.Contains(currentTerritory))
             {
                 TerritoryBlacklist.Remove(currentTerritory);
-                Service.Chat.Print($"Removed {currentTerritory} from blacklist");
+                Service.Chat.Print($"[NoTankYou] Removed {currentTerritory} from blacklist");
             }
         }
 
@@ -56,12 +54,9 @@ namespace NoTankYou
         {
             var chat = Service.Chat;
 
-            chat.Print($"Version: {Version}");
-            chat.Print($"Disabled In Alliance Raid: {DisableInAllianceRaid}");
-            chat.Print($"Show No Tank Warning: {ShowNoTankWarning}");
-            chat.Print($"Force Show No Tank Warning: {ForceShowNoTankWarning}");
-            chat.Print($"Enable Clickthrough: {EnableClickthrough}");
-            chat.Print($"Instance Load Delay Time: {InstanceLoadDelayTime}");
+            chat.Print($"[NoTankYou] Disabled In Alliance Raid: {DisableInAllianceRaid}");
+            chat.Print($"[NoTankYou] Enable BannerMovement: {ShowMoveWarningBanner}");
+            chat.Print($"[NoTankYou] Instance Load Delay Time: {InstanceLoadDelayTime}");
         }
 
         [NonSerialized]

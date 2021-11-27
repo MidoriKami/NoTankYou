@@ -22,8 +22,9 @@ namespace NoTankYou
     [PluginService] public static Condition Condition { get; private set; }
     [PluginService] public static ObjectTable ObjectTable { get; private set; }
     [PluginService] public static DataManager DataManager { get; private set; }
+                    public static TerritoryManager TerritoryManager { get; set; }
+                    public static WindowSystem WindowSystem { get; set; } = new WindowSystem("NoTankYou");
                     public static Configuration Configuration { get; set; }
-                    public static WindowSystem WindowSystem { get; set; }
 
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     }

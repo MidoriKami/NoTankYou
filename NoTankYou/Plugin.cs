@@ -35,6 +35,7 @@ namespace NoTankYou
             // Create Windows
             SettingsWindow = new SettingsWindow();
             WarningWindow = new WarningWindow(warningImage);
+            Service.TerritoryManager = new TerritoryManager(WarningWindow);
 
             // Register Slash Commands
             Service.Commands.AddHandler(settingsCommand, new CommandInfo(OnCommand)
@@ -47,8 +48,6 @@ namespace NoTankYou
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
 
             // Register Windows
-            Service.WindowSystem = new WindowSystem("NoTankYou");
-
             Service.WindowSystem.AddWindow(SettingsWindow);
             Service.WindowSystem.AddWindow(WarningWindow);
 
@@ -69,22 +68,24 @@ namespace NoTankYou
             switch(arguments)
             {
                 case "off":
-                    Service.Configuration.ShowNoTankWarning = false;
-                    Service.Configuration.ForceShowNoTankWarning = false;
+                    WarningWindow.Active = false;
+                    WarningWindow.Forced = false;
                     break;
 
                 case "on":
-                    Service.Configuration.ShowNoTankWarning = true;
-                    Service.Configuration.ForceShowNoTankWarning = false;
+                    WarningWindow.Active = true;
+                    WarningWindow.Forced = false;
                     break;
 
                 case "force":
-                    Service.Configuration.ForceShowNoTankWarning = true;
-                    Service.Configuration.ShowNoTankWarning = true;
+                    WarningWindow.Active = true;
+                    WarningWindow.Forced = true;
                     break;
 
                 case "status":
                     Service.Configuration.PrintStatus();
+                    Service.Chat.Print($"[NoTankYou] Window Active: {WarningWindow.Active}");
+                    Service.Chat.Print($"[NoTankYou] Window Forced: {WarningWindow.Forced}");
                     break;
 
                 case "blacklist":
@@ -108,7 +109,8 @@ namespace NoTankYou
         public void Dispose()
         {
             SettingsWindow.Dispose();
-            WarningWindow.Dispose();  
+            WarningWindow.Dispose();
+            Service.TerritoryManager.Dispose();
             Service.Commands.RemoveHandler(settingsCommand);
         }
     }

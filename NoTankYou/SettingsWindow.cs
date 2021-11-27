@@ -9,12 +9,11 @@ namespace NoTankYou
     {
         public bool visible = false;
 
-        private readonly Vector2 WindowSize = new Vector2(350, 275);
+        private readonly Vector2 WindowSize = new Vector2(325, 190);
 
         public SettingsWindow() : 
             base("Settings Window")
         {
-
             SizeConstraints = new WindowSizeConstraints()
             {
                 MinimumSize = new(WindowSize.X, WindowSize.Y),
@@ -26,20 +25,7 @@ namespace NoTankYou
 
         public void Dispose()
         {
-            
-        }
 
-        private void DrawForceShowBannerCheckbox()
-        {
-            ImGui.Text("Force show 'Tank Stance' warning banner");
-            ImGui.Checkbox("Force show warning banner", ref Service.Configuration.ForceShowNoTankWarning);
-            ImGui.Spacing();
-        }
-
-        private void DrawEnablePluginButton()
-        {
-            ImGui.Checkbox("Enable Plugin", ref Service.Configuration.ShowNoTankWarning);
-            ImGui.Spacing();
         }
 
         private void DrawInstanceLoadDelayTimeTextField()
@@ -47,11 +33,13 @@ namespace NoTankYou
             ImGui.Text("Hide warning banner on map change for (milliseconds)");
             ImGui.InputInt("", ref Service.Configuration.InstanceLoadDelayTime, 1000, 5000);
             ImGui.Spacing();
+            ImGui.Spacing();
+
         }
 
         private void DrawEnableClickThroughCheckbox()
         {
-            ImGui.Checkbox("Enable Clickthrough", ref Service.Configuration.EnableClickthrough);
+            ImGui.Checkbox("Show/Move Warning Banner", ref Service.Configuration.ShowMoveWarningBanner);
             ImGui.Spacing();
         }
         private void DrawDisableInAllianceRaid()
@@ -88,8 +76,6 @@ namespace NoTankYou
             }
             else
             {
-                DrawEnablePluginButton();
-                DrawForceShowBannerCheckbox();
                 DrawEnableClickThroughCheckbox();
                 DrawInstanceLoadDelayTimeTextField();
                 DrawDisableInAllianceRaid();

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace NoTankYou
 {
-    class WarningWindow : Window, IDisposable
+    public class WarningWindow : Window, IDisposable
     {
         private readonly ImGuiScene.TextureWrap warningImage;
 
@@ -30,13 +30,11 @@ namespace NoTankYou
                     ImGuiWindowFlags.NoBackground |
                     ImGuiWindowFlags.NoInputs;
 
-        private readonly Vector2 WindowSize = new Vector2(500, 100);
+        private readonly Vector2 WindowSize = new(500, 100);
 
-        private uint[] AllianceRaidTerritoryTypes;
-
-        private bool IsAllianceRaid = false;
-
-        private bool pauseDisplay = false;
+        public bool Active { get; set; }
+        public bool Delayed { get; set; }
+        public bool Forced { get; set; }
 
         private int lastPartyCount = 0;
         private List<PartyMember> tankList;
@@ -46,26 +44,48 @@ namespace NoTankYou
         {
             this.warningImage = warningImage;
 
-            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
-
             SizeConstraints = new WindowSizeConstraints()
             {
                 MinimumSize = new(WindowSize.X, WindowSize.Y),
                 MaximumSize = new(WindowSize.X, WindowSize.Y)
             };
 
-            IsOpen = true;
+            Active = true;
+            Delayed = false;
+            Forced = false;
 
-            InitalizeAllianceRaidTerritoryTypeList();
+            IsOpen = true;
         }
 
-        private void InitalizeAllianceRaidTerritoryTypeList()
+        public override void PreDraw()
         {
-            var territorySheets = Service.DataManager.GetExcelSheet<TerritoryType>();
+            base.PreDraw();
+            ImGuiWindowFlags windowflags = Service.Configuration.ShowMoveWarningBanner ? defaultWindowFlags : clickthroughFlags;
 
-            if (territorySheets != null)
+            Flags = windowflags;
+        }
+        public override void Draw()
+        {
+            // If force show banner is enabled, show it no matter what
+            if (Forced)
             {
-                AllianceRaidTerritoryTypes = territorySheets.Where(r => r.TerritoryIntendedUse == 8).Select(r => r.RowId).ToArray();
+                ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
+            }
+
+            // If window is being disabled
+            else if (!Active)
+            {
+                return;
+            }
+
+            else
+            {
+                // If we aren't waiting for the loading screen to complete
+                if (!Delayed)
+                {
+                    // Check for tank stance, if one isn't found show warning banner
+                    CheckForTankStanceAndDraw();
+                }
             }
         }
 
@@ -113,68 +133,9 @@ namespace NoTankYou
             }
         }
 
-        // Event triggers on map change
-        // On map change, we want to hide the banner for "InstanceLoadDelayTime" milliseconds
-        // Additionally we want to check if we entered an alliance raid
-        private void OnTerritoryChanged(object? s, ushort u)
-        {
-            IsAllianceRaid = AllianceRaidTerritoryTypes.Contains(u);
-
-            Service.Chat.Print($"Territory Changed. NewID:{u}");
-
-            IsOpen = true;
-            pauseDisplay = true;
-            Task.Delay(Service.Configuration.InstanceLoadDelayTime).ContinueWith(t => { pauseDisplay = false; });
-        }
-
         public void Dispose()
         {
             warningImage.Dispose();
-            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
-        }
-
-        // If we need to move the window around, we have to enable clickthrough
-        public override void PreDraw()
-        {
-            base.PreDraw();
-            ImGuiWindowFlags windowflags = Service.Configuration.EnableClickthrough ?  clickthroughFlags : defaultWindowFlags;
-
-            Flags = windowflags;
-        }
-        public override void Draw()
-        {
-            // If force show banner is enabled, show it no matter what
-            if (Service.Configuration.ForceShowNoTankWarning)
-            {
-                ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
-            }
-
-            // Else if this window is disabled exit
-            else if (!Service.Configuration.ShowNoTankWarning && IsOpen)
-            {
-                return;
-            }
-
-            // Else if we are in an alliance raid, and we want to hide for an alliance raid
-            else if (IsAllianceRaid && Service.Configuration.DisableInAllianceRaid)
-            {
-                return;
-            }
-
-            else if (Service.Configuration.TerritoryBlacklist.Contains(Service.ClientState.TerritoryType))
-            {
-                return;
-            }
-
-            else
-            { 
-                // If we aren't waiting for the loading screen to complete
-                if (!pauseDisplay)
-                {
-                    // Check for tank stance, if one isn't found show warning banner
-                    CheckForTankStanceAndDraw();
-                }
-            }
         }
 
         public override void OnClose()
