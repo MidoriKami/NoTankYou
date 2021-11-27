@@ -39,6 +39,10 @@ namespace NoTankYou
             {
                 warningWindow.Active = false;
             }
+            else
+            {
+                warningWindow.Active = true;
+            }
 
             warningWindow.Delayed = true;
             Task.Delay(Service.Configuration.InstanceLoadDelayTime).ContinueWith(t => { warningWindow.Delayed = false; });
