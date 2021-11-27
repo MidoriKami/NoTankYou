@@ -30,7 +30,7 @@ namespace NoTankYou
         }
         private void OnTerritoryChanged(object? sender, ushort e)
         {
-            Service.Chat.Print($"Territory Changed. NewID:{e}");
+            Service.Chat.Print($"[NoTankYou] Territory Changed. NewID: {e}");
 
             bool disabledBecauseAllianceRaid = IsAllianceRaid() && Service.Configuration.DisableInAllianceRaid;
             bool disabledBecauseBlacklist = Service.Configuration.TerritoryBlacklist.Contains(e);
