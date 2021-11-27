@@ -107,7 +107,6 @@ namespace NoTankYou
 
         public void Dispose()
         {
-            SettingsWindow.Dispose();
             WarningWindow.Dispose();
             Service.TerritoryManager.Dispose();
             Service.Commands.RemoveHandler(settingsCommand);

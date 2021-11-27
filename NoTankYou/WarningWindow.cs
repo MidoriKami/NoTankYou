@@ -61,6 +61,7 @@ namespace NoTankYou
 
             Flags = windowflags;
         }
+
         public override void Draw()
         {
             // If force show banner is enabled, show it no matter what
@@ -80,32 +81,21 @@ namespace NoTankYou
                 // If we aren't waiting for the loading screen to complete
                 if (!Delayed)
                 {
-                    // Check for tank stance, if one isn't found show warning banner
                     CheckForTankStanceAndDraw();
                 }
-            }
-        }
-
-        public void UpdateTankList()
-        {
-            int partySize = Service.PartyList.Length;
-
-            if (lastPartyCount != partySize)
-            {
-                tankList = PartyOperations.GetTanksList();
-                lastPartyCount = partySize;
             }
         }
 
         // Checks all party members for a tank stance then displays the banner
         public void CheckForTankStanceAndDraw()
         {
+            // Checks if party size has changed, if it has, updates tanklist
             UpdateTankList();
 
             // Is the player in a party? and also in a duty?
             if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
             {
-                // If we found any tanks
+                // If there are any tanks in the party
                 if (tankList.Count > 0)
                 {
                     bool tankStanceFound = false;
@@ -127,6 +117,17 @@ namespace NoTankYou
                         ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
                     }
                 }
+            }
+        }
+
+        public void UpdateTankList()
+        {
+            int partySize = Service.PartyList.Length;
+
+            if (lastPartyCount != partySize)
+            {
+                tankList = PartyOperations.GetTanksList();
+                lastPartyCount = partySize;
             }
         }
 

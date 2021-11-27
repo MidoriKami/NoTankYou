@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace NoTankYou
 {
-    internal class SettingsWindow : Window, IDisposable
+    internal class SettingsWindow : Window
     {
         public bool visible = false;
 
@@ -23,18 +23,11 @@ namespace NoTankYou
             Flags = ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoResize;
         }
 
-        public void Dispose()
-        {
-
-        }
-
         private void DrawInstanceLoadDelayTimeTextField()
         {
             ImGui.Text("Hide warning banner on map change for (milliseconds)");
             ImGui.InputInt("", ref Service.Configuration.InstanceLoadDelayTime, 1000, 5000);
             ImGui.Spacing();
-            ImGui.Spacing();
-
         }
 
         private void DrawEnableClickThroughCheckbox()
