@@ -85,6 +85,7 @@ namespace NoTankYou
                     Service.Configuration.PrintStatus();
                     Service.Chat.Print($"[NoTankYou] Window Active: {WarningWindow.Active}");
                     Service.Chat.Print($"[NoTankYou] Window Forced: {WarningWindow.Forced}");
+                    Service.Configuration.PrintBlacklist();
                     break;
 
                 case "blacklist":

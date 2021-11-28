@@ -17,10 +17,16 @@ namespace NoTankYou
         public void PrintBlacklist()
         {
             var currentTerritory = Service.ClientState.TerritoryType;
+            if(TerritoryBlacklist.Count > 0)
+            {
+                Service.Chat.Print("[NoTankYou] Blacklist: {" + string.Join(", ", TerritoryBlacklist) + "}");
+            }
+            else
+            {
+                Service.Chat.Print("[NoTankYou] Blacklist is empty.");
+            }
 
-            Service.Chat.Print("[NoTankYou] Blacklist: {" + string.Join(", ", TerritoryBlacklist) + "}");
             Service.Chat.Print($"[NoTankYou] Current Territory: {currentTerritory}");
-
         }
 
         public void AddCurrentTerritoryToBlacklist()

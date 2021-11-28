@@ -50,9 +50,11 @@ namespace NoTankYou
 
         public void UpdateWindowStatus()
         {
+            var currentTerritory = Service.ClientState.TerritoryType;
+
             // Determine current state
             bool disabledBecauseAllianceRaid = IsAllianceRaid() && Service.Configuration.DisableInAllianceRaid;
-            bool disabledBecauseBlacklist = Service.Configuration.TerritoryBlacklist.Contains(e);
+            bool disabledBecauseBlacklist = Service.Configuration.TerritoryBlacklist.Contains(currentTerritory);
 
             // Either enable or disable the banner depending on state
             if (disabledBecauseAllianceRaid || disabledBecauseBlacklist)
