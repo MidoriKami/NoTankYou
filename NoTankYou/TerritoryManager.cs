@@ -39,6 +39,17 @@ namespace NoTankYou
             // Debug data
             Service.Chat.Print($"[NoTankYou] Territory Changed. NewID: {e}");
 
+            UpdateWindowStatus();
+
+            // Delay rendering for InstanceLoadDelayTime milliseconds
+            // Territory Change and party formation happens BEFORE the loading screen appears
+            // We must delay rendering or itll show awkwardly during loading screen, also gives the tank a "grace period"
+            warningWindow.Delayed = true;
+            Task.Delay(Service.Configuration.InstanceLoadDelayTime).ContinueWith(t => { warningWindow.Delayed = false; });
+        }
+
+        public void UpdateWindowStatus()
+        {
             // Determine current state
             bool disabledBecauseAllianceRaid = IsAllianceRaid() && Service.Configuration.DisableInAllianceRaid;
             bool disabledBecauseBlacklist = Service.Configuration.TerritoryBlacklist.Contains(e);
@@ -52,12 +63,6 @@ namespace NoTankYou
             {
                 warningWindow.Active = true;
             }
-
-            // Delay rendering for InstanceLoadDelayTime milliseconds
-            // Territory Change and party formation happens BEFORE the loading screen appears
-            // We must delay rendering or itll show awkwardly during loading screen, also gives the tank a "grace period"
-            warningWindow.Delayed = true;
-            Task.Delay(Service.Configuration.InstanceLoadDelayTime).ContinueWith(t => { warningWindow.Delayed = false; });
         }
 
         // Only checks the currently occupied territory for match in alliance raid database

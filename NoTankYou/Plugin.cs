@@ -90,11 +90,13 @@ namespace NoTankYou
                 case "blacklist":
                     Service.Configuration.AddCurrentTerritoryToBlacklist();
                     Service.Configuration.PrintBlacklist();
+                    Service.TerritoryManager.UpdateWindowStatus();
                     break;
 
                 case "whitelist":
                     Service.Configuration.RemoveCurrentTerritoryFromBlacklist();
                     Service.Configuration.PrintBlacklist();
+                    Service.TerritoryManager.UpdateWindowStatus();
                     break;
 
                 default:
