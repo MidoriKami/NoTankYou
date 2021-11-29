@@ -83,8 +83,8 @@ namespace NoTankYou
 
                 case "status":
                     Service.Configuration.PrintStatus();
-                    Service.Chat.Print($"[NoTankYou] Window Active: {WarningWindow.Active}");
-                    Service.Chat.Print($"[NoTankYou] Window Forced: {WarningWindow.Forced}");
+                    Service.Chat.Print($"[NoTankYou][status] Window Active: {WarningWindow.Active}");
+                    Service.Chat.Print($"[NoTankYou][status] Window Forced: {WarningWindow.Forced}");
                     Service.Configuration.PrintBlacklist();
                     break;
 
@@ -98,6 +98,10 @@ namespace NoTankYou
                     Service.Configuration.RemoveCurrentTerritoryFromBlacklist();
                     Service.Configuration.PrintBlacklist();
                     Service.TerritoryManager.UpdateWindowStatus();
+                    break;
+
+                case "debug":
+                    WarningWindow.PrintDebugData();
                     break;
 
                 default:
