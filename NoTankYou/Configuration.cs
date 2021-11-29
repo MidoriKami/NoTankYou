@@ -60,9 +60,9 @@ namespace NoTankYou
         {
             var chat = Service.Chat;
 
-            chat.Print($"[NoTankYou] Disabled In Alliance Raid: {DisableInAllianceRaid}");
-            chat.Print($"[NoTankYou] Enable BannerMovement: {ShowMoveWarningBanner}");
-            chat.Print($"[NoTankYou] Instance Load Delay Time: {InstanceLoadDelayTime}");
+            chat.Print($"[NoTankYou][status] Disabled In Alliance Raid: {DisableInAllianceRaid}");
+            chat.Print($"[NoTankYou][status] Enable BannerMovement: {ShowMoveWarningBanner}");
+            chat.Print($"[NoTankYou][status] Instance Load Delay Time: {InstanceLoadDelayTime}");
         }
 
         [NonSerialized]
