@@ -5,7 +5,7 @@ namespace NoTankYou
 {
     public static class PartyOperations
     {
-        private static readonly List<string> TankClasses = new() { "paladin", "darkknight", "warrior", "gunbreaker" };
+        private static readonly List<string> TankClasses = new() { "paladin", "dark knight", "warrior", "gunbreaker" };
         private static readonly List<string> TankStances = new() { "Iron Will", "Defiance", "Grit", "Royal Guard" };
 
         public static bool IsTank(string name)

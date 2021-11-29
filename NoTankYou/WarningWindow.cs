@@ -34,7 +34,7 @@ namespace NoTankYou
         public bool Forced { get; set; }
 
         private int lastPartyCount = 0;
-        private List<PartyMember> tankList;
+        private List<PartyMember> tankList = new();
 
         public WarningWindow(ImGuiScene.TextureWrap warningImage) :
             base("Tank Stance Warning Window")
@@ -87,7 +87,7 @@ namespace NoTankYou
         }
 
         // Checks all party members for a tank stance then displays the banner
-        public void CheckForTankStanceAndDraw()
+        private void CheckForTankStanceAndDraw()
         {
             // Checks if party size has changed, if it has, updates tanklist
             UpdateTankList();
@@ -120,7 +120,7 @@ namespace NoTankYou
             }
         }
 
-        public void UpdateTankList()
+        private void UpdateTankList()
         {
             int partySize = Service.PartyList.Length;
 
@@ -128,6 +128,19 @@ namespace NoTankYou
             {
                 tankList = PartyOperations.GetTanksList();
                 lastPartyCount = partySize;
+            }
+        }
+
+        public void PrintDebugData()
+        {
+            var chat = Service.Chat;
+            
+            chat.Print($"[NoTankYou][debug] Number of Tanks: {tankList.Count}");
+
+            foreach (var tank in tankList)
+            {
+                chat.Print($"[NoTankYou][debug] Player: {tank.Name}");
+                chat.Print($"[NoTankYou][debug] Stance?: {PartyOperations.IsTankStanceFound(tank)}");
             }
         }
 
