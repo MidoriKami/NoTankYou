@@ -22,7 +22,7 @@ namespace NoTankYou
         }
 
         public SettingsWindow() :
-            base("Settings Window")
+            base("NoTankYou Settings")
         {
         }
 

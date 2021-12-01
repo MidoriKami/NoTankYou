@@ -37,7 +37,7 @@ namespace NoTankYou
         private void OnTerritoryChanged(object? sender, ushort e)
         {
             // Debug data
-            Service.Chat.Print($"[NoTankYou] Territory Changed. NewID: {e}");
+            Service.Chat.Print($"[NoTankYou][reporting] Territory Changed. NewID: {e}");
 
             UpdateWindowStatus();
 

@@ -120,12 +120,13 @@ namespace NoTankYou
             }
         }
 
-        private void UpdateTankList()
+        public void UpdateTankList()
         {
             int partySize = Service.PartyList.Length;
 
             if (lastPartyCount != partySize)
             {
+                Service.Chat.Print("[NoTankYou][reporting] Party Size Changed. Reevaluating tanklist.");
                 tankList = PartyOperations.GetTanksList();
                 lastPartyCount = partySize;
             }
