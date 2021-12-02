@@ -11,6 +11,7 @@ namespace NoTankYou
         public int Version { get; set; } = 1;
         public bool DisableInAllianceRaid = true;
         public bool ShowMoveWarningBanner = true;
+        public bool PotatoMode = false;
         public int InstanceLoadDelayTime = 8000;
         public List<int> TerritoryBlacklist;
 
@@ -63,6 +64,7 @@ namespace NoTankYou
             chat.Print($"[NoTankYou][status] Disabled In Alliance Raid: {DisableInAllianceRaid}");
             chat.Print($"[NoTankYou][status] Enable BannerMovement: {ShowMoveWarningBanner}");
             chat.Print($"[NoTankYou][status] Instance Load Delay Time: {InstanceLoadDelayTime}");
+            chat.Print($"[NoTankYou][status] Potato Mode: {PotatoMode}");
         }
 
         [NonSerialized]

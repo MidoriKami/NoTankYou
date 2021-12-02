@@ -1,10 +1,13 @@
 ﻿using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Interface.Windowing;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace NoTankYou
 {
@@ -35,6 +38,8 @@ namespace NoTankYou
 
         private int lastPartyCount = 0;
         private List<PartyMember> tankList = new();
+        private bool TankStanceFound = false;
+        private bool SlowModeDelay = false;
 
         public WarningWindow(ImGuiScene.TextureWrap warningImage) :
             base("Tank Stance Warning Window")
@@ -81,42 +86,61 @@ namespace NoTankYou
                 // If we aren't waiting for the loading screen to complete
                 if (!Delayed)
                 {
-                    CheckForTankStanceAndDraw();
+                    // If we are in a party and in a duty
+                    if(Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
+                    {
+                        CheckForTankStanceAndDraw();
+                    }
                 }
+            }
+        }
+
+        private void CheckForTankStance()
+        {
+            // Checks if party size has changed, if it has, updates tanklist
+            UpdateTankList();
+
+            // If there are any tanks in the party
+            if (tankList.Count > 0)
+            {
+                // Check each tank for a tank stance
+                foreach (var tank in tankList)
+                {
+                    if (PartyOperations.IsTankStanceFound(tank))
+                    {
+                        TankStanceFound = true;
+                        return;
+                    }
+                }
+
+                TankStanceFound = false;
             }
         }
 
         // Checks all party members for a tank stance then displays the banner
         private void CheckForTankStanceAndDraw()
         {
-            // Checks if party size has changed, if it has, updates tanklist
-            UpdateTankList();
-
-            // Is the player in a party? and also in a duty?
-            if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
+            // If we aren't being delayed
+            if(!SlowModeDelay)
             {
-                // If there are any tanks in the party
-                if (tankList.Count > 0)
+                CheckForTankStance();
+            }
+
+            // If we are in potato mode, start a delay if we are not already delaying
+            if (Service.Configuration.PotatoMode)
+            {
+                // If we are not currently delayed
+                if (SlowModeDelay != true)
                 {
-                    bool tankStanceFound = false;
-
-                    // Check each tank for a tank stance
-                    foreach (var tank in tankList)
-                    {
-                        if (PartyOperations.IsTankStanceFound(tank))
-                        {
-                            tankStanceFound = true;
-                            break;
-                        }
-                    }
-
-                    // If none of the tanks have their stance on
-                    if (!tankStanceFound)
-                    {
-                        // Display warning banner
-                        ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
-                    }
+                    SlowModeDelay = true;
+                    Task.Delay(500).ContinueWith(t => { SlowModeDelay = false; });
                 }
+            }
+
+            if (!TankStanceFound && tankList.Count > 0)
+            {
+                // Display warning banner
+                ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
             }
         }
 

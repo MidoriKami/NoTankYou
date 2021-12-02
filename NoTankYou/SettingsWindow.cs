@@ -74,6 +74,7 @@ namespace NoTankYou
             ImGui.Spacing();
             DrawEnableClickThroughCheckbox();
             DrawDisableInAllianceRaid();
+            DrawPotatoModeCheckbox();
             DrawInstanceLoadDelayTimeTextField();
         }
         private void DrawBlacklistSettings()
@@ -172,6 +173,13 @@ namespace NoTankYou
             {
                 blacklist.Add(addToBlacklist);
             }
+        }
+
+        private void DrawPotatoModeCheckbox()
+        {
+            ImGui.Checkbox("Potato Mode", ref Service.Configuration.PotatoMode);
+            ImGuiComponents.HelpMarker("Slow down plugin to improve performance\nUse if you have a very slow computer");
+            ImGui.Spacing();
         }
 
         private void DrawInstanceLoadDelayTimeTextField()
