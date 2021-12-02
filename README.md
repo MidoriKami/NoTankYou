@@ -38,7 +38,7 @@ For ease of use, bundled with the main comman **/notankyou** there are several c
 | /notankyou force     | forces the warning banner to appear                                                                      |
 | /notankyou status    | prints the current settins for the plugin to the debug channel of chat                                   |
 | /notankyou blacklist | adds the current instance id to the blacklist, preventing the plugin from running in those instance id's |
-| /notankyou whitelist | removes the corrent instance id from the blacklist                                                       |
+| /notankyou whitelist | removes the current instance id from the blacklist                                                       |
 | /notankyou debug     | prints the number of tanks, and the stauts of each tank to the chat                                      |
 
 ## Notes
