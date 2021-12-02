@@ -4,6 +4,7 @@
     <Authors></Authors>
     <Company></Company>
     <Version>1.0</Version>
+	<AssemblyVersion>1.4.1</AssemblyVersion>
     <Description>Dalamud Plugin to show a warning if no tanks have their tank stances on</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/MidoriKami/NoTankYou.git</PackageProjectUrl>
@@ -21,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\Data\TankStance.png">
+    <Content Include="..\images\TankStance.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>false</Visible>
     </Content>
@@ -69,5 +70,11 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
+	<ItemGroup>
+		<None Include="NoTankYou.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
+	</ItemGroup>
 
 </Project>
