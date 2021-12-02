@@ -28,7 +28,7 @@ There is also a configuration option to disable checking while in an alliance ra
 * Realizing that a sprout keeps accidentally toggling stance repeatedly
 * Personal reminder to put your own stance on 
 
-### Commands
+# Commands
 For ease of use, bundled with the main comman **/notankyou** there are several commands you can use
 
 | Syntax      | Description |
