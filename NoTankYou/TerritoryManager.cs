@@ -36,9 +36,6 @@ namespace NoTankYou
         // Triggers on Map Change
         private void OnTerritoryChanged(object? sender, ushort e)
         {
-            // Debug data
-            Service.Chat.Print($"[NoTankYou][reporting] Territory Changed. NewID: {e}");
-
             UpdateWindowStatus();
 
             // Delay rendering for InstanceLoadDelayTime milliseconds

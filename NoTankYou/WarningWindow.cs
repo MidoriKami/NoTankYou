@@ -150,7 +150,6 @@ namespace NoTankYou
 
             if (lastPartyCount != partySize)
             {
-                Service.Chat.Print("[NoTankYou][reporting] Party Size Changed. Reevaluating tanklist.");
                 tankList = PartyOperations.GetTanksList();
                 lastPartyCount = partySize;
             }
