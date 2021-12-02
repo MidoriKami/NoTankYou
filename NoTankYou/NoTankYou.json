@@ -3,16 +3,18 @@
   "Name": "No Tank You",
   "Punchline": "Warns you if none of your tanks have their tank stance on",
   "Description": "Displays a warning if none of the tanks in your party have their tank stance on. Helpful for learning tank yourself, or helping friends learn tank.",
-  "InternalName": "NoTankYou",
-  "ApplicableVersion": "any",
-  "AssemblyVersion": "1.4.1.0",
-  "RepoUrl": "https://github.com/MidoriKami/NoTankYou",
   "Tags": [
-    "plugin",
-    "utility"
+    "utility",
+    "tanking"
   ],
-  "ImageUrls": [
-    "https://imgur.com/QIY7NkH"
+  "CategoryTags": [
+    "utility",
+    "ui"
   ],
-  "IconUrl": "https://ffxiv.gamerescape.com/wiki/File:Tank_Icon_1.png"
+  "InternalName": "NoTankYou",
+  "AssemblyVersion": "1.4.1",
+  "RepoUrl": "https://github.com/MidoriKami/NoTankYou",
+  "ApplicableVersion": "any",
+  "DalamudApiLevel": 4,
+  "IconUrl": "https://github.com/MidoriKami/NoTankYou/blob/master/images/icon.png"
 }
