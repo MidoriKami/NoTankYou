@@ -31,19 +31,15 @@ There is also a configuration option to disable checking while in an alliance ra
 ### Commands
 For ease of use, bundled with the main comman **/notankyou** there are several commands you can use
 
-/notankyou off        - prevents the plugin from showing the warning banner
-
-/notankyou on         - enables the showing of the warning banner
-
-/notankyou force      - forces the warning banner to appear
-
-/notankyou status     - prints the current settins for the plugin to the debug channel of chat
-
-/notankyou blacklist  - adds the current instance id to the blacklist, preventing the plugin from running in those instance id's
-
-/notankyou whitelist  - removes the corrent instance id from the blacklist
-
-/notankyou debug      - prints the number of tanks, and the stauts of each tank to the chat
+| Syntax      | Description |
+| ----------- | ----------- |
+| /notankyou off       | prevents the plugin from showing the warning banner                                                      |
+| /notankyou on        | enables the showing of the warning banner                                                                |
+| /notankyou force     | forces the warning banner to appear                                                                      |
+| /notankyou status    | prints the current settins for the plugin to the debug channel of chat                                   |
+| /notankyou blacklist | adds the current instance id to the blacklist, preventing the plugin from running in those instance id's |
+| /notankyou whitelist | removes the corrent instance id from the blacklist                                                       |
+| /notankyou debug     | prints the number of tanks, and the stauts of each tank to the chat                                      |
 
 ## Notes
 The 'force' command will force the banner to show, it will not allow you to move the banner unless the "Show/Move Warning Banner" settings option is selected in the settings menu.
