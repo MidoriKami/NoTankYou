@@ -41,7 +41,7 @@ For ease of use, bundled with the main comman **/notankyou** there are several c
 | /notankyou whitelist | removes the current instance id from the blacklist                                                       |
 | /notankyou debug     | prints the number of tanks, and the stauts of each tank to the chat                                      |
 
-## Notes
+### Notes
 The 'force' command will force the banner to show, it will not allow you to move the banner unless the "Show/Move Warning Banner" settings option is selected in the settings menu.
 
 The 'status' and 'debug' commands print to the debug channel in chat, only you will be able to see these messages. By default all log windows include displaying debug messages.
