@@ -29,7 +29,7 @@ There is also a configuration option to disable checking while in an alliance ra
 * Personal reminder to put your own stance on 
 
 # Commands
-For ease of use, bundled with the main comman **/notankyou** there are several commands you can use
+For ease of use, bundled with the main command **/notankyou** there are several commands you can use
 
 | Syntax      | Description |
 | ----------- | ----------- |
