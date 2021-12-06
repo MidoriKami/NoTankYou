@@ -13,7 +13,7 @@ namespace NoTankYou
         public bool ShowMoveWarningBanner = true;
         public bool PotatoMode = false;
         public int InstanceLoadDelayTime = 8000;
-        public List<int> TerritoryBlacklist;
+        public List<int> TerritoryBlacklist = new();
 
         public void PrintBlacklist()
         {
