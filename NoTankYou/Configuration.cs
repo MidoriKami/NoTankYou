@@ -11,7 +11,7 @@ namespace NoTankYou
         public int Version { get; set; } = 1;
         public bool DisableInAllianceRaid = true;
         public bool ShowMoveWarningBanner = true;
-        public bool PotatoMode = false;
+        public bool PotatoMode = true;
         public int InstanceLoadDelayTime = 8000;
         public List<int> TerritoryBlacklist = new();
 
