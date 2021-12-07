@@ -85,12 +85,12 @@ namespace NoTankYou
 
             else
             {
+                // Checks if party size has changed, if it has, updates tanklist
+                UpdateTankList();
+
                 // If we aren't waiting for the loading screen to complete
                 if (!Delayed)
                 {
-                    // Checks if party size has changed, if it has, updates tanklist
-                    UpdateTankList();
-
                     // If we are in a party and in a duty
                     if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
                     {
