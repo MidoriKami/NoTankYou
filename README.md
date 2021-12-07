@@ -39,7 +39,7 @@ For ease of use, bundled with the main command **/notankyou** there are several 
 | /notankyou status    | prints the current settins for the plugin to the debug channel of chat                                   |
 | /notankyou blacklist | adds the current instance id to the blacklist|
 | /notankyou whitelist | removes the current instance id from the blacklist                                                       |
-| /notankyou debug     | prints the number of tanks, and the stauts of each tank to the chat                                      |
+| /notankyou debug     | prints the number of tanks, and the status of each tank to the chat                                      |
 
 ### Notes
 The 'force' command will force the banner to show, it will not allow you to move the banner unless the "Show/Move Warning Banner" settings option is selected in the settings menu.
