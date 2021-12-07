@@ -23,14 +23,9 @@ namespace NoTankYou
             // Get database of territory types
             var territorySheets = Service.DataManager.GetExcelSheet<TerritoryType>();
 
-            // check that we actually got a table,
-            // because visual studio seems to think theres a high chance we might not have gotten one
-            if (territorySheets != null)
-            {
-                // Select the rows that contain a IntendedUse of 8
-                // IntendedUse value of 8 is Alliance Raid
-                AllianceRaidTerritoryTypes = territorySheets.Where(r => r.TerritoryIntendedUse == 8).Select(r => r.RowId).ToArray();
-            }
+            // Select the rows that contain a IntendedUse of 8
+            // IntendedUse value of 8 is Alliance Raid
+            AllianceRaidTerritoryTypes = territorySheets!.Where(r => r.TerritoryIntendedUse == 8).Select(r => r.RowId).ToArray();
         }
 
         // Triggers on Map Change
