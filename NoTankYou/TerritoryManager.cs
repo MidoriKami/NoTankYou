@@ -1,5 +1,6 @@
 ﻿using Lumina.Excel.GeneratedSheets;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace NoTankYou
 {
     public class TerritoryManager : IDisposable
     {
-        private uint[] AllianceRaidTerritoryTypes;
+        private List<uint> AllianceRaidTerritoryTypes = new();
         private WarningWindow warningWindow;
 
         public TerritoryManager(WarningWindow warningWindow)
@@ -25,7 +26,7 @@ namespace NoTankYou
 
             // Select the rows that contain a IntendedUse of 8
             // IntendedUse value of 8 is Alliance Raid
-            AllianceRaidTerritoryTypes = territorySheets!.Where(r => r.TerritoryIntendedUse == 8).Select(r => r.RowId).ToArray();
+            AllianceRaidTerritoryTypes = territorySheets!.Where(r => r.TerritoryIntendedUse == 8).Select(r => r.RowId).ToList();
         }
 
         // Triggers on Map Change
@@ -45,7 +46,7 @@ namespace NoTankYou
             var currentTerritory = Service.ClientState.TerritoryType;
 
             // Determine current state
-            bool newTerritoryIsAllianceRaid = IsAllianceRaid();
+            bool newTerritoryIsAllianceRaid = IsAllianceRaid(currentTerritory);
             bool disabledBecauseAllianceRaid = newTerritoryIsAllianceRaid && Service.Configuration.DisableInAllianceRaid;
             bool disabledBecauseBlacklist = Service.Configuration.TerritoryBlacklist.Contains(currentTerritory);
 
@@ -61,11 +62,9 @@ namespace NoTankYou
         }
 
         // Only checks the currently occupied territory for match in alliance raid database
-        public bool IsAllianceRaid()
+        public bool IsAllianceRaid(ushort territory)
         {
-            var currentTerritory = Service.ClientState.TerritoryType;
-
-            return AllianceRaidTerritoryTypes.Contains(currentTerritory);
+            return AllianceRaidTerritoryTypes.Contains(territory);
         }
 
         public void Dispose()
