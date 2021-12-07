@@ -1,26 +1,43 @@
 ﻿using Dalamud.Game.ClientState.Party;
 using System.Collections.Generic;
+using Lumina.Excel.GeneratedSheets;
+using System;
+using System.Linq;
 
 namespace NoTankYou
 {
-    public static class PartyOperations
+    public class PartyOperations
     {
-        private static readonly List<string> TankClasses = new() { "paladin", "dark knight", "warrior", "gunbreaker" };
-        private static readonly List<string> TankStances = new() { "Iron Will", "Defiance", "Grit", "Royal Guard" };
+        private readonly List<string> TankStances = new() { "Iron Will", "Defiance", "Grit", "Royal Guard" };
 
-        public static bool IsTank(string name)
+        private List<ClassJob> tankClassJobs = new();
+
+        public PartyOperations()
         {
-            return TankClasses.Contains(name);
+            InitializeTankClassJobs();
+        }
+
+        public bool IsTank(ClassJob classJob)
+        {
+            return tankClassJobs.Contains(classJob);
+        }
+
+        private void InitializeTankClassJobs()
+        {
+            var classJobDatabase = Service.DataManager.GetExcelSheet<ClassJob>();
+
+            // Role = 1, is "Tank" role
+            tankClassJobs = classJobDatabase!.Where(r => r.Role == 1).ToList();
         }
 
         // Returns a list of all tanks, list will be empty if no tanks are found
-        public static List<PartyMember> GetTanksList()
+        public List<PartyMember> GetTanksList()
         {
             var tankList = new List<PartyMember>();
 
             foreach (var player in Service.PartyList)
             {
-                if (IsTank(player.ClassJob.GameData.Name))
+                if (IsTank(player.ClassJob.GameData))
                 {
                     tankList.Add(player);
                 }
@@ -29,7 +46,7 @@ namespace NoTankYou
             return tankList;
         }
 
-        public static bool IsTankStanceFound(PartyMember member)
+        public bool IsTankStanceFound(PartyMember member)
         {
             foreach (var effect in member.Statuses)
             {
@@ -40,7 +57,7 @@ namespace NoTankYou
             return false;
         }
 
-        public static bool IsTankStance(string skillName)
+        public bool IsTankStance(string skillName)
         {
             return TankStances.Contains(skillName);
         }

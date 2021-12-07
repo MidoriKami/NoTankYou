@@ -41,6 +41,8 @@ namespace NoTankYou
         private bool TankStanceFound = false;
         private bool SlowModeDelay = false;
 
+        private PartyOperations PartyOperations { get; set; } = new();
+
         public WarningWindow(ImGuiScene.TextureWrap warningImage) :
             base("Tank Stance Warning Window")
         {
