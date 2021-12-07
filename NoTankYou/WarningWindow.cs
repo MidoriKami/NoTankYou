@@ -88,8 +88,11 @@ namespace NoTankYou
                 // If we aren't waiting for the loading screen to complete
                 if (!Delayed)
                 {
+                    // Checks if party size has changed, if it has, updates tanklist
+                    UpdateTankList();
+
                     // If we are in a party and in a duty
-                    if(Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
+                    if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
                     {
                         CheckForTankStanceAndDraw();
                     }
@@ -99,9 +102,6 @@ namespace NoTankYou
 
         private void CheckForTankStance()
         {
-            // Checks if party size has changed, if it has, updates tanklist
-            UpdateTankList();
-
             // If there are any tanks in the party
             if (tankList.Count > 0)
             {
