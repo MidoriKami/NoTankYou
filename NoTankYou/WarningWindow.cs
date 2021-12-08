@@ -22,7 +22,7 @@ namespace NoTankYou
                     ImGuiWindowFlags.NoCollapse |
                     ImGuiWindowFlags.NoResize;
 
-        private readonly ImGuiWindowFlags clickthroughFlags =
+        private readonly ImGuiWindowFlags ignoreInputFlags =
                     ImGuiWindowFlags.NoScrollbar |
                     ImGuiWindowFlags.NoTitleBar |
                     ImGuiWindowFlags.NoCollapse |
@@ -64,7 +64,7 @@ namespace NoTankYou
         public override void PreDraw()
         {
             base.PreDraw();
-            ImGuiWindowFlags windowflags = Service.Configuration.ShowMoveWarningBanner ? defaultWindowFlags : clickthroughFlags;
+            ImGuiWindowFlags windowflags = Service.Configuration.ShowMoveWarningBanner ? defaultWindowFlags : ignoreInputFlags;
 
             Flags = windowflags;
         }
