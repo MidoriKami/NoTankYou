@@ -1,4 +1,5 @@
-﻿using Dalamud.Game.Command;
+﻿using Dalamud.Game;
+using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using System.IO;
@@ -36,6 +37,9 @@ namespace NoTankYou
             WarningWindow = new WarningWindow(warningImage);
             Service.TerritoryManager = new TerritoryManager(WarningWindow);
 
+            // Register FrameworkUpdate
+            Service.Framework.Update += OnFrameworkUpdate;
+
             // Register Slash Commands
             Service.Commands.AddHandler(settingsCommand, new CommandInfo(OnCommand)
             {
@@ -51,6 +55,11 @@ namespace NoTankYou
             Service.WindowSystem.AddWindow(WarningWindow);
 
             Service.Chat.Enable();
+        }
+
+        private void OnFrameworkUpdate(Framework framework)
+        {
+            WarningWindow.Update();
         }
 
         private void DrawUI()
@@ -83,8 +92,7 @@ namespace NoTankYou
 
                 case "status":
                     Service.Configuration.PrintStatus();
-                    Service.Chat.Print($"[NoTankYou][status] Window Active: {WarningWindow.Active}");
-                    Service.Chat.Print($"[NoTankYou][status] Window Forced: {WarningWindow.Forced}");
+                    WarningWindow.PrintStatus();
                     Service.Configuration.PrintBlacklist();
                     break;
 
@@ -117,6 +125,7 @@ namespace NoTankYou
             WarningWindow.Dispose();
             Service.TerritoryManager.Dispose();
             Service.Commands.RemoveHandler(settingsCommand);
+            Service.Framework.Update -= OnFrameworkUpdate;
         }
     }
 }

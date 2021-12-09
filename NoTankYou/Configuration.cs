@@ -8,10 +8,9 @@ namespace NoTankYou
     [Serializable]
     public class Configuration : IPluginConfiguration
     {
-        public int Version { get; set; } = 1;
+        public int Version { get; set; } = 2;
         public bool DisableInAllianceRaid = true;
         public bool ShowMoveWarningBanner = false;
-        public bool PotatoMode = true;
         public int InstanceLoadDelayTime = 8000;
         public List<int> TerritoryBlacklist = new();
 
@@ -20,14 +19,14 @@ namespace NoTankYou
             var currentTerritory = Service.ClientState.TerritoryType;
             if(TerritoryBlacklist.Count > 0)
             {
-                Service.Chat.Print("[NoTankYou] Blacklist: {" + string.Join(", ", TerritoryBlacklist) + "}");
+                Service.Chat.Print("[NoTankYou][status][blacklist] {" + string.Join(", ", TerritoryBlacklist) + "}");
             }
             else
             {
-                Service.Chat.Print("[NoTankYou] Blacklist is empty.");
+                Service.Chat.Print("[NoTankYou][status][blacklist] Blacklist is empty.");
             }
 
-            Service.Chat.Print($"[NoTankYou] Current Territory: {currentTerritory}");
+            Service.Chat.Print($"[NoTankYou][status][blacklist] Current Territory: {currentTerritory}");
         }
 
         public void AddCurrentTerritoryToBlacklist()
@@ -61,10 +60,9 @@ namespace NoTankYou
         {
             var chat = Service.Chat;
 
-            chat.Print($"[NoTankYou][status] Disabled In Alliance Raid: {DisableInAllianceRaid}");
-            chat.Print($"[NoTankYou][status] Enable BannerMovement: {ShowMoveWarningBanner}");
-            chat.Print($"[NoTankYou][status] Instance Load Delay Time: {InstanceLoadDelayTime}");
-            chat.Print($"[NoTankYou][status] Potato Mode: {PotatoMode}");
+            chat.Print($"[NoTankYou][status][settings] Disabled In Alliance Raid: {DisableInAllianceRaid}");
+            chat.Print($"[NoTankYou][status][settings] Enable BannerMovement: {ShowMoveWarningBanner}");
+            chat.Print($"[NoTankYou][status][settings] Instance Load Delay Time: {InstanceLoadDelayTime}");
         }
 
         [NonSerialized]

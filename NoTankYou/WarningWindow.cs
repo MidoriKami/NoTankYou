@@ -1,4 +1,5 @@
-﻿using Dalamud.Game.ClientState.Conditions;
+﻿using Dalamud.Game;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Interface.Windowing;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -36,10 +37,10 @@ namespace NoTankYou
         public bool Delayed { get; set; }
         public bool Forced { get; set; }
 
+        public bool DisplayBanner { get; set; }
+
         private int lastPartyCount = 0;
         private List<PartyMember> tankList = new();
-        private bool TankStanceFound = false;
-        private bool SlowModeDelay = false;
 
         private PartyOperations PartyOperations { get; set; } = new();
 
@@ -54,11 +55,60 @@ namespace NoTankYou
                 MaximumSize = new(WindowSize.X, WindowSize.Y)
             };
 
+            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
+
             Active = true;
             Delayed = false;
             Forced = false;
+            DisplayBanner = false;
 
             IsOpen = true;
+        }
+
+        private void OnTerritoryChanged(object? sender, ushort e)
+        {
+            // Force Update
+            UpdateTankList(true);
+        }
+
+        public void Update()
+        {
+            // If we are in a party and in a duty
+            if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
+            {
+                // Checks if party size has changed, if it has, updates tanklist
+                UpdateTankList();
+
+                if (tankList.Count > 0)
+                {
+                    // Check each tank for a tank stance
+                    foreach (var tank in tankList)
+                    {
+                        if (PartyOperations.IsTankStanceFound(tank))
+                        {
+                            DisplayBanner = false;
+                            break;
+                        }
+                        else
+                        {
+                            DisplayBanner = true;
+                        }
+                    }
+                }
+            }
+
+            if(Delayed)
+            {
+                DisplayBanner = false;
+            }
+        }
+
+        public void PrintStatus()
+        {
+            Service.Chat.Print($"[NoTankYou][status][warningbanner] Active: {Active}");
+            Service.Chat.Print($"[NoTankYou][status][warningbanner] Forced: {Forced}");
+            Service.Chat.Print($"[NoTankYou][status][warningbanner] Delayed: {Delayed}");
+            Service.Chat.Print($"[NoTankYou][status][warningbanner] DisplayBanner: {DisplayBanner}");
         }
 
         public override void PreDraw()
@@ -78,79 +128,22 @@ namespace NoTankYou
             }
 
             // If window is being disabled
-            else if (!Active)
+            else if ( !Active )
             {
                 return;
             }
 
-            else
+            else if ( DisplayBanner )
             {
-                // Checks if party size has changed, if it has, updates tanklist
-                UpdateTankList();
-
-                // If we aren't waiting for the loading screen to complete
-                if (!Delayed)
-                {
-                    // If we are in a party and in a duty
-                    if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
-                    {
-                        CheckForTankStanceAndDraw();
-                    }
-                }
-            }
-        }
-
-        private void CheckForTankStance()
-        {
-            // If there are any tanks in the party
-            if (tankList.Count > 0)
-            {
-                // Check each tank for a tank stance
-                foreach (var tank in tankList)
-                {
-                    if (PartyOperations.IsTankStanceFound(tank))
-                    {
-                        TankStanceFound = true;
-                        return;
-                    }
-                }
-
-                TankStanceFound = false;
-            }
-        }
-
-        // Checks all party members for a tank stance then displays the banner
-        private void CheckForTankStanceAndDraw()
-        {
-            // If we aren't being delayed
-            if(!SlowModeDelay)
-            {
-                CheckForTankStance();
-            }
-
-            // If we are in potato mode, start a delay if we are not already delaying
-            if (Service.Configuration.PotatoMode)
-            {
-                // If we are not currently delayed
-                if (SlowModeDelay != true)
-                {
-                    SlowModeDelay = true;
-                    Task.Delay(500).ContinueWith(t => { SlowModeDelay = false; });
-                }
-            }
-
-            if (!TankStanceFound && tankList.Count > 0)
-            {
-                // Display warning banner
                 ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
             }
         }
 
-        public void UpdateTankList()
+        public void UpdateTankList(bool force = false)
         {
             int partySize = Service.PartyList.Length;
 
-            if (lastPartyCount != partySize)
+            if ( (lastPartyCount != partySize) || force )
             {
                 tankList = PartyOperations.GetTanksList();
                 lastPartyCount = partySize;
@@ -166,13 +159,15 @@ namespace NoTankYou
             foreach (var tank in tankList)
             {
                 chat.Print($"[NoTankYou][debug] Player: {tank.Name}");
-                chat.Print($"[NoTankYou][debug] Stance?: {PartyOperations.IsTankStanceFound(tank)}");
+                chat.Print($"[NoTankYou][debug] Stance: {PartyOperations.IsTankStanceFound(tank)}");
             }
         }
 
         public void Dispose()
         {
             warningImage.Dispose();
+
+            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
         }
 
         public override void OnClose()

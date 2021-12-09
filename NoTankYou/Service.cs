@@ -1,4 +1,5 @@
 ﻿using Dalamud.Data;
+using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects;
@@ -23,6 +24,7 @@ namespace NoTankYou
         [PluginService] public static Condition Condition { get; private set; }
         [PluginService] public static ObjectTable ObjectTable { get; private set; }
         [PluginService] public static DataManager DataManager { get; private set; }
+        [PluginService] public static Framework Framework { get; private set; }
         public static TerritoryManager TerritoryManager { get; set; }
         public static WindowSystem WindowSystem { get; set; } = new WindowSystem("NoTankYou");
         public static Configuration Configuration { get; set; }
