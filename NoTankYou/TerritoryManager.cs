@@ -26,7 +26,10 @@ namespace NoTankYou
 
             // Select the rows that contain a IntendedUse of 8
             // IntendedUse value of 8 is Alliance Raid
-            AllianceRaidTerritoryTypes = territorySheets!.Where(r => r.TerritoryIntendedUse == 8).Select(r => r.RowId).ToList();
+            AllianceRaidTerritoryTypes = territorySheets
+                !.Where(r => r.TerritoryIntendedUse is 8)
+                .Select(r => r.RowId)
+                .ToList();
         }
 
         // Triggers on Map Change
