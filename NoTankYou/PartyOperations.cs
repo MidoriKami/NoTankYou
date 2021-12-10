@@ -8,18 +8,48 @@ namespace NoTankYou
 {
     public class PartyOperations
     {
-        private readonly List<string> TankStances = new() { "Iron Will", "Defiance", "Grit", "Royal Guard" };
-
         private List<ClassJob> tankClassJobs = new();
+        private List<Status> tankStatus = new();
 
         public PartyOperations()
         {
             InitializeTankClassJobs();
+            InitializeTankStances();
         }
 
-        public bool IsTank(ClassJob classJob)
+        private void InitializeTankStances()
+        {            
+            var actionSheet = Service.DataManager.GetExcelSheet<Lumina.Excel.GeneratedSheets.Action>();
+
+            // Role 1 = tank, Role 3 = Caster DPS (For BLU)
+            tankStatus = actionSheet
+                !.Where(r => r.ClassJob.Value?.Role is 1 or 3)
+                !.Select(r => r.StatusGainSelf.Value!)
+                !.Where(r => r.IsPermanent == true)
+                .ToList();
+
+        }
+        public bool IsTank(PartyMember member)
         {
-            return tankClassJobs.Contains(classJob);
+            if(tankClassJobs.Contains(member.ClassJob.GameData))
+            {
+                return true;
+            }
+
+            const uint blueMageClassID = 36;
+            if(member.ClassJob.Id == blueMageClassID)
+            {
+                foreach ( var status in member.Statuses)
+                {
+                    const uint aethericalMimicryTank = 2124;
+                    if (status.StatusId == aethericalMimicryTank)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private void InitializeTankClassJobs()
@@ -37,7 +67,7 @@ namespace NoTankYou
 
             foreach (var player in Service.PartyList)
             {
-                if (IsTank(player.ClassJob.GameData))
+                if ( IsTank(player) )
                 {
                     tankList.Add(player);
                 }
@@ -50,16 +80,16 @@ namespace NoTankYou
         {
             foreach (var effect in member.Statuses)
             {
-                if (IsTankStance(effect.GameData.Name))
+                if (IsTankStance(effect.GameData))
                     return true;
             }
 
             return false;
         }
 
-        public bool IsTankStance(string skillName)
+        public bool IsTankStance(Status skillName)
         {
-            return TankStances.Contains(skillName);
+            return tankStatus.Contains(skillName);
         }
     }
 }
