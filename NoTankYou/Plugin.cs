@@ -60,6 +60,13 @@ namespace NoTankYou
 
         private static void UpdateConfigurationVersion()
         {
+            // This shouldn't be possible, but just in case
+            if( Service.Configuration == null )
+            {
+                Service.Configuration = new Configuration();
+                Service.Configuration.Save();
+            }
+
             if (Service.Configuration.Version == 1)
             {
                 Service.Configuration = new Configuration();
