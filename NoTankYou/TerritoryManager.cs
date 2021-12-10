@@ -84,10 +84,6 @@ namespace NoTankYou
             return PvPZones.Contains(currentTerritory);
         }
 
-        private bool IsPvPZone(ushort currentTerritory)
-        {
-            return PvPZones.Contains(currentTerritory);
-        }
 
         // Only checks the currently occupied territory for match in alliance raid database
         public bool IsAllianceRaid(ushort territory)
