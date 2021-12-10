@@ -71,6 +71,13 @@ namespace NoTankYou
         public void Initialize(DalamudPluginInterface pluginInterface)
         {
             this.pluginInterface = pluginInterface;
+
+            if( Version == 1)
+            {
+                ShowMoveWarningBanner = false;
+                Version = 2;
+                Save();
+            }
         }
 
         public void Save()
