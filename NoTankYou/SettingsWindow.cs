@@ -76,6 +76,7 @@ namespace NoTankYou
             DrawDisableInAllianceRaid();
             DrawInstanceLoadDelayTimeTextField();
         }
+
         private void DrawBlacklistSettings()
         {
             ImGui.Spacing();
@@ -111,10 +112,7 @@ namespace NoTankYou
 
             ImGui.PushItemWidth(150);
 
-            if(ImGui.InputInt("##AddToBlacklist", ref addToBlacklist, 0, 0, ImGuiInputTextFlags.EnterReturnsTrue))
-            {
-                AddToBlacklist();
-            }
+            ImGui.InputInt("##AddToBlacklist", ref addToBlacklist, 0, 0);
 
             ImGui.PopItemWidth();
 
@@ -137,10 +135,7 @@ namespace NoTankYou
 
             ImGui.PushItemWidth(150);
 
-            if(ImGui.InputInt("##RemoveFromBlacklist", ref removeFromBlacklist, 0, 0, ImGuiInputTextFlags.EnterReturnsTrue))
-            {
-                RemoveFromBlacklist();
-            }
+            ImGui.InputInt("##RemoveFromBlacklist", ref removeFromBlacklist, 0, 0);
 
             ImGui.PopItemWidth();
             ImGui.SameLine();
@@ -188,6 +183,7 @@ namespace NoTankYou
             ImGuiComponents.HelpMarker("Force the Warning Banner to display and enables movement to position the window");
             ImGui.Spacing();
         }
+
         private void DrawDisableInAllianceRaid()
         {
             ImGui.Checkbox("Disable in Alliance Raid", ref Service.Configuration.DisableInAllianceRaid);

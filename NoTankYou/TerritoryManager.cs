@@ -9,6 +9,7 @@ namespace NoTankYou
     public class TerritoryManager : IDisposable
     {
         private List<uint> AllianceRaidTerritoryTypes = new();
+        private List<uint> PvPZones = new();
         private WarningWindow warningWindow;
 
         public TerritoryManager(WarningWindow warningWindow)
@@ -18,7 +19,19 @@ namespace NoTankYou
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
 
             InitalizeAllianceRaidTerritoryTypeList();
+            InitializePvPTerritoryTypeList();
         }
+
+        private void InitializePvPTerritoryTypeList()
+        {
+            var territoryTypes = Service.DataManager.GetExcelSheet<TerritoryType>();
+
+            PvPZones = territoryTypes
+                !.Where(r => r.BattalionMode is 4)
+                .Select(r => r.RowId)
+                .ToList();
+        }
+
         private void InitalizeAllianceRaidTerritoryTypeList()
         {
             // Get database of territory types
@@ -52,9 +65,10 @@ namespace NoTankYou
             bool newTerritoryIsAllianceRaid = IsAllianceRaid(currentTerritory);
             bool disabledBecauseAllianceRaid = newTerritoryIsAllianceRaid && Service.Configuration.DisableInAllianceRaid;
             bool disabledBecauseBlacklist = Service.Configuration.TerritoryBlacklist.Contains(currentTerritory);
+            bool disableBecausePvPZone = IsPvPZone(currentTerritory);
 
             // Either enable or disable the banner depending on state
-            if (disabledBecauseAllianceRaid || disabledBecauseBlacklist)
+            if (disabledBecauseAllianceRaid || disabledBecauseBlacklist || disableBecausePvPZone)
             {
                 warningWindow.Active = false;
             }
@@ -62,6 +76,11 @@ namespace NoTankYou
             {
                 warningWindow.Active = true;
             }
+        }
+
+        private bool IsPvPZone(ushort currentTerritory)
+        {
+            return PvPZones.Contains(currentTerritory);
         }
 
         // Only checks the currently occupied territory for match in alliance raid database
