@@ -25,6 +25,7 @@ namespace NoTankYou
 
             // If configuration json exists load it, if not make new config object
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+            UpdateConfigurationVersion();
             Service.Configuration.Initialize(Service.PluginInterface);
 
             // Load Tank Stance warning image
@@ -55,6 +56,15 @@ namespace NoTankYou
             Service.WindowSystem.AddWindow(WarningWindow);
 
             Service.Chat.Enable();
+        }
+
+        private static void UpdateConfigurationVersion()
+        {
+            if (Service.Configuration.Version == 1)
+            {
+                Service.Configuration = new Configuration();
+                Service.Configuration.Save();
+            }
         }
 
         private void OnFrameworkUpdate(Framework framework)
