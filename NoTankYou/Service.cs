@@ -22,7 +22,6 @@ namespace NoTankYou
         [PluginService] public static PartyList PartyList { get; private set; }
         [PluginService] public static CommandManager Commands { get; private set; }
         [PluginService] public static Condition Condition { get; private set; }
-        [PluginService] public static ObjectTable ObjectTable { get; private set; }
         [PluginService] public static DataManager DataManager { get; private set; }
         [PluginService] public static Framework Framework { get; private set; }
         public static TerritoryManager TerritoryManager { get; set; }
