@@ -45,7 +45,7 @@ namespace NoTankYou
         private PartyOperations PartyOperations { get; set; } = new();
 
         public WarningWindow(ImGuiScene.TextureWrap warningImage) :
-            base("Tank Stance Warning Window")
+            base("NoTankYou Warning Banner Window")
         {
             this.warningImage = warningImage;
 
