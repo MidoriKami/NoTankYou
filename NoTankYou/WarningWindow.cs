@@ -86,14 +86,21 @@ namespace NoTankYou
                     {
                         if (PartyOperations.IsTankStanceFound(tank))
                         {
+                            // If we have 1 or more tanks, and we found at least one tank with stance on
                             DisplayBanner = false;
                             break;
                         }
                         else
                         {
+                            // If we have 1 or more tanks, but at least this tank did not have their stance on
                             DisplayBanner = true;
                         }
                     }
+                }
+                else
+                {
+                    // If we have no tanks, hide banner
+                    DisplayBanner = false;
                 }
             }
 
