@@ -122,9 +122,10 @@ namespace NoTankYou
         public override void Draw()
         {
             // If force show banner is enabled, show it no matter what
-            if (Forced)
+            if ( Forced || Service.Configuration.ShowMoveWarningBanner )
             {
                 ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
+                return;
             }
 
             // If window is being disabled
