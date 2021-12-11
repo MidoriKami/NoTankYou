@@ -25,8 +25,8 @@ namespace NoTankYou
 
             // If configuration json exists load it, if not make new config object
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-            UpdateConfigurationVersion();
             Service.Configuration.Initialize(Service.PluginInterface);
+            UpdateConfigurationVersion();
 
             // Load Tank Stance warning image
             var assemblyLocation = Assembly.GetExecutingAssembly().Location;
@@ -60,11 +60,10 @@ namespace NoTankYou
 
         private static void UpdateConfigurationVersion()
         {
-            var version = Service.Configuration?.Version;
-
-            if ( version == 1 || version == null )
-            {
+            if ( Service.Configuration.Version == 1 )
+            { 
                 Service.Configuration = new Configuration();
+                Service.Configuration.Initialize(Service.PluginInterface);
                 Service.Configuration.Save();
             }
         }
