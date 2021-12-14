@@ -133,13 +133,19 @@ namespace NoTankYou
                 var tankStances = tanks.Where(r => r.Statuses.Any(s => TankStances.Contains(s.StatusId)));
                 var blueMageTankStances = blueMageTanks.Where(r => r.Statuses.Any(s => BlueMageTankStance.Contains(s.StatusId)));
 
-                if (tankStances.Count() > 0 || blueMageTankStances.Count() > 0)
+                var totalNumberOfTanks = tanks.Count() + blueMageTanks.Count();
+                var totalNumberOfTankStances = tankStances.Count() + blueMageTankStances.Count();
+
+                bool atLeastOneTankInParty = totalNumberOfTanks > 0;
+                bool noTankStancesFound = totalNumberOfTankStances == 0;
+
+                if ( noTankStancesFound && atLeastOneTankInParty )
                 {
-                    Visible = false;
+                    Visible = true;
                 }
                 else
                 {
-                    Visible = true;
+                    Visible = false;
                 }
             }
 
