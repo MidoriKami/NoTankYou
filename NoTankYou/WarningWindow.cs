@@ -66,7 +66,7 @@ namespace NoTankYou
                 .Select(r => r.RowId)
                 .ToList();
 
-            // Blue Mage Stance Stances
+            // Blue Mage Tank Stances
             BlueMageTankStance = Service.DataManager.GetExcelSheet<Action>()
                 !.Where(r => r.ClassJob.Value?.Role is 3)
                 !.Select(r => r.StatusGainSelf.Value!)
