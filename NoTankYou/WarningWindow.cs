@@ -148,8 +148,12 @@ namespace NoTankYou
                     Visible = false;
                 }
             }
+            else
+            {
+                Visible = false;
+            }
 
-            if( Service.Configuration.EnableTankStanceBanner )
+            if ( Service.Configuration.EnableTankStanceBanner )
             {
                 IsOpen = true;
             }
