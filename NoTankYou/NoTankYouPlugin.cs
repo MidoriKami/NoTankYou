@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace NoTankYou
 {
-    public sealed class Plugin : IDalamudPlugin
+    public sealed class NoTankYouPlugin : IDalamudPlugin
     {
         public string Name => "No Tank You";
 
@@ -17,7 +17,7 @@ namespace NoTankYou
         private WarningWindow WarningWindow { get; init; }
 
 
-        public Plugin(
+        public NoTankYouPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
         {
             // Create Static Services for use everywhere
@@ -26,17 +26,15 @@ namespace NoTankYou
             // If configuration json exists load it, if not make new config object
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             Service.Configuration.Initialize(Service.PluginInterface);
-            UpdateConfigurationVersion();
 
             // Load Tank Stance warning image
             var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            var imagePath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, "TankStance.png");
+            var imagePath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\TankStance.png");
             var warningImage = Service.PluginInterface.UiBuilder.LoadImage(imagePath);
 
             // Create Windows
             SettingsWindow = new SettingsWindow();
             WarningWindow = new WarningWindow(warningImage);
-            Service.TerritoryManager = new TerritoryManager(WarningWindow);
 
             // Register FrameworkUpdate
             Service.Framework.Update += OnFrameworkUpdate;
@@ -57,17 +55,6 @@ namespace NoTankYou
 
             Service.Chat.Enable();
         }
-
-        private static void UpdateConfigurationVersion()
-        {
-            if ( Service.Configuration.Version == 1 )
-            { 
-                Service.Configuration = new Configuration();
-                Service.Configuration.Initialize(Service.PluginInterface);
-                Service.Configuration.Save();
-            }
-        }
-
         private void OnFrameworkUpdate(Framework framework)
         {
             WarningWindow.Update();
@@ -86,47 +73,11 @@ namespace NoTankYou
         {
             switch (arguments)
             {
-                case "off":
-                    WarningWindow.Active = false;
-                    WarningWindow.Forced = false;
-                    break;
-
-                case "on":
-                    WarningWindow.Active = true;
-                    WarningWindow.Forced = false;
-                    break;
-
-                case "force":
-                    WarningWindow.Active = true;
-                    WarningWindow.Forced = true;
-                    break;
-
-                case "status":
-                    Service.Configuration.PrintStatus();
-                    WarningWindow.PrintStatus();
-                    Service.Configuration.PrintBlacklist();
-                    break;
-
-                case "blacklist":
-                    Service.Configuration.AddCurrentTerritoryToBlacklist();
-                    Service.Configuration.PrintBlacklist();
-                    Service.TerritoryManager.UpdateWindowStatus();
-                    break;
-
-                case "whitelist":
-                    Service.Configuration.RemoveCurrentTerritoryFromBlacklist();
-                    Service.Configuration.PrintBlacklist();
-                    Service.TerritoryManager.UpdateWindowStatus();
-                    break;
-
-                case "debug":
-                    WarningWindow.PrintDebugData();
-                    break;
-
                 default:
-                    SettingsWindow.IsOpen = true;
                     break;
             }
+
+            SettingsWindow.IsOpen = true;
 
             Service.Configuration.Save();
         }
@@ -134,7 +85,7 @@ namespace NoTankYou
         public void Dispose()
         {
             WarningWindow.Dispose();
-            Service.TerritoryManager.Dispose();
+            SettingsWindow.Dispose();
             Service.Commands.RemoveHandler(settingsCommand);
             Service.Framework.Update -= OnFrameworkUpdate;
         }

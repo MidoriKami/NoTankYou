@@ -4,7 +4,7 @@
     <Authors></Authors>
     <Company></Company>
     <Version>1.0</Version>
-	<AssemblyVersion>1.2.0.4</AssemblyVersion>
+	<AssemblyVersion>2.0.0.0</AssemblyVersion>
     <Description>Dalamud Plugin to show a warning if no tanks have their tank stances on</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/MidoriKami/NoTankYou.git</PackageProjectUrl>
@@ -21,20 +21,20 @@
     <OutputPath>$(AppData)\XIVLauncher\devPlugins\NoTankYou\</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="..\images\TankStance.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-  </ItemGroup>
-
   <PropertyGroup>
     <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\TankStance.png" Link="images\TankStance.png" CopyToOutputDirectory="Always" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="NoTankYou.json" />
+		<None Remove="README.md" />
+		<None Remove="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DalamudPackager" Version="2.1.5" />
@@ -70,11 +70,6 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
-	<ItemGroup>
-		<None Include="NoTankYou.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
-	</ItemGroup>
+
 
 </Project>

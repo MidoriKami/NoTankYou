@@ -2,13 +2,14 @@
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Interface.Windowing;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Action = Lumina.Excel.GeneratedSheets.Action;
 
 namespace NoTankYou
 {
@@ -33,16 +34,16 @@ namespace NoTankYou
 
         private readonly Vector2 WindowSize = new(500, 100);
 
-        public bool Active { get; set; }
-        public bool Delayed { get; set; }
-        public bool Forced { get; set; }
+        public bool Visible { get; set; } = false;
+        public bool Paused { get; set; } = false;
+        public bool Forced { get; set; } = false;
+        public bool Disabled { get; set; } = false;
 
-        public bool DisplayBanner { get; set; }
+        private List<uint> TankStances = new();
+        private List<uint> BlueMageTankStance = new();
 
-        private int lastPartyCount = 0;
-        private List<PartyMember> tankList = new();
-
-        private PartyOperations PartyOperations { get; set; } = new();
+        private List<uint> AllianceRaidTerritoryTypes = new();
+        private List<uint> PvPZones = new();
 
         public WarningWindow(ImGuiScene.TextureWrap warningImage) :
             base("NoTankYou Warning Banner Window")
@@ -57,131 +58,138 @@ namespace NoTankYou
 
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
 
-            Active = true;
-            Delayed = false;
-            Forced = false;
-            DisplayBanner = false;
+            // Non-Blue Mage Tank Stances
+            TankStances = Service.DataManager.GetExcelSheet<Action>()
+                !.Where(r => r.ClassJob.Value?.Role is 1)
+                !.Select(r => r.StatusGainSelf.Value!)
+                !.Where(r => r.IsPermanent == true)
+                .Select(r => r.RowId)
+                .ToList();
 
-            IsOpen = true;
+            // Blue Mage Stance Stances
+            BlueMageTankStance = Service.DataManager.GetExcelSheet<Action>()
+                !.Where(r => r.ClassJob.Value?.Role is 3)
+                !.Select(r => r.StatusGainSelf.Value!)
+                !.Where(r => r.IsPermanent == true)
+                .Select(r => r.RowId)
+                .ToList();
+
+            // BattalionMode of 4 is PvP
+            PvPZones = Service.DataManager.GetExcelSheet<TerritoryType>()
+                !.Where(r => r.BattalionMode is 4)
+                .Select(r => r.RowId)
+                .ToList();
+
+            // Territory Intended Use of 8 is Alliance Raid
+            AllianceRaidTerritoryTypes = Service.DataManager.GetExcelSheet<TerritoryType>()
+                !.Where(r => r.TerritoryIntendedUse is 8)
+                .Select(r => r.RowId)
+                .ToList();
         }
 
         private void OnTerritoryChanged(object? sender, ushort e)
         {
-            // Force Update
-            UpdateTankList(true);
+            bool movingToBlacklistedTerritory = Service.Configuration.TerritoryBlacklist.Contains(e);
+            bool movingToAllianceRaid = AllianceRaidTerritoryTypes.Contains(e);
+            bool movingToPvPTerritory = PvPZones.Contains(e);
+            bool shouldDisable = movingToPvPTerritory || (movingToAllianceRaid && Service.Configuration.DiableInAllianceRaid) || movingToBlacklistedTerritory;
+
+            if (shouldDisable)
+            {
+                Disabled = true;
+            }
+            else
+            {
+                Disabled = false;
+            }
+
+            Paused = true;
+            Task.Delay(Service.Configuration.TerritoryChangeDelayTime).ContinueWith(t => { Paused = false; });
         }
 
         public void Update()
         {
+            // Slow Update Rate
+            var frame = Service.PluginInterface.UiBuilder.FrameCount;
+            if (frame % 30 != 0) return;
+
+            if(Service.Configuration.ForceWindowUpdate)
+            {
+                var currentTerritory = Service.ClientState.TerritoryType;
+                OnTerritoryChanged(this, currentTerritory);
+                Service.Configuration.ForceWindowUpdate = false;
+            }
+
+            Forced = Service.Configuration.ForceShowTankStanceBanner || Service.Configuration.RepositionModeTankStanceBanner;
+
             // If we are in a party and in a duty
             if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
             {
-                // Checks if party size has changed, if it has, updates tanklist
-                UpdateTankList();
+                // Get all the Tanks
+                var tanks = Service.PartyList.Where(r => r.ClassJob.GameData.Role is 1);
+                var blueMageTanks = Service.PartyList.Where(r => r.ClassJob.Id is 36 && r.Statuses.Any(s => s.StatusId == 2124));
 
-                if (tankList.Count > 0)
+                // Get the Tanks that have a tank stance on
+                var tankStances = tanks.Where(r => r.Statuses.Any(s => TankStances.Contains(s.StatusId)));
+                var blueMageTankStances = blueMageTanks.Where(r => r.Statuses.Any(s => BlueMageTankStance.Contains(s.StatusId)));
+
+                if (tankStances.Count() > 0 || blueMageTankStances.Count() > 0)
                 {
-                    // Check each tank for a tank stance
-                    foreach (var tank in tankList)
-                    {
-                        if (PartyOperations.IsTankStanceFound(tank))
-                        {
-                            // If we have 1 or more tanks, and we found at least one tank with stance on
-                            DisplayBanner = false;
-                            break;
-                        }
-                        else
-                        {
-                            // If we have 1 or more tanks, but at least this tank did not have their stance on
-                            DisplayBanner = true;
-                        }
-                    }
+                    Visible = false;
                 }
                 else
                 {
-                    // If we have no tanks, hide banner
-                    DisplayBanner = false;
+                    Visible = true;
                 }
             }
 
-            if(Delayed)
+            if( Service.Configuration.EnableTankStanceBanner )
             {
-                DisplayBanner = false;
+                IsOpen = true;
             }
-        }
-
-        public void PrintStatus()
-        {
-            Service.Chat.Print($"[NoTankYou][status][warningbanner] Active: {Active}");
-            Service.Chat.Print($"[NoTankYou][status][warningbanner] Forced: {Forced}");
-            Service.Chat.Print($"[NoTankYou][status][warningbanner] Delayed: {Delayed}");
-            Service.Chat.Print($"[NoTankYou][status][warningbanner] DisplayBanner: {DisplayBanner}");
+            else
+            {
+                IsOpen = false;
+            }
         }
 
         public override void PreDraw()
         {
             base.PreDraw();
-            ImGuiWindowFlags windowflags = Service.Configuration.ShowMoveWarningBanner ? defaultWindowFlags : ignoreInputFlags;
 
-            Flags = windowflags;
+            if( Service.Configuration.RepositionModeTankStanceBanner )
+            {
+                Flags = defaultWindowFlags;
+            }
+            else
+            {
+                Flags = ignoreInputFlags;
+            }
         }
 
         public override void Draw()
         {
-            // If force show banner is enabled, show it no matter what
-            if ( Forced || Service.Configuration.ShowMoveWarningBanner )
+            if (!IsOpen) return;
+
+            if ( Forced )
             {
+                ImGui.SetCursorPos(new Vector2(5, 0));
                 ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
                 return;
             }
 
-            // If window is being disabled
-            else if ( !Active )
+            if (Visible && !Disabled && !Paused)
             {
-                return;
-            }
-
-            else if ( DisplayBanner )
-            {
+                ImGui.SetCursorPos(new Vector2(5, 0));
                 ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
-            }
-        }
-
-        public void UpdateTankList(bool force = false)
-        {
-            int partySize = Service.PartyList.Length;
-
-            if ( (lastPartyCount != partySize) || force )
-            {
-                tankList = PartyOperations.GetTanksList();
-                lastPartyCount = partySize;
-            }
-        }
-
-        public void PrintDebugData()
-        {
-            var chat = Service.Chat;
-            
-            chat.Print($"[NoTankYou][debug] Number of Tanks: {tankList.Count}");
-
-            foreach (var tank in tankList)
-            {
-                chat.Print($"[NoTankYou][debug] Player: {tank.Name}");
-                chat.Print($"[NoTankYou][debug] Stance: {PartyOperations.IsTankStanceFound(tank)}");
+                return;
             }
         }
 
         public void Dispose()
         {
             warningImage.Dispose();
-
             Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
-        }
-
-        public override void OnClose()
-        {
-            base.OnClose();
-            IsOpen = true;
         }
     }
 }

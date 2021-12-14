@@ -8,75 +8,146 @@ namespace NoTankYou
 {
     internal class SettingsWindow : Window
     {
-        public bool visible = false;
+        private Tab CurrentTab = Tab.General;
+        private readonly Vector2 WindowSize = new(400, 200);
+        private int AddToBlacklistValue;
+        private int RemoveFromBlacklistValue;
 
-        private Tab currentTab = Tab.General;
+        public SettingsWindow() : base("No Tank You Settings Window")
+        {
+            IsOpen = false;
 
-        private int addToBlacklist;
-        private int removeFromBlacklist;
+            SizeConstraints = new WindowSizeConstraints()
+            {
+                MinimumSize = new(WindowSize.X, WindowSize.Y),
+                MaximumSize = new(WindowSize.X + 300, WindowSize.Y + 400)
+            };
+        }
 
         private enum Tab
         {
             General,
+            TankStance,
             Blacklist
-        }
-
-        public SettingsWindow() :
-            base("NoTankYou Settings")
-        {
         }
 
         public override void Draw()
         {
-            if (!IsOpen)
+            if (!IsOpen) return;
+
+            DrawTabs();
+
+            switch (CurrentTab)
             {
-                return;
+                case Tab.General:
+                    DrawGeneralTab();
+                    break;
+
+                case Tab.TankStance:
+                    DrawTankStanceTab();
+                    break;
+
+                case Tab.Blacklist:
+                    DrawBlacklistTab();
+                    break;
             }
-            else
-            {
-                DrawTabs();
 
-                switch(currentTab)
-                {
-                    case Tab.General: 
-                        DrawGeneralSettings(); 
-                        break;
-
-                    case Tab.Blacklist: 
-                        DrawBlacklistSettings(); 
-                        break;
-                }
-
-                DrawSaveAndCloseButtons();
-            }
+            DrawSaveAndCloseButtons();
         }
 
         private void DrawTabs()
         {
-            if(ImGui.BeginTabBar("NoTankYouSettingsToolbar", ImGuiTabBarFlags.NoTooltip))
+            if (ImGui.BeginTabBar("No Tank You Tab Toolbar", ImGuiTabBarFlags.NoTooltip))
             {
-                if(ImGui.BeginTabItem("General"))
+                if (ImGui.BeginTabItem("General"))
                 {
-                    currentTab = Tab.General;
+                    CurrentTab = Tab.General;
                     ImGui.EndTabItem();
                 }
 
-                if(ImGui.BeginTabItem("Blacklist"))
+                if (ImGui.BeginTabItem("Tank Stance"))
                 {
-                    currentTab = Tab.Blacklist;
+                    CurrentTab = Tab.TankStance;
+                    ImGui.EndTabItem();
+                }
+
+                if (ImGui.BeginTabItem("Blacklist"))
+                {
+                    CurrentTab = Tab.Blacklist;
                     ImGui.EndTabItem();
                 }
             }
         }
 
-        private void DrawGeneralSettings()
+        private void DrawGeneralTab()
         {
-            ImGui.Spacing();
-            DrawEnableClickThroughCheckbox();
-            DrawDisableInAllianceRaid();
+            DrawDisableInAllianceRaidCheckbox();
+
             DrawInstanceLoadDelayTimeTextField();
+
+            DrawStatus();
         }
 
+        private void DrawStatus()
+        {
+            ImGui.Text("Warning Statuses");
+
+            ImGui.Separator();
+            ImGui.Spacing();
+
+            if (ImGui.BeginTable("##StatusTable", 2))
+            {
+                ImGui.TableNextColumn();
+                ImGui.Text("Tank Stance");
+
+                ImGui.TableNextColumn();
+                DrawConditionalText(Service.Configuration.EnableTankStanceBanner, "Enabled", "Disabled");
+
+                ImGui.EndTable();
+            }
+            ImGui.Spacing();
+
+        }
+        private void DrawDisableInAllianceRaidCheckbox()
+        {
+            ImGui.Checkbox("Disable in Alliance Raids", ref Service.Configuration.DiableInAllianceRaid);
+
+            ImGui.Spacing();
+        }
+        private void DrawInstanceLoadDelayTimeTextField()
+        {
+            ImGui.Text("Grace Period");
+            ImGui.InputInt("", ref Service.Configuration.TerritoryChangeDelayTime, 1000, 5000);
+            ImGuiComponents.HelpMarker("Hide warnings on map change for (milliseconds)");
+            ImGui.Spacing();
+        }
+        private void DrawTankStanceTab()
+        {
+            ImGui.Text("Tanks Stance Warning Settings");
+            ImGui.Separator();
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Enable Tank Stance Warning", ref Service.Configuration.EnableTankStanceBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowTankStanceBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeTankStanceBanner);
+            ImGui.Spacing();
+
+        }
+        private void DrawBlacklistTab()
+        {
+            ImGui.Text("Blacklist Settings");
+            ImGui.Separator();
+            ImGui.Spacing();
+
+            DrawBlacklistSettings();
+
+            ImGui.Spacing();
+
+        }
         private void DrawBlacklistSettings()
         {
             ImGui.Spacing();
@@ -86,7 +157,6 @@ namespace NoTankYou
 
             ImGui.Spacing();
         }
-
         private void PrintBlackList()
         {
             ImGui.Text("Currently Blacklisted: ");
@@ -98,12 +168,11 @@ namespace NoTankYou
             }
             else
             {
-               ImGui.Text("Blacklist is empty.");
+                ImGui.Text("Blacklist is empty.");
             }
 
             ImGui.Text($"Currently In: {Service.ClientState.TerritoryType}");
         }
-
         private void PrintAddToBlacklist()
         {
             ImGui.Spacing();
@@ -112,7 +181,7 @@ namespace NoTankYou
 
             ImGui.PushItemWidth(150);
 
-            ImGui.InputInt("##AddToBlacklist", ref addToBlacklist, 0, 0);
+            ImGui.InputInt("##AddToBlacklist", ref AddToBlacklistValue, 0, 0);
 
             ImGui.PopItemWidth();
 
@@ -126,7 +195,6 @@ namespace NoTankYou
 
             ImGuiComponents.HelpMarker("Add specified territory to blacklist");
         }
-
         private void PrintRemoveFromBlacklist()
         {
             ImGui.Spacing();
@@ -135,7 +203,7 @@ namespace NoTankYou
 
             ImGui.PushItemWidth(150);
 
-            ImGui.InputInt("##RemoveFromBlacklist", ref removeFromBlacklist, 0, 0);
+            ImGui.InputInt("##RemoveFromBlacklist", ref RemoveFromBlacklistValue, 0, 0);
 
             ImGui.PopItemWidth();
             ImGui.SameLine();
@@ -148,49 +216,26 @@ namespace NoTankYou
 
             ImGuiComponents.HelpMarker("Removes specified territory from blacklist");
         }
-
         private void RemoveFromBlacklist()
         {
             var blacklist = Service.Configuration.TerritoryBlacklist;
 
-            if (blacklist.Contains(removeFromBlacklist))
+            if (blacklist.Contains(RemoveFromBlacklistValue))
             {
-                blacklist.Remove(removeFromBlacklist);
+                blacklist.Remove(RemoveFromBlacklistValue);
+                Service.Configuration.ForceWindowUpdate = true;
             }
         }
-
         private void AddToBlacklist()
         {
             var blacklist = Service.Configuration.TerritoryBlacklist;
 
-            if (!blacklist.Contains(addToBlacklist))
+            if (!blacklist.Contains(AddToBlacklistValue))
             {
-                blacklist.Add(addToBlacklist);
+                blacklist.Add(AddToBlacklistValue);
+                Service.Configuration.ForceWindowUpdate = true;
             }
         }
-
-        private void DrawInstanceLoadDelayTimeTextField()
-        {
-            ImGui.Text("Grace Period");
-            ImGui.InputInt("", ref Service.Configuration.InstanceLoadDelayTime, 1000, 5000);
-            ImGuiComponents.HelpMarker("Hide warning banner on map change for (milliseconds)");
-            ImGui.Spacing();
-        }
-
-        private void DrawEnableClickThroughCheckbox()
-        {
-            ImGui.Checkbox("Show/Move Warning Banner", ref Service.Configuration.ShowMoveWarningBanner);
-            ImGuiComponents.HelpMarker("Force the Warning Banner to display and enables movement to position the window");
-            ImGui.Spacing();
-        }
-
-        private void DrawDisableInAllianceRaid()
-        {
-            ImGui.Checkbox("Disable in Alliance Raid", ref Service.Configuration.DisableInAllianceRaid);
-            ImGuiComponents.HelpMarker("Prevent the warning from showing while in an alliance raid");
-            ImGui.Spacing();
-        }
-
         private void DrawSaveAndCloseButtons()
         {
             ImGui.Spacing();
@@ -200,7 +245,7 @@ namespace NoTankYou
                 Service.Configuration.Save();
             }
 
-            ImGui.SameLine();
+            ImGui.SameLine(ImGui.GetWindowWidth() - 155);
 
             if (ImGui.Button("Save & Close", new(150, 25)))
             {
@@ -210,11 +255,20 @@ namespace NoTankYou
 
             ImGui.Spacing();
         }
-
-        public override void OnClose()
+        private void DrawConditionalText(bool condition, string trueString, string falseString)
         {
-            base.OnClose();
-            Service.Configuration.Save();
+            if (condition)
+            {
+                ImGui.Text(trueString);
+            }
+            else
+            {
+                ImGui.Text(falseString);
+            }
+        }
+        public void Dispose()
+        {
+
         }
     }
 }
