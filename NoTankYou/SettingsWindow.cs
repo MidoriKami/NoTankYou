@@ -9,9 +9,8 @@ namespace NoTankYou
     internal class SettingsWindow : Window
     {
         private Tab CurrentTab = Tab.General;
-        private readonly Vector2 WindowSize = new(450, 500);
-        private int AddToBlacklistValue;
-        private int RemoveFromBlacklistValue;
+        private readonly Vector2 WindowSize = new(450, 475);
+        private int ModifyBlacklistValue;
         private bool CurrentlyRepositioningAll = false;
 
         public SettingsWindow() : base("No Tank You Settings Window")
@@ -21,8 +20,12 @@ namespace NoTankYou
             SizeConstraints = new WindowSizeConstraints()
             {
                 MinimumSize = new(WindowSize.X, WindowSize.Y),
-                MaximumSize = new(WindowSize.X + 300, WindowSize.Y + 400)
+                MaximumSize = new(WindowSize.X, WindowSize.Y)
             };
+
+            Flags |= ImGuiWindowFlags.NoResize;
+            Flags |= ImGuiWindowFlags.NoScrollbar;
+            Flags |= ImGuiWindowFlags.NoScrollWithMouse;
         }
 
         private enum Tab
@@ -34,7 +37,6 @@ namespace NoTankYou
             Kardion,
             Blacklist
         }
-
         public override void Draw()
         {
             if (!IsOpen) return;
@@ -321,14 +323,16 @@ namespace NoTankYou
         {
             ImGui.Spacing();
             PrintBlackList();
-            PrintAddToBlacklist();
-            PrintRemoveFromBlacklist();
+            PrintAddRemoveCurrentTerritoryBlacklist();
+            PrintAddRemoveManualTerritoryBlacklist();
+
 
             ImGui.Spacing();
         }
         private void PrintBlackList()
         {
-            ImGui.Text("Currently Blacklisted: ");
+            ImGui.Text("Currently Blacklisted Areas");
+            ImGui.Spacing();
 
             if (Service.Configuration.TerritoryBlacklist.Count > 0)
             {
@@ -337,71 +341,95 @@ namespace NoTankYou
             }
             else
             {
-                ImGui.Text("Blacklist is empty.");
+                ImGui.TextColored(new Vector4(180, 0, 0, 0.8f),"Blacklist is empty");
             }
 
-            ImGui.Text($"Currently In: {Service.ClientState.TerritoryType}");
-        }
-        private void PrintAddToBlacklist()
-        {
             ImGui.Spacing();
 
-            ImGui.Text("Add To BlackList");
+        }
+        private void PrintAddRemoveCurrentTerritoryBlacklist()
+        {
+            ImGui.Text("Blacklist Operations");
+            ImGui.Separator();
+            ImGui.Spacing();
+
+            ImGui.Text($"Currently in MapID: [{Service.ClientState.TerritoryType}]");
+            ImGui.Spacing();
+
+            if (ImGui.Button("Add Here", new(125, 25)))
+            {
+                var blacklist = Service.Configuration.TerritoryBlacklist;
+
+                if (!blacklist.Contains(Service.ClientState.TerritoryType))
+                {
+                    blacklist.Add(Service.ClientState.TerritoryType);
+                    Service.Configuration.ForceWindowUpdate = true;
+                }
+            }
+
+            ImGui.SameLine();
+
+            if (ImGui.Button("Remove Here", new(125, 25)))
+            {
+                var blacklist = Service.Configuration.TerritoryBlacklist;
+
+                if (blacklist.Contains(Service.ClientState.TerritoryType))
+                {
+                    blacklist.Remove(Service.ClientState.TerritoryType);
+                    Service.Configuration.ForceWindowUpdate = true;
+                }
+            }
+
+            ImGuiComponents.HelpMarker("Adds or Removes the map you are currently in to or from the blacklist");
+
+            ImGui.Spacing();
+        }
+        private void PrintAddRemoveManualTerritoryBlacklist()
+        {
+            ImGui.Text("Manually Add or Remove");
+            ImGui.Spacing();
 
             ImGui.PushItemWidth(150);
-
-            ImGui.InputInt("##AddToBlacklist", ref AddToBlacklistValue, 0, 0);
-
+            ImGui.InputInt("##AddToBlacklist", ref ModifyBlacklistValue, 0, 0);
             ImGui.PopItemWidth();
 
             ImGui.SameLine();
 
             if (ImGui.Button("Add", new(75, 25)))
             {
-                AddToBlacklist();
+                AddToBlacklist(ModifyBlacklistValue);
             }
-            ImGui.SameLine();
 
-            ImGuiComponents.HelpMarker("Add specified territory to blacklist");
-        }
-        private void PrintRemoveFromBlacklist()
-        {
-            ImGui.Spacing();
-
-            ImGui.Text("Remove from Blacklist");
-
-            ImGui.PushItemWidth(150);
-
-            ImGui.InputInt("##RemoveFromBlacklist", ref RemoveFromBlacklistValue, 0, 0);
-
-            ImGui.PopItemWidth();
             ImGui.SameLine();
 
             if (ImGui.Button("Remove", new(75, 25)))
             {
-                RemoveFromBlacklist();
+                RemoveFromBlacklist(ModifyBlacklistValue);
             }
+
             ImGui.SameLine();
 
-            ImGuiComponents.HelpMarker("Removes specified territory from blacklist");
+            ImGuiComponents.HelpMarker("Adds or Removes specified map to or from the blacklist");
+
+
         }
-        private void RemoveFromBlacklist()
+        private void RemoveFromBlacklist(int territory)
         {
             var blacklist = Service.Configuration.TerritoryBlacklist;
 
-            if (blacklist.Contains(RemoveFromBlacklistValue))
+            if (blacklist.Contains(territory))
             {
-                blacklist.Remove(RemoveFromBlacklistValue);
+                blacklist.Remove(territory);
                 Service.Configuration.ForceWindowUpdate = true;
             }
         }
-        private void AddToBlacklist()
+        private void AddToBlacklist(int territory)
         {
             var blacklist = Service.Configuration.TerritoryBlacklist;
 
-            if (!blacklist.Contains(AddToBlacklistValue))
+            if (!blacklist.Contains(territory))
             {
-                blacklist.Add(AddToBlacklistValue);
+                blacklist.Add(territory);
                 Service.Configuration.ForceWindowUpdate = true;
             }
         }
@@ -410,7 +438,7 @@ namespace NoTankYou
             ImGui.Spacing();
 
             var windowSize = ImGui.GetWindowSize();
-            ImGui.SetCursorPos(new Vector2(5, windowSize.Y - 40));
+            ImGui.SetCursorPos(new Vector2(5, windowSize.Y - 30));
 
             if (ImGui.Button("Save", new(100, 25)))
             {
