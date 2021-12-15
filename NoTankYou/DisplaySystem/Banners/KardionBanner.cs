@@ -57,7 +57,8 @@ namespace NoTankYou.DisplaySystem
                 var partyList = Service.PartyList.Where(r => r.ClassJob.Id is 40);
 
                 // Kardion Status is 2605, get the list of party members with Kardion
-                var membersWithKardion = Service.PartyList.Where(r => r.Statuses.Any(s => s.StatusId == 2605));
+                // Kardia Status is 2604 (This goes on the sage)
+                var membersWithKardion = Service.PartyList.Where(r => r.Statuses.Any(s => s.StatusId == 2604));
 
                 // If these two lists match, then everyone's doing their job
                 if (partyList.Count() == membersWithKardion.Count())
