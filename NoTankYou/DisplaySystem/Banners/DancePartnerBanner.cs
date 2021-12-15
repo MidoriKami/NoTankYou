@@ -1,14 +1,8 @@
-﻿using Dalamud.Game.ClientState.Party;
-using Dalamud.Interface.Windowing;
+﻿using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using ImGuiScene;
-using Lumina.Excel.GeneratedSheets;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -94,16 +88,16 @@ namespace NoTankYou.DisplaySystem
 
         public override void Draw()
         {
-            if(!IsOpen) return;
+            if (!IsOpen) return;
 
-            if (Forced )
-            {   
-                ImGui.SetCursorPos(new Vector2(5,0));
+            if (Forced)
+            {
+                ImGui.SetCursorPos(new Vector2(5, 0));
                 ImGui.Image(dancePartnerImage.ImGuiHandle, new Vector2(dancePartnerImage.Width, dancePartnerImage.Height));
                 return;
             }
 
-            if( Visible && !Disabled && !Paused )
+            if (Visible && !Disabled && !Paused)
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
                 ImGui.Image(dancePartnerImage.ImGuiHandle, new Vector2(dancePartnerImage.Width, dancePartnerImage.Height));

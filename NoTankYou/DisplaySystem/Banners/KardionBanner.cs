@@ -1,12 +1,8 @@
 ﻿using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using ImGuiScene;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -32,7 +28,7 @@ namespace NoTankYou.DisplaySystem
         public bool Visible { get; set; } = false;
         public bool Paused { get; set; } = false;
         public bool Forced { get; set; } = false;
-        public bool Disabled { get;set; } = false;
+        public bool Disabled { get; set; } = false;
 
         public KardionBanner(TextureWrap kardionImage) : base("Partner Up Kardion Warning Banner")
         {
@@ -82,7 +78,7 @@ namespace NoTankYou.DisplaySystem
         {
             base.PreDraw();
 
-            if(Service.Configuration.RepositionModeKardionBanner)
+            if (Service.Configuration.RepositionModeKardionBanner)
             {
                 Flags = moveWindowFlags;
             }

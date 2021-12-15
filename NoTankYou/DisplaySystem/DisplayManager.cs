@@ -1,9 +1,7 @@
-﻿using Dalamud.Interface.Windowing;
-using Lumina.Excel.GeneratedSheets;
+﻿using Lumina.Excel.GeneratedSheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NoTankYou.DisplaySystem
@@ -19,8 +17,8 @@ namespace NoTankYou.DisplaySystem
         private List<uint> AllianceRaidTerritories;
 
         public DisplayManager(
-            ImGuiScene.TextureWrap dancePartnerImage, 
-            ImGuiScene.TextureWrap faerieImage, 
+            ImGuiScene.TextureWrap dancePartnerImage,
+            ImGuiScene.TextureWrap faerieImage,
             ImGuiScene.TextureWrap kardionImage,
             ImGuiScene.TextureWrap tankStanceImage)
         {
@@ -55,7 +53,7 @@ namespace NoTankYou.DisplaySystem
             bool movingToPvPTerritory = PvPTerritoryBlacklist.Contains(e);
             bool shouldDisable = movingToPvPTerritory || (movingToAllianceRaid && Service.Configuration.DiableInAllianceRaid) || movingToBlacklistedTerritory;
 
-            if(shouldDisable)
+            if (shouldDisable)
             {
                 FaerieBanner.Disabled = true;
                 KardionBanner.Disabled = true;
@@ -76,11 +74,12 @@ namespace NoTankYou.DisplaySystem
             DancePartnerBanner.Paused = true;
             TankStanceBanner.Paused = true;
 
-            Task.Delay(Service.Configuration.TerritoryChangeDelayTime).ContinueWith(t => {
+            Task.Delay(Service.Configuration.TerritoryChangeDelayTime).ContinueWith(t =>
+            {
                 FaerieBanner.Paused = false;
                 KardionBanner.Paused = false;
                 DancePartnerBanner.Paused = false;
-                TankStanceBanner.Paused= false;
+                TankStanceBanner.Paused = false;
             });
 
         }
@@ -91,7 +90,7 @@ namespace NoTankYou.DisplaySystem
             var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
             if (frameCount % 30 != 0) return;
 
-            if(Service.Configuration.ForceWindowUpdate)
+            if (Service.Configuration.ForceWindowUpdate)
             {
                 var currentTerritory = Service.ClientState.TerritoryType;
                 OnTerritoryChanged(this, currentTerritory);

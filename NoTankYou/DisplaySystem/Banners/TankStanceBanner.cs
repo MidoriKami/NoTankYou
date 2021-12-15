@@ -1,14 +1,10 @@
-﻿using Dalamud.Game;
-using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Game.ClientState.Party;
+﻿using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 using Action = Lumina.Excel.GeneratedSheets.Action;
 
 namespace NoTankYou.DisplaySystem
@@ -89,7 +85,7 @@ namespace NoTankYou.DisplaySystem
                 bool atLeastOneTankInParty = totalNumberOfTanks > 0;
                 bool noTankStancesFound = totalNumberOfTankStances == 0;
 
-                if ( noTankStancesFound && atLeastOneTankInParty )
+                if (noTankStancesFound && atLeastOneTankInParty)
                 {
                     Visible = true;
                 }
@@ -103,7 +99,7 @@ namespace NoTankYou.DisplaySystem
                 Visible = false;
             }
 
-            if ( Service.Configuration.EnableTankStanceBanner )
+            if (Service.Configuration.EnableTankStanceBanner)
             {
                 IsOpen = true;
             }
@@ -117,7 +113,7 @@ namespace NoTankYou.DisplaySystem
         {
             base.PreDraw();
 
-            if( Service.Configuration.RepositionModeTankStanceBanner )
+            if (Service.Configuration.RepositionModeTankStanceBanner)
             {
                 Flags = defaultWindowFlags;
             }
@@ -131,7 +127,7 @@ namespace NoTankYou.DisplaySystem
         {
             if (!IsOpen) return;
 
-            if ( Forced )
+            if (Forced)
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
                 ImGui.Image(tankStanceImage.ImGuiHandle, new Vector2(tankStanceImage.Width, tankStanceImage.Height));

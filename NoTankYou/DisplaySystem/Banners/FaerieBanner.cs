@@ -1,14 +1,9 @@
-﻿using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Interface.Windowing;
+﻿using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using ImGuiScene;
-using Lumina.Excel.GeneratedSheets;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -52,7 +47,7 @@ namespace NoTankYou.DisplaySystem
 
             Forced = Service.Configuration.ForceShowFaerieBanner || Service.Configuration.RepositionModeFaerieBanner;
 
-            if(Service.PartyList.Length > 0 && Service.Condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty])
+            if (Service.PartyList.Length > 0 && Service.Condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty])
             {
                 // Scholar Job id is 28
                 var scholarPlayers = Service.PartyList.Where(p => p.ClassJob.Id is 28);
@@ -104,7 +99,7 @@ namespace NoTankYou.DisplaySystem
         {
             if (!IsOpen) return;
 
-            if ( Forced )
+            if (Forced)
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
                 ImGui.Image(faerieImage.ImGuiHandle, new Vector2(faerieImage.Width, faerieImage.Height));

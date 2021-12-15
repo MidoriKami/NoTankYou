@@ -1,7 +1,6 @@
 ﻿using Dalamud.Interface.Components;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using System;
 using System.Numerics;
 
 namespace NoTankYou
@@ -186,8 +185,8 @@ namespace NoTankYou
             ImGui.Text("Reposition all: ");
 
             ImGui.SameLine();
-            
-            if(CurrentlyRepositioningAll)
+
+            if (CurrentlyRepositioningAll)
             {
                 ImGui.TextColored(new Vector4(0, 255, 0, 0.8f), "Enabled");
             }
@@ -341,7 +340,7 @@ namespace NoTankYou
             }
             else
             {
-                ImGui.TextColored(new Vector4(180, 0, 0, 0.8f),"Blacklist is empty");
+                ImGui.TextColored(new Vector4(180, 0, 0, 0.8f), "Blacklist is empty");
             }
 
             ImGui.Spacing();
