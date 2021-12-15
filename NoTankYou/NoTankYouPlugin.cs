@@ -2,6 +2,7 @@
 using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
+using NoTankYou.DisplaySystem;
 using System.IO;
 using System.Reflection;
 
@@ -14,7 +15,7 @@ namespace NoTankYou
         private const string settingsCommand = "/notankyou";
 
         private SettingsWindow SettingsWindow { get; init; }
-        private WarningWindow WarningWindow { get; init; }
+        private DisplayManager DisplayManager { get; init; }
 
 
         public NoTankYouPlugin(
@@ -29,12 +30,19 @@ namespace NoTankYou
 
             // Load Tank Stance warning image
             var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            var imagePath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\TankStance.png");
-            var warningImage = Service.PluginInterface.UiBuilder.LoadImage(imagePath);
+            var dancePartnerPath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\DancePartner.png");
+            var faeriePath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\Faerie.png");
+            var kardionPath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\Kardion.png");
+            var tankStancePath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\TankStance.png");
+
+            var dancePartnerImage = Service.PluginInterface.UiBuilder.LoadImage(dancePartnerPath);
+            var faerieImage = Service.PluginInterface.UiBuilder.LoadImage(faeriePath);
+            var kardionImage = Service.PluginInterface.UiBuilder.LoadImage(kardionPath);
+            var tankStanceImage = Service.PluginInterface.UiBuilder.LoadImage(tankStancePath);
 
             // Create Windows
             SettingsWindow = new SettingsWindow();
-            WarningWindow = new WarningWindow(warningImage);
+            DisplayManager = new DisplayManager(dancePartnerImage, faerieImage, kardionImage, tankStanceImage);
 
             // Register FrameworkUpdate
             Service.Framework.Update += OnFrameworkUpdate;
@@ -51,13 +59,12 @@ namespace NoTankYou
 
             // Register Windows
             Service.WindowSystem.AddWindow(SettingsWindow);
-            Service.WindowSystem.AddWindow(WarningWindow);
 
             Service.Chat.Enable();
         }
         private void OnFrameworkUpdate(Framework framework)
         {
-            WarningWindow.Update();
+            DisplayManager.Update();
         }
 
         private void DrawUI()
@@ -84,8 +91,9 @@ namespace NoTankYou
 
         public void Dispose()
         {
-            WarningWindow.Dispose();
+            DisplayManager.Dispose();
             SettingsWindow.Dispose();
+            Service.WindowSystem.RemoveAllWindows();
             Service.Commands.RemoveHandler(settingsCommand);
             Service.Framework.Update -= OnFrameworkUpdate;
         }

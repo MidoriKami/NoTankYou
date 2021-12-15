@@ -11,11 +11,11 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Action = Lumina.Excel.GeneratedSheets.Action;
 
-namespace NoTankYou
+namespace NoTankYou.DisplaySystem
 {
-    public class WarningWindow : Window, IDisposable
+    public class TankStanceBanner : Window, IDisposable
     {
-        private readonly ImGuiScene.TextureWrap warningImage;
+        private readonly ImGuiScene.TextureWrap tankStanceImage;
 
         private readonly ImGuiWindowFlags defaultWindowFlags =
                     ImGuiWindowFlags.NoScrollbar |
@@ -32,8 +32,6 @@ namespace NoTankYou
                     ImGuiWindowFlags.NoBackground |
                     ImGuiWindowFlags.NoInputs;
 
-        private readonly Vector2 WindowSize = new(500, 100);
-
         public bool Visible { get; set; } = false;
         public bool Paused { get; set; } = false;
         public bool Forced { get; set; } = false;
@@ -42,21 +40,16 @@ namespace NoTankYou
         private List<uint> TankStances = new();
         private List<uint> BlueMageTankStance = new();
 
-        private List<uint> AllianceRaidTerritoryTypes = new();
-        private List<uint> PvPZones = new();
-
-        public WarningWindow(ImGuiScene.TextureWrap warningImage) :
+        public TankStanceBanner(ImGuiScene.TextureWrap warningImage) :
             base("NoTankYou Warning Banner Window")
         {
-            this.warningImage = warningImage;
+            this.tankStanceImage = warningImage;
 
             SizeConstraints = new WindowSizeConstraints()
             {
-                MinimumSize = new(WindowSize.X, WindowSize.Y),
-                MaximumSize = new(WindowSize.X, WindowSize.Y)
+                MinimumSize = new(this.tankStanceImage.Width, this.tankStanceImage.Height),
+                MaximumSize = new(this.tankStanceImage.Width, this.tankStanceImage.Height)
             };
-
-            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
 
             // Non-Blue Mage Tank Stances
             TankStances = Service.DataManager.GetExcelSheet<Action>()
@@ -73,53 +66,10 @@ namespace NoTankYou
                 !.Where(r => r.IsPermanent == true)
                 .Select(r => r.RowId)
                 .ToList();
-
-            // BattalionMode of 4 is PvP
-            PvPZones = Service.DataManager.GetExcelSheet<TerritoryType>()
-                !.Where(r => r.BattalionMode is 4)
-                .Select(r => r.RowId)
-                .ToList();
-
-            // Territory Intended Use of 8 is Alliance Raid
-            AllianceRaidTerritoryTypes = Service.DataManager.GetExcelSheet<TerritoryType>()
-                !.Where(r => r.TerritoryIntendedUse is 8)
-                .Select(r => r.RowId)
-                .ToList();
-        }
-
-        private void OnTerritoryChanged(object? sender, ushort e)
-        {
-            bool movingToBlacklistedTerritory = Service.Configuration.TerritoryBlacklist.Contains(e);
-            bool movingToAllianceRaid = AllianceRaidTerritoryTypes.Contains(e);
-            bool movingToPvPTerritory = PvPZones.Contains(e);
-            bool shouldDisable = movingToPvPTerritory || (movingToAllianceRaid && Service.Configuration.DiableInAllianceRaid) || movingToBlacklistedTerritory;
-
-            if (shouldDisable)
-            {
-                Disabled = true;
-            }
-            else
-            {
-                Disabled = false;
-            }
-
-            Paused = true;
-            Task.Delay(Service.Configuration.TerritoryChangeDelayTime).ContinueWith(t => { Paused = false; });
         }
 
         public void Update()
         {
-            // Slow Update Rate
-            var frame = Service.PluginInterface.UiBuilder.FrameCount;
-            if (frame % 30 != 0) return;
-
-            if(Service.Configuration.ForceWindowUpdate)
-            {
-                var currentTerritory = Service.ClientState.TerritoryType;
-                OnTerritoryChanged(this, currentTerritory);
-                Service.Configuration.ForceWindowUpdate = false;
-            }
-
             Forced = Service.Configuration.ForceShowTankStanceBanner || Service.Configuration.RepositionModeTankStanceBanner;
 
             // If we are in a party and in a duty
@@ -184,22 +134,21 @@ namespace NoTankYou
             if ( Forced )
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
+                ImGui.Image(tankStanceImage.ImGuiHandle, new Vector2(tankStanceImage.Width, tankStanceImage.Height));
                 return;
             }
 
             if (Visible && !Disabled && !Paused)
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(warningImage.ImGuiHandle, new Vector2(warningImage.Width, warningImage.Height));
+                ImGui.Image(tankStanceImage.ImGuiHandle, new Vector2(tankStanceImage.Width, tankStanceImage.Height));
                 return;
             }
         }
 
         public void Dispose()
         {
-            warningImage.Dispose();
-            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
+            tankStanceImage.Dispose();
         }
     }
 }

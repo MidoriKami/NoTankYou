@@ -9,9 +9,10 @@ namespace NoTankYou
     internal class SettingsWindow : Window
     {
         private Tab CurrentTab = Tab.General;
-        private readonly Vector2 WindowSize = new(400, 200);
+        private readonly Vector2 WindowSize = new(450, 500);
         private int AddToBlacklistValue;
         private int RemoveFromBlacklistValue;
+        private bool CurrentlyRepositioningAll = false;
 
         public SettingsWindow() : base("No Tank You Settings Window")
         {
@@ -28,6 +29,9 @@ namespace NoTankYou
         {
             General,
             TankStance,
+            DancePartner,
+            Faerie,
+            Kardion,
             Blacklist
         }
 
@@ -47,6 +51,18 @@ namespace NoTankYou
                     DrawTankStanceTab();
                     break;
 
+                case Tab.DancePartner:
+                    DrawDancePartnerTab();
+                    break;
+
+                case Tab.Faerie:
+                    DrawFaerieTab();
+                    break;
+
+                case Tab.Kardion:
+                    DrawKardionTab();
+                    break;
+
                 case Tab.Blacklist:
                     DrawBlacklistTab();
                     break;
@@ -54,7 +70,6 @@ namespace NoTankYou
 
             DrawSaveAndCloseButtons();
         }
-
         private void DrawTabs()
         {
             if (ImGui.BeginTabBar("No Tank You Tab Toolbar", ImGuiTabBarFlags.NoTooltip))
@@ -71,6 +86,24 @@ namespace NoTankYou
                     ImGui.EndTabItem();
                 }
 
+                if (ImGui.BeginTabItem("Dance Partner"))
+                {
+                    CurrentTab = Tab.DancePartner;
+                    ImGui.EndTabItem();
+                }
+
+                if (ImGui.BeginTabItem("Faerie"))
+                {
+                    CurrentTab = Tab.Faerie;
+                    ImGui.EndTabItem();
+                }
+
+                if (ImGui.BeginTabItem("Kardion"))
+                {
+                    CurrentTab = Tab.Kardion;
+                    ImGui.EndTabItem();
+                }
+
                 if (ImGui.BeginTabItem("Blacklist"))
                 {
                     CurrentTab = Tab.Blacklist;
@@ -78,16 +111,94 @@ namespace NoTankYou
                 }
             }
         }
-
         private void DrawGeneralTab()
         {
-            DrawDisableInAllianceRaidCheckbox();
-
-            DrawInstanceLoadDelayTimeTextField();
+            DrawGeneralSettings();
 
             DrawStatus();
         }
+        private void DrawGeneralSettings()
+        {
+            ImGui.Text("General Settings");
+            ImGui.Separator();
+            ImGui.Spacing();
 
+            if (ImGui.Button("Enable All", new(100, 25)))
+            {
+                Service.Configuration.EnableDancePartnerBanner = true;
+                Service.Configuration.EnableKardionBanner = true;
+                Service.Configuration.EnableFaerieBanner = true;
+                Service.Configuration.EnableTankStanceBanner = true;
+            }
+
+            ImGui.SameLine();
+
+            if (ImGui.Button("Disable All", new(100, 25)))
+            {
+                Service.Configuration.EnableDancePartnerBanner = false;
+                Service.Configuration.EnableKardionBanner = false;
+                Service.Configuration.EnableFaerieBanner = false;
+                Service.Configuration.EnableTankStanceBanner = false;
+            }
+
+            ImGui.Spacing();
+
+            DrawRespositionAll();
+
+            ImGui.Checkbox("Disable in Alliance Raids", ref Service.Configuration.DiableInAllianceRaid);
+
+            ImGui.Spacing();
+
+            DrawInstanceLoadDelayTimeTextField();
+
+            ImGui.Spacing();
+        }
+        private void DrawRespositionAll()
+        {
+            ImGui.Text("Reposition All Banners");
+            ImGui.Separator();
+            ImGui.Spacing();
+
+            if (ImGui.Button("Enable Reposition", new(150, 25)))
+            {
+                Service.Configuration.RepositionModeDancePartnerBanner = true;
+                Service.Configuration.RepositionModeKardionBanner = true;
+                Service.Configuration.RepositionModeFaerieBanner = true;
+                Service.Configuration.RepositionModeTankStanceBanner = true;
+                CurrentlyRepositioningAll = true;
+            }
+
+            ImGui.SameLine();
+
+            if (ImGui.Button("Disable Reposition", new(150, 25)))
+            {
+                Service.Configuration.RepositionModeDancePartnerBanner = false;
+                Service.Configuration.RepositionModeKardionBanner = false;
+                Service.Configuration.RepositionModeFaerieBanner = false;
+                Service.Configuration.RepositionModeTankStanceBanner = false;
+                CurrentlyRepositioningAll = false;
+            }
+
+            ImGui.Spacing();
+
+            ImGui.Text("Reposition all: ");
+
+            ImGui.SameLine();
+            
+            if(CurrentlyRepositioningAll)
+            {
+                ImGui.TextColored(new Vector4(0, 255, 0, 0.8f), "Enabled");
+            }
+            else
+            {
+                ImGui.TextColored(new Vector4(185, 0, 0, 0.8f), "Disabled");
+            }
+            ImGui.Spacing();
+
+            ImGui.Separator();
+            ImGui.Spacing();
+
+        }
         private void DrawStatus()
         {
             ImGui.Text("Warning Statuses");
@@ -103,16 +214,28 @@ namespace NoTankYou
                 ImGui.TableNextColumn();
                 DrawConditionalText(Service.Configuration.EnableTankStanceBanner, "Enabled", "Disabled");
 
+                ImGui.TableNextColumn();
+                ImGui.Text("Dance Partner");
+
+                ImGui.TableNextColumn();
+                DrawConditionalText(Service.Configuration.EnableDancePartnerBanner, "Enabled", "Disabled");
+
+                ImGui.TableNextColumn();
+                ImGui.Text("Faerie");
+
+                ImGui.TableNextColumn();
+                DrawConditionalText(Service.Configuration.EnableFaerieBanner, "Enabled", "Disabled");
+
+                ImGui.TableNextColumn();
+                ImGui.Text("Kardion");
+
+                ImGui.TableNextColumn();
+                DrawConditionalText(Service.Configuration.EnableKardionBanner, "Enabled", "Disabled");
+
                 ImGui.EndTable();
             }
             ImGui.Spacing();
 
-        }
-        private void DrawDisableInAllianceRaidCheckbox()
-        {
-            ImGui.Checkbox("Disable in Alliance Raids", ref Service.Configuration.DiableInAllianceRaid);
-
-            ImGui.Spacing();
         }
         private void DrawInstanceLoadDelayTimeTextField()
         {
@@ -136,6 +259,52 @@ namespace NoTankYou
             ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeTankStanceBanner);
             ImGui.Spacing();
 
+        }
+        private void DrawDancePartnerTab()
+        {
+            ImGui.Text("Dance Partner Warning Settings");
+            ImGui.Separator();
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Enable Missing Dance Partner Warning", ref Service.Configuration.EnableDancePartnerBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowDancePartnerBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeDancePartnerBanner);
+            ImGui.Spacing();
+
+        }
+        private void DrawFaerieTab()
+        {
+            ImGui.Text("Faerie Warning Settings");
+            ImGui.Separator();
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Enable Missing Faerie Warning", ref Service.Configuration.EnableFaerieBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowFaerieBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeFaerieBanner);
+            ImGui.Spacing();
+        }
+        private void DrawKardionTab()
+        {
+            ImGui.Text("Kardion Warning Settings");
+            ImGui.Separator();
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Enable Missing Kardion Warning", ref Service.Configuration.EnableKardionBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowKardionBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeKardionBanner);
+            ImGui.Spacing();
         }
         private void DrawBlacklistTab()
         {
@@ -239,6 +408,9 @@ namespace NoTankYou
         private void DrawSaveAndCloseButtons()
         {
             ImGui.Spacing();
+
+            var windowSize = ImGui.GetWindowSize();
+            ImGui.SetCursorPos(new Vector2(5, windowSize.Y - 40));
 
             if (ImGui.Button("Save", new(100, 25)))
             {

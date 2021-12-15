@@ -28,6 +28,9 @@
 	<ItemGroup>
 		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\TankStance.png" Link="images\TankStance.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\Kardion.png" Link="images\Kardion.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\Faerie.png" Link="images\Faerie.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\DancePartner.png" Link="images\DancePartner.png" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
 	<ItemGroup>
