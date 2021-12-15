@@ -13,6 +13,7 @@ namespace NoTankYou
         public string Name => "No Tank You";
 
         private const string settingsCommand = "/notankyou";
+        private const string shorthandCommand = "/pnty";
 
         private SettingsWindow SettingsWindow { get; init; }
         private DisplayManager DisplayManager { get; init; }
@@ -51,6 +52,11 @@ namespace NoTankYou
             Service.Commands.AddHandler(settingsCommand, new CommandInfo(OnCommand)
             {
                 HelpMessage = "open configuration window"
+            });
+
+            Service.Commands.AddHandler(shorthandCommand, new CommandInfo(OnCommand)
+            {
+                HelpMessage = "shorthand command to open configuration window"
             });
 
             // Register draw callbacks
@@ -95,6 +101,7 @@ namespace NoTankYou
             SettingsWindow.Dispose();
             Service.WindowSystem.RemoveAllWindows();
             Service.Commands.RemoveHandler(settingsCommand);
+            Service.Commands.RemoveHandler(shorthandCommand);
             Service.Framework.Update -= OnFrameworkUpdate;
         }
     }
