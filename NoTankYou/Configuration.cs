@@ -10,10 +10,14 @@ namespace NoTankYou
     {
         public int Version { get; set; } = 3;
 
+
         public bool DiableInAllianceRaid = true;
         public int TerritoryChangeDelayTime = 8000;
 
         public bool AllEnabled = false;
+
+        public bool EnableFaerieBannerWhileSolo = false;
+        public bool EnableKardionBannerWhileSolo = false;
 
         public bool EnableTankStanceBanner = false;
         public bool EnableDancePartnerBanner = false;

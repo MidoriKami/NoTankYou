@@ -291,6 +291,9 @@ namespace NoTankYou
 
             ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeFaerieBanner);
             ImGui.Spacing();
+
+            ImGui.Checkbox("Enable While Solo", ref Service.Configuration.EnableFaerieBannerWhileSolo);
+            ImGui.Spacing();
         }
         private void DrawKardionTab()
         {
@@ -305,6 +308,9 @@ namespace NoTankYou
             ImGui.Spacing();
 
             ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeKardionBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Enable While Solo", ref Service.Configuration.EnableKardionBannerWhileSolo);
             ImGui.Spacing();
         }
         private void DrawBlacklistTab()
