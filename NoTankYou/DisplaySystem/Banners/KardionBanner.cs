@@ -3,6 +3,7 @@ using ImGuiNET;
 using ImGuiScene;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Game.ClientState.Conditions;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -47,7 +48,7 @@ namespace NoTankYou.DisplaySystem
 
             Forced = Service.Configuration.ForceShowKardionBanner || Service.Configuration.RepositionModeKardionBanner;
 
-            if (Service.PartyList.Length > 0 && Service.Condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty])
+            if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
             {
                 // ClassJob 40 is Sage, get the list of all Sages in the party
                 var partyList = Service.PartyList.Where(r => r.ClassJob.Id is 40);
@@ -62,6 +63,26 @@ namespace NoTankYou.DisplaySystem
                     Visible = false;
                 }
 
+                // If not, then we need to show the warning banner
+                else
+                {
+                    Visible = true;
+                }
+            }
+            else if (Service.Configuration.EnableKardionBannerWhileSolo && Service.Condition[ConditionFlag.BoundByDuty])
+            {
+                var player = Service.ClientState.LocalPlayer;
+
+                if (player == null) return;
+
+                // Does player have Kardia
+                var playerHasKardia = player.StatusList.Any(s => s.StatusId is 2604);
+
+                // If the player has Kardia on themselves, they are doing their job
+                if (playerHasKardia)
+                {
+                    Visible = false;
+                }
                 // If not, then we need to show the warning banner
                 else
                 {
