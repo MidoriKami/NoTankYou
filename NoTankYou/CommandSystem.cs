@@ -84,7 +84,7 @@ namespace NoTankYou
 
             if (primaryCommand == null)
             {
-                settingsWindow.IsOpen = true;
+                settingsWindow.IsOpen = !settingsWindow.IsOpen;
 
                 Service.Configuration.Save();
                 return;
@@ -92,6 +92,14 @@ namespace NoTankYou
 
             switch (primaryCommand.ToLower())
             {
+                case "all":
+                case "everything":
+                    ProcessKardionCommands(secondaryCommand);
+                    ProcessTankStanceCommands(secondaryCommand);
+                    ProcessDancePartnerCommands(secondaryCommand);
+                    ProcessFaerieCommands(secondaryCommand);
+                    break;
+
                 case "kardion":
                 case "sage":
                 case "sge":
