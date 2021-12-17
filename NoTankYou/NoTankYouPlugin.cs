@@ -13,7 +13,7 @@ namespace NoTankYou
         public string Name => "No Tank You";
 
         private const string settingsCommand = "/notankyou";
-        private const string shorthandCommand = "/pnty";
+        private const string shorthandCommand = "/nty";
 
         private SettingsWindow SettingsWindow { get; init; }
         private DisplayManager DisplayManager { get; init; }
@@ -82,17 +82,101 @@ namespace NoTankYou
             SettingsWindow.IsOpen = true;
         }
 
+        // Valid Command Structure:
+        // /nty [main command] [on/off/nothing]
         private void OnCommand(string command, string arguments)
         {
-            switch (arguments)
+            var argumentsArray = arguments.Split(' ');
+
+            if(argumentsArray == null)
             {
+                SettingsWindow.IsOpen = true;
+
+                Service.Configuration.Save();
+
+                return;
+            }
+
+            switch (argumentsArray[0].ToLower())
+            {
+                case "kardion":
+                case "sage":
+                case "sge":
+                case "kardia":
+                    ProcessKardionCommands(argumentsArray);
+                    break;
+
+                case "tank":
+                case "tankstance":
+                    ProcessTankStanceCommands(argumentsArray);
+                    break;
+
+                case "dancepartner":
+                case "dancer":
+                case "dp":
+                case "partner":
+                case "dnc":
+                    ProcessDancePartnerCommands(argumentsArray);
+                    break;
+
+                case "faerie":
+                case "fairy":
+                case "scholar":
+                case "sch":
+                    ProcessFaerieCommands(argumentsArray);
+                    break;
+
                 default:
                     break;
             }
 
-            SettingsWindow.IsOpen = true;
-
             Service.Configuration.Save();
+        }
+
+        private void ProcessGenericOnOffToggleCommand(string argument, ref bool booleanVariable)
+        {
+            if (argument == null)
+            {
+                booleanVariable = !booleanVariable;
+                return;
+            }
+
+            switch (argument.ToLower())
+            {
+                case "on":
+                    booleanVariable = true;
+                    break;
+
+                case "off":
+                    booleanVariable = false;
+                    break;
+
+                case "toggle":
+                case "t":
+                case "tog":
+                    booleanVariable = !booleanVariable;
+                    break;
+            }
+        }
+
+        private void ProcessFaerieCommands(string[] argumentsArray)
+        {
+            ProcessGenericOnOffToggleCommand(argumentsArray[1], ref Service.Configuration.EnableFaerieBanner);
+        }
+
+        private void ProcessDancePartnerCommands(string[] argumentsArray)
+        {
+            ProcessGenericOnOffToggleCommand(argumentsArray[1], ref Service.Configuration.EnableDancePartnerBanner);
+        }
+
+        private void ProcessTankStanceCommands(string[] argumentsArray)
+        {
+            ProcessGenericOnOffToggleCommand(argumentsArray[1], ref Service.Configuration.EnableTankStanceBanner);
+        }
+
+        private void ProcessKardionCommands(string[] argumentsArray)
+        {
+            ProcessGenericOnOffToggleCommand(argumentsArray[1], ref Service.Configuration.EnableKardionBanner);
         }
 
         public void Dispose()
