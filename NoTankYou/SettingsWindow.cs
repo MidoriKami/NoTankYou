@@ -9,7 +9,7 @@ namespace NoTankYou
     internal class SettingsWindow : Window
     {
         private Tab CurrentTab = Tab.General;
-        private readonly Vector2 WindowSize = new(450, 475);
+        private readonly Vector2 WindowSize = new(450, 485);
         private int ModifyBlacklistValue;
         private bool CurrentlyRepositioningAll = false;
 
@@ -147,8 +147,10 @@ namespace NoTankYou
 
         private void DrawChangeWaitFrameCount()
         {
+            ImGui.PushItemWidth(50);
             ImGui.InputInt("Number of Wait Frames", ref Service.Configuration.NumberOfWaitFrames, 0, 0);
-            ImGuiComponents.HelpMarker("How many frames to wait before evaluting warnings.\n" +
+            ImGui.PopItemWidth();
+            ImGuiComponents.HelpMarker("How many frames to wait between warning evaluations.\n" +
                 "Higher values repesents a larger delay on updating warnings.\n" +
                 "Recommend half your displays refresh rate.\n" +
                 "Minimum: 1\n" +
@@ -453,7 +455,7 @@ namespace NoTankYou
 
             ImGuiComponents.HelpMarker("Adds or Removes specified map to or from the blacklist");
 
-
+            ImGui.Spacing();
         }
         private void RemoveFromBlacklist(int territory)
         {
