@@ -12,22 +12,6 @@ namespace NoTankYou.DisplaySystem
     public class TankStanceBanner : Window, IDisposable
     {
         private readonly ImGuiScene.TextureWrap tankStanceImage;
-
-        private readonly ImGuiWindowFlags defaultWindowFlags =
-                    ImGuiWindowFlags.NoScrollbar |
-                    ImGuiWindowFlags.NoScrollWithMouse |
-                    ImGuiWindowFlags.NoTitleBar |
-                    ImGuiWindowFlags.NoCollapse |
-                    ImGuiWindowFlags.NoResize;
-
-        private readonly ImGuiWindowFlags ignoreInputFlags =
-                    ImGuiWindowFlags.NoScrollbar |
-                    ImGuiWindowFlags.NoTitleBar |
-                    ImGuiWindowFlags.NoCollapse |
-                    ImGuiWindowFlags.NoResize |
-                    ImGuiWindowFlags.NoBackground |
-                    ImGuiWindowFlags.NoInputs;
-
         public bool Visible { get; set; } = false;
         public bool Paused { get; set; } = false;
         public bool Forced { get; set; } = false;
@@ -115,11 +99,11 @@ namespace NoTankYou.DisplaySystem
 
             if (Service.Configuration.RepositionModeTankStanceBanner)
             {
-                Flags = defaultWindowFlags;
+                Flags = IWarningBanner.moveWindowFlags;
             }
             else
             {
-                Flags = ignoreInputFlags;
+                Flags = IWarningBanner.ignoreInputFlags;
             }
         }
 

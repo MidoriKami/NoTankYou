@@ -16,6 +16,8 @@ namespace NoTankYou
 
         private const string settingsCommand = "/notankyou";
         private const string shorthandCommand = "/nty";
+        private const ushort Color_Red = 534;
+        private const ushort Color_Green = 45;
         
         private SettingsWindow settingsWindow;
 
@@ -42,52 +44,64 @@ namespace NoTankYou
 
         private void PrintColoredStatus(string message, bool status)
         {
-            var test = new SeStringBuilder();
-            test.AddText($"{message}");
+            var stringBuilder = new SeStringBuilder();
+            stringBuilder.AddText($"{message}");
 
             if( status == true )
             {
-                test.AddUiForeground(45);
-                test.AddText("enabled");
+                stringBuilder.AddUiForeground(45);
+                stringBuilder.AddText("enabled");
             }
             else
             {
-                test.AddUiForeground(534);
-                test.AddText("disabled");
+                stringBuilder.AddUiForeground(534);
+                stringBuilder.AddText("disabled");
             }
-            test.AddUiForegroundOff();
+            stringBuilder.AddUiForegroundOff();
 
-            Service.Chat.Print(test.BuiltString);
+            Service.Chat.Print(stringBuilder.BuiltString);
+        }
+
+        // 45 = green
+        // 534 = red
+        private void PrintStringColored(string message, ushort color)
+        {
+            var stringBuilder = new SeStringBuilder();
+
+            stringBuilder.AddUiForeground(color);
+            stringBuilder.AddText(message);
+            stringBuilder.AddUiForegroundOff();
+
+            Service.Chat.Print(stringBuilder.BuiltString);
         }
 
         // Valid Command Structure:
         // /nty [main command] [on/off/nothing]
         private void OnCommand(string command, string arguments)
         {
-            var argumentsArray = arguments.Split(' ');
+            var primaryCommand = GetPrimaryCommand(arguments);
+            var secondaryCommand = GetSecondaryCommand(arguments);
 
-
-            if (argumentsArray == null)
+            if (primaryCommand == null)
             {
                 settingsWindow.IsOpen = true;
 
                 Service.Configuration.Save();
-
                 return;
             }
 
-            switch (argumentsArray[0].ToLower())
+            switch (primaryCommand.ToLower())
             {
                 case "kardion":
                 case "sage":
                 case "sge":
                 case "kardia":
-                    ProcessKardionCommands(argumentsArray);
+                    ProcessKardionCommands(secondaryCommand);
                     break;
 
                 case "tank":
                 case "tankstance":
-                    ProcessTankStanceCommands(argumentsArray);
+                    ProcessTankStanceCommands(secondaryCommand);
                     break;
 
                 case "dancepartner":
@@ -95,14 +109,14 @@ namespace NoTankYou
                 case "dp":
                 case "partner":
                 case "dnc":
-                    ProcessDancePartnerCommands(argumentsArray);
+                    ProcessDancePartnerCommands(secondaryCommand);
                     break;
 
                 case "faerie":
                 case "fairy":
                 case "scholar":
                 case "sch":
-                    ProcessFaerieCommands(argumentsArray);
+                    ProcessFaerieCommands(secondaryCommand);
                     break;
 
                 default:
@@ -112,8 +126,33 @@ namespace NoTankYou
             Service.Configuration.Save();
         }
 
-        private void ProcessGenericOnOffToggleCommand(string argument, ref bool booleanVariable, string message)
+        private string? GetSecondaryCommand(string arguments)
         {
+            var stringArray = arguments.Split(' ');
+
+            if (stringArray.Length == 1)
+            {
+                return null;
+            }
+
+            return stringArray[1];
+        }
+
+        private string? GetPrimaryCommand(string arguments)
+        {
+            var stringArray = arguments.Split(' ');
+
+            if(stringArray[0] == string.Empty)
+            {
+                return null;
+            }
+
+            return stringArray[0];
+        }
+
+        private void ProcessGenericOnOffToggleCommand(string? argument, ref bool booleanVariable, string message)
+        {
+
             if (argument == null)
             {
                 booleanVariable = !booleanVariable;
@@ -142,24 +181,24 @@ namespace NoTankYou
             }
         }
 
-        private void ProcessFaerieCommands(string[] argumentsArray)
+        private void ProcessFaerieCommands(string? secondaryCommand)
         {
-            ProcessGenericOnOffToggleCommand(argumentsArray[1], ref Service.Configuration.EnableFaerieBanner, "[NoTankYou] Faerie Warning: ");
+            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableFaerieBanner, "[NoTankYou] Faerie Warning: ");
         }
 
-        private void ProcessDancePartnerCommands(string[] argumentsArray)
+        private void ProcessDancePartnerCommands(string? secondaryCommand)
         {
-            ProcessGenericOnOffToggleCommand(argumentsArray[1], ref Service.Configuration.EnableDancePartnerBanner, "[NoTankYou] Dance Partner Warning: ");
+            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableDancePartnerBanner, "[NoTankYou] Dance Partner Warning: ");
         }
 
-        private void ProcessTankStanceCommands(string[] argumentsArray)
+        private void ProcessTankStanceCommands(string? secondaryCommand)
         {
-            ProcessGenericOnOffToggleCommand(argumentsArray[1], ref Service.Configuration.EnableTankStanceBanner, "[NoTankYou] Tank Stance Warning: ");
+            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableTankStanceBanner, "[NoTankYou] Tank Stance Warning: ");
         }
 
-        private void ProcessKardionCommands(string[] argumentsArray)
+        private void ProcessKardionCommands(string? secondaryCommand)
         {
-            ProcessGenericOnOffToggleCommand(argumentsArray[1], ref Service.Configuration.EnableKardionBanner, "[NoTankYou] Kardion Warning: ");
+            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableKardionBanner, "[NoTankYou] Kardion Warning: ");
         }
 
         public void Dispose()

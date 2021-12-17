@@ -12,21 +12,6 @@ namespace NoTankYou.DisplaySystem
     internal class FaerieBanner : Window, IWarningBanner
     {
         private TextureWrap faerieImage;
-
-        private readonly ImGuiWindowFlags moveWindowFlags =
-                    ImGuiWindowFlags.NoScrollbar |
-                    ImGuiWindowFlags.NoScrollWithMouse |
-                    ImGuiWindowFlags.NoTitleBar |
-                    ImGuiWindowFlags.NoCollapse |
-                    ImGuiWindowFlags.NoResize;
-
-        private readonly ImGuiWindowFlags ignoreInputFlags =
-                    ImGuiWindowFlags.NoScrollbar |
-                    ImGuiWindowFlags.NoTitleBar |
-                    ImGuiWindowFlags.NoCollapse |
-                    ImGuiWindowFlags.NoResize |
-                    ImGuiWindowFlags.NoBackground |
-                    ImGuiWindowFlags.NoInputs;
         public bool Visible { get; set; } = false;
         public bool Paused { get; set; } = false;
         public bool Forced { get; set; } = false;
@@ -101,6 +86,9 @@ namespace NoTankYou.DisplaySystem
 
             if (player == null) return;
 
+            // If the player isn't a Scholar return
+            if (player.ClassJob.Id != 28) return;
+
             // find any pet that has the player as an owner
             var objectWithPlayerOwnerExists = Service.ObjectTable
                 .Any(r => r.OwnerId == player.ObjectId);
@@ -127,11 +115,11 @@ namespace NoTankYou.DisplaySystem
 
             if (Service.Configuration.RepositionModeFaerieBanner)
             {
-                Flags = moveWindowFlags;
+                Flags = IWarningBanner.moveWindowFlags;
             }
             else
             {
-                Flags = ignoreInputFlags;
+                Flags = IWarningBanner.ignoreInputFlags;
             }
         }
 

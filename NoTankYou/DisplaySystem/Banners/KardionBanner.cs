@@ -11,22 +11,6 @@ namespace NoTankYou.DisplaySystem
     internal class KardionBanner : Window, IWarningBanner
     {
         private TextureWrap kardionImage;
-
-        private readonly ImGuiWindowFlags moveWindowFlags =
-                    ImGuiWindowFlags.NoScrollbar |
-                    ImGuiWindowFlags.NoScrollWithMouse |
-                    ImGuiWindowFlags.NoTitleBar |
-                    ImGuiWindowFlags.NoCollapse |
-                    ImGuiWindowFlags.NoResize;
-
-        private readonly ImGuiWindowFlags ignoreInputFlags =
-                    ImGuiWindowFlags.NoScrollbar |
-                    ImGuiWindowFlags.NoTitleBar |
-                    ImGuiWindowFlags.NoCollapse |
-                    ImGuiWindowFlags.NoResize |
-                    ImGuiWindowFlags.NoBackground |
-                    ImGuiWindowFlags.NoInputs;
-
         public bool Visible { get; set; } = false;
         public bool Paused { get; set; } = false;
         public bool Forced { get; set; } = false;
@@ -68,6 +52,9 @@ namespace NoTankYou.DisplaySystem
             var player = Service.ClientState.LocalPlayer;
 
             if (player == null) return;
+
+            // If the player isn't a sage, then this is irrelevent
+            if (player.ClassJob.Id != 40) return;
 
             // Does player have Kardia
             var playerHasKardia = player.StatusList.Any(s => s.StatusId is 2604);
@@ -112,11 +99,11 @@ namespace NoTankYou.DisplaySystem
 
             if (Service.Configuration.RepositionModeKardionBanner)
             {
-                Flags = moveWindowFlags;
+                Flags = IWarningBanner.moveWindowFlags;
             }
             else
             {
-                Flags = ignoreInputFlags;
+                Flags = IWarningBanner.ignoreInputFlags;
             }
         }
 

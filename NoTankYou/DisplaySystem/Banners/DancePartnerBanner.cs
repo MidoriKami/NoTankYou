@@ -8,21 +8,6 @@ namespace NoTankYou.DisplaySystem
 {
     internal class DancePartnerBanner : Window, IWarningBanner
     {
-        private readonly ImGuiWindowFlags moveWindowFlags =
-                    ImGuiWindowFlags.NoScrollbar |
-                    ImGuiWindowFlags.NoScrollWithMouse |
-                    ImGuiWindowFlags.NoTitleBar |
-                    ImGuiWindowFlags.NoCollapse |
-                    ImGuiWindowFlags.NoResize;
-
-        private readonly ImGuiWindowFlags ignoreInputFlags =
-                    ImGuiWindowFlags.NoScrollbar |
-                    ImGuiWindowFlags.NoTitleBar |
-                    ImGuiWindowFlags.NoCollapse |
-                    ImGuiWindowFlags.NoResize |
-                    ImGuiWindowFlags.NoBackground |
-                    ImGuiWindowFlags.NoInputs;
-
         private TextureWrap dancePartnerImage;
         public bool Visible { get; set; } = false;
         public bool Paused { get; set; } = false;
@@ -78,11 +63,11 @@ namespace NoTankYou.DisplaySystem
 
             if (Service.Configuration.RepositionModeDancePartnerBanner)
             {
-                Flags = moveWindowFlags;
+                Flags = IWarningBanner.moveWindowFlags;
             }
             else
             {
-                Flags = ignoreInputFlags;
+                Flags = IWarningBanner.ignoreInputFlags;
             }
         }
 
