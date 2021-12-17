@@ -279,8 +279,15 @@ namespace NoTankYou
         {
             ImGui.Text("Grace Period");
             ImGui.InputInt("", ref Service.Configuration.TerritoryChangeDelayTime, 1000, 5000);
-            ImGuiComponents.HelpMarker("Hide warnings on map change for (milliseconds)");
+            ImGuiComponents.HelpMarker("Hide warnings on map change for (milliseconds)\n" +
+                "Recommended: 8,000 - 15,000\n" +
+                "Minimum: 3,000");
             ImGui.Spacing();
+
+            if(Service.Configuration.TerritoryChangeDelayTime < 3000)
+            {
+                Service.Configuration.TerritoryChangeDelayTime = 3000;
+            }
         }
         private void DrawTankStanceTab()
         {
@@ -424,7 +431,7 @@ namespace NoTankYou
                 }
             }
 
-            ImGuiComponents.HelpMarker("Adds or Removes the map you are currently in to or from the blacklist");
+            ImGuiComponents.HelpMarker("Adds or Removes the current map to or from the blacklist.");
 
             ImGui.Spacing();
         }
