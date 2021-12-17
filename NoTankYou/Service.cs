@@ -9,6 +9,7 @@ using Dalamud.Game.Gui;
 using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
 using Dalamud.Plugin;
+using Dalamud.Game.ClientState.Buddy;
 
 namespace NoTankYou
 {
@@ -25,6 +26,7 @@ namespace NoTankYou
         [PluginService] public static DataManager DataManager { get; private set; }
         [PluginService] public static Framework Framework { get; private set; }
         [PluginService] public static ObjectTable ObjectTable { get; private set; }
+        [PluginService] public static BuddyList BuddyList { get; private set; }
         public static WindowSystem WindowSystem { get; set; } = new WindowSystem("NoTankYou");
         public static Configuration Configuration { get; set; }
 

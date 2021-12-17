@@ -9,7 +9,7 @@ namespace NoTankYou
     public class Configuration : IPluginConfiguration
     {
         public int Version { get; set; } = 3;
-
+        public int NumberOfWaitFrames = 30;
 
         public bool DiableInAllianceRaid = true;
         public int TerritoryChangeDelayTime = 8000;

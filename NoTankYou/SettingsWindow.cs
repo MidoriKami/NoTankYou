@@ -1,6 +1,7 @@
 ﻿using Dalamud.Interface.Components;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using System;
 using System.Numerics;
 
 namespace NoTankYou
@@ -124,6 +125,49 @@ namespace NoTankYou
             ImGui.Separator();
             ImGui.Spacing();
 
+            DrawEnabledDisableAll();
+
+            DrawRespositionAll();
+
+            DrawDisableInAllianceRaids();
+
+            DrawChangeWaitFrameCount();
+
+            DrawInstanceLoadDelayTimeTextField();
+
+            ImGui.Spacing();
+        }
+
+        private static void DrawDisableInAllianceRaids()
+        {
+            ImGui.Checkbox("Disable in Alliance Raids", ref Service.Configuration.DiableInAllianceRaid);
+
+            ImGui.Spacing();
+        }
+
+        private void DrawChangeWaitFrameCount()
+        {
+            ImGui.InputInt("Number of Wait Frames", ref Service.Configuration.NumberOfWaitFrames, 0, 0);
+            ImGuiComponents.HelpMarker("How many frames to wait before evaluting warnings.\n" +
+                "Higher values repesents a larger delay on updating warnings.\n" +
+                "Recommend half your displays refresh rate.\n" +
+                "Minimum: 1\n" +
+                "Maximum: 144");
+            ImGui.Spacing();
+            
+            if(Service.Configuration.NumberOfWaitFrames < 1)
+            {
+                Service.Configuration.NumberOfWaitFrames = 1;
+            }
+
+            if(Service.Configuration.NumberOfWaitFrames > 144)
+            {
+                Service.Configuration.NumberOfWaitFrames = 144;
+            }
+        }
+
+        private static void DrawEnabledDisableAll()
+        {
             if (ImGui.Button("Enable All", new(100, 25)))
             {
                 Service.Configuration.EnableDancePartnerBanner = true;
@@ -143,17 +187,8 @@ namespace NoTankYou
             }
 
             ImGui.Spacing();
-
-            DrawRespositionAll();
-
-            ImGui.Checkbox("Disable in Alliance Raids", ref Service.Configuration.DiableInAllianceRaid);
-
-            ImGui.Spacing();
-
-            DrawInstanceLoadDelayTimeTextField();
-
-            ImGui.Spacing();
         }
+
         private void DrawRespositionAll()
         {
             ImGui.Text("Reposition All Banners");
@@ -293,6 +328,7 @@ namespace NoTankYou
             ImGui.Spacing();
 
             ImGui.Checkbox("Enable While Solo", ref Service.Configuration.EnableFaerieBannerWhileSolo);
+            ImGuiComponents.HelpMarker("Enable while solo in a duty.");
             ImGui.Spacing();
         }
         private void DrawKardionTab()
@@ -311,6 +347,7 @@ namespace NoTankYou
             ImGui.Spacing();
 
             ImGui.Checkbox("Enable While Solo", ref Service.Configuration.EnableKardionBannerWhileSolo);
+            ImGuiComponents.HelpMarker("Enable while solo in a duty.");
             ImGui.Spacing();
         }
         private void DrawBlacklistTab()

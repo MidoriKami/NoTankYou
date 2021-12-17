@@ -88,7 +88,7 @@ namespace NoTankYou.DisplaySystem
         {
             // Slow update rate to conserve performance
             var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
-            if (frameCount % 30 != 0) return;
+            if (frameCount % (ulong)Service.Configuration.NumberOfWaitFrames != 0) return;
 
             if (Service.Configuration.ForceWindowUpdate)
             {
