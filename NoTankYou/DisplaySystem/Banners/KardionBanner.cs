@@ -4,6 +4,7 @@ using ImGuiScene;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
+using System;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -50,48 +51,58 @@ namespace NoTankYou.DisplaySystem
 
             if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
             {
-                // ClassJob 40 is Sage, get the list of all Sages in the party
-                var partyList = Service.PartyList.Where(r => r.ClassJob.Id is 40);
-
-                // Kardion Status is 2605, get the list of party members with Kardion
-                // Kardia Status is 2604 (This goes on the sage)
-                var membersWithKardion = Service.PartyList.Where(r => r.Statuses.Any(s => s.StatusId == 2604));
-
-                // If these two lists match, then everyone's doing their job
-                if (partyList.Count() == membersWithKardion.Count())
-                {
-                    Visible = false;
-                }
-
-                // If not, then we need to show the warning banner
-                else
-                {
-                    Visible = true;
-                }
+                UpdateInPartyInDuty();
             }
             else if (Service.Configuration.EnableKardionBannerWhileSolo && Service.Condition[ConditionFlag.BoundByDuty])
             {
-                var player = Service.ClientState.LocalPlayer;
-
-                if (player == null) return;
-
-                // Does player have Kardia
-                var playerHasKardia = player.StatusList.Any(s => s.StatusId is 2604);
-
-                // If the player has Kardia on themselves, they are doing their job
-                if (playerHasKardia)
-                {
-                    Visible = false;
-                }
-                // If not, then we need to show the warning banner
-                else
-                {
-                    Visible = true;
-                }
+                UpdateSoloInDuty();
             }
             else
             {
                 Visible = false;
+            }
+        }
+
+        private void UpdateSoloInDuty()
+        {
+            var player = Service.ClientState.LocalPlayer;
+
+            if (player == null) return;
+
+            // Does player have Kardia
+            var playerHasKardia = player.StatusList.Any(s => s.StatusId is 2604);
+
+            // If the player has Kardia on themselves, they are doing their job
+            if (playerHasKardia)
+            {
+                Visible = false;
+            }
+            // If not, then we need to show the warning banner
+            else
+            {
+                Visible = true;
+            }
+        }
+
+        private void UpdateInPartyInDuty()
+        {
+            // ClassJob 40 is Sage, get the list of all Sages in the party
+            var partyList = Service.PartyList.Where(r => r.ClassJob.Id is 40);
+
+            // Kardion Status is 2605, get the list of party members with Kardion
+            // Kardia Status is 2604 (This goes on the sage)
+            var membersWithKardion = Service.PartyList.Where(r => r.Statuses.Any(s => s.StatusId == 2604));
+
+            // If these two lists match, then everyone's doing their job
+            if (partyList.Count() == membersWithKardion.Count())
+            {
+                Visible = false;
+            }
+
+            // If not, then we need to show the warning banner
+            else
+            {
+                Visible = true;
             }
         }
 
