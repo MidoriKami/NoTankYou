@@ -27,11 +27,11 @@ namespace NoTankYou
             Service.Configuration.Initialize(Service.PluginInterface);
 
             // Load Tank Stance warning image
-            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            var dancePartnerPath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\DancePartner.png");
-            var faeriePath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\Faerie.png");
-            var kardionPath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\Kardion.png");
-            var tankStancePath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\TankStance.png");
+            var assemblyLocation = pluginInterface.AssemblyLocation.DirectoryName!;
+            var dancePartnerPath = Path.Combine(assemblyLocation, @"images\DancePartner.png");
+            var faeriePath = Path.Combine(assemblyLocation, @"images\Faerie.png");
+            var kardionPath = Path.Combine(assemblyLocation, @"images\Kardion.png");
+            var tankStancePath = Path.Combine(assemblyLocation, @"images\TankStance.png");
 
             var dancePartnerImage = Service.PluginInterface.UiBuilder.LoadImage(dancePartnerPath);
             var faerieImage = Service.PluginInterface.UiBuilder.LoadImage(faeriePath);
