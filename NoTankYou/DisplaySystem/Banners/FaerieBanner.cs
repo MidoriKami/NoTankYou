@@ -11,6 +11,7 @@ using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Objects.Enums;
 using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
+using NoTankYou.Utilities;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -20,6 +21,8 @@ namespace NoTankYou.DisplaySystem
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowFaerieBanner;
         protected override ref bool SoloModeBool => ref Service.Configuration.EnableFaerieBannerWhileSolo;
 
+        private readonly StateDebouncer<bool> StateDebouncer = new(20);
+        private readonly StateDebouncer<int> PartyPetStateDebouncer = new(20);
         public FaerieBanner(TextureWrap faerieImage) : base("Partner Up Faerie Warning Banner", faerieImage)
         {
 
@@ -47,12 +50,14 @@ namespace NoTankYou.DisplaySystem
                 .Where(r => r.ObjectKind is ObjectKind.BattleNpc)
                 .Where(r => (r as BattleNpc)!.BattleNpcKind == BattleNpcSubKind.Pet);
 
+            PartyPetStateDebouncer.AddState(petObjectsOwnedByScholarPartyMember.Count());
+
             // id 791 is dissipation id
             var dissipationEffects = scholarPlayers
                 .Where(r => r.Statuses.Any(s => s.StatusId is 791));
 
-            // If these two lists match, then everyone's doing their job
-            if (scholarPlayers.Count == petObjectsOwnedByScholarPartyMember.Count() + dissipationEffects.Count())
+            // Due to debouncing, there could be more faeries + dissipations, than sholars
+            if ( PartyPetStateDebouncer.EvaluateState() + dissipationEffects.Count() >= scholarPlayers.Count )
             {
                 Visible = false;
             }
@@ -70,23 +75,18 @@ namespace NoTankYou.DisplaySystem
             // If the player isn't a Scholar return
             if (player.ClassJob.Id != 28) return;
 
-            // find any pet that has the player as an owner
-            var objectWithPlayerOwnerExists = Service.ObjectTable
-                .Where(r => r.OwnerId == player.ObjectId)
-                .Where(r => r.ObjectKind is ObjectKind.BattleNpc)
-                .Where(r => (r as BattleNpc)!.BattleNpcKind is BattleNpcSubKind.Pet)
-                .Any(); 
+            var isPetPresent = Service.BuddyList.PetBuddyPresent;
+
+            StateDebouncer.AddState(isPetPresent);
 
             // id 791 is dissipation id
-            // Check if the player has dissipation
             bool playerHasDissipation = player.StatusList.Any(s => s.StatusId is 791);
 
             // If player has dissipation, or a faerie out, they are doing their job
-            if (playerHasDissipation || objectWithPlayerOwnerExists)
+            if (playerHasDissipation || StateDebouncer.EvaluateState())
             {
                 Visible = false;
             }
-            // If not, then we need to show the warning banner
             else
             {
                 Visible = true;
