@@ -8,70 +8,17 @@ using System;
 
 namespace NoTankYou.DisplaySystem
 {
-    internal class KardionBanner : Window, IWarningBanner
+    internal class KardionBanner : WarningBanner
     {
-        private TextureWrap kardionImage;
-        public bool Visible { get; set; } = false;
-        public bool Paused { get; set; } = false;
-        public bool Forced { get; set; } = false;
-        public bool Disabled { get; set; } = false;
+        protected override ref bool RepositionModeBool => ref Service.Configuration.RepositionModeKardionBanner;
+        protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowKardionBanner;
+        protected override ref bool SoloModeBool => ref Service.Configuration.EnableKardionBannerWhileSolo;
 
-        public KardionBanner(TextureWrap kardionImage) : base("Partner Up Kardion Warning Banner")
+        public KardionBanner(TextureWrap kardionImage) : base("Partner Up Kardion Warning Banner", kardionImage)
         {
-            this.kardionImage = kardionImage;
-
-            SizeConstraints = new WindowSizeConstraints()
-            {
-                MinimumSize = new(this.kardionImage.Width, this.kardionImage.Height),
-                MaximumSize = new(this.kardionImage.Width, this.kardionImage.Height)
-            };
         }
 
-        public void Update()
-        {
-            if (!IsOpen) return;
-
-            Forced = Service.Configuration.ForceShowKardionBanner || Service.Configuration.RepositionModeKardionBanner;
-
-            if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
-            {
-                UpdateInPartyInDuty();
-            }
-            else if (Service.Configuration.EnableKardionBannerWhileSolo && Service.Condition[ConditionFlag.BoundByDuty])
-            {
-                UpdateSoloInDuty();
-            }
-            else
-            {
-                Visible = false;
-            }
-        }
-
-        private void UpdateSoloInDuty()
-        {
-            var player = Service.ClientState.LocalPlayer;
-
-            if (player == null) return;
-
-            // If the player isn't a sage, then this is irrelevent
-            if (player.ClassJob.Id != 40) return;
-
-            // Does player have Kardia
-            var playerHasKardia = player.StatusList.Any(s => s.StatusId is 2604);
-
-            // If the player has Kardia on themselves, they are doing their job
-            if (playerHasKardia)
-            {
-                Visible = false;
-            }
-            // If not, then we need to show the warning banner
-            else
-            {
-                Visible = true;
-            }
-        }
-
-        private void UpdateInPartyInDuty()
+        protected override void UpdateInPartyInDuty()
         {
             // ClassJob 40 is Sage, get the list of all Sages in the party
             var partyList = Service.PartyList.Where(r => r.ClassJob.Id is 40);
@@ -93,42 +40,28 @@ namespace NoTankYou.DisplaySystem
             }
         }
 
-        public override void PreDraw()
+        protected override void UpdateSoloInDuty()
         {
-            base.PreDraw();
+            var player = Service.ClientState.LocalPlayer;
 
-            if (Service.Configuration.RepositionModeKardionBanner)
+            if (player == null) return;
+
+            // If the player isn't a sage, then this is irrelevent
+            if (player.ClassJob.Id != 40) return;
+
+            // Does player have Kardia
+            var playerHasKardia = player.StatusList.Any(s => s.StatusId is 2604);
+
+            // If the player has Kardia on themselves, they are doing their job
+            if (playerHasKardia)
             {
-                Flags = IWarningBanner.moveWindowFlags;
+                Visible = false;
             }
+            // If not, then we need to show the warning banner
             else
             {
-                Flags = IWarningBanner.ignoreInputFlags;
+                Visible = true;
             }
-        }
-
-        public override void Draw()
-        {
-            if (!IsOpen) return;
-
-            if (Forced)
-            {
-                ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(kardionImage.ImGuiHandle, new Vector2(kardionImage.Width, kardionImage.Height));
-                return;
-            }
-
-            if (Visible && !Disabled && !Paused)
-            {
-                ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(kardionImage.ImGuiHandle, new Vector2(kardionImage.Width, kardionImage.Height));
-                return;
-            }
-        }
-
-        public void Dispose()
-        {
-            kardionImage.Dispose();
         }
     }
 }

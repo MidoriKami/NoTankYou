@@ -18,6 +18,7 @@ namespace NoTankYou
 
         public bool EnableFaerieBannerWhileSolo = false;
         public bool EnableKardionBannerWhileSolo = false;
+        public bool EnableTankStanceBannerWhileSolo = false;
 
         public bool EnableTankStanceBanner = false;
         public bool EnableDancePartnerBanner = false;

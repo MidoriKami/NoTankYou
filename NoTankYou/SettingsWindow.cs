@@ -145,7 +145,7 @@ namespace NoTankYou
             ImGui.Spacing();
         }
 
-        private void DrawChangeWaitFrameCount()
+        private static void DrawChangeWaitFrameCount()
         {
             ImGui.PushItemWidth(50);
             ImGui.InputInt("Number of Wait Frames", ref Service.Configuration.NumberOfWaitFrames, 0, 0);
@@ -237,7 +237,7 @@ namespace NoTankYou
             ImGui.Spacing();
 
         }
-        private void DrawStatus()
+        private static void DrawStatus()
         {
             ImGui.Text("Warning Statuses");
 
@@ -275,7 +275,7 @@ namespace NoTankYou
             ImGui.Spacing();
 
         }
-        private void DrawInstanceLoadDelayTimeTextField()
+        private static void DrawInstanceLoadDelayTimeTextField()
         {
             ImGui.Text("Grace Period");
             ImGui.InputInt("", ref Service.Configuration.TerritoryChangeDelayTime, 1000, 5000);
@@ -289,7 +289,7 @@ namespace NoTankYou
                 Service.Configuration.TerritoryChangeDelayTime = 3000;
             }
         }
-        private void DrawTankStanceTab()
+        private static void DrawTankStanceTab()
         {
             ImGui.Text("Tanks Stance Warning Settings");
             ImGui.Separator();
@@ -305,7 +305,7 @@ namespace NoTankYou
             ImGui.Spacing();
 
         }
-        private void DrawDancePartnerTab()
+        private static void DrawDancePartnerTab()
         {
             ImGui.Text("Dance Partner Warning Settings");
             ImGui.Separator();
@@ -321,7 +321,7 @@ namespace NoTankYou
             ImGui.Spacing();
 
         }
-        private void DrawFaerieTab()
+        private static void DrawFaerieTab()
         {
             ImGui.Text("Faerie Warning Settings");
             ImGui.Separator();
@@ -340,7 +340,7 @@ namespace NoTankYou
             ImGuiComponents.HelpMarker("Enable while solo in a duty.");
             ImGui.Spacing();
         }
-        private void DrawKardionTab()
+        private static void DrawKardionTab()
         {
             ImGui.Text("Kardion Warning Settings");
             ImGui.Separator();
@@ -377,10 +377,9 @@ namespace NoTankYou
             PrintAddRemoveCurrentTerritoryBlacklist();
             PrintAddRemoveManualTerritoryBlacklist();
 
-
             ImGui.Spacing();
         }
-        private void PrintBlackList()
+        private static void PrintBlackList()
         {
             ImGui.Text("Currently Blacklisted Areas");
             ImGui.Spacing();
@@ -398,7 +397,7 @@ namespace NoTankYou
             ImGui.Spacing();
 
         }
-        private void PrintAddRemoveCurrentTerritoryBlacklist()
+        private static void PrintAddRemoveCurrentTerritoryBlacklist()
         {
             ImGui.Text("Blacklist Operations");
             ImGui.Separator();
@@ -464,7 +463,7 @@ namespace NoTankYou
 
             ImGui.Spacing();
         }
-        private void RemoveFromBlacklist(int territory)
+        private static void RemoveFromBlacklist(int territory)
         {
             var blacklist = Service.Configuration.TerritoryBlacklist;
 
@@ -474,7 +473,7 @@ namespace NoTankYou
                 Service.Configuration.ForceWindowUpdate = true;
             }
         }
-        private void AddToBlacklist(int territory)
+        private static void AddToBlacklist(int territory)
         {
             var blacklist = Service.Configuration.TerritoryBlacklist;
 
@@ -506,7 +505,7 @@ namespace NoTankYou
 
             ImGui.Spacing();
         }
-        private void DrawConditionalText(bool condition, string trueString, string falseString)
+        private static void DrawConditionalText(bool condition, string trueString, string falseString)
         {
             if (condition)
             {
@@ -517,7 +516,7 @@ namespace NoTankYou
                 ImGui.Text(falseString);
             }
         }
-        public void Dispose()
+        public static void Dispose()
         {
 
         }

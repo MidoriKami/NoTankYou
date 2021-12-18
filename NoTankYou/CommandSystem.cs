@@ -19,7 +19,7 @@ namespace NoTankYou
         private const ushort Color_Red = 534;
         private const ushort Color_Green = 45;
         
-        private SettingsWindow settingsWindow;
+        private readonly SettingsWindow settingsWindow;
 
         public CommandSystem(SettingsWindow settingsWindow)
         {
@@ -42,34 +42,21 @@ namespace NoTankYou
             });
         }
 
-        private void PrintColoredStatus(string message, bool status)
+        private static void PrintColoredStatus(string message, bool status)
         {
             var stringBuilder = new SeStringBuilder();
             stringBuilder.AddText($"{message}");
 
             if( status == true )
             {
-                stringBuilder.AddUiForeground(45);
+                stringBuilder.AddUiForeground(Color_Green);
                 stringBuilder.AddText("enabled");
             }
             else
             {
-                stringBuilder.AddUiForeground(534);
+                stringBuilder.AddUiForeground(Color_Red);
                 stringBuilder.AddText("disabled");
             }
-            stringBuilder.AddUiForegroundOff();
-
-            Service.Chat.Print(stringBuilder.BuiltString);
-        }
-
-        // 45 = green
-        // 534 = red
-        private void PrintStringColored(string message, ushort color)
-        {
-            var stringBuilder = new SeStringBuilder();
-
-            stringBuilder.AddUiForeground(color);
-            stringBuilder.AddText(message);
             stringBuilder.AddUiForegroundOff();
 
             Service.Chat.Print(stringBuilder.BuiltString);
@@ -134,7 +121,7 @@ namespace NoTankYou
             Service.Configuration.Save();
         }
 
-        private string? GetSecondaryCommand(string arguments)
+        private static string? GetSecondaryCommand(string arguments)
         {
             var stringArray = arguments.Split(' ');
 
@@ -146,7 +133,7 @@ namespace NoTankYou
             return stringArray[1];
         }
 
-        private string? GetPrimaryCommand(string arguments)
+        private static string? GetPrimaryCommand(string arguments)
         {
             var stringArray = arguments.Split(' ');
 
@@ -158,7 +145,7 @@ namespace NoTankYou
             return stringArray[0];
         }
 
-        private void ProcessGenericOnOffToggleCommand(string? argument, ref bool booleanVariable, string message)
+        private static void ProcessGenericOnOffToggleCommand(string? argument, ref bool booleanVariable, string message)
         {
 
             if (argument == null)

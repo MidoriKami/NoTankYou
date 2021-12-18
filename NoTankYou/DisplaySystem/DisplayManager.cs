@@ -8,13 +8,13 @@ namespace NoTankYou.DisplaySystem
 {
     internal class DisplayManager : IDisposable
     {
-        private FaerieBanner FaerieBanner;
-        private KardionBanner KardionBanner;
-        private DancePartnerBanner DancePartnerBanner;
-        private TankStanceBanner TankStanceBanner;
+        private readonly FaerieBanner FaerieBanner;
+        private readonly KardionBanner KardionBanner;
+        private readonly DancePartnerBanner DancePartnerBanner;
+        private readonly TankStanceBanner TankStanceBanner;
 
-        private List<uint> PvPTerritoryBlacklist;
-        private List<uint> AllianceRaidTerritories;
+        private readonly List<uint> PvPTerritoryBlacklist;
+        private readonly List<uint> AllianceRaidTerritories;
 
         public DisplayManager(
             ImGuiScene.TextureWrap dancePartnerImage,

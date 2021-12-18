@@ -6,56 +6,35 @@ using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Buddy;
+using FFXIVClientStructs.FFXIV.Client.Game.Object;
+using Dalamud.Game.ClientState.Objects;
 
 namespace NoTankYou.DisplaySystem
 {
-    internal class FaerieBanner : Window, IWarningBanner
+    internal class FaerieBanner : WarningBanner
     {
-        private TextureWrap faerieImage;
-        public bool Visible { get; set; } = false;
-        public bool Paused { get; set; } = false;
-        public bool Forced { get; set; } = false;
-        public bool Disabled { get; set; } = false;
+        protected override ref bool RepositionModeBool => ref Service.Configuration.RepositionModeFaerieBanner;
+        protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowFaerieBanner;
+        protected override ref bool SoloModeBool => ref Service.Configuration.EnableFaerieBannerWhileSolo;
 
-        public FaerieBanner(TextureWrap faerieImage) : base("Partner Up Faerie Warning Banner")
+        public FaerieBanner(TextureWrap faerieImage) : base("Partner Up Faerie Warning Banner", faerieImage)
         {
-            this.faerieImage = faerieImage;
 
-            SizeConstraints = new WindowSizeConstraints()
-            {
-                MinimumSize = new(this.faerieImage.Width, this.faerieImage.Height),
-                MaximumSize = new(this.faerieImage.Width, this.faerieImage.Height)
-            };
         }
 
-        public void Update()
-        {
-            if (!IsOpen) return;
-
-            Forced = Service.Configuration.ForceShowFaerieBanner || Service.Configuration.RepositionModeFaerieBanner;
-
-            // If we are in a party, and in a duty
-            if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
-            {
-                UpdateInPartyInDuty();
-            }
-
-            // If we are in a duty, and have solo mode enabled
-            else if (Service.Configuration.EnableFaerieBannerWhileSolo && Service.Condition[ConditionFlag.BoundByDuty])
-            {
-                UpdateSoloInDuty();
-            }
-
-            else
-            {
-                Visible = false;
-            }
-        }
-
-        private void UpdateInPartyInDuty()
+        protected override void UpdateInPartyInDuty()
         {
             // Scholar Job id is 28
-            var scholarPlayers = Service.PartyList.Where(p => p.ClassJob.Id is 28);
+            var scholarPlayers = Service.PartyList.Where(p => p.ClassJob.Id is 28).ToHashSet();
+
+            // If they are untargetable, remove them from the count
+            foreach(var player in scholarPlayers)
+            {
+                if(!IsTargetable(player))
+                {
+                    scholarPlayers.Remove(player);
+                }
+            }
 
             var scholarPlayerIDs = scholarPlayers.Select(r => r.ObjectId);
 
@@ -68,19 +47,18 @@ namespace NoTankYou.DisplaySystem
                 .Where(r => r.Statuses.Any(s => s.StatusId is 791));
 
             // If these two lists match, then everyone's doing their job
-            if (scholarPlayers.Count() == objectsWithPartyMemberOwner.Count() + dissipationEffects.Count())
+            if (scholarPlayers.Count == objectsWithPartyMemberOwner.Count() + dissipationEffects.Count())
             {
                 Visible = false;
             }
-
-            // If not, then we need to show the warning banner
             else
             {
+                // Show Warning Banner
                 Visible = true;
             }
         }
 
-        private void UpdateSoloInDuty()
+        protected override void UpdateSoloInDuty()
         {
             var player = Service.ClientState.LocalPlayer;
 
@@ -107,44 +85,6 @@ namespace NoTankYou.DisplaySystem
             {
                 Visible = true;
             }
-        }
-
-        public override void PreDraw()
-        {
-            base.PreDraw();
-
-            if (Service.Configuration.RepositionModeFaerieBanner)
-            {
-                Flags = IWarningBanner.moveWindowFlags;
-            }
-            else
-            {
-                Flags = IWarningBanner.ignoreInputFlags;
-            }
-        }
-
-        public override void Draw()
-        {
-            if (!IsOpen) return;
-
-            if (Forced)
-            {
-                ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(faerieImage.ImGuiHandle, new Vector2(faerieImage.Width, faerieImage.Height));
-                return;
-            }
-
-            if (Visible && !Disabled && !Paused)
-            {
-                ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(faerieImage.ImGuiHandle, new Vector2(faerieImage.Width, faerieImage.Height));
-                return;
-            }
-        }
-
-        public void Dispose()
-        {
-            faerieImage.Dispose();
         }
     }
 }
