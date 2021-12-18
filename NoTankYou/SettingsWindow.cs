@@ -516,7 +516,7 @@ namespace NoTankYou
                 ImGui.Text(falseString);
             }
         }
-        public static void Dispose()
+        public void Dispose()
         {
 
         }

@@ -8,6 +8,9 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Buddy;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using Dalamud.Game.ClientState.Objects;
+using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Game.ClientState.Objects.Enums;
+using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -28,9 +31,9 @@ namespace NoTankYou.DisplaySystem
             var scholarPlayers = Service.PartyList.Where(p => p.ClassJob.Id is 28).ToHashSet();
 
             // If they are untargetable, remove them from the count
-            foreach(var player in scholarPlayers)
+            foreach (var player in scholarPlayers)
             {
-                if(!IsTargetable(player))
+                if (!IsTargetable(player))
                 {
                     scholarPlayers.Remove(player);
                 }
@@ -38,22 +41,23 @@ namespace NoTankYou.DisplaySystem
 
             var scholarPlayerIDs = scholarPlayers.Select(r => r.ObjectId);
 
-            // Get the objects that have owner ids matching those of our scholars
-            var objectsWithPartyMemberOwner = Service.ObjectTable
-                .Where(r => scholarPlayerIDs.Contains(r.OwnerId));
+            // Get the pet objects that have owner ids matching those of our scholars
+            var petObjectsOwnedByScholarPartyMember = Service.ObjectTable
+                .Where(r => scholarPlayerIDs.Contains(r.OwnerId))
+                .Where(r => r.ObjectKind is ObjectKind.BattleNpc)
+                .Where(r => (r as BattleNpc)!.BattleNpcKind == BattleNpcSubKind.Pet);
 
             // id 791 is dissipation id
             var dissipationEffects = scholarPlayers
                 .Where(r => r.Statuses.Any(s => s.StatusId is 791));
 
             // If these two lists match, then everyone's doing their job
-            if (scholarPlayers.Count == objectsWithPartyMemberOwner.Count() + dissipationEffects.Count())
+            if (scholarPlayers.Count == petObjectsOwnedByScholarPartyMember.Count() + dissipationEffects.Count())
             {
                 Visible = false;
             }
             else
             {
-                // Show Warning Banner
                 Visible = true;
             }
         }
@@ -61,7 +65,6 @@ namespace NoTankYou.DisplaySystem
         protected override void UpdateSoloInDuty()
         {
             var player = Service.ClientState.LocalPlayer;
-
             if (player == null) return;
 
             // If the player isn't a Scholar return
@@ -69,7 +72,10 @@ namespace NoTankYou.DisplaySystem
 
             // find any pet that has the player as an owner
             var objectWithPlayerOwnerExists = Service.ObjectTable
-                .Any(r => r.OwnerId == player.ObjectId);
+                .Where(r => r.OwnerId == player.ObjectId)
+                .Where(r => r.ObjectKind is ObjectKind.BattleNpc)
+                .Where(r => (r as BattleNpc)!.BattleNpcKind is BattleNpcSubKind.Pet)
+                .Any(); 
 
             // id 791 is dissipation id
             // Check if the player has dissipation
