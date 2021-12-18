@@ -153,13 +153,13 @@ namespace NoTankYou
             ImGuiComponents.HelpMarker("How many frames to wait between warning evaluations.\n" +
                 "Higher values repesents a larger delay on updating warnings.\n" +
                 "Recommend half your displays refresh rate.\n" +
-                "Minimum: 1\n" +
+                "Minimum: 5\n" +
                 "Maximum: 144");
             ImGui.Spacing();
             
-            if(Service.Configuration.NumberOfWaitFrames < 1)
+            if(Service.Configuration.NumberOfWaitFrames < 5)
             {
-                Service.Configuration.NumberOfWaitFrames = 1;
+                Service.Configuration.NumberOfWaitFrames = 5;
             }
 
             if(Service.Configuration.NumberOfWaitFrames > 144)
