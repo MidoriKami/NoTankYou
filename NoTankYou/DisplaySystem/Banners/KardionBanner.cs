@@ -1,10 +1,5 @@
-﻿using Dalamud.Interface.Windowing;
-using ImGuiNET;
-using ImGuiScene;
+﻿using ImGuiScene;
 using System.Linq;
-using System.Numerics;
-using Dalamud.Game.ClientState.Conditions;
-using System;
 
 namespace NoTankYou.DisplaySystem
 {

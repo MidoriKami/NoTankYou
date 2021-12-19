@@ -1,13 +1,6 @@
 ﻿using Dalamud.Game.Command;
-using System;
-using Dalamud.Game.Gui;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Lumina.Excel.GeneratedSheets;
+using System;
 
 namespace NoTankYou
 {
@@ -18,7 +11,7 @@ namespace NoTankYou
         private const string shorthandCommand = "/nty";
         private const ushort Color_Red = 534;
         private const ushort Color_Green = 45;
-        
+
         private readonly SettingsWindow settingsWindow;
 
         public CommandSystem(SettingsWindow settingsWindow)
@@ -47,7 +40,7 @@ namespace NoTankYou
             var stringBuilder = new SeStringBuilder();
             stringBuilder.AddText($"{message}");
 
-            if( status == true )
+            if (status == true)
             {
                 stringBuilder.AddUiForeground(Color_Green);
                 stringBuilder.AddText("enabled");
@@ -137,7 +130,7 @@ namespace NoTankYou
         {
             var stringArray = arguments.Split(' ');
 
-            if(stringArray[0] == string.Empty)
+            if (stringArray[0] == string.Empty)
             {
                 return null;
             }

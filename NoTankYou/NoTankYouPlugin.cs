@@ -1,10 +1,8 @@
 ﻿using Dalamud.Game;
-using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using NoTankYou.DisplaySystem;
 using System.IO;
-using System.Reflection;
 
 namespace NoTankYou
 {

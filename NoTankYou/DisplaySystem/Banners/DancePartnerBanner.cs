@@ -1,8 +1,5 @@
-﻿using Dalamud.Interface.Windowing;
-using ImGuiNET;
-using ImGuiScene;
+﻿using ImGuiScene;
 using System.Linq;
-using System.Numerics;
 
 namespace NoTankYou.DisplaySystem
 {

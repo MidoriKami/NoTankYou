@@ -1,7 +1,6 @@
 ﻿using Dalamud.Interface.Components;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using System;
 using System.Numerics;
 
 namespace NoTankYou
@@ -156,13 +155,13 @@ namespace NoTankYou
                 "Minimum: 5\n" +
                 "Maximum: 144");
             ImGui.Spacing();
-            
-            if(Service.Configuration.NumberOfWaitFrames < 1)
+
+            if (Service.Configuration.NumberOfWaitFrames < 1)
             {
                 Service.Configuration.NumberOfWaitFrames = 1;
             }
 
-            if(Service.Configuration.NumberOfWaitFrames > 144)
+            if (Service.Configuration.NumberOfWaitFrames > 144)
             {
                 Service.Configuration.NumberOfWaitFrames = 144;
             }
@@ -284,7 +283,7 @@ namespace NoTankYou
                 "Minimum: 3,000");
             ImGui.Spacing();
 
-            if(Service.Configuration.TerritoryChangeDelayTime < 3000)
+            if (Service.Configuration.TerritoryChangeDelayTime < 3000)
             {
                 Service.Configuration.TerritoryChangeDelayTime = 3000;
             }

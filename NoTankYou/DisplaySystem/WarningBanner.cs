@@ -32,7 +32,7 @@ namespace NoTankYou.DisplaySystem
                     ImGuiWindowFlags.NoFocusOnAppearing |
                     ImGuiWindowFlags.NoNavFocus |
                     ImGuiWindowFlags.NoInputs;
-       
+
         protected TextureWrap image;
 
         public bool Visible { get; set; } = false;

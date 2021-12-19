@@ -1,17 +1,10 @@
-﻿using Dalamud.Interface.Windowing;
-using ImGuiNET;
+﻿using Dalamud.Game.ClientState.Objects.Enums;
+using Dalamud.Game.ClientState.Objects.Types;
 using ImGuiScene;
 using System;
-using System.Linq;
-using System.Numerics;
-using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Game.ClientState.Buddy;
-using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using Dalamud.Game.ClientState.Objects;
-using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Game.ClientState.Objects.Enums;
-using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
 using System.Diagnostics;
+using System.Linq;
+using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -60,22 +53,22 @@ namespace NoTankYou.DisplaySystem
 
             if (LastFaerieCount != petObjectsOwnedByScholarPartyMember.Count() || LastDissipationCount != dissipationEffects.Count())
             {
-                if(InPartyInDutyStopwatch.IsRunning == false)
+                if (InPartyInDutyStopwatch.IsRunning == false)
                 {
                     InPartyInDutyStopwatch.Start();
                 }
             }
 
-            if(InPartyInDutyStopwatch.ElapsedMilliseconds < 500 && InPartyInDutyStopwatch.IsRunning == true)
+            if (InPartyInDutyStopwatch.ElapsedMilliseconds < 500 && InPartyInDutyStopwatch.IsRunning == true)
             {
                 return;
             }
-            else if(InPartyInDutyStopwatch.IsRunning == true)
+            else if (InPartyInDutyStopwatch.IsRunning == true)
             {
                 InPartyInDutyStopwatch.Stop();
                 InPartyInDutyStopwatch.Reset();
 
-                if(LastFaerieCount != petObjectsOwnedByScholarPartyMember.Count())
+                if (LastFaerieCount != petObjectsOwnedByScholarPartyMember.Count())
                 {
                     LastFaerieCount = petObjectsOwnedByScholarPartyMember.Count();
                 }
@@ -86,7 +79,7 @@ namespace NoTankYou.DisplaySystem
                 }
             }
 
-            if (petObjectsOwnedByScholarPartyMember.Count() + dissipationEffects.Count() == scholarPlayers.Count )
+            if (petObjectsOwnedByScholarPartyMember.Count() + dissipationEffects.Count() == scholarPlayers.Count)
             {
                 Visible = false;
             }
@@ -122,7 +115,7 @@ namespace NoTankYou.DisplaySystem
             {
                 return;
             }
-            else if(SoloInDutyStopwatch.IsRunning == true)
+            else if (SoloInDutyStopwatch.IsRunning == true)
             {
                 SoloInDutyStopwatch.Stop();
                 SoloInDutyStopwatch.Reset();

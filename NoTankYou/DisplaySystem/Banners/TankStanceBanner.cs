@@ -1,10 +1,5 @@
-﻿using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Interface.Windowing;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using Action = Lumina.Excel.GeneratedSheets.Action;
 
 namespace NoTankYou.DisplaySystem
@@ -81,7 +76,7 @@ namespace NoTankYou.DisplaySystem
             var tankStanceFound = player.StatusList.Any(s => TankStances.Contains(s.StatusId));
             var blueMageStanceFound = player.StatusList.Any(s => BlueMageTankStance.Contains(s.StatusId));
 
-            if(tankStanceFound || blueMageStanceFound)
+            if (tankStanceFound || blueMageStanceFound)
             {
                 Visible = false;
             }
