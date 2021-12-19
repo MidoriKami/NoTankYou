@@ -151,7 +151,7 @@ namespace NoTankYou.DisplaySystem
             }
         }
 
-        protected static unsafe bool IsTargetable(PartyMember partyMember)
+        public static unsafe bool IsTargetable(PartyMember partyMember)
         {
             var playerGameObject = partyMember.GameObject;
             if (playerGameObject == null) return false;
@@ -161,7 +161,7 @@ namespace NoTankYou.DisplaySystem
             return playerTargetable;
         }
 
-        protected static unsafe bool IsTargetable(Dalamud.Game.ClientState.Objects.Types.GameObject gameObject)
+        public static unsafe bool IsTargetable(Dalamud.Game.ClientState.Objects.Types.GameObject gameObject)
         {
             var playerTargetable = ((GameObject*)gameObject.Address)->GetIsTargetable();
 
