@@ -1,7 +1,7 @@
-﻿using ImGuiScene;
-using System.Linq;
+﻿using System.Linq;
+using ImGuiScene;
 
-namespace NoTankYou.DisplaySystem
+namespace NoTankYou.DisplaySystem.Banners
 {
     internal class KardionBanner : WarningBanner
     {

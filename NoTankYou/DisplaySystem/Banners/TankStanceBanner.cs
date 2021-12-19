@@ -2,7 +2,7 @@
 using System.Linq;
 using Action = Lumina.Excel.GeneratedSheets.Action;
 
-namespace NoTankYou.DisplaySystem
+namespace NoTankYou.DisplaySystem.Banners
 {
     internal class TankStanceBanner : WarningBanner
     {

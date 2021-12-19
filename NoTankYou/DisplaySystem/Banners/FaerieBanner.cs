@@ -1,12 +1,18 @@
-﻿using Dalamud.Game.ClientState.Objects.Enums;
-using Dalamud.Game.ClientState.Objects.Types;
-using ImGuiScene;
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
+using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
+using Dalamud.Game.ClientState.Objects.Enums;
+using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Game.ClientState.Party;
+using Dalamud.Game.ClientState.Statuses;
+using FFXIVClientStructs.FFXIV.Client.Game.Gauge;
+using ImGuiScene;
 
-namespace NoTankYou.DisplaySystem
+namespace NoTankYou.DisplaySystem.Banners
 {
     internal class FaerieBanner : WarningBanner
     {
@@ -14,79 +20,102 @@ namespace NoTankYou.DisplaySystem
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowFaerieBanner;
         protected override ref bool SoloModeBool => ref Service.Configuration.EnableFaerieBannerWhileSolo;
 
-        private readonly Stopwatch InPartyInDutyStopwatch = new();
-        private readonly Stopwatch SoloInDutyStopwatch = new();
-        private int LastFaerieCount = 0;
-        private int LastDissipationCount = 0;
-        private bool LastFaerieState = false;
+        private readonly Stopwatch PetCountStopwatch = new();
+        private readonly Stopwatch DissipationCountStopwatch = new();
+        private readonly Stopwatch SoloPetStopwatch = new();
+        private readonly Stopwatch SoloDissipationStopwatch = new();
+        private int LastNumPlayersWithPets = 0;
+        private int LastNumPlayersWithDissipation = 0;
+        private bool LastSoloPet = false;
+        private bool LastSoloDissipation = false;
 
         public FaerieBanner(TextureWrap faerieImage) : base("Partner Up Faerie Warning Banner", faerieImage)
         {
 
         }
 
+        private bool DelayMilliseconds(int milliseconds, Stopwatch stopwatch)
+        {
+            if(stopwatch.IsRunning == false)
+            {
+                stopwatch.Start();
+                return false;
+            }
+
+            if(stopwatch.ElapsedMilliseconds < milliseconds && stopwatch.IsRunning)
+            {
+                return false;
+            }
+
+            stopwatch.Stop();
+            stopwatch.Reset();
+            return true;
+        }
+
+        private IEnumerable<GameObject> GetPetsByOwnerId(uint ownerId)
+        {
+            return Service.ObjectTable
+                .Where(o => o.OwnerId == ownerId)
+                .Where(o => o.ObjectKind is ObjectKind.BattleNpc && ((BattleNpc)o).SubKind == (int)BattleNpcSubKind.Pet);
+        }
+
+        private Dictionary<PartyMember, Tuple<List<GameObject>, StatusList>> GetPartyMemberData()
+        {
+            Dictionary<PartyMember, Tuple<List<GameObject>, StatusList>> data = new();
+
+            // Get Scholars
+            var scholars = Service.PartyList.Where(p => p.ClassJob.Id is 28 && IsTargetable(p));
+
+            foreach (var scholar in scholars)
+            {
+                // Get this scholars pets
+                var playerPets = GetPetsByOwnerId(scholar.ObjectId).ToList();
+
+                var statuses = scholar.Statuses;
+
+                data.Add(scholar, new Tuple<List<GameObject>, StatusList>(playerPets, statuses));
+            }
+
+            return data;
+        }
+
         protected override void UpdateInPartyInDuty()
         {
-            // Scholar Job id is 28
-            var scholarPlayers = Service.PartyList.Where(p => p.ClassJob.Id is 28).ToHashSet();
+            var partyMemberData = GetPartyMemberData();
 
-            // If they are untargetable, remove them from the count
-            foreach (var player in scholarPlayers)
+            var numPlayersWithPet = partyMemberData.Count(playerData => playerData.Value.Item1.Any());
+            var numPlayersWithDissipation = partyMemberData.Count(playerData => playerData.Value.Item2.Any(s => s.StatusId is 791));
+
+            var numPetsChanged = numPlayersWithPet != LastNumPlayersWithPets;
+            var numDissipationChanged = numPlayersWithDissipation != LastNumPlayersWithDissipation;
+
+            if (numPetsChanged)
             {
-                if (!IsTargetable(player))
+                if (DelayMilliseconds(500, PetCountStopwatch))
                 {
-                    scholarPlayers.Remove(player);
+                    LastNumPlayersWithPets = numPlayersWithPet;
+                }
+                else
+                {
+                    return;
                 }
             }
 
-            var scholarPlayerIDs = scholarPlayers.Select(r => r.ObjectId);
-
-            // Get the pet objects that have owner ids matching those of our scholars
-            var petObjectsOwnedByScholarPartyMember = Service.ObjectTable
-                .Where(r => scholarPlayerIDs.Contains(r.OwnerId))
-                .Where(r => r.ObjectKind is ObjectKind.BattleNpc)
-                .Where(r => (r as BattleNpc)!.BattleNpcKind == BattleNpcSubKind.Pet);
-
-            // id 791 is dissipation id
-            var dissipationEffects = scholarPlayers
-                .Where(r => r.Statuses.Any(s => s.StatusId is 791));
-
-            if (LastFaerieCount != petObjectsOwnedByScholarPartyMember.Count() || LastDissipationCount != dissipationEffects.Count())
+            if (numDissipationChanged)
             {
-                if (InPartyInDutyStopwatch.IsRunning == false)
+                if (DelayMilliseconds(500, DissipationCountStopwatch))
                 {
-                    InPartyInDutyStopwatch.Start();
+                    LastNumPlayersWithDissipation = numPlayersWithDissipation;
+                }
+                else
+                {
+                    return;
                 }
             }
 
-            if (InPartyInDutyStopwatch.ElapsedMilliseconds < 500 && InPartyInDutyStopwatch.IsRunning == true)
-            {
-                return;
-            }
-            else if (InPartyInDutyStopwatch.IsRunning == true)
-            {
-                InPartyInDutyStopwatch.Stop();
-                InPartyInDutyStopwatch.Reset();
-
-                if (LastFaerieCount != petObjectsOwnedByScholarPartyMember.Count())
-                {
-                    LastFaerieCount = petObjectsOwnedByScholarPartyMember.Count();
-                }
-
-                if (LastDissipationCount != dissipationEffects.Count())
-                {
-                    LastDissipationCount = dissipationEffects.Count();
-                }
-            }
-
-            if (petObjectsOwnedByScholarPartyMember.Count() + dissipationEffects.Count() == scholarPlayers.Count)
-            {
-                Visible = false;
-            }
-            else
-            {
-                Visible = true;
-            }
+            Visible = partyMemberData.
+                Where(player => !player.Value.Item1.Any()).// Where the player doesn't have any pets
+                Any(player => !player.Value.Item2.Any(s => s.StatusId is 791)); // If any of them don't have dissipation
         }
 
         protected override void UpdateSoloInDuty()
@@ -100,40 +129,36 @@ namespace NoTankYou.DisplaySystem
             var isPetPresent = Service.BuddyList.PetBuddyPresent;
 
             // id 791 is dissipation id
-            bool playerHasDissipation = player.StatusList.Any(s => s.StatusId is 791);
+            var playerHasDissipation = player.StatusList.Any(s => s.StatusId is 791);
 
-            // Don't start the stopwatch if we ate it.
-            if (LastFaerieState != isPetPresent && playerHasDissipation == false)
+            var petStatusChanged = isPetPresent != LastSoloPet;
+            var dissipationStatusChange = playerHasDissipation != LastSoloDissipation;
+
+            if (petStatusChanged)
             {
-                if (SoloInDutyStopwatch.IsRunning == false)
+                if (DelayMilliseconds(500, SoloPetStopwatch))
                 {
-                    SoloInDutyStopwatch.Start();
+                    LastSoloPet = isPetPresent;
+                }
+                else
+                {
+                    return;
                 }
             }
 
-            if (SoloInDutyStopwatch.ElapsedMilliseconds < 500 && SoloInDutyStopwatch.IsRunning == true)
+            if (dissipationStatusChange)
             {
-                return;
-            }
-            else if (SoloInDutyStopwatch.IsRunning == true)
-            {
-                SoloInDutyStopwatch.Stop();
-                SoloInDutyStopwatch.Reset();
-                if (LastFaerieState != isPetPresent)
+                if (DelayMilliseconds(500, SoloDissipationStopwatch))
                 {
-                    LastFaerieState = isPetPresent;
+                    LastSoloDissipation = playerHasDissipation;
+                }
+                else
+                {
+                    return;
                 }
             }
 
-            // If player has dissipation, or a faerie out, they are doing their job
-            if (playerHasDissipation || isPetPresent)
-            {
-                Visible = false;
-            }
-            else
-            {
-                Visible = true;
-            }
+            Visible = !(playerHasDissipation || isPetPresent);
         }
     }
 }
