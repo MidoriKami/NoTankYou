@@ -11,7 +11,7 @@ using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Objects.Enums;
 using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
-using NoTankYou.Utilities;
+using System.Diagnostics;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -21,8 +21,12 @@ namespace NoTankYou.DisplaySystem
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowFaerieBanner;
         protected override ref bool SoloModeBool => ref Service.Configuration.EnableFaerieBannerWhileSolo;
 
-        private readonly StateDebouncer<bool> StateDebouncer = new(20);
-        private readonly StateDebouncer<int> PartyPetStateDebouncer = new(20);
+        private readonly Stopwatch InPartyInDutyStopwatch = new();
+        private readonly Stopwatch SoloInDutyStopwatch = new();
+        private int LastFaerieCount = 0;
+        private int LastDissipationCount = 0;
+        private bool LastFaerieState = false;
+
         public FaerieBanner(TextureWrap faerieImage) : base("Partner Up Faerie Warning Banner", faerieImage)
         {
 
@@ -50,14 +54,39 @@ namespace NoTankYou.DisplaySystem
                 .Where(r => r.ObjectKind is ObjectKind.BattleNpc)
                 .Where(r => (r as BattleNpc)!.BattleNpcKind == BattleNpcSubKind.Pet);
 
-            PartyPetStateDebouncer.AddState(petObjectsOwnedByScholarPartyMember.Count());
-
             // id 791 is dissipation id
             var dissipationEffects = scholarPlayers
                 .Where(r => r.Statuses.Any(s => s.StatusId is 791));
 
-            // Due to debouncing, there could be more faeries + dissipations, than sholars
-            if ( PartyPetStateDebouncer.EvaluateState() + dissipationEffects.Count() >= scholarPlayers.Count )
+            if (LastFaerieCount != petObjectsOwnedByScholarPartyMember.Count() || LastDissipationCount != dissipationEffects.Count())
+            {
+                if(InPartyInDutyStopwatch.IsRunning == false)
+                {
+                    InPartyInDutyStopwatch.Start();
+                }
+            }
+
+            if(InPartyInDutyStopwatch.ElapsedMilliseconds < 500 && InPartyInDutyStopwatch.IsRunning == true)
+            {
+                return;
+            }
+            else if(InPartyInDutyStopwatch.IsRunning == true)
+            {
+                InPartyInDutyStopwatch.Stop();
+                InPartyInDutyStopwatch.Reset();
+
+                if(LastFaerieCount != petObjectsOwnedByScholarPartyMember.Count())
+                {
+                    LastFaerieCount = petObjectsOwnedByScholarPartyMember.Count();
+                }
+
+                if (LastDissipationCount != dissipationEffects.Count())
+                {
+                    LastDissipationCount = dissipationEffects.Count();
+                }
+            }
+
+            if (petObjectsOwnedByScholarPartyMember.Count() + dissipationEffects.Count() == scholarPlayers.Count )
             {
                 Visible = false;
             }
@@ -77,13 +106,34 @@ namespace NoTankYou.DisplaySystem
 
             var isPetPresent = Service.BuddyList.PetBuddyPresent;
 
-            StateDebouncer.AddState(isPetPresent);
-
             // id 791 is dissipation id
             bool playerHasDissipation = player.StatusList.Any(s => s.StatusId is 791);
 
+            // Don't start the stopwatch if we ate it.
+            if (LastFaerieState != isPetPresent && playerHasDissipation == false)
+            {
+                if (SoloInDutyStopwatch.IsRunning == false)
+                {
+                    SoloInDutyStopwatch.Start();
+                }
+            }
+
+            if (SoloInDutyStopwatch.ElapsedMilliseconds < 500 && SoloInDutyStopwatch.IsRunning == true)
+            {
+                return;
+            }
+            else if(SoloInDutyStopwatch.IsRunning == true)
+            {
+                SoloInDutyStopwatch.Stop();
+                SoloInDutyStopwatch.Reset();
+                if (LastFaerieState != isPetPresent)
+                {
+                    LastFaerieState = isPetPresent;
+                }
+            }
+
             // If player has dissipation, or a faerie out, they are doing their job
-            if (playerHasDissipation || StateDebouncer.EvaluateState())
+            if (playerHasDissipation || isPetPresent)
             {
                 Visible = false;
             }
