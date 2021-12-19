@@ -35,13 +35,10 @@ Command format is the following:
 /[nty,notankyou] [modulename*] [on,off,toggle]
 
 Module Name is extremely flexible:
-"kardion" "sage" "sge" "kardia"
-
-"tank" "tankstance"
-
-"dancepartner" "dancer" "dp" "dnc"
-
-"faerie" "fairy" "scholar" "sch"
+* "kardion" "sage" "sge" "kardia"
+* "tank" "tankstance"
+* "dancepartner" "dancer" "dp" "dnc"
+* "faerie" "fairy" "scholar" "sch"
 
 You can omit the [on,off,toggle] to toggle automatically.
 Example, this will toggle the dancer module to the opposite state:
