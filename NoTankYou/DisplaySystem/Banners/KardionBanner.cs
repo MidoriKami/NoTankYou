@@ -8,15 +8,19 @@ namespace NoTankYou.DisplaySystem.Banners
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowKardionBanner;
         protected override ref bool SoloModeBool => ref Service.Configuration.EnableKardionBannerWhileSolo;
 
+        private const int SageClassID = 40;
+        private const int KardiaStatusID = 2604;
+
         public KardionBanner() : base("Partner Up Kardion Warning Banner", "Kardion")
         {
+
         }
 
         protected override void UpdateInPartyInDuty()
         {
             Visible = !Service.PartyList
-                .Where(r => r.ClassJob.Id is 40)
-                .Any(p => p.Statuses.Any(s => s.StatusId is 2604));
+                .Where(r => r.ClassJob.Id == SageClassID)
+                .Any(p => p.Statuses.Any(s => s.StatusId == KardiaStatusID));
         }
 
         protected override void UpdateSoloInDuty()
@@ -24,9 +28,9 @@ namespace NoTankYou.DisplaySystem.Banners
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
 
-            bool playerIsSage = player.ClassJob.Id == 40;
+            var playerIsSage = player.ClassJob.Id == SageClassID;
 
-            var playerHasKardia = player.StatusList.Any(s => s.StatusId is 2604);
+            var playerHasKardia = player.StatusList.Any(s => s.StatusId == KardiaStatusID);
 
             Visible = playerIsSage && !playerHasKardia;
         }

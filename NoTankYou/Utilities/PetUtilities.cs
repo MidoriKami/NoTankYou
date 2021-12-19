@@ -22,25 +22,26 @@ namespace NoTankYou.Utilities
                 .Where(o => o.ObjectKind is ObjectKind.BattleNpc && ((BattleNpc)o).SubKind == (int)BattleNpcSubKind.Pet);
         }
 
-        public static Dictionary<PartyMember, Tuple<List<GameObject>, StatusList>> GetPartyMemberData()
+        public static Dictionary<PartyMember, Tuple<List<GameObject>, StatusList>> GetPartyMemberData(int withClassId)
         {
             Dictionary<PartyMember, Tuple<List<GameObject>, StatusList>> data = new();
 
             // Get Scholars
-            var scholars = Service.PartyList.Where(p => p.ClassJob.Id is 28 && WarningBanner.IsTargetable(p));
+            var partyMembers = Service.PartyList.Where(p => p.ClassJob.Id == withClassId && WarningBanner.IsTargetable(p));
 
-            foreach (var scholar in scholars)
+            foreach (var member in partyMembers)
             {
                 // Get this scholars pets
-                var playerPets = GetPetsByOwnerId(scholar.ObjectId).ToList();
+                var playerPets = GetPetsByOwnerId(member.ObjectId).ToList();
 
-                var statuses = scholar.Statuses;
+                var statuses = member.Statuses;
 
-                data.Add(scholar, new Tuple<List<GameObject>, StatusList>(playerPets, statuses));
+                data.Add(member, new Tuple<List<GameObject>, StatusList>(playerPets, statuses));
             }
 
             return data;
         }
+
         public static bool DelayMilliseconds(int milliseconds, Stopwatch stopwatch)
         {
             if (stopwatch.IsRunning == false)

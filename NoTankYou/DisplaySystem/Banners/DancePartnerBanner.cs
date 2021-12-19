@@ -9,6 +9,9 @@ namespace NoTankYou.DisplaySystem.Banners
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowDancePartnerBanner;
         protected override ref bool SoloModeBool => ref DancePartnerSoloMode;
 
+        private const int DancerClassId = 38;
+        private const int ClosedPositionStatusId = 1823;
+
         public DancePartnerBanner() : base("Partner Up Dance Partner Warning Banner", "DancePartner")
         {
 
@@ -16,9 +19,11 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInPartyInDuty()
         {
+
+
             Visible = Service.PartyList
-                .Where(p => p.ClassJob.Id is 38 && p.Level >= 60)
-                .Any(p => !p.Statuses.Any(s => s.StatusId is 1823));
+                .Where(p => p.ClassJob.Id is DancerClassId && p.Level >= 60)
+                .Any(p => !p.Statuses.Any(s => s.StatusId is ClosedPositionStatusId));
         }
 
         protected override void UpdateSoloInDuty()
@@ -26,9 +31,9 @@ namespace NoTankYou.DisplaySystem.Banners
             var player = Service.ClientState.LocalPlayer;
             if(player == null) return;
 
-            var playerIsDancer = player.ClassJob.Id == 38;
+            var playerIsDancer = player.ClassJob.Id == DancerClassId && player.Level >= 60;
 
-            var playerHadClosedPosition = player.StatusList.Any(s => s.StatusId is 1823);
+            var playerHadClosedPosition = player.StatusList.Any(s => s.StatusId is ClosedPositionStatusId);
 
             Visible = playerIsDancer && !playerHadClosedPosition;
         }

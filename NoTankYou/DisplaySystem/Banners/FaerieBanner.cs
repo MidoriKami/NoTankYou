@@ -19,6 +19,9 @@ namespace NoTankYou.DisplaySystem.Banners
         private bool LastSoloPet = false;
         private bool LastSoloDissipation = false;
 
+        private const int ScholarClassID = 28;
+        private const int DissipationStatusID = 791;
+
         public FaerieBanner() : base("Partner Up Faerie Warning Banner", "Faerie")
         {
 
@@ -26,10 +29,10 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInPartyInDuty()
         {
-            var partyMemberData = PetUtilities.GetPartyMemberData();
+            var partyMemberData = PetUtilities.GetPartyMemberData(ScholarClassID);
 
             var numPlayersWithPet = partyMemberData.Count(playerData => playerData.Value.Item1.Any());
-            var numPlayersWithDissipation = partyMemberData.Count(playerData => playerData.Value.Item2.Any(s => s.StatusId is 791));
+            var numPlayersWithDissipation = partyMemberData.Count(playerData => playerData.Value.Item2.Any(s => s.StatusId == DissipationStatusID));
 
             var numPetsChanged = numPlayersWithPet != LastNumPlayersWithPets;
             var numDissipationChanged = numPlayersWithDissipation != LastNumPlayersWithDissipation;
@@ -69,12 +72,12 @@ namespace NoTankYou.DisplaySystem.Banners
             if (player == null) return;
 
             // If the player isn't a Scholar return
-            if (player.ClassJob.Id != 28) return;
+            if (player.ClassJob.Id != ScholarClassID) return;
 
             var isPetPresent = Service.BuddyList.PetBuddyPresent;
 
             // id 791 is dissipation id
-            var playerHasDissipation = player.StatusList.Any(s => s.StatusId is 791);
+            var playerHasDissipation = player.StatusList.Any(s => s.StatusId == DissipationStatusID);
 
             var petStatusChanged = isPetPresent != LastSoloPet;
             var dissipationStatusChange = playerHasDissipation != LastSoloDissipation;
