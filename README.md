@@ -29,26 +29,17 @@ There is also a configuration option to disable checking while in an alliance ra
 * Personal reminder to put your own stance on 
 
 # Commands
-For ease of use, bundled with the main command **/notankyou** there are several commands you can use
+For ease of use, bundled with the main command **/notankyou** you can also use the shorthand **/nty*** there are several commands you can use
 
-| Syntax      | Description |
-| ----------- | ----------- |
-| /notankyou off       | prevents the plugin from showing the warning banner                                                      |
-| /notankyou on        | enables the showing of the warning banner                                                                |
-| /notankyou force     | forces the warning banner to appear                                                                      |
-| /notankyou status    | prints the current settins for the plugin to the debug channel of chat                                   |
-| /notankyou blacklist | adds the current instance id to the blacklist|
-| /notankyou whitelist | removes the current instance id from the blacklist                                                       |
-| /notankyou debug     | prints the number of tanks, and the status of each tank to the chat                                      |
+Command format is the following:
+/[nty,notankyou] [modulename*] [on,off,toggle]
 
-### Notes
-The 'force' command will force the banner to show, it will not allow you to move the banner unless the "Show/Move Warning Banner" settings option is selected in the settings menu.
+Module Name is extremely flexible:
+"kardion" "sage" "sge" "kardia"
+"tank" "tankstance"
+"dancepartner" "dancer" "dp" "dnc"
+"faerie" "fairy" "scholar" "sch"
 
-The 'status' and 'debug' commands print to the debug channel in chat, only you will be able to see these messages. By default all log windows include displaying debug messages.
-
-The 'blacklist' and 'whitelist' commands will only add/remove the ids for the instance you are in. These are stored numerically as there isn't an easy way to reference the proper instance name. 
-One useful location for these commands are in Bozja/Zadnor, as it generally doesn't matter if none of the tanks in your party have their stance on, generally someone, likely not in your party, will be the main tank.
-
-'whitelist' is used to remove a value from the blacklist. There is no "only run in these instances" option. If you wish to only run this plugin in specific instances you can manually toggle it with the 'on' and 'off' commands.
-
-
+You can omit the [on,off,toggle] to toggle automatically.
+Example, this will toggle the dancer module to the opposite state:
+**/nty dnc**
