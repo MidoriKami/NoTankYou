@@ -42,5 +42,9 @@ Module Name is extremely flexible:
 * "faerie" "fairy" "scholar" "sch"
 
 You can omit the [on,off,toggle] to toggle automatically.
-Example, this will toggle the dancer module to the opposite state:
-**/nty dnc**
+Examples
+* /nty dnc
+* /notankyou dancer on
+* /nty all on
+* /nty all
+* /notankyou tank off
