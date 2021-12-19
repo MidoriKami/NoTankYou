@@ -42,7 +42,8 @@ Module Name is extremely flexible:
 * "faerie" "fairy" "scholar" "sch"
 
 You can omit the [on,off,toggle] to toggle automatically.
-Examples
+
+# Examples
 * /nty dnc
 * /notankyou dancer on
 * /nty all on
