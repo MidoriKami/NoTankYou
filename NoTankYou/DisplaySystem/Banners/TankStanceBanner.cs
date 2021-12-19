@@ -13,8 +13,7 @@ namespace NoTankYou.DisplaySystem.Banners
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowTankStanceBanner;
         protected override ref bool SoloModeBool => ref Service.Configuration.EnableTankStanceBannerWhileSolo;
 
-        public TankStanceBanner(ImGuiScene.TextureWrap warningImage) :
-            base("NoTankYou Warning Banner Window", warningImage)
+        public TankStanceBanner() : base("NoTankYou Warning Banner Window", "TankStance")
         {
             // Non-Blue Mage Tank Stances
             TankStances = Service.DataManager.GetExcelSheet<Action>()

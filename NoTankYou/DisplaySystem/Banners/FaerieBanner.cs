@@ -25,7 +25,7 @@ namespace NoTankYou.DisplaySystem.Banners
         private bool LastSoloPet = false;
         private bool LastSoloDissipation = false;
 
-        public FaerieBanner(TextureWrap faerieImage) : base("Partner Up Faerie Warning Banner", faerieImage)
+        public FaerieBanner() : base("Partner Up Faerie Warning Banner", "Faerie")
         {
 
         }

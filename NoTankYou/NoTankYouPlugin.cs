@@ -24,21 +24,9 @@ namespace NoTankYou
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             Service.Configuration.Initialize(Service.PluginInterface);
 
-            // Load Tank Stance warning image
-            var assemblyLocation = pluginInterface.AssemblyLocation.DirectoryName!;
-            var dancePartnerPath = Path.Combine(assemblyLocation, @"images\DancePartner.png");
-            var faeriePath = Path.Combine(assemblyLocation, @"images\Faerie.png");
-            var kardionPath = Path.Combine(assemblyLocation, @"images\Kardion.png");
-            var tankStancePath = Path.Combine(assemblyLocation, @"images\TankStance.png");
-
-            var dancePartnerImage = Service.PluginInterface.UiBuilder.LoadImage(dancePartnerPath);
-            var faerieImage = Service.PluginInterface.UiBuilder.LoadImage(faeriePath);
-            var kardionImage = Service.PluginInterface.UiBuilder.LoadImage(kardionPath);
-            var tankStanceImage = Service.PluginInterface.UiBuilder.LoadImage(tankStancePath);
-
             // Create Windows
             SettingsWindow = new SettingsWindow();
-            DisplayManager = new DisplayManager(dancePartnerImage, faerieImage, kardionImage, tankStanceImage);
+            DisplayManager = new DisplayManager();
 
             // Register FrameworkUpdate
             Service.Framework.Update += OnFrameworkUpdate;

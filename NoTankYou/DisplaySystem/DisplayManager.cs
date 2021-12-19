@@ -17,16 +17,12 @@ namespace NoTankYou.DisplaySystem
         private readonly List<uint> PvPTerritoryBlacklist;
         private readonly List<uint> AllianceRaidTerritories;
 
-        public DisplayManager(
-            ImGuiScene.TextureWrap dancePartnerImage,
-            ImGuiScene.TextureWrap faerieImage,
-            ImGuiScene.TextureWrap kardionImage,
-            ImGuiScene.TextureWrap tankStanceImage)
+        public DisplayManager()
         {
-            FaerieBanner = new FaerieBanner(faerieImage);
-            KardionBanner = new KardionBanner(kardionImage);
-            DancePartnerBanner = new DancePartnerBanner(dancePartnerImage);
-            TankStanceBanner = new TankStanceBanner(tankStanceImage);
+            FaerieBanner = new FaerieBanner();
+            KardionBanner = new KardionBanner();
+            DancePartnerBanner = new DancePartnerBanner();
+            TankStanceBanner = new TankStanceBanner();
 
             Service.WindowSystem.AddWindow(DancePartnerBanner);
             Service.WindowSystem.AddWindow(KardionBanner);
@@ -92,8 +88,7 @@ namespace NoTankYou.DisplaySystem
 
             if (Service.Configuration.ForceWindowUpdate)
             {
-                var currentTerritory = Service.ClientState.TerritoryType;
-                OnTerritoryChanged(this, currentTerritory);
+                ForceWindowUpdate();
                 Service.Configuration.ForceWindowUpdate = false;
             }
 
@@ -106,6 +101,17 @@ namespace NoTankYou.DisplaySystem
             KardionBanner.Update();
             DancePartnerBanner.Update();
             TankStanceBanner.Update();
+        }
+
+        private void ForceWindowUpdate()
+        {
+            var currentTerritory = Service.ClientState.TerritoryType;
+            OnTerritoryChanged(this, currentTerritory);
+
+            FaerieBanner.ChangeImageSize(Service.Configuration.ImageSize);
+            KardionBanner.ChangeImageSize(Service.Configuration.ImageSize);
+            DancePartnerBanner.ChangeImageSize(Service.Configuration.ImageSize);
+            TankStanceBanner.ChangeImageSize(Service.Configuration.ImageSize);
         }
 
         public void Dispose()

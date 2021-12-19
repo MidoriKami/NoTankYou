@@ -27,10 +27,20 @@
 
 	<ItemGroup>
 		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\TankStance.png" Link="images\TankStance.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Kardion.png" Link="images\Kardion.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Faerie.png" Link="images\Faerie.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\DancePartner.png" Link="images\DancePartner.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\TankStance_Large.png" Link="images\TankStance_Large.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\Kardion_Large.png" Link="images\Kardion_Large.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\Faerie_Large.png" Link="images\Faerie_Large.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\DancePartner_Large.png" Link="images\DancePartner_Large.png" CopyToOutputDirectory="Always" />
+
+		<Content Include="..\images\TankStance_Medium.png" Link="images\TankStance_Medium.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\Kardion_Medium.png" Link="images\Kardion_Medium.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\Faerie_Medium.png" Link="images\Faerie_Medium.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\DancePartner_Medium.png" Link="images\DancePartner_Medium.png" CopyToOutputDirectory="Always" />
+
+		<Content Include="..\images\TankStance_Small.png" Link="images\TankStance_Small.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\Kardion_Small.png" Link="images\Kardion_Small.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\Faerie_Small.png" Link="images\Faerie_Small.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\DancePartner_Small.png" Link="images\DancePartner_Small.png" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
 	<ItemGroup>

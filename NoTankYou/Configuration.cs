@@ -2,6 +2,7 @@
 using Dalamud.Plugin;
 using System;
 using System.Collections.Generic;
+using NoTankYou.DisplaySystem;
 
 namespace NoTankYou
 {
@@ -10,6 +11,8 @@ namespace NoTankYou
     {
         public int Version { get; set; } = 3;
         public int NumberOfWaitFrames = 30;
+
+        public WarningBanner.ImageSize ImageSize = WarningBanner.ImageSize.Large;
 
         public bool DisableInAllianceRaid = true;
         public int TerritoryChangeDelayTime = 8000;

@@ -2,15 +2,17 @@
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using System.Numerics;
+using NoTankYou.DisplaySystem;
 
 namespace NoTankYou
 {
     internal class SettingsWindow : Window
     {
         private Tab CurrentTab = Tab.General;
-        private readonly Vector2 WindowSize = new(450, 485);
+        private readonly Vector2 WindowSize = new(450, 550);
         private int ModifyBlacklistValue;
         private bool CurrentlyRepositioningAll = false;
+        private int SizeRadioButton = 0;
 
         public SettingsWindow() : base("No Tank You Settings Window")
         {
@@ -25,6 +27,8 @@ namespace NoTankYou
             Flags |= ImGuiWindowFlags.NoResize;
             Flags |= ImGuiWindowFlags.NoScrollbar;
             Flags |= ImGuiWindowFlags.NoScrollWithMouse;
+
+            SizeRadioButton = (int) Service.Configuration.ImageSize;
         }
 
         private enum Tab
@@ -126,6 +130,8 @@ namespace NoTankYou
 
             DrawEnabledDisableAll();
 
+            DrawSelectSize();
+
             DrawRepositionAll();
 
             DrawDisableInAllianceRaids();
@@ -135,6 +141,35 @@ namespace NoTankYou
             DrawInstanceLoadDelayTimeTextField();
 
             ImGui.Spacing();
+        }
+
+        private void DrawSelectSize()
+        {
+            ImGui.Text("Size Selection");
+            ImGui.Separator();
+
+            ImGui.RadioButton("Small", ref SizeRadioButton, 0 ); ImGui.SameLine();
+            ImGui.RadioButton("Medium", ref SizeRadioButton, 1 ); ImGui.SameLine();
+            ImGui.RadioButton("Large", ref SizeRadioButton, 2);
+
+            ImGui.Spacing();
+
+            switch (SizeRadioButton)
+            {
+                case 0:
+                    Service.Configuration.ImageSize = WarningBanner.ImageSize.Small;
+                    break;
+
+                case 1:
+                    Service.Configuration.ImageSize = WarningBanner.ImageSize.Medium;
+                    break;
+
+                case 2:
+                    Service.Configuration.ImageSize = WarningBanner.ImageSize.Large;
+                    break;
+            }
+
+            Service.Configuration.ForceWindowUpdate = true;
         }
 
         private static void DrawDisableInAllianceRaids()
@@ -150,7 +185,7 @@ namespace NoTankYou
             ImGui.InputInt("Number of Wait Frames", ref Service.Configuration.NumberOfWaitFrames, 0, 0);
             ImGui.PopItemWidth();
             ImGuiComponents.HelpMarker("How many frames to wait between warning evaluations.\n" +
-                "Higher values repesents a larger delay on updating warnings.\n" +
+                "Higher values represents a larger delay on updating warnings.\n" +
                 "Recommend half your displays refresh rate.\n" +
                 "Minimum: 5\n" +
                 "Maximum: 144");

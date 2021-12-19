@@ -9,7 +9,7 @@ namespace NoTankYou.DisplaySystem.Banners
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowKardionBanner;
         protected override ref bool SoloModeBool => ref Service.Configuration.EnableKardionBannerWhileSolo;
 
-        public KardionBanner(TextureWrap kardionImage) : base("Partner Up Kardion Warning Banner", kardionImage)
+        public KardionBanner() : base("Partner Up Kardion Warning Banner", "Kardion")
         {
         }
 

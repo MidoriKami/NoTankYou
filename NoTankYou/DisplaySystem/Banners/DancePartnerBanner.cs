@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using ImGuiScene;
 
 namespace NoTankYou.DisplaySystem.Banners
@@ -10,7 +11,7 @@ namespace NoTankYou.DisplaySystem.Banners
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowDancePartnerBanner;
         protected override ref bool SoloModeBool => ref DancePartnerSoloMode;
 
-        public DancePartnerBanner(TextureWrap dancePartnerImage) : base("Partner Up Dance Partner Warning Banner", dancePartnerImage)
+        public DancePartnerBanner() : base("Partner Up Dance Partner Warning Banner", "DancePartner")
         {
 
         }

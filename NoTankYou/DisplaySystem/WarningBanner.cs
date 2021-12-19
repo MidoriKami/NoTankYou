@@ -5,13 +5,14 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using ImGuiNET;
 using ImGuiScene;
 using System;
+using System.IO;
 using System.Numerics;
 
 namespace NoTankYou.DisplaySystem
 {
-    internal abstract class WarningBanner : Window, IDisposable
+    public abstract class WarningBanner : Window, IDisposable
     {
-        public const ImGuiWindowFlags moveWindowFlags =
+        public const ImGuiWindowFlags MoveWindowFlags =
                     ImGuiWindowFlags.NoScrollbar |
                     ImGuiWindowFlags.NoScrollWithMouse |
                     ImGuiWindowFlags.NoTitleBar |
@@ -22,7 +23,7 @@ namespace NoTankYou.DisplaySystem
                     ImGuiWindowFlags.NoResize;
 
 
-        public const ImGuiWindowFlags ignoreInputFlags =
+        public const ImGuiWindowFlags IgnoreInputFlags =
                     ImGuiWindowFlags.NoScrollbar |
                     ImGuiWindowFlags.NoTitleBar |
                     ImGuiWindowFlags.NoCollapse |
@@ -33,7 +34,10 @@ namespace NoTankYou.DisplaySystem
                     ImGuiWindowFlags.NoNavFocus |
                     ImGuiWindowFlags.NoInputs;
 
-        protected TextureWrap image;
+        protected TextureWrap Image_Large;
+        protected TextureWrap Image_Medium;
+        protected TextureWrap Image_Small;
+        protected TextureWrap SelectedImage;
 
         public bool Visible { get; set; } = false;
         public bool Paused { get; set; } = false;
@@ -47,14 +51,47 @@ namespace NoTankYou.DisplaySystem
         protected abstract void UpdateInPartyInDuty();
         protected abstract void UpdateSoloInDuty();
 
-        protected WarningBanner(string windowName, TextureWrap image) : base(windowName)
+        public enum ImageSize
         {
-            this.image = image;
+            Small,
+            Medium,
+            Large
+        }
+
+        protected WarningBanner(string windowName, string imageName) : base(windowName)
+        {
+            var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
+            var smallPath = Path.Combine(assemblyLocation, $@"images\{imageName}_Small.png");
+            var mediumPath = Path.Combine(assemblyLocation, $@"images\{imageName}_Medium.png");
+            var largePath = Path.Combine(assemblyLocation, $@"images\{imageName}_Large.png");
+
+            Image_Small = Service.PluginInterface.UiBuilder.LoadImage(smallPath);
+            Image_Medium = Service.PluginInterface.UiBuilder.LoadImage(mediumPath);
+            Image_Large = Service.PluginInterface.UiBuilder.LoadImage(largePath);
+
+            switch (Service.Configuration.ImageSize)
+            {
+                case ImageSize.Small:
+                    SelectedImage = Image_Small;
+                    break;
+
+                case ImageSize.Medium:
+                    SelectedImage = Image_Medium;
+                    break;
+
+                case ImageSize.Large:
+                    SelectedImage = Image_Large;
+                    break;
+
+                default:
+                    SelectedImage = Image_Large;
+                    break;
+            }
 
             SizeConstraints = new WindowSizeConstraints()
             {
-                MinimumSize = new(this.image.Width, this.image.Height),
-                MaximumSize = new(this.image.Width, this.image.Height)
+                MinimumSize = new(this.SelectedImage.Width, this.SelectedImage.Height),
+                MaximumSize = new(this.SelectedImage.Width, this.SelectedImage.Height)
             };
         }
 
@@ -88,11 +125,11 @@ namespace NoTankYou.DisplaySystem
 
             if (RepositionModeBool)
             {
-                Flags = moveWindowFlags;
+                Flags = MoveWindowFlags;
             }
             else
             {
-                Flags = ignoreInputFlags;
+                Flags = IgnoreInputFlags;
             }
         }
 
@@ -103,14 +140,14 @@ namespace NoTankYou.DisplaySystem
             if (Forced)
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(image.ImGuiHandle, new Vector2(image.Width, image.Height));
+                ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width, SelectedImage.Height));
                 return;
             }
 
             if (Visible && !Disabled && !Paused)
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(image.ImGuiHandle, new Vector2(image.Width, image.Height));
+                ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width, SelectedImage.Height));
                 return;
             }
         }
@@ -131,9 +168,36 @@ namespace NoTankYou.DisplaySystem
 
             return playerTargetable;
         }
+
+        public void ChangeImageSize(ImageSize size)
+        {
+            switch (size)
+            {
+                case ImageSize.Small:
+                    SelectedImage = Image_Small;
+                    break;
+
+                case ImageSize.Medium:
+                    SelectedImage = Image_Medium;
+                    break;
+
+                case ImageSize.Large:
+                    SelectedImage = Image_Large;
+                    break;
+            }
+
+            SizeConstraints = new WindowSizeConstraints()
+            {
+                MinimumSize = new(this.SelectedImage.Width, this.SelectedImage.Height),
+                MaximumSize = new(this.SelectedImage.Width, this.SelectedImage.Height)
+            };
+        }
+
         public void Dispose()
         {
-            image.Dispose();
+            Image_Small.Dispose();
+            Image_Medium.Dispose();
+            Image_Large.Dispose();
         }
     }
 }
