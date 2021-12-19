@@ -157,9 +157,9 @@ namespace NoTankYou
                 "Maximum: 144");
             ImGui.Spacing();
             
-            if(Service.Configuration.NumberOfWaitFrames < 5)
+            if(Service.Configuration.NumberOfWaitFrames < 1)
             {
-                Service.Configuration.NumberOfWaitFrames = 5;
+                Service.Configuration.NumberOfWaitFrames = 1;
             }
 
             if(Service.Configuration.NumberOfWaitFrames > 144)
