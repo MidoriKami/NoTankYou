@@ -52,7 +52,7 @@ namespace NoTankYou.DisplaySystem
             bool movingToBlacklistedTerritory = Service.Configuration.TerritoryBlacklist.Contains(e);
             bool movingToAllianceRaid = AllianceRaidTerritories.Contains(e);
             bool movingToPvPTerritory = PvPTerritoryBlacklist.Contains(e);
-            bool shouldDisable = movingToPvPTerritory || (movingToAllianceRaid && Service.Configuration.DiableInAllianceRaid) || movingToBlacklistedTerritory;
+            bool shouldDisable = movingToPvPTerritory || (movingToAllianceRaid && Service.Configuration.DisableInAllianceRaid) || movingToBlacklistedTerritory;
 
             if (shouldDisable)
             {
@@ -82,14 +82,13 @@ namespace NoTankYou.DisplaySystem
                 DancePartnerBanner.Paused = false;
                 TankStanceBanner.Paused = false;
             });
-
         }
 
         internal void Update()
         {
             // Slow update rate to conserve performance
             var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
-            if (frameCount % (ulong)Service.Configuration.NumberOfWaitFrames != 0) return;
+            if (frameCount % (ulong) Service.Configuration.NumberOfWaitFrames != 0) return;
 
             if (Service.Configuration.ForceWindowUpdate)
             {

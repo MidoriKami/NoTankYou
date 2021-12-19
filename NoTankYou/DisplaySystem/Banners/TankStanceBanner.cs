@@ -84,8 +84,6 @@ namespace NoTankYou.DisplaySystem.Banners
             {
                 Visible = true;
             }
-
-            return;
         }
     }
 }

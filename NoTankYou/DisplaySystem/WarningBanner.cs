@@ -47,7 +47,7 @@ namespace NoTankYou.DisplaySystem
         protected abstract void UpdateInPartyInDuty();
         protected abstract void UpdateSoloInDuty();
 
-        public WarningBanner(string windowName, TextureWrap image) : base(windowName)
+        protected WarningBanner(string windowName, TextureWrap image) : base(windowName)
         {
             this.image = image;
 

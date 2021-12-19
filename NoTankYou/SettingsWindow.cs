@@ -126,7 +126,7 @@ namespace NoTankYou
 
             DrawEnabledDisableAll();
 
-            DrawRespositionAll();
+            DrawRepositionAll();
 
             DrawDisableInAllianceRaids();
 
@@ -139,7 +139,7 @@ namespace NoTankYou
 
         private static void DrawDisableInAllianceRaids()
         {
-            ImGui.Checkbox("Disable in Alliance Raids", ref Service.Configuration.DiableInAllianceRaid);
+            ImGui.Checkbox("Disable in Alliance Raids", ref Service.Configuration.DisableInAllianceRaid);
 
             ImGui.Spacing();
         }
@@ -190,7 +190,7 @@ namespace NoTankYou
             ImGui.Spacing();
         }
 
-        private void DrawRespositionAll()
+        private void DrawRepositionAll()
         {
             ImGui.Text("Reposition All Banners");
             ImGui.Separator();

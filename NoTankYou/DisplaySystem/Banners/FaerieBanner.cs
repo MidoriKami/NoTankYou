@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.ClientState.Statuses;
-using FFXIVClientStructs.FFXIV.Client.Game.Gauge;
 using ImGuiScene;
 
 namespace NoTankYou.DisplaySystem.Banners
