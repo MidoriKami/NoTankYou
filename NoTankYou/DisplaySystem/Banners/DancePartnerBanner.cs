@@ -18,29 +18,21 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInPartyInDuty()
         {
-            // ClassJob 38 is Dancer, get the list of all dancers in the party
-            var partyList = Service.PartyList.Where(r => r.ClassJob.Id is 38 && r.Level >= 60);
-
-            // Closed Position Status is 1823, get the list of these dancers with Closed Position
-            var membersWithClosedPosition = partyList.Where(r => r.Statuses.Any(s => s.StatusId == 1823) && r.Level >= 60);
-
-            // If these two lists match, then everyone's doing their job
-            if (partyList.Count() == membersWithClosedPosition.Count())
-            {
-                Visible = false;
-            }
-
-            // If not, then we need to show the warning banner
-            else
-            {
-                Visible = true;
-            }
+            Visible = Service.PartyList
+                .Where(p => p.ClassJob.Id is 38 && p.Level >= 60)
+                .Any(p => !p.Statuses.Any(s => s.StatusId is 1823));
         }
 
         protected override void UpdateSoloInDuty()
         {
-            // Dance Partner Does not Support Solo Mode
-            return;
+            var player = Service.ClientState.LocalPlayer;
+            if(player == null) return;
+
+            var playerIsDancer = player.ClassJob.Id == 38;
+
+            var playerHadClosedPosition = player.StatusList.Any(s => s.StatusId is 1823);
+
+            Visible = playerIsDancer && !playerHadClosedPosition;
         }
     }
 }
