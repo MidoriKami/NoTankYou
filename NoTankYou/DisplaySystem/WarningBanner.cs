@@ -22,7 +22,6 @@ namespace NoTankYou.DisplaySystem
                     ImGuiWindowFlags.NoNavFocus |
                     ImGuiWindowFlags.NoResize;
 
-
         public const ImGuiWindowFlags IgnoreInputFlags =
                     ImGuiWindowFlags.NoScrollbar |
                     ImGuiWindowFlags.NoTitleBar |
@@ -34,9 +33,9 @@ namespace NoTankYou.DisplaySystem
                     ImGuiWindowFlags.NoNavFocus |
                     ImGuiWindowFlags.NoInputs;
 
-        protected TextureWrap Image_Large;
-        protected TextureWrap Image_Medium;
-        protected TextureWrap Image_Small;
+        protected TextureWrap ImageLarge;
+        protected TextureWrap ImageMedium;
+        protected TextureWrap ImageSmall;
         protected TextureWrap SelectedImage;
 
         public bool Visible { get; set; } = false;
@@ -65,26 +64,26 @@ namespace NoTankYou.DisplaySystem
             var mediumPath = Path.Combine(assemblyLocation, $@"images\{imageName}_Medium.png");
             var largePath = Path.Combine(assemblyLocation, $@"images\{imageName}_Large.png");
 
-            Image_Small = Service.PluginInterface.UiBuilder.LoadImage(smallPath);
-            Image_Medium = Service.PluginInterface.UiBuilder.LoadImage(mediumPath);
-            Image_Large = Service.PluginInterface.UiBuilder.LoadImage(largePath);
+            ImageSmall = Service.PluginInterface.UiBuilder.LoadImage(smallPath);
+            ImageMedium = Service.PluginInterface.UiBuilder.LoadImage(mediumPath);
+            ImageLarge = Service.PluginInterface.UiBuilder.LoadImage(largePath);
 
             switch (Service.Configuration.ImageSize)
             {
                 case ImageSize.Small:
-                    SelectedImage = Image_Small;
+                    SelectedImage = ImageSmall;
                     break;
 
                 case ImageSize.Medium:
-                    SelectedImage = Image_Medium;
+                    SelectedImage = ImageMedium;
                     break;
 
                 case ImageSize.Large:
-                    SelectedImage = Image_Large;
+                    SelectedImage = ImageLarge;
                     break;
 
                 default:
-                    SelectedImage = Image_Large;
+                    SelectedImage = ImageLarge;
                     break;
             }
 
@@ -174,15 +173,15 @@ namespace NoTankYou.DisplaySystem
             switch (size)
             {
                 case ImageSize.Small:
-                    SelectedImage = Image_Small;
+                    SelectedImage = ImageSmall;
                     break;
 
                 case ImageSize.Medium:
-                    SelectedImage = Image_Medium;
+                    SelectedImage = ImageMedium;
                     break;
 
                 case ImageSize.Large:
-                    SelectedImage = Image_Large;
+                    SelectedImage = ImageLarge;
                     break;
             }
 
@@ -195,9 +194,9 @@ namespace NoTankYou.DisplaySystem
 
         public void Dispose()
         {
-            Image_Small.Dispose();
-            Image_Medium.Dispose();
-            Image_Large.Dispose();
+            ImageSmall.Dispose();
+            ImageMedium.Dispose();
+            ImageLarge.Dispose();
         }
     }
 }
