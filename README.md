@@ -36,8 +36,11 @@ Command format is the following:
 
 Module Name is extremely flexible:
 "kardion" "sage" "sge" "kardia"
+
 "tank" "tankstance"
+
 "dancepartner" "dancer" "dp" "dnc"
+
 "faerie" "fairy" "scholar" "sch"
 
 You can omit the [on,off,toggle] to toggle automatically.
