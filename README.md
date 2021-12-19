@@ -32,6 +32,7 @@ There is also a configuration option to disable checking while in an alliance ra
 For ease of use, bundled with the main command **/notankyou** you can also use the shorthand **/nty** there are several commands you can use
 
 Command format is the following:
+
 /[nty,notankyou] [modulename*] [on,off,toggle]
 
 Module Name is extremely flexible:
