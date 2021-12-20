@@ -63,7 +63,7 @@ namespace NoTankYou.DisplaySystem.Banners
 
             Visible = partyMemberData
                 .Where(player => !player.Value.Item1.Any())// Where the player doesn't have any pets
-                .Any(player => !player.Value.Item2.Any(s => s.StatusId is 791)); // If any of them don't have dissipation
+                .Any(player => !player.Value.Item2.Any(s => s.StatusId is DissipationStatusID)); // If any of them don't have dissipation
         }
 
         protected override void UpdateSoloInDuty()
