@@ -2,6 +2,7 @@
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using System.Numerics;
+using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DisplaySystem;
 
 namespace NoTankYou
@@ -9,10 +10,13 @@ namespace NoTankYou
     internal class SettingsWindow : Window
     {
         private Tab CurrentTab = Tab.General;
-        private readonly Vector2 WindowSize = new(450, 550);
+        private readonly Vector2 WindowSize = new(450, 675);
         private int ModifyBlacklistValue;
         private bool CurrentlyRepositioningAll = false;
         private int SizeRadioButton = 0;
+        private int LastSizeRadioButton = -1;
+        private int MainMode = 0;
+        private int SubMode = 0;
 
         public SettingsWindow() : base("No Tank You Settings Window")
         {
@@ -29,6 +33,8 @@ namespace NoTankYou
             Flags |= ImGuiWindowFlags.NoScrollWithMouse;
 
             SizeRadioButton = (int) Service.Configuration.ImageSize;
+            MainMode = (int) Service.Configuration.ProcessingMainMode;
+            SubMode = (int) Service.Configuration.ProcessingSubMode;
         }
 
         private enum Tab
@@ -38,6 +44,7 @@ namespace NoTankYou
             DancePartner,
             Faerie,
             Kardion,
+            Summoner,
             Blacklist
         }
         public override void Draw()
@@ -68,6 +75,10 @@ namespace NoTankYou
                     DrawKardionTab();
                     break;
 
+                case Tab.Summoner:
+                    DrawSummonerTab();
+                    break;
+
                 case Tab.Blacklist:
                     DrawBlacklistTab();
                     break;
@@ -75,6 +86,9 @@ namespace NoTankYou
 
             DrawSaveAndCloseButtons();
         }
+
+
+
         private void DrawTabs()
         {
             if (ImGui.BeginTabBar("No Tank You Tab Toolbar", ImGuiTabBarFlags.NoTooltip))
@@ -85,27 +99,33 @@ namespace NoTankYou
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Tank Stance"))
+                if (ImGui.BeginTabItem("Tanks"))
                 {
                     CurrentTab = Tab.TankStance;
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Dance Partner"))
+                if (ImGui.BeginTabItem("DNC"))
                 {
                     CurrentTab = Tab.DancePartner;
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Faerie"))
+                if (ImGui.BeginTabItem("SCH"))
                 {
                     CurrentTab = Tab.Faerie;
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Kardion"))
+                if (ImGui.BeginTabItem("SGE"))
                 {
                     CurrentTab = Tab.Kardion;
+                    ImGui.EndTabItem();
+                }
+
+                if (ImGui.BeginTabItem("SMN"))
+                {
+                    CurrentTab = Tab.Summoner;
                     ImGui.EndTabItem();
                 }
 
@@ -119,8 +139,6 @@ namespace NoTankYou
         private void DrawGeneralTab()
         {
             DrawGeneralSettings();
-
-            DrawStatus();
         }
         private void DrawGeneralSettings()
         {
@@ -128,24 +146,56 @@ namespace NoTankYou
             ImGui.Separator();
             ImGui.Spacing();
 
-            DrawEnabledDisableAll();
-
-            DrawSelectSize();
-
-            DrawRepositionAll();
-
             DrawDisableInAllianceRaids();
 
             DrawChangeWaitFrameCount();
 
             DrawInstanceLoadDelayTimeTextField();
 
+            DrawModeSelect();
+
+            DrawSelectSize();
+            
+            DrawRepositionAll();
+
+            DrawStatus();
+
             ImGui.Spacing();
+        }
+
+        private void DrawModeSelect()
+        {
+            ImGui.Text("Mode Selection");
+            ImGui.Separator();
+
+            ImGui.RadioButton("Party Mode", ref MainMode, 0);
+            ImGuiComponents.HelpMarker("Checks entire party's status to display warnings");
+            ImGui.SameLine();
+            ImGui.Indent(200);
+            ImGui.RadioButton("Solo Mode", ref MainMode,1);
+            ImGuiComponents.HelpMarker("Checks only your status to display warnings");
+            ImGui.Indent(-200);
+
+            if (MainMode == 1)
+            {
+                ImGui.Spacing();
+                ImGui.Indent(250);
+                ImGui.RadioButton("Only In Duty", ref SubMode, 0);
+                ImGuiComponents.HelpMarker("Only instanced content");
+
+                ImGui.Spacing();
+                ImGui.RadioButton("Everywhere", ref SubMode, 1);
+                ImGuiComponents.HelpMarker("Includes Open World and Towns");
+                ImGui.Indent(-250);
+            }
+
+            Service.Configuration.ProcessingMainMode = (Configuration.MainMode)MainMode;
+            Service.Configuration.ProcessingSubMode = (Configuration.SubMode)SubMode;
         }
 
         private void DrawSelectSize()
         {
-            ImGui.Text("Size Selection");
+            ImGui.Text("Banner Size Selection");
             ImGui.Separator();
 
             ImGui.RadioButton("Small", ref SizeRadioButton, 0 ); ImGui.SameLine();
@@ -154,22 +204,12 @@ namespace NoTankYou
 
             ImGui.Spacing();
 
-            switch (SizeRadioButton)
-            {
-                case 0:
-                    Service.Configuration.ImageSize = WarningBanner.ImageSize.Small;
-                    break;
+            Service.Configuration.ImageSize = (WarningBanner.ImageSize) SizeRadioButton;
 
-                case 1:
-                    Service.Configuration.ImageSize = WarningBanner.ImageSize.Medium;
-                    break;
-
-                case 2:
-                    Service.Configuration.ImageSize = WarningBanner.ImageSize.Large;
-                    break;
-            }
+            if (LastSizeRadioButton == SizeRadioButton) return;
 
             Service.Configuration.ForceWindowUpdate = true;
+            LastSizeRadioButton = SizeRadioButton;
         }
 
         private static void DrawDisableInAllianceRaids()
@@ -210,6 +250,7 @@ namespace NoTankYou
                 Service.Configuration.EnableKardionBanner = true;
                 Service.Configuration.EnableFaerieBanner = true;
                 Service.Configuration.EnableTankStanceBanner = true;
+                Service.Configuration.EnableSummonerBanner = true;
             }
 
             ImGui.SameLine();
@@ -220,6 +261,7 @@ namespace NoTankYou
                 Service.Configuration.EnableKardionBanner = false;
                 Service.Configuration.EnableFaerieBanner = false;
                 Service.Configuration.EnableTankStanceBanner = false;
+                Service.Configuration.EnableSummonerBanner = false;
             }
 
             ImGui.Spacing();
@@ -237,6 +279,7 @@ namespace NoTankYou
                 Service.Configuration.RepositionModeKardionBanner = true;
                 Service.Configuration.RepositionModeFaerieBanner = true;
                 Service.Configuration.RepositionModeTankStanceBanner = true;
+                Service.Configuration.RepositionModeSummonerBanner = true;
                 CurrentlyRepositioningAll = true;
             }
 
@@ -248,6 +291,7 @@ namespace NoTankYou
                 Service.Configuration.RepositionModeKardionBanner = false;
                 Service.Configuration.RepositionModeFaerieBanner = false;
                 Service.Configuration.RepositionModeTankStanceBanner = false;
+                Service.Configuration.RepositionModeSummonerBanner = false;
                 CurrentlyRepositioningAll = false;
             }
 
@@ -266,10 +310,6 @@ namespace NoTankYou
                 ImGui.TextColored(new Vector4(185, 0, 0, 0.8f), "Disabled");
             }
             ImGui.Spacing();
-
-            ImGui.Separator();
-            ImGui.Spacing();
-
         }
         private static void DrawStatus()
         {
@@ -277,6 +317,8 @@ namespace NoTankYou
 
             ImGui.Separator();
             ImGui.Spacing();
+
+            DrawEnabledDisableAll();
 
             if (ImGui.BeginTable("##StatusTable", 2))
             {
@@ -303,6 +345,12 @@ namespace NoTankYou
 
                 ImGui.TableNextColumn();
                 DrawConditionalText(Service.Configuration.EnableKardionBanner, "Enabled", "Disabled");
+
+                ImGui.TableNextColumn();
+                ImGui.Text("Summoner Pet");
+
+                ImGui.TableNextColumn();
+                DrawConditionalText(Service.Configuration.EnableSummonerBanner, "Enabled", "Disabled");
 
                 ImGui.EndTable();
             }
@@ -369,10 +417,6 @@ namespace NoTankYou
 
             ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeFaerieBanner);
             ImGui.Spacing();
-
-            ImGui.Checkbox("Enable While Solo", ref Service.Configuration.EnableFaerieBannerWhileSolo);
-            ImGuiComponents.HelpMarker("Enable while solo in a duty.");
-            ImGui.Spacing();
         }
         private static void DrawKardionTab()
         {
@@ -388,11 +432,23 @@ namespace NoTankYou
 
             ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeKardionBanner);
             ImGui.Spacing();
+        }
+        private void DrawSummonerTab()
+        {
+            ImGui.Text("Summoner Pet Warning Settings");
+            ImGui.Separator();
+            ImGui.Spacing();
 
-            ImGui.Checkbox("Enable While Solo", ref Service.Configuration.EnableKardionBannerWhileSolo);
-            ImGuiComponents.HelpMarker("Enable while solo in a duty.");
+            ImGui.Checkbox("Enable Missing Summoner Pet Warning", ref Service.Configuration.EnableSummonerBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowSummonerBanner);
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeSummonerBanner);
             ImGui.Spacing();
         }
+
         private void DrawBlacklistTab()
         {
             ImGui.Text("Blacklist Settings");

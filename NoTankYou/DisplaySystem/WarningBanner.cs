@@ -45,10 +45,11 @@ namespace NoTankYou.DisplaySystem
 
         protected abstract ref bool RepositionModeBool { get; }
         protected abstract ref bool ForceShowBool { get; }
-        protected abstract ref bool SoloModeBool { get; }
+        protected abstract ref bool ModuleEnabled { get; }
 
         protected abstract void UpdateInPartyInDuty();
         protected abstract void UpdateSoloInDuty();
+        protected abstract void UpdateSoloEverywhere();
 
         public enum ImageSize
         {
@@ -94,22 +95,34 @@ namespace NoTankYou.DisplaySystem
             };
         }
 
+        protected void PreUpdate()
+        {
+            IsOpen = ModuleEnabled;
+        }
+
         public void Update()
         {
+            PreUpdate();
+
             if (!IsOpen) return;
 
             Forced = ForceShowBool || RepositionModeBool;
 
             // If we are in a party, and in a duty
-            if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty])
+            if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty] && Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party)
             {
                 UpdateInPartyInDuty();
             }
 
             // If we are in a duty, and have solo mode enabled
-            else if (SoloModeBool && Service.Condition[ConditionFlag.BoundByDuty])
+            else if (Service.Configuration.ProcessingSubMode == Configuration.SubMode.OnlyInDuty && Service.Condition[ConditionFlag.BoundByDuty] && Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
             {
                 UpdateSoloInDuty();
+            }
+
+            else if (Service.Configuration.ProcessingSubMode == Configuration.SubMode.Everywhere && Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
+            {
+                UpdateSoloEverywhere();
             }
 
             else
@@ -122,14 +135,7 @@ namespace NoTankYou.DisplaySystem
         {
             base.PreDraw();
 
-            if (RepositionModeBool)
-            {
-                Flags = MoveWindowFlags;
-            }
-            else
-            {
-                Flags = IgnoreInputFlags;
-            }
+            Flags = RepositionModeBool ? MoveWindowFlags : IgnoreInputFlags;
         }
 
         public override void Draw()

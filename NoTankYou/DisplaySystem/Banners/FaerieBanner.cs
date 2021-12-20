@@ -8,7 +8,7 @@ namespace NoTankYou.DisplaySystem.Banners
     {
         protected override ref bool RepositionModeBool => ref Service.Configuration.RepositionModeFaerieBanner;
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowFaerieBanner;
-        protected override ref bool SoloModeBool => ref Service.Configuration.EnableFaerieBannerWhileSolo;
+        protected override ref bool ModuleEnabled => ref Service.Configuration.EnableFaerieBanner;
 
         private readonly Stopwatch PetCountStopwatch = new();
         private readonly Stopwatch DissipationCountStopwatch = new();
@@ -22,7 +22,7 @@ namespace NoTankYou.DisplaySystem.Banners
         private const int ScholarClassID = 28;
         private const int DissipationStatusID = 791;
 
-        public FaerieBanner() : base("Partner Up Faerie Warning Banner", "Faerie")
+        public FaerieBanner() : base("No Tank You Faerie Warning Banner", "Faerie")
         {
 
         }
@@ -71,12 +71,10 @@ namespace NoTankYou.DisplaySystem.Banners
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
 
-            // If the player isn't a Scholar return
-            if (player.ClassJob.Id != ScholarClassID) return;
+            var playerIsScholar = player.ClassJob.Id == ScholarClassID;
 
             var isPetPresent = Service.BuddyList.PetBuddyPresent;
 
-            // id 791 is dissipation id
             var playerHasDissipation = player.StatusList.Any(s => s.StatusId == DissipationStatusID);
 
             var petStatusChanged = isPetPresent != LastSoloPet;
@@ -106,7 +104,12 @@ namespace NoTankYou.DisplaySystem.Banners
                 }
             }
 
-            Visible = !(playerHasDissipation || isPetPresent);
+            Visible = playerIsScholar && !(playerHasDissipation || isPetPresent);
+        }
+
+        protected override void UpdateSoloEverywhere()
+        {
+            UpdateSoloInDuty();
         }
     }
 }

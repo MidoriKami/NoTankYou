@@ -9,27 +9,25 @@ namespace NoTankYou.DisplaySystem
 {
     internal class DisplayManager : IDisposable
     {
-        private readonly FaerieBanner FaerieBanner;
-        private readonly KardionBanner KardionBanner;
-        private readonly DancePartnerBanner DancePartnerBanner;
-        private readonly TankStanceBanner TankStanceBanner;
+        private readonly List<WarningBanner> Banners = new();
 
         private readonly List<uint> PvPTerritoryBlacklist;
         private readonly List<uint> AllianceRaidTerritories;
 
         public DisplayManager()
         {
-            FaerieBanner = new FaerieBanner();
-            KardionBanner = new KardionBanner();
-            DancePartnerBanner = new DancePartnerBanner();
-            TankStanceBanner = new TankStanceBanner();
+            Banners.Add(new FaerieBanner());
+            Banners.Add(new KardionBanner());
+            Banners.Add(new DancePartnerBanner());
+            Banners.Add(new TankStanceBanner());
+            Banners.Add(new SummonerBanner());
 
-            Service.WindowSystem.AddWindow(DancePartnerBanner);
-            Service.WindowSystem.AddWindow(KardionBanner);
-            Service.WindowSystem.AddWindow(FaerieBanner);
-            Service.WindowSystem.AddWindow(TankStanceBanner);
+            foreach (var banner in Banners)
+            {
+                Service.WindowSystem.AddWindow(banner);
+            }
 
-            // Battalion Mode 4 = PvP
+            // Battalion MainMode 4 = PvP
             PvPTerritoryBlacklist = Service.DataManager.GetExcelSheet<TerritoryType>()
                             !.Where(r => r.BattalionMode is 4)
                             .Select(r => r.RowId)
@@ -52,31 +50,35 @@ namespace NoTankYou.DisplaySystem
 
             if (shouldDisable)
             {
-                FaerieBanner.Disabled = true;
-                KardionBanner.Disabled = true;
-                DancePartnerBanner.Disabled = true;
-                TankStanceBanner.Disabled = true;
+                foreach (var banner in Banners)
+                {
+                    banner.Disabled = true;
+                }
             }
             else
             {
-                FaerieBanner.Disabled = false;
-                KardionBanner.Disabled = false;
-                DancePartnerBanner.Disabled = false;
-                TankStanceBanner.Disabled = false;
+                foreach (var banner in Banners)
+                {
+                    banner.Disabled = false;
+                }
             }
 
+
+            // Skip delaying if we are the reason we are re-evaluating
+            if(sender == this) return;
+
             // Delay Displaying Warnings Until Grace Period Passes
-            FaerieBanner.Paused = true;
-            KardionBanner.Paused = true;
-            DancePartnerBanner.Paused = true;
-            TankStanceBanner.Paused = true;
+            foreach (var banner in Banners)
+            {
+                banner.Paused = true;
+            }
 
             Task.Delay(Service.Configuration.TerritoryChangeDelayTime).ContinueWith(t =>
             {
-                FaerieBanner.Paused = false;
-                KardionBanner.Paused = false;
-                DancePartnerBanner.Paused = false;
-                TankStanceBanner.Paused = false;
+                foreach (var banner in Banners)
+                {
+                    banner.Paused = false;
+                }
             });
         }
 
@@ -92,34 +94,28 @@ namespace NoTankYou.DisplaySystem
                 Service.Configuration.ForceWindowUpdate = false;
             }
 
-            DancePartnerBanner.IsOpen = Service.Configuration.EnableDancePartnerBanner;
-            KardionBanner.IsOpen = Service.Configuration.EnableKardionBanner;
-            FaerieBanner.IsOpen = Service.Configuration.EnableFaerieBanner;
-            TankStanceBanner.IsOpen = Service.Configuration.EnableTankStanceBanner;
-
-            FaerieBanner.Update();
-            KardionBanner.Update();
-            DancePartnerBanner.Update();
-            TankStanceBanner.Update();
+            foreach (var banner in Banners)
+            {
+                banner.Update();
+            }
         }
 
         private void ForceWindowUpdate()
         {
-            var currentTerritory = Service.ClientState.TerritoryType;
-            OnTerritoryChanged(this, currentTerritory);
+            foreach (var banner in Banners)
+            {
+                banner.ChangeImageSize(Service.Configuration.ImageSize);
+            }
 
-            FaerieBanner.ChangeImageSize(Service.Configuration.ImageSize);
-            KardionBanner.ChangeImageSize(Service.Configuration.ImageSize);
-            DancePartnerBanner.ChangeImageSize(Service.Configuration.ImageSize);
-            TankStanceBanner.ChangeImageSize(Service.Configuration.ImageSize);
+            OnTerritoryChanged(this, Service.ClientState.TerritoryType);
         }
 
         public void Dispose()
         {
-            FaerieBanner.Dispose();
-            DancePartnerBanner.Dispose();
-            KardionBanner.Dispose();
-            TankStanceBanner.Dispose();
+            foreach (var banner in Banners)
+            {
+                banner.Dispose();
+            }
         }
     }
 }

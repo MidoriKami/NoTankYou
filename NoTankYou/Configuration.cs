@@ -14,27 +14,41 @@ namespace NoTankYou
 
         public WarningBanner.ImageSize ImageSize = WarningBanner.ImageSize.Large;
 
+        public enum MainMode
+        {
+            Party,
+            Solo
+        }
+
+        public enum SubMode
+        {
+            OnlyInDuty,
+            Everywhere
+        }
+
+        public MainMode ProcessingMainMode = MainMode.Party;
+        public SubMode ProcessingSubMode = SubMode.OnlyInDuty;
+
         public bool DisableInAllianceRaid = true;
         public int TerritoryChangeDelayTime = 8000;
-
-        public bool EnableFaerieBannerWhileSolo = false;
-        public bool EnableKardionBannerWhileSolo = false;
-        public bool EnableTankStanceBannerWhileSolo = false;
 
         public bool EnableTankStanceBanner = false;
         public bool EnableDancePartnerBanner = false;
         public bool EnableFaerieBanner = false;
         public bool EnableKardionBanner = false;
+        public bool EnableSummonerBanner = false;
 
         public bool ForceShowTankStanceBanner = false;
         public bool ForceShowDancePartnerBanner = false;
         public bool ForceShowFaerieBanner = false;
         public bool ForceShowKardionBanner = false;
+        public bool ForceShowSummonerBanner = false;
 
         public bool RepositionModeTankStanceBanner = false;
         public bool RepositionModeDancePartnerBanner = false;
         public bool RepositionModeFaerieBanner = false;
         public bool RepositionModeKardionBanner = false;
+        public bool RepositionModeSummonerBanner = false;
 
         public List<int> TerritoryBlacklist = new();
 
@@ -42,6 +56,8 @@ namespace NoTankYou
 
         [NonSerialized]
         private DalamudPluginInterface? pluginInterface;
+
+
 
         public void Initialize(DalamudPluginInterface pluginInterface)
         {

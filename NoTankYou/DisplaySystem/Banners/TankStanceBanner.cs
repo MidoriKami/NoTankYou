@@ -10,7 +10,8 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override ref bool RepositionModeBool => ref Service.Configuration.RepositionModeTankStanceBanner;
         protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowTankStanceBanner;
-        protected override ref bool SoloModeBool => ref Service.Configuration.EnableTankStanceBannerWhileSolo;
+        protected override ref bool ModuleEnabled => ref Service.Configuration.EnableTankStanceBanner;
+
 
         private const int TankRoleID = 1;
 
@@ -19,17 +20,17 @@ namespace NoTankYou.DisplaySystem.Banners
             // Non-Blue Mage Tank Stances
             TankStances = Service.DataManager.GetExcelSheet<Action>()
                 !.Where(r => r.ClassJob.Value?.Role == TankRoleID)
-                !.Select(r => r.StatusGainSelf.Value!)
-                !.Where(r => r.IsPermanent == true)
+                .Select(r => r.StatusGainSelf.Value!)
+                .Where(r => r.IsPermanent == true)
                 .Select(r => r.RowId)
                 .ToList();
         }
 
         protected override void UpdateInPartyInDuty()
         {
-            Visible = !Service.PartyList
+            Visible = Service.PartyList
                 .Where(p => p.ClassJob.GameData.Role == TankRoleID)
-                .Any(p => p.Statuses.Any(s => TankStances.Contains(s.StatusId)));
+                .Any(p => !p.Statuses.Any(s => TankStances.Contains(s.StatusId)));
         }
 
         protected override void UpdateSoloInDuty()
@@ -41,6 +42,11 @@ namespace NoTankYou.DisplaySystem.Banners
             var tankStanceFound = player.StatusList.Any(s => TankStances.Contains(s.StatusId));
 
             Visible = playerIsTank && !tankStanceFound;
+        }
+
+        protected override void UpdateSoloEverywhere()
+        {
+            UpdateSoloInDuty();
         }
     }
 }
