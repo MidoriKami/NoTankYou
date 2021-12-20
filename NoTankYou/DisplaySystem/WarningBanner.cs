@@ -145,14 +145,14 @@ namespace NoTankYou.DisplaySystem
             if (Forced)
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width, SelectedImage.Height));
+                ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width - 5, SelectedImage.Height));
                 return;
             }
 
             if (Visible && !Disabled && !Paused)
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width, SelectedImage.Height));
+                ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width - 5, SelectedImage.Height));
                 return;
             }
         }
