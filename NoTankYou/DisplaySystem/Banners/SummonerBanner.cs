@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Game.ClientState.Party;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.DisplaySystem.Banners
@@ -31,7 +32,11 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInPartyInDuty()
         {
-            var partyMemberData = PetUtilities.GetPartyMemberData(SummonerClassID);
+            ICollection<PartyMember> partyMembers = Service.PartyList.Where(p => p.ClassJob.Id == SummonerClassID && IsTargetable(p)).ToArray();
+
+            FilterDeadPlayers(ref partyMembers);
+
+            var partyMemberData = PetUtilities.GetPartyMemberData(partyMembers);
 
             var numPlayersWithPet = partyMemberData.Count(playerData => playerData.Value.Item1.Any());
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Game.ClientState.Party;
 using Action = Lumina.Excel.GeneratedSheets.Action;
 
 namespace NoTankYou.DisplaySystem.Banners
@@ -28,8 +29,12 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInPartyInDuty()
         {
-            Visible = Service.PartyList
-                .Where(p => p.ClassJob.GameData.Role == TankRoleID)
+            ICollection<PartyMember> tankPlayers = Service.PartyList
+                .Where(p => p.ClassJob.GameData.Role == TankRoleID).ToArray();
+
+            FilterDeadPlayers(ref tankPlayers);
+
+            Visible = tankPlayers
                 .Any(p => !p.Statuses.Any(s => TankStances.Contains(s.StatusId)));
         }
 

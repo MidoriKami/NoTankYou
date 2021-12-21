@@ -22,16 +22,13 @@ namespace NoTankYou.Utilities
                 .Where(o => o.ObjectKind is ObjectKind.BattleNpc && ((BattleNpc)o).SubKind == (int)BattleNpcSubKind.Pet);
         }
 
-        public static Dictionary<PartyMember, Tuple<List<GameObject>, StatusList>> GetPartyMemberData(int withClassId)
+        public static Dictionary<PartyMember, Tuple<List<GameObject>, StatusList>> GetPartyMemberData(IEnumerable<PartyMember> partyMembers)
         {
             Dictionary<PartyMember, Tuple<List<GameObject>, StatusList>> data = new();
 
-            // Get Scholars
-            var partyMembers = Service.PartyList.Where(p => p.ClassJob.Id == withClassId && WarningBanner.IsTargetable(p));
-
             foreach (var member in partyMembers)
             {
-                // Get this scholars pets
+                // Get this players pets
                 var playerPets = GetPetsByOwnerId(member.ObjectId).ToList();
 
                 var statuses = member.Statuses;

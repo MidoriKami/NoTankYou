@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Dalamud.Game.ClientState.Party;
 
 namespace NoTankYou.DisplaySystem.Banners
 {
@@ -18,8 +20,12 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInPartyInDuty()
         {
-            Visible = Service.PartyList
-                .Where(r => r.ClassJob.Id == SageClassID)
+            ICollection<PartyMember> sagePlayers = Service.PartyList
+                .Where(r => r.ClassJob.Id == SageClassID).ToArray();
+
+            FilterDeadPlayers(ref sagePlayers);
+
+            Visible = sagePlayers
                 .Any(p => p.Statuses.All(s => s.StatusId != KardiaStatusID));
         }
 

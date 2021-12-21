@@ -5,7 +5,10 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using ImGuiNET;
 using ImGuiScene;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 
 namespace NoTankYou.DisplaySystem
@@ -37,6 +40,8 @@ namespace NoTankYou.DisplaySystem
         protected TextureWrap ImageMedium;
         protected TextureWrap ImageSmall;
         protected TextureWrap SelectedImage;
+
+        protected Dictionary<PartyMember, Stopwatch> DeathDictionary = new();
 
         public bool Visible { get; set; } = false;
         public bool Paused { get; set; } = false;
@@ -108,19 +113,20 @@ namespace NoTankYou.DisplaySystem
 
             Forced = ForceShowBool || RepositionModeBool;
 
-            // If we are in a party, and in a duty
-            if (Service.PartyList.Length > 0 && Service.Condition[ConditionFlag.BoundByDuty] && Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party)
+            // Party Mode Enabled
+            if ( IsPartyMode() )
             {
                 UpdateInPartyInDuty();
             }
 
-            // If we are in a duty, and have solo mode enabled
-            else if (Service.Configuration.ProcessingSubMode == Configuration.SubMode.OnlyInDuty && Service.Condition[ConditionFlag.BoundByDuty] && Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
+            // Solo Mode, Duties Only
+            else if ( IsSoloDutiesOnly() )
             {
                 UpdateSoloInDuty();
             }
 
-            else if (Service.Configuration.ProcessingSubMode == Configuration.SubMode.Everywhere && Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
+            // Solo Mode, Everywhere
+            else if ( IsSoloEverywhere() )
             {
                 UpdateSoloEverywhere();
             }
@@ -154,6 +160,108 @@ namespace NoTankYou.DisplaySystem
                 ImGui.SetCursorPos(new Vector2(5, 0));
                 ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width - 5, SelectedImage.Height));
                 return;
+            }
+        }
+
+        private bool IsBoundByDuty()
+        {
+            var baseBoundByDuty = Service.Condition[ConditionFlag.BoundByDuty];
+            var boundBy56 = Service.Condition[ConditionFlag.BoundByDuty56];
+            var boundBy95 = Service.Condition[ConditionFlag.BoundByDuty95];
+            var boundBy97 = Service.Condition[ConditionFlag.BoundToDuty97];
+
+            return baseBoundByDuty || boundBy56 || boundBy95 || boundBy97;
+        }
+
+        private bool IsInAreaTransition()
+        {
+            var baseTransition = Service.Condition[ConditionFlag.BetweenAreas];
+            var transition51 = Service.Condition[ConditionFlag.BetweenAreas51];
+
+            return baseTransition || transition51;
+        }
+
+        private bool IsPartyMode()
+        {
+            var inParty = Service.PartyList.Length > 0;
+            var isBoundByDuty = IsBoundByDuty();
+            var isPartyMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party;
+            var isInTransition = IsInAreaTransition();
+
+            return inParty && isBoundByDuty && isPartyMode && !isInTransition;
+        }
+
+        private bool IsSoloDutiesOnly()
+        {
+            var isSoloMainMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo;
+            var isDutiesOnlySubMode = Service.Configuration.ProcessingSubMode == Configuration.SubMode.OnlyInDuty;
+            var isBoundBuByDuty = IsBoundByDuty();
+            var isInAreaTransition = IsInAreaTransition();
+
+            return isSoloMainMode && isDutiesOnlySubMode && isBoundBuByDuty && !isInAreaTransition;
+        }
+
+        private bool IsSoloEverywhere()
+        {
+            var isSoloMainMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo;
+            var isEverywhereSubMode = Service.Configuration.ProcessingSubMode == Configuration.SubMode.Everywhere;
+            var isInAreaTransition = IsInAreaTransition();
+
+            return isSoloMainMode && isEverywhereSubMode && !isInAreaTransition;
+        }
+
+        protected void FilterDeadPlayers(ref ICollection<PartyMember> members)
+        {
+            AddDeadPlayersToDeathDictionary(members);
+
+            UpdateDeathDictionary();
+
+            RemoveDeadPlayers(ref members);
+        }
+
+        private void AddDeadPlayersToDeathDictionary(IEnumerable<PartyMember> players)
+        {
+            var deadPlayers = players.Where(p => p.CurrentHP == 0);
+
+            foreach (var deadPlayer in deadPlayers)
+            {
+                // If they were dead last check, and are still dead
+                if (DeathDictionary.ContainsKey(deadPlayer))
+                {
+                    // Reset the timer
+                    DeathDictionary[deadPlayer].Restart();
+                }
+                // Else this is the first time we are seeing them dead
+                else
+                {
+                    // Add an start the timer
+                    DeathDictionary.Add(deadPlayer, new Stopwatch());
+                    DeathDictionary[deadPlayer].Start();
+                }
+            }
+        }
+
+        private void UpdateDeathDictionary()
+        {
+            var playersWithElapsedTimers =
+                DeathDictionary.Where(p => p.Value.ElapsedMilliseconds >= Service.Configuration.DeathGracePeriod);
+            
+            foreach (var (player, timer) in playersWithElapsedTimers)
+            {
+                DeathDictionary.Remove(player);
+            }
+        }
+
+        private void RemoveDeadPlayers(ref ICollection<PartyMember> allPartyMembers)
+        {
+            var deadMembers = allPartyMembers.Where(member => DeathDictionary.ContainsKey(member));
+
+            foreach (var memberToRemove in deadMembers)
+            {
+                if (allPartyMembers.Contains(memberToRemove))
+                {
+                    allPartyMembers.Remove(memberToRemove);
+                }
             }
         }
 

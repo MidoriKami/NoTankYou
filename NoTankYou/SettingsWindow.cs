@@ -152,6 +152,8 @@ namespace NoTankYou
 
             DrawInstanceLoadDelayTimeTextField();
 
+            DrawDeathGracePeriod();
+
             DrawModeSelect();
 
             DrawSelectSize();
@@ -162,7 +164,7 @@ namespace NoTankYou
 
             ImGui.Spacing();
         }
-
+        
         private void DrawModeSelect()
         {
             ImGui.Text("Mode Selection");
@@ -359,8 +361,8 @@ namespace NoTankYou
         }
         private static void DrawInstanceLoadDelayTimeTextField()
         {
-            ImGui.Text("Grace Period");
-            ImGui.InputInt("", ref Service.Configuration.TerritoryChangeDelayTime, 1000, 5000);
+            ImGui.Text("Instance Load Grace Period");
+            ImGui.InputInt("##TerritoryChangeDelay", ref Service.Configuration.TerritoryChangeDelayTime, 1000, 5000);
             ImGuiComponents.HelpMarker("Hide warnings on map change for (milliseconds)\n" +
                 "Recommended: 8,000 - 15,000\n" +
                 "Minimum: 3,000");
@@ -369,6 +371,20 @@ namespace NoTankYou
             if (Service.Configuration.TerritoryChangeDelayTime < 3000)
             {
                 Service.Configuration.TerritoryChangeDelayTime = 3000;
+            }
+        }
+        private void DrawDeathGracePeriod()
+        {
+            ImGui.Text("Death Grace Period");
+            ImGui.InputInt("##DeathChangeDelay", ref Service.Configuration.DeathGracePeriod, 1000, 5000);
+            ImGuiComponents.HelpMarker("Wait this many milliseconds before warning about someone who just rezed from death\n" +
+                                       "Recommended: 5000\n" +
+                                       "Minimum: 1,000");
+            ImGui.Spacing();
+
+            if (Service.Configuration.DeathGracePeriod < 1000)
+            {
+                Service.Configuration.DeathGracePeriod = 1000;
             }
         }
         private static void DrawTankStanceTab()

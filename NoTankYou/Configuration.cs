@@ -31,6 +31,7 @@ namespace NoTankYou
 
         public bool DisableInAllianceRaid = true;
         public int TerritoryChangeDelayTime = 8000;
+        public int DeathGracePeriod = 5000;
 
         public bool EnableTankStanceBanner = false;
         public bool EnableDancePartnerBanner = false;
@@ -56,8 +57,6 @@ namespace NoTankYou
 
         [NonSerialized]
         private DalamudPluginInterface? pluginInterface;
-
-
 
         public void Initialize(DalamudPluginInterface pluginInterface)
         {

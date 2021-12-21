@@ -1,4 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Transactions;
+using Dalamud.Game.ClientState.Party;
 
 namespace NoTankYou.DisplaySystem.Banners
 {
@@ -18,11 +23,15 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInPartyInDuty()
         {
-            Visible = Service.PartyList
-                .Where(p => p.ClassJob.Id is DancerClassId && p.Level >= 60)
+            ICollection<PartyMember> dancerPlayers = Service.PartyList
+                .Where(p => p.ClassJob.Id is DancerClassId && p.Level >= 60).ToArray();
+
+            FilterDeadPlayers(ref dancerPlayers);
+
+            Visible = dancerPlayers
                 .Any(p => !p.Statuses.Any(s => s.StatusId is ClosedPositionStatusId));
         }
-
+        
         protected override void UpdateSoloInDuty()
         {
             var player = Service.ClientState.LocalPlayer;
