@@ -23,12 +23,7 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInParty()
         {
-            var dancerPlayers = Service.PartyList
-                .Where(p => p.ClassJob.Id is DancerClassId && p.Level >= 60).ToList();
-
-            var deadPlayers = GetDeadPlayers(dancerPlayers);
-
-            dancerPlayers.RemoveAll(r => deadPlayers.Contains(r.ObjectId));
+            var dancerPlayers = GetFilteredPartyList(p => p.ClassJob.Id == DancerClassId && p.Level >= 60);
 
             Visible = dancerPlayers
                 .Any(p => !p.Statuses.Any(s => s.StatusId is ClosedPositionStatusId));

@@ -20,12 +20,7 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInParty()
         {
-            var sagePlayers = Service.PartyList
-                .Where(r => r.ClassJob.Id == SageClassID).ToList();
-
-            var deadPlayers = GetDeadPlayers(sagePlayers);
-
-            sagePlayers.RemoveAll(r => deadPlayers.Contains(r.ObjectId));
+            var sagePlayers = GetFilteredPartyList(p => p.ClassJob.Id == SageClassID);
 
             Visible = sagePlayers
                 .Any(p => p.Statuses.All(s => s.StatusId != KardiaStatusID));

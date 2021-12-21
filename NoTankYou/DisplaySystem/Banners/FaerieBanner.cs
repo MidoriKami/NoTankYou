@@ -31,12 +31,7 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInParty()
         {
-            List<PartyMember> partyMembers = Service.PartyList.Where(p => p.ClassJob.Id == ScholarClassID && IsTargetable(p)).ToList();
-
-            var deadPlayers = GetDeadPlayers(partyMembers);
-            partyMembers.RemoveAll(r => deadPlayers.Contains(r.ObjectId));
-
-            // var partyMembers = GetFilteredPartyList(p => p.ClassJob.Id == ScholarClassID && IsTargetable(p));
+            var partyMembers = GetFilteredPartyList(p => p.ClassJob.Id == ScholarClassID && IsTargetable(p));
 
             var partyMemberData = PetUtilities.GetPartyMemberData(partyMembers);
 

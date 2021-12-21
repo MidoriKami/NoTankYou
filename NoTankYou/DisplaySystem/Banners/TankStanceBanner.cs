@@ -29,12 +29,7 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInParty()
         {
-            var tankPlayers = Service.PartyList
-                .Where(p => p.ClassJob.GameData.Role == TankRoleID).ToList();
-
-            var deadPlayers = GetDeadPlayers(tankPlayers);
-
-            tankPlayers.RemoveAll(r => deadPlayers.Contains(r.ObjectId));
+            var tankPlayers = GetFilteredPartyList(p => p.ClassJob.GameData.Role == TankRoleID);
 
             Visible = tankPlayers
                 .All(p => !p.Statuses.Any(s => TankStances.Contains(s.StatusId))) && tankPlayers.Count > 0;

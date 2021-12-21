@@ -384,7 +384,7 @@ namespace NoTankYou
             ImGui.Text("Death Grace Period");
             ImGui.InputInt("##DeathChangeDelay", ref Service.Configuration.DeathGracePeriod, 1000, 5000);
             ImGuiComponents.HelpMarker("Wait this many milliseconds before warning about someone who just rezed from death\n" +
-                                       "Recommended: 5000\n" +
+                                       "Recommended: 5,000\n" +
                                        "Minimum: 1,000");
             ImGui.Spacing();
 
