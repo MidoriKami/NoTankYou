@@ -2,6 +2,7 @@
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using System.Numerics;
+using Dalamud.Interface.Colors;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DisplaySystem;
 
@@ -10,7 +11,7 @@ namespace NoTankYou
     internal class SettingsWindow : Window
     {
         private Tab CurrentTab = Tab.General;
-        private readonly Vector2 WindowSize = new(450, 675);
+        private readonly Vector2 WindowSize = new(450, 500);
         private int ModifyBlacklistValue;
         private bool CurrentlyRepositioningAll = false;
         private int SizeRadioButton = 0;
@@ -53,6 +54,8 @@ namespace NoTankYou
 
             DrawTabs();
 
+            ImGui.BeginChildFrame(1, new Vector2(440, 400), ImGuiWindowFlags.NoBackground);
+
             switch (CurrentTab)
             {
                 case Tab.General:
@@ -84,6 +87,9 @@ namespace NoTankYou
                     break;
             }
 
+            ImGui.EndChildFrame();
+            ImGui.PopStyleVar();
+            ImGui.Separator();
             DrawSaveAndCloseButtons();
         }
 

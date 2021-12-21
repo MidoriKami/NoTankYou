@@ -27,18 +27,20 @@ namespace NoTankYou.DisplaySystem.Banners
                 .ToList();
         }
 
-        protected override void UpdateInPartyInDuty()
+        protected override void UpdateInParty()
         {
-            ICollection<PartyMember> tankPlayers = Service.PartyList
-                .Where(p => p.ClassJob.GameData.Role == TankRoleID).ToArray();
+            var tankPlayers = Service.PartyList
+                .Where(p => p.ClassJob.GameData.Role == TankRoleID).ToList();
 
-            FilterDeadPlayers(ref tankPlayers);
+            var deadPlayers = GetDeadPlayers(tankPlayers);
+
+            tankPlayers.RemoveAll(r => deadPlayers.Contains(r.ObjectId));
 
             Visible = tankPlayers
-                .Any(p => !p.Statuses.Any(s => TankStances.Contains(s.StatusId)));
+                .All(p => !p.Statuses.Any(s => TankStances.Contains(s.StatusId))) && tankPlayers.Count > 0;
         }
 
-        protected override void UpdateSoloInDuty()
+        protected override void UpdateSolo()
         {
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
@@ -47,11 +49,6 @@ namespace NoTankYou.DisplaySystem.Banners
             var tankStanceFound = player.StatusList.Any(s => TankStances.Contains(s.StatusId));
 
             Visible = playerIsTank && !tankStanceFound;
-        }
-
-        protected override void UpdateSoloEverywhere()
-        {
-            UpdateSoloInDuty();
         }
     }
 }

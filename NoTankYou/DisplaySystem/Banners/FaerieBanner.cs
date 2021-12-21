@@ -29,11 +29,14 @@ namespace NoTankYou.DisplaySystem.Banners
 
         }
 
-        protected override void UpdateInPartyInDuty()
+        protected override void UpdateInParty()
         {
-            ICollection<PartyMember> partyMembers = Service.PartyList.Where(p => p.ClassJob.Id == ScholarClassID && IsTargetable(p)).ToArray();
+            List<PartyMember> partyMembers = Service.PartyList.Where(p => p.ClassJob.Id == ScholarClassID && IsTargetable(p)).ToList();
 
-            FilterDeadPlayers(ref partyMembers);
+            var deadPlayers = GetDeadPlayers(partyMembers);
+            partyMembers.RemoveAll(r => deadPlayers.Contains(r.ObjectId));
+
+            // var partyMembers = GetFilteredPartyList(p => p.ClassJob.Id == ScholarClassID && IsTargetable(p));
 
             var partyMemberData = PetUtilities.GetPartyMemberData(partyMembers);
 
@@ -72,7 +75,7 @@ namespace NoTankYou.DisplaySystem.Banners
                 .Any(player => !player.Value.Item2.Any(s => s.StatusId is DissipationStatusID)); // If any of them don't have dissipation
         }
 
-        protected override void UpdateSoloInDuty()
+        protected override void UpdateSolo()
         {
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
@@ -111,11 +114,6 @@ namespace NoTankYou.DisplaySystem.Banners
             }
 
             Visible = playerIsScholar && !(playerHasDissipation || isPetPresent);
-        }
-
-        protected override void UpdateSoloEverywhere()
-        {
-            UpdateSoloInDuty();
         }
     }
 }

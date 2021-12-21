@@ -21,18 +21,20 @@ namespace NoTankYou.DisplaySystem.Banners
 
         }
 
-        protected override void UpdateInPartyInDuty()
+        protected override void UpdateInParty()
         {
-            ICollection<PartyMember> dancerPlayers = Service.PartyList
-                .Where(p => p.ClassJob.Id is DancerClassId && p.Level >= 60).ToArray();
+            var dancerPlayers = Service.PartyList
+                .Where(p => p.ClassJob.Id is DancerClassId && p.Level >= 60).ToList();
 
-            FilterDeadPlayers(ref dancerPlayers);
+            var deadPlayers = GetDeadPlayers(dancerPlayers);
+
+            dancerPlayers.RemoveAll(r => deadPlayers.Contains(r.ObjectId));
 
             Visible = dancerPlayers
                 .Any(p => !p.Statuses.Any(s => s.StatusId is ClosedPositionStatusId));
         }
         
-        protected override void UpdateSoloInDuty()
+        protected override void UpdateSolo()
         {
             var player = Service.ClientState.LocalPlayer;
             if(player == null) return;
@@ -42,11 +44,6 @@ namespace NoTankYou.DisplaySystem.Banners
             var playerHadClosedPosition = player.StatusList.Any(s => s.StatusId is ClosedPositionStatusId);
 
             Visible = playerIsDancer && !playerHadClosedPosition;
-        }
-
-        protected override void UpdateSoloEverywhere()
-        {
-            UpdateSoloInDuty();
         }
     }
 }

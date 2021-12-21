@@ -30,11 +30,13 @@ namespace NoTankYou.DisplaySystem.Banners
 
 
 
-        protected override void UpdateInPartyInDuty()
+        protected override void UpdateInParty()
         {
-            ICollection<PartyMember> partyMembers = Service.PartyList.Where(p => p.ClassJob.Id == SummonerClassID && IsTargetable(p)).ToArray();
+            var partyMembers = Service.PartyList.Where(p => p.ClassJob.Id == SummonerClassID && IsTargetable(p)).ToList();
 
-            FilterDeadPlayers(ref partyMembers);
+            var deadPlayers = GetDeadPlayers(partyMembers);
+
+            partyMembers.RemoveAll(r => deadPlayers.Contains(r.ObjectId));
 
             var partyMemberData = PetUtilities.GetPartyMemberData(partyMembers);
 
@@ -58,7 +60,7 @@ namespace NoTankYou.DisplaySystem.Banners
                 .Any(player => !player.Value.Item1.Any());
         }
 
-        protected override void UpdateSoloInDuty()
+        protected override void UpdateSolo()
         {
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
@@ -66,7 +68,6 @@ namespace NoTankYou.DisplaySystem.Banners
             var playerIsScholar = player.ClassJob.Id == SummonerClassID;
 
             var isPetPresent = Service.BuddyList.PetBuddyPresent;
-
 
             var petStatusChanged = isPetPresent != LastSoloPet;
 
@@ -83,11 +84,6 @@ namespace NoTankYou.DisplaySystem.Banners
             }
 
             Visible = playerIsScholar && !isPetPresent;
-        }
-
-        protected override void UpdateSoloEverywhere()
-        {
-            UpdateSoloInDuty();
         }
     }
 }

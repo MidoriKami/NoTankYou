@@ -41,7 +41,7 @@ namespace NoTankYou.DisplaySystem
         protected TextureWrap ImageSmall;
         protected TextureWrap SelectedImage;
 
-        protected Dictionary<PartyMember, Stopwatch> DeathDictionary = new();
+        protected Dictionary<uint, Stopwatch> DeathDictionary = new();
 
         public bool Visible { get; set; } = false;
         public bool Paused { get; set; } = false;
@@ -52,10 +52,8 @@ namespace NoTankYou.DisplaySystem
         protected abstract ref bool ForceShowBool { get; }
         protected abstract ref bool ModuleEnabled { get; }
 
-        protected abstract void UpdateInPartyInDuty();
-        protected abstract void UpdateSoloInDuty();
-        protected abstract void UpdateSoloEverywhere();
-
+        protected abstract void UpdateInParty();
+        protected abstract void UpdateSolo();
         public enum ImageSize
         {
             Small,
@@ -116,19 +114,19 @@ namespace NoTankYou.DisplaySystem
             // Party Mode Enabled
             if ( IsPartyMode() )
             {
-                UpdateInPartyInDuty();
+                UpdateInParty();
             }
 
             // Solo Mode, Duties Only
             else if ( IsSoloDutiesOnly() )
             {
-                UpdateSoloInDuty();
+                UpdateSolo();
             }
 
             // Solo Mode, Everywhere
             else if ( IsSoloEverywhere() )
             {
-                UpdateSoloEverywhere();
+                UpdateSolo();
             }
 
             else
@@ -210,18 +208,30 @@ namespace NoTankYou.DisplaySystem
             return isSoloMainMode && isEverywhereSubMode && !isInAreaTransition;
         }
 
-        protected void FilterDeadPlayers(ref ICollection<PartyMember> members)
+        protected List<PartyMember> GetFilteredPartyList(Func<PartyMember, bool> predicate)
+        {
+            List<PartyMember> partyMembers = Service.PartyList.Where(predicate).ToList();
+
+            var deadPlayers = GetDeadPlayers(partyMembers);
+            partyMembers.RemoveAll(r => deadPlayers.Contains(r.ObjectId));
+
+            return partyMembers;
+        }
+
+        protected List<uint> GetDeadPlayers(IEnumerable<PartyMember> members)
         {
             AddDeadPlayersToDeathDictionary(members);
 
             UpdateDeathDictionary();
 
-            RemoveDeadPlayers(ref members);
+            return DeathDictionary.Select(d => d.Key).ToList();
         }
 
         private void AddDeadPlayersToDeathDictionary(IEnumerable<PartyMember> players)
         {
-            var deadPlayers = players.Where(p => p.CurrentHP == 0);
+            var deadPlayers = players
+                .Where(p => p.CurrentHP == 0)
+                .Select(r => r.ObjectId);
 
             foreach (var deadPlayer in deadPlayers)
             {
@@ -243,28 +253,15 @@ namespace NoTankYou.DisplaySystem
 
         private void UpdateDeathDictionary()
         {
-            var playersWithElapsedTimers =
-                DeathDictionary.Where(p => p.Value.ElapsedMilliseconds >= Service.Configuration.DeathGracePeriod);
+            var playersWithElapsedTimers = DeathDictionary
+                .Where(p => p.Value.ElapsedMilliseconds >= Service.Configuration.DeathGracePeriod);
             
             foreach (var (player, timer) in playersWithElapsedTimers)
             {
                 DeathDictionary.Remove(player);
             }
         }
-
-        private void RemoveDeadPlayers(ref ICollection<PartyMember> allPartyMembers)
-        {
-            var deadMembers = allPartyMembers.Where(member => DeathDictionary.ContainsKey(member));
-
-            foreach (var memberToRemove in deadMembers)
-            {
-                if (allPartyMembers.Contains(memberToRemove))
-                {
-                    allPartyMembers.Remove(memberToRemove);
-                }
-            }
-        }
-
+        
         public static unsafe bool IsTargetable(PartyMember partyMember)
         {
             var playerGameObject = partyMember.GameObject;
