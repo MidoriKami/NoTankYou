@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dalamud.Logging;
 using NoTankYou.DisplaySystem.Banners;
 
 namespace NoTankYou.DisplaySystem
@@ -43,43 +44,52 @@ namespace NoTankYou.DisplaySystem
         }
         private void OnTerritoryChanged(object? sender, ushort e)
         {
-            bool movingToBlacklistedTerritory = Service.Configuration.TerritoryBlacklist.Contains(e);
-            bool movingToAllianceRaid = AllianceRaidTerritories.Contains(e);
-            bool movingToPvPTerritory = PvPTerritoryBlacklist.Contains(e);
-            bool shouldDisable = movingToPvPTerritory || (movingToAllianceRaid && Service.Configuration.DisableInAllianceRaid) || movingToBlacklistedTerritory;
-
-            if (shouldDisable)
+            try
             {
+                bool movingToBlacklistedTerritory = Service.Configuration.TerritoryBlacklist.Contains(e);
+                bool movingToAllianceRaid = AllianceRaidTerritories.Contains(e);
+                bool movingToPvPTerritory = PvPTerritoryBlacklist.Contains(e);
+                bool shouldDisable = movingToPvPTerritory ||
+                                     (movingToAllianceRaid && Service.Configuration.DisableInAllianceRaid) ||
+                                     movingToBlacklistedTerritory;
+
+                if (shouldDisable)
+                {
+                    foreach (var banner in Banners)
+                    {
+                        banner.Disabled = true;
+                    }
+                }
+                else
+                {
+                    foreach (var banner in Banners)
+                    {
+                        banner.Disabled = false;
+                    }
+                }
+
+
+                // Skip delaying if we are the reason we are re-evaluating
+                if (sender == this) return;
+
+                // Delay Displaying Warnings Until Grace Period Passes
                 foreach (var banner in Banners)
                 {
-                    banner.Disabled = true;
+                    banner.Paused = true;
                 }
-            }
-            else
-            {
-                foreach (var banner in Banners)
+
+                Task.Delay(Service.Configuration.TerritoryChangeDelayTime).ContinueWith(t =>
                 {
-                    banner.Disabled = false;
-                }
+                    foreach (var banner in Banners)
+                    {
+                        banner.Paused = false;
+                    }
+                });
             }
-
-
-            // Skip delaying if we are the reason we are re-evaluating
-            if(sender == this) return;
-
-            // Delay Displaying Warnings Until Grace Period Passes
-            foreach (var banner in Banners)
+            catch (NullReferenceException ex)
             {
-                banner.Paused = true;
+                PluginLog.Error(ex.Message);
             }
-
-            Task.Delay(Service.Configuration.TerritoryChangeDelayTime).ContinueWith(t =>
-            {
-                foreach (var banner in Banners)
-                {
-                    banner.Paused = false;
-                }
-            });
         }
 
         internal void Update()

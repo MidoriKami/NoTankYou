@@ -1,8 +1,8 @@
 ﻿using Dalamud.Configuration;
 using Dalamud.Plugin;
+using NoTankYou.DisplaySystem;
 using System;
 using System.Collections.Generic;
-using NoTankYou.DisplaySystem;
 
 namespace NoTankYou
 {
@@ -55,12 +55,13 @@ namespace NoTankYou
 
         public bool ForceWindowUpdate = false;
 
-        [NonSerialized]
-        private DalamudPluginInterface? pluginInterface;
+        [NonSerialized] private DalamudPluginInterface? pluginInterface;
 
         public void Initialize(DalamudPluginInterface pluginInterface)
         {
             this.pluginInterface = pluginInterface;
+
+            TerritoryBlacklist ??= new();
         }
 
         public void Save()
