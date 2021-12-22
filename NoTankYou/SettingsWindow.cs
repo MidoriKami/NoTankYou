@@ -88,7 +88,6 @@ namespace NoTankYou
             }
 
             ImGui.EndChildFrame();
-            ImGui.PopStyleVar();
             ImGui.Separator();
             DrawSaveAndCloseButtons();
         }
