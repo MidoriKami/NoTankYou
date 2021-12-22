@@ -62,6 +62,8 @@ namespace NoTankYou
             this.pluginInterface = pluginInterface;
 
             TerritoryBlacklist ??= new();
+
+            Save();
         }
 
         public void Save()
