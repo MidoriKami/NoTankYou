@@ -166,9 +166,11 @@ namespace NoTankYou.DisplaySystem
             var baseBoundByDuty = Service.Condition[ConditionFlag.BoundByDuty];
             var boundBy56 = Service.Condition[ConditionFlag.BoundByDuty56];
             var boundBy95 = Service.Condition[ConditionFlag.BoundByDuty95];
-            var boundBy97 = Service.Condition[ConditionFlag.BoundToDuty97];
 
-            return baseBoundByDuty || boundBy56 || boundBy95 || boundBy97;
+            // Triggers when Queue is started
+            //var boundBy97 = Service.Condition[ConditionFlag.BoundToDuty97];
+
+            return baseBoundByDuty || boundBy56 || boundBy95;
         }
 
         private bool IsInAreaTransition()
