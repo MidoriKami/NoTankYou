@@ -3,6 +3,7 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using NoTankYou.DisplaySystem;
 using System.IO;
+using NoTankYou.SettingsSystem;
 
 namespace NoTankYou
 {

@@ -6,10 +6,20 @@ using ImGuiNET;
 using ImGuiScene;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Logging;
+using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
+using FFXIVClientStructs.FFXIV.Client.Game.Event;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using Lumina.Excel.GeneratedSheets;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -54,6 +64,9 @@ namespace NoTankYou.DisplaySystem
 
         protected abstract void UpdateInParty();
         protected abstract void UpdateSolo();
+
+        private readonly ConditionManager ConditionManager = new();
+
         public enum ImageSize
         {
             Small,
@@ -72,30 +85,20 @@ namespace NoTankYou.DisplaySystem
             ImageMedium = Service.PluginInterface.UiBuilder.LoadImage(mediumPath);
             ImageLarge = Service.PluginInterface.UiBuilder.LoadImage(largePath);
 
-            switch (Service.Configuration.ImageSize)
+            SelectedImage = Service.Configuration.ImageSize switch
             {
-                case ImageSize.Small:
-                    SelectedImage = ImageSmall;
-                    break;
-
-                case ImageSize.Medium:
-                    SelectedImage = ImageMedium;
-                    break;
-
-                case ImageSize.Large:
-                    SelectedImage = ImageLarge;
-                    break;
-
-                default:
-                    SelectedImage = ImageLarge;
-                    break;
-            }
+                ImageSize.Small => ImageSmall,
+                ImageSize.Medium => ImageMedium,
+                ImageSize.Large => ImageLarge,
+                _ => ImageLarge
+            };
 
             SizeConstraints = new WindowSizeConstraints()
             {
                 MinimumSize = new(this.SelectedImage.Width, this.SelectedImage.Height),
                 MaximumSize = new(this.SelectedImage.Width, this.SelectedImage.Height)
             };
+
         }
 
         protected void PreUpdate()
@@ -112,19 +115,19 @@ namespace NoTankYou.DisplaySystem
             Forced = ForceShowBool || RepositionModeBool;
 
             // Party Mode Enabled
-            if ( IsPartyMode() )
+            if ( ConditionManager.IsPartyMode() )
             {
                 UpdateInParty();
             }
 
             // Solo Mode, Duties Only
-            else if ( IsSoloDutiesOnly() )
+            else if (ConditionManager.IsSoloDutiesOnly() )
             {
                 UpdateSolo();
             }
 
             // Solo Mode, Everywhere
-            else if ( IsSoloEverywhere() )
+            else if (ConditionManager.IsSoloEverywhere() )
             {
                 UpdateSolo();
             }
@@ -134,7 +137,7 @@ namespace NoTankYou.DisplaySystem
                 Visible = false;
             }
         }
-
+        
         public override void PreDraw()
         {
             base.PreDraw();
@@ -159,55 +162,6 @@ namespace NoTankYou.DisplaySystem
                 ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width - 5, SelectedImage.Height));
                 return;
             }
-        }
-
-        private bool IsBoundByDuty()
-        {
-            var baseBoundByDuty = Service.Condition[ConditionFlag.BoundByDuty];
-            var boundBy56 = Service.Condition[ConditionFlag.BoundByDuty56];
-            var boundBy95 = Service.Condition[ConditionFlag.BoundByDuty95];
-
-            // Triggers when Queue is started
-            //var boundBy97 = Service.Condition[ConditionFlag.BoundToDuty97];
-
-            return baseBoundByDuty || boundBy56 || boundBy95;
-        }
-
-        private bool IsInAreaTransition()
-        {
-            var baseTransition = Service.Condition[ConditionFlag.BetweenAreas];
-            var transition51 = Service.Condition[ConditionFlag.BetweenAreas51];
-
-            return baseTransition || transition51;
-        }
-
-        private bool IsPartyMode()
-        {
-            var inParty = Service.PartyList.Length > 0;
-            var isBoundByDuty = IsBoundByDuty();
-            var isPartyMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party;
-            var isInTransition = IsInAreaTransition();
-
-            return inParty && isBoundByDuty && isPartyMode && !isInTransition;
-        }
-
-        private bool IsSoloDutiesOnly()
-        {
-            var isSoloMainMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo;
-            var isDutiesOnlySubMode = Service.Configuration.ProcessingSubMode == Configuration.SubMode.OnlyInDuty;
-            var isBoundBuByDuty = IsBoundByDuty();
-            var isInAreaTransition = IsInAreaTransition();
-
-            return isSoloMainMode && isDutiesOnlySubMode && isBoundBuByDuty && !isInAreaTransition;
-        }
-
-        private bool IsSoloEverywhere()
-        {
-            var isSoloMainMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo;
-            var isEverywhereSubMode = Service.Configuration.ProcessingSubMode == Configuration.SubMode.Everywhere;
-            var isInAreaTransition = IsInAreaTransition();
-
-            return isSoloMainMode && isEverywhereSubMode && !isInAreaTransition;
         }
 
         protected List<PartyMember> GetFilteredPartyList(Func<PartyMember, bool> predicate)
@@ -283,20 +237,13 @@ namespace NoTankYou.DisplaySystem
 
         public void ChangeImageSize(ImageSize size)
         {
-            switch (size)
+            SelectedImage = size switch
             {
-                case ImageSize.Small:
-                    SelectedImage = ImageSmall;
-                    break;
-
-                case ImageSize.Medium:
-                    SelectedImage = ImageMedium;
-                    break;
-
-                case ImageSize.Large:
-                    SelectedImage = ImageLarge;
-                    break;
-            }
+                ImageSize.Small => ImageSmall,
+                ImageSize.Medium => ImageMedium,
+                ImageSize.Large => ImageLarge,
+                _ => SelectedImage
+            };
 
             SizeConstraints = new WindowSizeConstraints()
             {

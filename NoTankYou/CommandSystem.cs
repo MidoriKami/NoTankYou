@@ -1,35 +1,36 @@
 ﻿using Dalamud.Game.Command;
 using Dalamud.Game.Text.SeStringHandling;
 using System;
+using NoTankYou.SettingsSystem;
 
 namespace NoTankYou
 {
     internal class CommandSystem : IDisposable
     {
 
-        private const string settingsCommand = "/notankyou";
-        private const string shorthandCommand = "/nty";
-        private const ushort Color_Red = 534;
-        private const ushort Color_Green = 45;
+        private const string SettingsCommand = "/notankyou";
+        private const string ShorthandCommand = "/nty";
+        private const ushort ColorRed = 534;
+        private const ushort ColorGreen = 45;
 
-        private readonly SettingsWindow settingsWindow;
+        private readonly SettingsWindow SettingsWindow;
 
         public CommandSystem(SettingsWindow settingsWindow)
         {
             RegisterCommands();
 
-            this.settingsWindow = settingsWindow;
+            this.SettingsWindow = settingsWindow;
         }
 
         private void RegisterCommands()
         {
             // Register Slash Commands
-            Service.Commands.AddHandler(settingsCommand, new CommandInfo(OnCommand)
+            Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
             {
                 HelpMessage = "open configuration window"
             });
 
-            Service.Commands.AddHandler(shorthandCommand, new CommandInfo(OnCommand)
+            Service.Commands.AddHandler(ShorthandCommand, new CommandInfo(OnCommand)
             {
                 HelpMessage = "shorthand command to open configuration window"
             });
@@ -42,12 +43,12 @@ namespace NoTankYou
 
             if (status == true)
             {
-                stringBuilder.AddUiForeground(Color_Green);
+                stringBuilder.AddUiForeground(ColorGreen);
                 stringBuilder.AddText("enabled");
             }
             else
             {
-                stringBuilder.AddUiForeground(Color_Red);
+                stringBuilder.AddUiForeground(ColorRed);
                 stringBuilder.AddText("disabled");
             }
             stringBuilder.AddUiForegroundOff();
@@ -64,7 +65,7 @@ namespace NoTankYou
 
             if (primaryCommand == null)
             {
-                settingsWindow.IsOpen = !settingsWindow.IsOpen;
+                SettingsWindow.IsOpen = !SettingsWindow.IsOpen;
 
                 Service.Configuration.Save();
                 return;
@@ -107,12 +108,17 @@ namespace NoTankYou
                     ProcessFaerieCommands(secondaryCommand);
                     break;
 
+                case "mode":
+                    ProcessModeCommands(secondaryCommand);
+                    break;
+
                 default:
                     break;
             }
 
             Service.Configuration.Save();
         }
+
 
         private static string? GetSecondaryCommand(string arguments)
         {
@@ -188,11 +194,50 @@ namespace NoTankYou
         {
             ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableKardionBanner, "[NoTankYou] Kardion Warning: ");
         }
+        private void ProcessModeCommands(string? secondaryCommand)
+        {
+            if (secondaryCommand == null)
+            {
+                if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party)
+                {
+                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Solo;
+                }
+                else if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
+                {
+                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Party;
+                }
+                return;
+            }
+
+            switch (secondaryCommand)
+            {
+                case "party:":
+                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Party;
+                    break;
+
+                case "solo":
+                case "trust":
+                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Solo;
+                    break;
+
+                case "t":
+                case "toggle":
+                    if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party)
+                    {
+                        Service.Configuration.ProcessingMainMode = Configuration.MainMode.Solo;
+                    }
+                    else if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
+                    {
+                        Service.Configuration.ProcessingMainMode = Configuration.MainMode.Party;
+                    }
+                    break;
+            }
+        }
 
         public void Dispose()
         {
-            Service.Commands.RemoveHandler(settingsCommand);
-            Service.Commands.RemoveHandler(shorthandCommand);
+            Service.Commands.RemoveHandler(SettingsCommand);
+            Service.Commands.RemoveHandler(ShorthandCommand);
         }
     }
 }
