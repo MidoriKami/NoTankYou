@@ -123,7 +123,7 @@ namespace NoTankYou.DisplaySystem
         {
             foreach (var banner in Banners)
             {
-                banner.ChangeImageSize(Service.Configuration.ImageSize);
+                banner.UpdateImageSize();
             }
 
             OnTerritoryChanged(this, Service.ClientState.TerritoryType);

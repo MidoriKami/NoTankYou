@@ -27,25 +27,20 @@
 
 	<ItemGroup>
 		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\TankStance_Large.png" Link="images\TankStance_Large.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Kardion_Large.png" Link="images\Kardion_Large.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Faerie_Large.png" Link="images\Faerie_Large.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\DancePartner_Large.png" Link="images\DancePartner_Large.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Summoner_Large.png" Link="images\Summoner_Large.png" CopyToOutputDirectory="Always" />
 
-		<Content Include="..\images\TankStance_Medium.png" Link="images\TankStance_Medium.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Kardion_Medium.png" Link="images\Kardion_Medium.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Faerie_Medium.png" Link="images\Faerie_Medium.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\DancePartner_Medium.png" Link="images\DancePartner_Medium.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Summoner_Medium.png" Link="images\Summoner_Medium.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\icon\DancePartner_Icon.png" Link="images\icon\DancePartner_Icon.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\icon\Faerie_Icon.png" Link="images\icon\Faerie_Icon.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\icon\Kardion_Icon.png" Link="images\icon\Kardion_Icon.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\icon\Summoner_Icon.png" Link="images\icon\Summoner_Icon.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\icon\TankStance_Icon.png" Link="images\icon\TankStance_Icon.png" CopyToOutputDirectory="Always" />
 
-		<Content Include="..\images\TankStance_Small.png" Link="images\TankStance_Small.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Kardion_Small.png" Link="images\Kardion_Small.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Faerie_Small.png" Link="images\Faerie_Small.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\DancePartner_Small.png" Link="images\DancePartner_Small.png" CopyToOutputDirectory="Always" />
-		<Content Include="..\images\Summoner_Small.png" Link="images\Summoner_Small.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\icon\Warning_Icon.png" Link="images\icon\Warning_Icon.png" CopyToOutputDirectory="Always" />
 
-
+		<Content Include="..\images\text\DancePartner_Text.png" Link="images\text\DancePartner_Text.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\text\Faerie_Text.png" Link="images\text\Faerie_Text.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\text\Kardion_Text.png" Link="images\text\Kardion_Text.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\text\Summoner_Text.png" Link="images\text\Summoner_Text.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\text\TankStance_Text.png" Link="images\text\TankStance_Text.png" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
 	<ItemGroup>
