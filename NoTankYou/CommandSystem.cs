@@ -239,22 +239,22 @@ namespace NoTankYou
 
         private void ProcessFaerieCommands(string? secondaryCommand)
         {
-            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableFaerieBanner, "[NoTankYou] Faerie Warning: ");
+            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.FaerieSettings.Enabled, "[NoTankYou] Faerie Warning: ");
         }
 
         private void ProcessDancePartnerCommands(string? secondaryCommand)
         {
-            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableDancePartnerBanner, "[NoTankYou] Dance Partner Warning: ");
+            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.DancePartnerSettings.Enabled, "[NoTankYou] Dance Partner Warning: ");
         }
 
         private void ProcessTankStanceCommands(string? secondaryCommand)
         {
-            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableTankStanceBanner, "[NoTankYou] Tank Stance Warning: ");
+            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.TankStanceSettings.Enabled, "[NoTankYou] Tank Stance Warning: ");
         }
 
         private void ProcessKardionCommands(string? secondaryCommand)
         {
-            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableKardionBanner, "[NoTankYou] Kardion Warning: ");
+            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.KardionSettings.Enabled, "[NoTankYou] Kardion Warning: ");
         }
 
         private void ToggleProcessingMainMode()

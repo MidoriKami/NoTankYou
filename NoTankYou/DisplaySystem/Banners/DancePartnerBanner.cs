@@ -4,14 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Transactions;
 using Dalamud.Game.ClientState.Party;
+using NoTankYou.SettingsSystem.SettingsCategories;
 
 namespace NoTankYou.DisplaySystem.Banners
 {
     internal class DancePartnerBanner : WarningBanner
     {
-        protected override ref bool RepositionModeBool => ref Service.Configuration.RepositionModeDancePartnerBanner;
-        protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowDancePartnerBanner;
-        protected override ref bool ModuleEnabled => ref Service.Configuration.EnableDancePartnerBanner;
+        protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.DancePartnerSettings;
 
         private const int DancerClassId = 38;
         private const int ClosedPositionStatusId = 1823;
@@ -20,6 +19,7 @@ namespace NoTankYou.DisplaySystem.Banners
         {
 
         }
+
 
         protected override void UpdateInParty()
         {

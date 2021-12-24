@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 using NoTankYou.SettingsSystem.SubSettings;
+using NoTankYou.SettingsSystem.SubSettings.General;
 
 namespace NoTankYou.SettingsSystem.SettingsCategories
 {
@@ -55,31 +56,31 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
                 ImGui.Text("Tank Stance");
 
                 ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.EnableTankStanceBanner, "Enabled", "Disabled");
+                DrawConditionalText(Service.Configuration.TankStanceSettings.Enabled, "Enabled", "Disabled");
 
                 ImGui.TableNextColumn();
                 ImGui.Text("Dance Partner");
 
                 ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.EnableDancePartnerBanner, "Enabled", "Disabled");
+                DrawConditionalText(Service.Configuration.DancePartnerSettings.Enabled, "Enabled", "Disabled");
 
                 ImGui.TableNextColumn();
                 ImGui.Text("Faerie");
 
                 ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.EnableFaerieBanner, "Enabled", "Disabled");
+                DrawConditionalText(Service.Configuration.FaerieSettings.Enabled, "Enabled", "Disabled");
 
                 ImGui.TableNextColumn();
                 ImGui.Text("Kardion");
 
                 ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.EnableKardionBanner, "Enabled", "Disabled");
+                DrawConditionalText(Service.Configuration.KardionSettings.Enabled, "Enabled", "Disabled");
 
                 ImGui.TableNextColumn();
                 ImGui.Text("Summoner Pet");
 
                 ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.EnableSummonerBanner, "Enabled", "Disabled");
+                DrawConditionalText(Service.Configuration.SummonerSettings.Enabled, "Enabled", "Disabled");
 
                 ImGui.EndTable();
             }

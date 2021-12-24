@@ -6,9 +6,8 @@ namespace NoTankYou.DisplaySystem.Banners
 {
     internal class KardionBanner : WarningBanner
     {
-        protected override ref bool RepositionModeBool => ref Service.Configuration.RepositionModeKardionBanner;
-        protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowKardionBanner;
-        protected override ref bool ModuleEnabled => ref Service.Configuration.EnableKardionBanner;
+        protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.KardionSettings;
+
 
         private const int SageClassID = 40;
         private const int KardiaStatusID = 2604;

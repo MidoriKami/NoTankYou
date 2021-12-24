@@ -58,9 +58,7 @@ namespace NoTankYou.DisplaySystem
         public bool Forced { get; set; } = false;
         public bool Disabled { get; set; } = false;
 
-        protected abstract ref bool RepositionModeBool { get; }
-        protected abstract ref bool ForceShowBool { get; }
-        protected abstract ref bool ModuleEnabled { get; }
+        protected abstract ref Configuration.ModuleSettings Settings { get; }
 
         protected abstract void UpdateInParty();
         protected abstract void UpdateSolo();
@@ -103,7 +101,7 @@ namespace NoTankYou.DisplaySystem
 
         protected void PreUpdate()
         {
-            IsOpen = ModuleEnabled;
+            IsOpen = Settings.Enabled;
         }
 
         public void Update()
@@ -112,7 +110,7 @@ namespace NoTankYou.DisplaySystem
 
             if (!IsOpen) return;
 
-            Forced = ForceShowBool || RepositionModeBool;
+            Forced = Settings.Forced || Settings.Reposition;
 
             // Party Mode Enabled
             if ( ConditionManager.IsPartyMode() )
@@ -142,7 +140,7 @@ namespace NoTankYou.DisplaySystem
         {
             base.PreDraw();
 
-            Flags = RepositionModeBool ? MoveWindowFlags : IgnoreInputFlags;
+            Flags = Settings.Reposition ? MoveWindowFlags : IgnoreInputFlags;
         }
 
         public override void Draw()

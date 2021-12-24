@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dalamud.Interface.Components;
+﻿using Dalamud.Interface.Components;
 using ImGuiNET;
 
-namespace NoTankYou.SettingsSystem.SubSettings
+namespace NoTankYou.SettingsSystem.SubSettings.General
 {
     internal class GeneralBasicSettings : SettingsCategory
     {

@@ -12,9 +12,8 @@ namespace NoTankYou.DisplaySystem.Banners
 {
     internal class SummonerBanner : WarningBanner
     {
-        protected override ref bool RepositionModeBool => ref Service.Configuration.RepositionModeSummonerBanner;
-        protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowSummonerBanner;
-        protected override ref bool ModuleEnabled => ref Service.Configuration.EnableSummonerBanner;
+        protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.SummonerSettings;
+
 
         private readonly Stopwatch PetCountStopwatch = new();
         private readonly Stopwatch SoloPetStopwatch = new();

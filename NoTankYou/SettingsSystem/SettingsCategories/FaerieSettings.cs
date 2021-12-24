@@ -20,13 +20,13 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         private static void DrawFaerieTab()
         {
-            ImGui.Checkbox("Enable Missing Faerie Warning", ref Service.Configuration.EnableFaerieBanner);
+            ImGui.Checkbox("Enable Missing Faerie Warning", ref Service.Configuration.FaerieSettings.Enabled);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowFaerieBanner);
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.FaerieSettings.Forced);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeFaerieBanner);
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.FaerieSettings.Reposition);
             ImGui.Spacing();
         }
     }

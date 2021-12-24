@@ -8,9 +8,8 @@ namespace NoTankYou.DisplaySystem.Banners
 {
     internal class FaerieBanner : WarningBanner
     {
-        protected override ref bool RepositionModeBool => ref Service.Configuration.RepositionModeFaerieBanner;
-        protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowFaerieBanner;
-        protected override ref bool ModuleEnabled => ref Service.Configuration.EnableFaerieBanner;
+        protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.FaerieSettings;
+
 
         private readonly Stopwatch PetCountStopwatch = new();
         private readonly Stopwatch DissipationCountStopwatch = new();

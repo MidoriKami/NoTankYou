@@ -9,22 +9,28 @@ namespace NoTankYou
     [Serializable]
     public class Configuration : IPluginConfiguration
     {
-        public int Version { get; set; } = 3;
-        public int NumberOfWaitFrames = 30;
-
-        public WarningBanner.ImageSize ImageSize = WarningBanner.ImageSize.Large;
-
+        [Serializable]
+        public class ModuleSettings
+        {
+            public bool Enabled = false;
+            public bool Forced = false;
+            public bool Reposition = false;
+        }
         public enum MainMode
         {
             Party,
             Solo
         }
-
         public enum SubMode
         {
             OnlyInDuty,
             Everywhere
         }
+
+        public int Version { get; set; } = 3;
+        public int NumberOfWaitFrames = 30;
+
+        public WarningBanner.ImageSize ImageSize = WarningBanner.ImageSize.Large;
 
         public MainMode ProcessingMainMode = MainMode.Party;
         public SubMode ProcessingSubMode = SubMode.OnlyInDuty;
@@ -33,23 +39,11 @@ namespace NoTankYou
         public int TerritoryChangeDelayTime = 8000;
         public int DeathGracePeriod = 5000;
 
-        public bool EnableTankStanceBanner = false;
-        public bool EnableDancePartnerBanner = false;
-        public bool EnableFaerieBanner = false;
-        public bool EnableKardionBanner = false;
-        public bool EnableSummonerBanner = false;
-
-        public bool ForceShowTankStanceBanner = false;
-        public bool ForceShowDancePartnerBanner = false;
-        public bool ForceShowFaerieBanner = false;
-        public bool ForceShowKardionBanner = false;
-        public bool ForceShowSummonerBanner = false;
-
-        public bool RepositionModeTankStanceBanner = false;
-        public bool RepositionModeDancePartnerBanner = false;
-        public bool RepositionModeFaerieBanner = false;
-        public bool RepositionModeKardionBanner = false;
-        public bool RepositionModeSummonerBanner = false;
+        public ModuleSettings TankStanceSettings = new ModuleSettings();
+        public ModuleSettings DancePartnerSettings = new ModuleSettings();
+        public ModuleSettings FaerieSettings = new ModuleSettings();
+        public ModuleSettings KardionSettings = new ModuleSettings();
+        public ModuleSettings SummonerSettings = new ModuleSettings();
 
         public List<int> TerritoryBlacklist = new();
 
@@ -62,7 +56,11 @@ namespace NoTankYou
             this.pluginInterface = pluginInterface;
 
             TerritoryBlacklist ??= new();
-
+            TankStanceSettings ??= new ModuleSettings();
+            DancePartnerSettings ??= new ModuleSettings();
+            FaerieSettings ??= new ModuleSettings();
+            KardionSettings ??= new ModuleSettings();
+            SummonerSettings ??= new ModuleSettings();
             Save();
         }
 

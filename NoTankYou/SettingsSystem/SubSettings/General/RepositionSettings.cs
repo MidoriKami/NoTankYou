@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 using ImGuiNET;
 
-namespace NoTankYou.SettingsSystem.SubSettings
+namespace NoTankYou.SettingsSystem.SubSettings.General
 {
     internal class RepositionSettings : SettingsCategory
     {
@@ -26,11 +21,11 @@ namespace NoTankYou.SettingsSystem.SubSettings
         {
             if (ImGui.Button("Enable Reposition All", new(150, 25)))
             {
-                Service.Configuration.RepositionModeDancePartnerBanner = true;
-                Service.Configuration.RepositionModeKardionBanner = true;
-                Service.Configuration.RepositionModeFaerieBanner = true;
-                Service.Configuration.RepositionModeTankStanceBanner = true;
-                Service.Configuration.RepositionModeSummonerBanner = true;
+                Service.Configuration.DancePartnerSettings.Reposition = true;
+                Service.Configuration.KardionSettings.Reposition = true;
+                Service.Configuration.FaerieSettings.Reposition = true;
+                Service.Configuration.TankStanceSettings.Reposition = true;
+                Service.Configuration.SummonerSettings.Reposition = true;
                 CurrentlyRepositioningAll = true;
             }
 
@@ -38,11 +33,11 @@ namespace NoTankYou.SettingsSystem.SubSettings
 
             if (ImGui.Button("Disable Reposition All", new(150, 25)))
             {
-                Service.Configuration.RepositionModeDancePartnerBanner = false;
-                Service.Configuration.RepositionModeKardionBanner = false;
-                Service.Configuration.RepositionModeFaerieBanner = false;
-                Service.Configuration.RepositionModeTankStanceBanner = false;
-                Service.Configuration.RepositionModeSummonerBanner = false;
+                Service.Configuration.DancePartnerSettings.Reposition = false;
+                Service.Configuration.KardionSettings.Reposition = false;
+                Service.Configuration.FaerieSettings.Reposition = false;
+                Service.Configuration.TankStanceSettings.Reposition = false;
+                Service.Configuration.SummonerSettings.Reposition = false;
                 CurrentlyRepositioningAll = false;
             }
 

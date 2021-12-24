@@ -9,10 +9,7 @@ namespace NoTankYou.DisplaySystem.Banners
     {
         private readonly List<uint> TankStances = new();
 
-        protected override ref bool RepositionModeBool => ref Service.Configuration.RepositionModeTankStanceBanner;
-        protected override ref bool ForceShowBool => ref Service.Configuration.ForceShowTankStanceBanner;
-        protected override ref bool ModuleEnabled => ref Service.Configuration.EnableTankStanceBanner;
-
+        protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.TankStanceSettings;
 
         private const int TankRoleID = 1;
 

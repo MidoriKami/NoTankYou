@@ -20,13 +20,13 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         private static void DrawKardionTab()
         {
-            ImGui.Checkbox("Enable Missing Kardion Warning", ref Service.Configuration.EnableKardionBanner);
+            ImGui.Checkbox("Enable Missing Kardion Warning", ref Service.Configuration.KardionSettings.Enabled);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowKardionBanner);
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.KardionSettings.Forced);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeKardionBanner);
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.KardionSettings.Reposition);
             ImGui.Spacing();
         }
     }

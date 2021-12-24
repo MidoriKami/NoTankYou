@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 using Dalamud.Interface.Components;
 using ImGuiNET;
-using NoTankYou.SettingsSystem.SettingsCategories;
 
-namespace NoTankYou.SettingsSystem.SubSettings
+namespace NoTankYou.SettingsSystem.SubSettings.General
 {
     internal class ModeSelectSettings : SettingsCategory
     {

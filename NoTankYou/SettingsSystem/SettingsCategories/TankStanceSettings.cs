@@ -20,13 +20,13 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         private static void DrawTankStanceTab()
         {
-            ImGui.Checkbox("Enable Tank Stance Warning", ref Service.Configuration.EnableTankStanceBanner);
+            ImGui.Checkbox("Enable Tank Stance Warning", ref Service.Configuration.TankStanceSettings.Enabled);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowTankStanceBanner);
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.TankStanceSettings.Forced);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeTankStanceBanner);
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.TankStanceSettings.Reposition);
             ImGui.Spacing();
         }
     }

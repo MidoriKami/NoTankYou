@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ImGuiNET;
+﻿using ImGuiNET;
 using NoTankYou.DisplaySystem;
 
-namespace NoTankYou.SettingsSystem.SubSettings
+namespace NoTankYou.SettingsSystem.SubSettings.General
 {
     internal class SelectSizeSettings : SettingsCategory
     {

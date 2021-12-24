@@ -20,13 +20,13 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         private static void DrawDancePartnerTab()
         {
-            ImGui.Checkbox("Enable Missing Dance Partner Warning", ref Service.Configuration.EnableDancePartnerBanner);
+            ImGui.Checkbox("Enable Missing Dance Partner Warning", ref Service.Configuration.DancePartnerSettings.Enabled);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowDancePartnerBanner);
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.DancePartnerSettings.Forced);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeDancePartnerBanner);
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.DancePartnerSettings.Reposition);
             ImGui.Spacing();
         }
     }

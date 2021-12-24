@@ -19,13 +19,13 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
         }
         private void DrawSummonerTab()
         {
-            ImGui.Checkbox("Enable Missing Summoner Pet Warning", ref Service.Configuration.EnableSummonerBanner);
+            ImGui.Checkbox("Enable Missing Summoner Pet Warning", ref Service.Configuration.SummonerSettings.Enabled);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.ForceShowSummonerBanner);
+            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.SummonerSettings.Forced);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.RepositionModeSummonerBanner);
+            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.SummonerSettings.Reposition);
             ImGui.Spacing();
         }
     }
