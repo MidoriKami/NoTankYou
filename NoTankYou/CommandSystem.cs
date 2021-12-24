@@ -1,6 +1,6 @@
-﻿using Dalamud.Game.Command;
+﻿using System;
+using Dalamud.Game.Command;
 using Dalamud.Game.Text.SeStringHandling;
-using System;
 using NoTankYou.SettingsSystem;
 
 namespace NoTankYou
@@ -34,26 +34,6 @@ namespace NoTankYou
             {
                 HelpMessage = "shorthand command to open configuration window"
             });
-        }
-
-        private static void PrintColoredStatus(string message, bool status)
-        {
-            var stringBuilder = new SeStringBuilder();
-            stringBuilder.AddText($"{message}");
-
-            if (status == true)
-            {
-                stringBuilder.AddUiForeground(ColorGreen);
-                stringBuilder.AddText("enabled");
-            }
-            else
-            {
-                stringBuilder.AddUiForeground(ColorRed);
-                stringBuilder.AddText("disabled");
-            }
-            stringBuilder.AddUiForegroundOff();
-
-            Service.Chat.Print(stringBuilder.BuiltString);
         }
 
         // Valid Command Structure:
@@ -118,32 +98,34 @@ namespace NoTankYou
 
             Service.Configuration.Save();
         }
-
-
-        private static string? GetSecondaryCommand(string arguments)
+        private void ProcessModeCommands(string? secondaryCommand)
         {
-            var stringArray = arguments.Split(' ');
-
-            if (stringArray.Length == 1)
+            if (secondaryCommand == null)
             {
-                return null;
+                ToggleProcessingMainMode();
+                PrintColoredConfigurationMode();
+                return;
             }
 
-            return stringArray[1];
-        }
-
-        private static string? GetPrimaryCommand(string arguments)
-        {
-            var stringArray = arguments.Split(' ');
-
-            if (stringArray[0] == string.Empty)
+            switch (secondaryCommand)
             {
-                return null;
+                case "party:":
+                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Party;
+                    break;
+
+                case "solo":
+                case "trust":
+                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Solo;
+                    break;
+
+                case "t":
+                case "toggle":
+                    ToggleProcessingMainMode();
+                    break;
             }
 
-            return stringArray[0];
+            PrintColoredConfigurationMode();
         }
-
         private static void ProcessGenericOnOffToggleCommand(string? argument, ref bool booleanVariable, string message)
         {
 
@@ -175,6 +157,86 @@ namespace NoTankYou
             }
         }
 
+        private static string? GetSecondaryCommand(string arguments)
+        {
+            var stringArray = arguments.Split(' ');
+
+            if (stringArray.Length == 1)
+            {
+                return null;
+            }
+
+            return stringArray[1];
+        }
+
+        private static string? GetPrimaryCommand(string arguments)
+        {
+            var stringArray = arguments.Split(' ');
+
+            if (stringArray[0] == string.Empty)
+            {
+                return null;
+            }
+
+            return stringArray[0];
+        }
+        private static void PrintColoredStatus(string message, bool status)
+        {
+            var stringBuilder = new SeStringBuilder();
+            stringBuilder.AddText($"{message}");
+
+            if (status == true)
+            {
+                stringBuilder.AddUiForeground(ColorGreen);
+                stringBuilder.AddText("enabled");
+            }
+            else
+            {
+                stringBuilder.AddUiForeground(ColorRed);
+                stringBuilder.AddText("disabled");
+            }
+            stringBuilder.AddUiForegroundOff();
+
+            Service.Chat.Print(stringBuilder.BuiltString);
+        }
+
+        private static void PrintColoredConfigurationMode()
+        {
+            var stringBuilder = new SeStringBuilder();
+            stringBuilder.AddText($"[NoTankYou] Configuration Mode: ");
+
+            if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party)
+            {
+                stringBuilder.AddUiForeground(ColorGreen);
+                stringBuilder.AddText("Party Mode");
+                stringBuilder.AddUiForegroundOff();
+                Service.Chat.Print(stringBuilder.BuiltString);
+            }
+            else if(Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
+            {
+                stringBuilder.AddUiForeground(ColorRed);
+                stringBuilder.AddText("Solo Mode");
+                stringBuilder.AddUiForegroundOff();
+                Service.Chat.Print(stringBuilder.BuiltString);
+
+                stringBuilder = new();
+                stringBuilder.AddText("[NoTankYou] Configuration SubMode: ");
+
+                if (Service.Configuration.ProcessingSubMode == Configuration.SubMode.OnlyInDuty)
+                {
+                    stringBuilder.AddUiForeground(514);
+                    stringBuilder.AddText("Only in Duties");
+                }
+                else
+                {
+                    stringBuilder.AddUiForeground(500);
+                    stringBuilder.AddText("Everywhere");
+                }
+                stringBuilder.AddUiForegroundOff();
+                Service.Chat.Print(stringBuilder.BuiltString);
+            }
+        }
+
         private void ProcessFaerieCommands(string? secondaryCommand)
         {
             ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableFaerieBanner, "[NoTankYou] Faerie Warning: ");
@@ -194,46 +256,18 @@ namespace NoTankYou
         {
             ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.EnableKardionBanner, "[NoTankYou] Kardion Warning: ");
         }
-        private void ProcessModeCommands(string? secondaryCommand)
+
+        private void ToggleProcessingMainMode()
         {
-            if (secondaryCommand == null)
+            if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party)
             {
-                if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party)
-                {
-                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Solo;
-                }
-                else if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
-                {
-                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Party;
-                }
-                return;
+                Service.Configuration.ProcessingMainMode = Configuration.MainMode.Solo;
             }
-
-            switch (secondaryCommand)
+            else if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
             {
-                case "party:":
-                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Party;
-                    break;
-
-                case "solo":
-                case "trust":
-                    Service.Configuration.ProcessingMainMode = Configuration.MainMode.Solo;
-                    break;
-
-                case "t":
-                case "toggle":
-                    if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party)
-                    {
-                        Service.Configuration.ProcessingMainMode = Configuration.MainMode.Solo;
-                    }
-                    else if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
-                    {
-                        Service.Configuration.ProcessingMainMode = Configuration.MainMode.Party;
-                    }
-                    break;
+                Service.Configuration.ProcessingMainMode = Configuration.MainMode.Party;
             }
         }
-
         public void Dispose()
         {
             Service.Commands.RemoveHandler(SettingsCommand);
