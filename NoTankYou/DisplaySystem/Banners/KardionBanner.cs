@@ -10,7 +10,7 @@ namespace NoTankYou.DisplaySystem.Banners
         private const int SageClassID = 40;
         private const int KardiaStatusID = 2604;
 
-        public KardionBanner() : base("No Tank You Kardion Warning Banner", "Kardion")
+        public KardionBanner() : base("NoTankYou Kardion Warning Banner", "Kardion")
         {
 
         }

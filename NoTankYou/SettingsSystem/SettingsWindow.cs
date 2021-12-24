@@ -17,7 +17,6 @@ namespace NoTankYou.SettingsSystem
         private readonly KardionSettings KardionSettings = new();
         private readonly SummonerPetSettings SummonerPetSettings = new();
         private readonly BlacklistSettings BlacklistSettings = new();
-        private readonly PositioningSettings PositioningSettings = new();
 
         private enum Tab
         {
@@ -27,8 +26,7 @@ namespace NoTankYou.SettingsSystem
             Faerie,
             Kardion,
             Summoner,
-            Blacklist,
-            Style
+            Blacklist
         }
 
         public SettingsWindow() : base("No Tank You Settings")
@@ -81,10 +79,6 @@ namespace NoTankYou.SettingsSystem
                 case Tab.Blacklist:
                     BlacklistSettings.Draw();
                     break;
-
-                case Tab.Style:
-                    PositioningSettings.Draw();
-                    break;
             }
 
             ImGui.Separator();
@@ -133,12 +127,6 @@ namespace NoTankYou.SettingsSystem
                 if (ImGui.BeginTabItem("Blacklist"))
                 {
                     CurrentTab = Tab.Blacklist;
-                    ImGui.EndTabItem();
-                }
-
-                if (ImGui.BeginTabItem("Style"))
-                {
-                    CurrentTab = Tab.Style;
                     ImGui.EndTabItem();
                 }
             }

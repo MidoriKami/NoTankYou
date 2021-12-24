@@ -3,6 +3,7 @@ using Dalamud.Plugin;
 using NoTankYou.DisplaySystem;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace NoTankYou
 {
@@ -15,6 +16,9 @@ namespace NoTankYou
             public bool Enabled = false;
             public bool Forced = false;
             public bool Reposition = false;
+            public Vector2 BannerPosition = new Vector2(300, 300);
+            public Vector2 BannerSize = new Vector2(0, 0);
+            public bool PositionChanged = false;
         }
         public enum MainMode
         {
@@ -38,6 +42,8 @@ namespace NoTankYou
         public bool DisableInAllianceRaid = true;
         public int TerritoryChangeDelayTime = 8000;
         public int DeathGracePeriod = 5000;
+
+        public bool WindowSnappingEnabled = false;
 
         public ModuleSettings TankStanceSettings = new ModuleSettings();
         public ModuleSettings DancePartnerSettings = new ModuleSettings();

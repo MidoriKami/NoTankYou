@@ -21,7 +21,7 @@ namespace NoTankYou.DisplaySystem.Banners
         private const int ScholarClassID = 28;
         private const int DissipationStatusID = 791;
 
-        public FaerieBanner() : base("No Tank You Faerie Warning Banner", "Faerie")
+        public FaerieBanner() : base("NoTankYou Faerie Warning Banner", "Faerie")
         {
 
         }

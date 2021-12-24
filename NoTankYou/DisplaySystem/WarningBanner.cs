@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Game.ClientState.Keys;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -48,7 +49,6 @@ namespace NoTankYou.DisplaySystem
         public bool Disabled { get; set; } = false;
 
         protected abstract ref Configuration.ModuleSettings Settings { get; }
-
         protected abstract void UpdateInParty();
         protected abstract void UpdateSolo();
 
@@ -86,11 +86,18 @@ namespace NoTankYou.DisplaySystem
                 MaximumSize = new(this.SelectedImage.Width, this.SelectedImage.Height)
             };
 
+            Settings.BannerSize.X = SelectedImage.Width;
+            Settings.BannerSize.Y = SelectedImage.Height;
         }
 
         protected void PreUpdate()
         {
             IsOpen = Settings.Enabled;
+
+            if (Settings.Reposition == true && Service.Configuration.WindowSnappingEnabled == true)
+            {
+                TrySnapping();
+            }
         }
 
         public void Update()
@@ -98,6 +105,8 @@ namespace NoTankYou.DisplaySystem
             PreUpdate();
 
             if (!IsOpen) return;
+
+
 
             Forced = Settings.Forced || Settings.Reposition;
 
@@ -130,24 +139,73 @@ namespace NoTankYou.DisplaySystem
             base.PreDraw();
 
             Flags = Settings.Reposition ? MoveWindowFlags : IgnoreInputFlags;
+
+            if (Settings.PositionChanged == true)
+            {
+                ImGui.SetNextWindowPos(Settings.BannerPosition);
+                Settings.PositionChanged = false;
+            }
         }
 
         public override void Draw()
         {
+            Settings.BannerPosition = ImGui.GetWindowPos();
+
             if (!IsOpen) return;
 
-            if (Forced)
+            if (Forced || (Visible && !Disabled && !Paused) )
             {
                 ImGui.SetCursorPos(new Vector2(5, 0));
                 ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width - 5, SelectedImage.Height));
                 return;
             }
+        }
 
-            if (Visible && !Disabled && !Paused)
+        private void TrySnapping()
+        {
+            if(!IsFocused) return;
+
+            if(Service.KeyState[VirtualKey.CONTROL] == false) return;
+
+            var snappingRange = 10;
+
+            var modulesThatArentUs = DisplayManager.AllModuleSettings
+                .Where(module => module != Settings && module.Reposition == true && module.Enabled == true);
+
+            foreach (var module in modulesThatArentUs)
             {
-                ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width - 5, SelectedImage.Height));
-                return;
+                var leftDistance = Math.Abs( module.BannerPosition.X - (Settings.BannerPosition.X + Settings.BannerSize.X) );
+                var rightDistance = Math.Abs(Settings.BannerPosition.X - (module.BannerPosition.X + module.BannerSize.X));
+                var topDistance = Math.Abs(module.BannerPosition.Y - (Settings.BannerPosition.Y + Settings.BannerSize.Y));
+                var bottomDistance = Math.Abs(Settings.BannerPosition.Y - (module.BannerPosition.Y + module.BannerSize.Y));
+
+                var xDistance = Math.Abs(module.BannerPosition.X - Settings.BannerPosition.X);
+                var yDistance = Math.Abs(module.BannerPosition.Y - Settings.BannerPosition.Y);
+
+                if (leftDistance < snappingRange && yDistance < snappingRange) 
+                {
+                    Settings.BannerPosition.X = module.BannerPosition.X - Settings.BannerSize.X;
+                    Settings.BannerPosition.Y = module.BannerPosition.Y;
+                    Settings.PositionChanged = true;
+                } 
+                else if (rightDistance < snappingRange && yDistance < snappingRange)
+                {
+                    Settings.BannerPosition.X = module.BannerPosition.X + module.BannerSize.X;
+                    Settings.BannerPosition.Y = module.BannerPosition.Y;
+                    Settings.PositionChanged = true;
+                }
+                else if (topDistance < snappingRange && xDistance < snappingRange)
+                {
+                    Settings.BannerPosition.X = module.BannerPosition.X;
+                    Settings.BannerPosition.Y = module.BannerPosition.Y - Settings.BannerSize.Y;
+                    Settings.PositionChanged = true;
+                }
+                else if (bottomDistance < snappingRange && xDistance < snappingRange)
+                {
+                    Settings.BannerPosition.X = module.BannerPosition.X;
+                    Settings.BannerPosition.Y = module.BannerPosition.Y + module.BannerSize.Y;
+                    Settings.PositionChanged = true;
+                }
             }
         }
 
@@ -237,6 +295,9 @@ namespace NoTankYou.DisplaySystem
                 MinimumSize = new(this.SelectedImage.Width, this.SelectedImage.Height),
                 MaximumSize = new(this.SelectedImage.Width, this.SelectedImage.Height)
             };
+
+            Settings.BannerSize.X = SelectedImage.Width;
+            Settings.BannerSize.Y = SelectedImage.Height;
         }
 
         public void Dispose()

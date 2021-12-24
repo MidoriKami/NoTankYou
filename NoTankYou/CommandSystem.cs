@@ -59,6 +59,7 @@ namespace NoTankYou
                     ProcessTankStanceCommands(secondaryCommand);
                     ProcessDancePartnerCommands(secondaryCommand);
                     ProcessFaerieCommands(secondaryCommand);
+                    ProcessSummonerCommands(secondaryCommand);
                     break;
 
                 case "kardion":
@@ -98,6 +99,7 @@ namespace NoTankYou
 
             Service.Configuration.Save();
         }
+
         private void ProcessModeCommands(string? secondaryCommand)
         {
             if (secondaryCommand == null)
@@ -255,6 +257,11 @@ namespace NoTankYou
         private void ProcessKardionCommands(string? secondaryCommand)
         {
             ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.KardionSettings.Enabled, "[NoTankYou] Kardion Warning: ");
+        }
+
+        private void ProcessSummonerCommands(string? secondaryCommand)
+        {
+            ProcessGenericOnOffToggleCommand(secondaryCommand, ref Service.Configuration.SummonerSettings.Enabled, "[NoTankYou] Summoner Pet Warning: ");
         }
 
         private void ToggleProcessingMainMode()

@@ -9,11 +9,10 @@ namespace NoTankYou.DisplaySystem.Banners
         private const int DancerClassId = 38;
         private const int ClosedPositionStatusId = 1823;
 
-        public DancePartnerBanner() : base("Partner Up Dance Partner Warning Banner", "DancePartner")
+        public DancePartnerBanner() : base("NoTankYou Dance Partner Warning Banner", "DancePartner")
         {
 
         }
-
 
         protected override void UpdateInParty()
         {

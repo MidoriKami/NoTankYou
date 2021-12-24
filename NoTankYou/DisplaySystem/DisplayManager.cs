@@ -15,6 +15,15 @@ namespace NoTankYou.DisplaySystem
         private readonly List<uint> PvPTerritoryBlacklist;
         private readonly List<uint> AllianceRaidTerritories;
 
+        public static List<Configuration.ModuleSettings> AllModuleSettings = new()
+        {
+            Service.Configuration.FaerieSettings,
+            Service.Configuration.KardionSettings,
+            Service.Configuration.DancePartnerSettings,
+            Service.Configuration.TankStanceSettings,
+            Service.Configuration.SummonerSettings
+        };
+
         public DisplayManager()
         {
             Banners.Add(new FaerieBanner());

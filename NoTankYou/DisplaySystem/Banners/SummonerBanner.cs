@@ -17,11 +17,9 @@ namespace NoTankYou.DisplaySystem.Banners
         private int LastNumPlayersWithPets = 0;
         private bool LastSoloPet = false;
 
-        public SummonerBanner() : base("No Tank You Summoner Pet Warning Banner", "Summoner")
+        public SummonerBanner() : base("NoTankYou Summoner Pet Warning Banner", "Summoner")
         {
         }
-
-
 
         protected override void UpdateInParty()
         {

@@ -3,6 +3,7 @@ using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Buddy;
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.ClientState.Keys;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.Command;
@@ -27,6 +28,7 @@ namespace NoTankYou
         [PluginService] public static Framework Framework { get; private set; }
         [PluginService] public static ObjectTable ObjectTable { get; private set; }
         [PluginService] public static BuddyList BuddyList { get; private set; }
+        [PluginService] public static KeyState KeyState { get; private set; }
         public static WindowSystem WindowSystem { get; set; } = new WindowSystem("NoTankYou");
         public static Configuration Configuration { get; set; }
 
