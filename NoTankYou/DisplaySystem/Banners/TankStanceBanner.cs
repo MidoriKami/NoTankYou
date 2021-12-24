@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dalamud.Game.ClientState.Party;
 using Action = Lumina.Excel.GeneratedSheets.Action;
 
 namespace NoTankYou.DisplaySystem.Banners

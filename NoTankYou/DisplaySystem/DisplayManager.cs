@@ -1,10 +1,10 @@
-﻿using Lumina.Excel.GeneratedSheets;
+﻿using Dalamud.Logging;
+using Lumina.Excel.GeneratedSheets;
+using NoTankYou.DisplaySystem.Banners;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dalamud.Logging;
-using NoTankYou.DisplaySystem.Banners;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -96,7 +96,7 @@ namespace NoTankYou.DisplaySystem
         {
             // Slow update rate to conserve performance
             var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
-            if (frameCount % (ulong) Service.Configuration.NumberOfWaitFrames != 0) return;
+            if (frameCount % (ulong)Service.Configuration.NumberOfWaitFrames != 0) return;
 
             if (Service.Configuration.ForceWindowUpdate)
             {

@@ -1,9 +1,7 @@
-﻿using System.Numerics;
-using Dalamud.Interface.Components;
-using Dalamud.Interface.Windowing;
+﻿using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using NoTankYou.DisplaySystem;
 using NoTankYou.SettingsSystem.SettingsCategories;
+using System.Numerics;
 
 namespace NoTankYou.SettingsSystem
 {

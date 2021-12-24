@@ -1,5 +1,5 @@
-﻿using System.Numerics;
-using ImGuiNET;
+﻿using ImGuiNET;
+using System.Numerics;
 
 namespace NoTankYou.SettingsSystem.SubSettings.General
 {

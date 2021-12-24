@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NoTankYou.SettingsSystem.SubSettings.Positioning
+﻿namespace NoTankYou.SettingsSystem.SubSettings.Positioning
 {
     internal class HorizontalAlignmentSettings : SettingsCategory
     {

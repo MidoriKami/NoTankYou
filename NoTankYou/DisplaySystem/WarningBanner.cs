@@ -1,25 +1,14 @@
-﻿using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Game.ClientState.Party;
+﻿using Dalamud.Game.ClientState.Party;
 using Dalamud.Interface.Windowing;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using ImGuiNET;
 using ImGuiScene;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Dalamud.Game.ClientState.Objects.SubKinds;
-using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Logging;
-using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
-using FFXIVClientStructs.FFXIV.Client.Game.Event;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -113,19 +102,19 @@ namespace NoTankYou.DisplaySystem
             Forced = Settings.Forced || Settings.Reposition;
 
             // Party Mode Enabled
-            if ( ConditionManager.IsPartyMode() )
+            if (ConditionManager.IsPartyMode())
             {
                 UpdateInParty();
             }
 
             // Solo Mode, Duties Only
-            else if (ConditionManager.IsSoloDutiesOnly() )
+            else if (ConditionManager.IsSoloDutiesOnly())
             {
                 UpdateSolo();
             }
 
             // Solo Mode, Everywhere
-            else if (ConditionManager.IsSoloEverywhere() )
+            else if (ConditionManager.IsSoloEverywhere())
             {
                 UpdateSolo();
             }
@@ -135,7 +124,7 @@ namespace NoTankYou.DisplaySystem
                 Visible = false;
             }
         }
-        
+
         public override void PreDraw()
         {
             base.PreDraw();
@@ -209,13 +198,13 @@ namespace NoTankYou.DisplaySystem
         {
             var playersWithElapsedTimers = DeathDictionary
                 .Where(p => p.Value.ElapsedMilliseconds >= Service.Configuration.DeathGracePeriod);
-            
+
             foreach (var (player, timer) in playersWithElapsedTimers)
             {
                 DeathDictionary.Remove(player);
             }
         }
-        
+
         public static unsafe bool IsTargetable(PartyMember partyMember)
         {
             var playerGameObject = partyMember.GameObject;

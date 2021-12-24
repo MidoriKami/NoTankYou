@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Transactions;
-using Dalamud.Game.ClientState.Party;
-using NoTankYou.SettingsSystem.SettingsCategories;
+﻿using System.Linq;
 
 namespace NoTankYou.DisplaySystem.Banners
 {
@@ -28,11 +22,11 @@ namespace NoTankYou.DisplaySystem.Banners
             Visible = dancerPlayers
                 .Any(p => !p.Statuses.Any(s => s.StatusId is ClosedPositionStatusId));
         }
-        
+
         protected override void UpdateSolo()
         {
             var player = Service.ClientState.LocalPlayer;
-            if(player == null) return;
+            if (player == null) return;
 
             var playerIsDancer = player.ClassJob.Id == DancerClassId && player.Level >= 60;
 

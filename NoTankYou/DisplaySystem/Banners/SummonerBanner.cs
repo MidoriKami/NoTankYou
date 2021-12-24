@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NoTankYou.Utilities;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Game.ClientState.Party;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.DisplaySystem.Banners
 {

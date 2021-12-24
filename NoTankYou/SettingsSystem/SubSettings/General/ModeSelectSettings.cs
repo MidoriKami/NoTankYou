@@ -1,6 +1,6 @@
-﻿using System.Numerics;
-using Dalamud.Interface.Components;
+﻿using Dalamud.Interface.Components;
 using ImGuiNET;
+using System.Numerics;
 
 namespace NoTankYou.SettingsSystem.SubSettings.General
 {
@@ -25,30 +25,30 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
             MainMode = (int)Service.Configuration.ProcessingMainMode;
             SubMode = (int)Service.Configuration.ProcessingSubMode;
 
-            ImGui.RadioButton("Party Mode", ref MainMode, (int) Configuration.MainMode.Party);
+            ImGui.RadioButton("Party Mode", ref MainMode, (int)Configuration.MainMode.Party);
             ImGuiComponents.HelpMarker("Checks entire party's status to display warnings");
             ImGui.SameLine();
             ImGui.Indent(200);
-            ImGui.RadioButton("Solo Mode", ref MainMode, (int) Configuration.MainMode.Solo);
+            ImGui.RadioButton("Solo Mode", ref MainMode, (int)Configuration.MainMode.Solo);
             ImGuiComponents.HelpMarker("Checks only your status to display warnings");
             ImGui.Indent(-200);
 
-            if (MainMode == (int) Configuration.MainMode.Party)
+            if (MainMode == (int)Configuration.MainMode.Party)
             {
                 ImGui.Spacing();
 
                 ImGui.TextColored(new Vector4(120, 0, 0, 0.4f), "Use \"Solo Mode\" to enable warnings while in a Trust");
             }
 
-            if (MainMode == (int) Configuration.MainMode.Solo)
+            if (MainMode == (int)Configuration.MainMode.Solo)
             {
                 ImGui.Spacing();
                 ImGui.Indent(250);
-                ImGui.RadioButton("Only In Duty", ref SubMode, (int) Configuration.SubMode.OnlyInDuty);
+                ImGui.RadioButton("Only In Duty", ref SubMode, (int)Configuration.SubMode.OnlyInDuty);
                 ImGuiComponents.HelpMarker("Only instanced content");
 
                 ImGui.Spacing();
-                ImGui.RadioButton("Everywhere", ref SubMode, (int) Configuration.SubMode.Everywhere);
+                ImGui.RadioButton("Everywhere", ref SubMode, (int)Configuration.SubMode.Everywhere);
                 ImGuiComponents.HelpMarker("Includes Open World and Towns");
                 ImGui.Indent(-250);
             }

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using NoTankYou.Utilities;
 using System.Diagnostics;
 using System.Linq;
-using Dalamud.Game.ClientState.Party;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.DisplaySystem.Banners
 {

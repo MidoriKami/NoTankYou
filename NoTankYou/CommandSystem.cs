@@ -1,7 +1,7 @@
-﻿using System;
-using Dalamud.Game.Command;
+﻿using Dalamud.Game.Command;
 using Dalamud.Game.Text.SeStringHandling;
 using NoTankYou.SettingsSystem;
+using System;
 
 namespace NoTankYou
 {
@@ -212,7 +212,7 @@ namespace NoTankYou
                 stringBuilder.AddUiForegroundOff();
                 Service.Chat.Print(stringBuilder.BuiltString);
             }
-            else if(Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
+            else if (Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo)
             {
                 stringBuilder.AddUiForeground(ColorRed);
                 stringBuilder.AddText("Solo Mode");

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Dalamud.Interface.Components;
+﻿using Dalamud.Interface.Components;
 using ImGuiNET;
+using System.Numerics;
 
 namespace NoTankYou.SettingsSystem.SettingsCategories
 {

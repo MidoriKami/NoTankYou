@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NoTankYou.DisplaySystem;
-using NoTankYou.SettingsSystem.SubSettings.Positioning;
+﻿using NoTankYou.SettingsSystem.SubSettings.Positioning;
 
 namespace NoTankYou.SettingsSystem.SettingsCategories
 {
