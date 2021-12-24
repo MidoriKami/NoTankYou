@@ -28,7 +28,7 @@ namespace NoTankYou.DisplaySystem.Banners
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
 
-            var playerIsDancer = player.ClassJob.Id == DancerClassId && player.Level >= 60;
+            var playerIsDancer = player.ClassJob.Id == DancerClassId && player.Level >= 60 && player.CurrentHp > 0;
 
             var playerHadClosedPosition = player.StatusList.Any(s => s.StatusId is ClosedPositionStatusId);
 

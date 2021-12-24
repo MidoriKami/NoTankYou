@@ -28,7 +28,7 @@ namespace NoTankYou.DisplaySystem.Banners
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
 
-            var playerIsSage = player.ClassJob.Id == SageClassID;
+            var playerIsSage = player.ClassJob.Id == SageClassID && player.CurrentHp > 0;
 
             var playerHasKardia = player.StatusList.Any(s => s.StatusId == KardiaStatusID);
 

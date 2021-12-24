@@ -54,7 +54,7 @@ namespace NoTankYou.DisplaySystem.Banners
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
 
-            var playerIsScholar = player.ClassJob.Id == SummonerClassID;
+            var playerIsScholar = player.ClassJob.Id == SummonerClassID && player.CurrentHp > 0;
 
             var isPetPresent = Service.BuddyList.PetBuddyPresent;
 

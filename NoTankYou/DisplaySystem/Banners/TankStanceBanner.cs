@@ -36,7 +36,7 @@ namespace NoTankYou.DisplaySystem.Banners
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
 
-            var playerIsTank = player.ClassJob.GameData.Role == TankRoleID;
+            var playerIsTank = player.ClassJob.GameData.Role == TankRoleID && player.CurrentHp > 0;
             var tankStanceFound = player.StatusList.Any(s => TankStances.Contains(s.StatusId));
 
             Visible = playerIsTank && !tankStanceFound;
