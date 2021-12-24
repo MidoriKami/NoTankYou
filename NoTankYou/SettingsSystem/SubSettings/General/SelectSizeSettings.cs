@@ -1,4 +1,5 @@
-﻿using ImGuiNET;
+﻿using Dalamud.Interface.Components;
+using ImGuiNET;
 using NoTankYou.DisplaySystem;
 
 namespace NoTankYou.SettingsSystem.SubSettings.General
@@ -8,14 +9,20 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
         private int SizeRadioButton = 0;
         private int LastSizeRadioButton = -1;
 
+        private int ScalePercent = 100;
+
         public SelectSizeSettings() : base("Banner Size Selection")
         {
             SizeRadioButton = (int)Service.Configuration.ImageSize;
+            ScalePercent = (int) (Service.Configuration.GlobalScaleFactor * 100.0);
+
         }
 
         protected override void DrawContents()
         {
-            DrawSelectSize();
+            //DrawSelectSize();
+
+            DrawScaleSlider();
         }
 
         private void DrawSelectSize()
@@ -32,6 +39,19 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
             Service.Configuration.ForceWindowUpdate = true;
             LastSizeRadioButton = SizeRadioButton;
+        }
+
+        private void DrawScaleSlider()
+        {
+            ImGui.Text("Scale %%, Control + Click to input number directly");
+            ImGui.SliderInt("", ref ScalePercent, -50, 250, "%d %%");
+            ImGuiComponents.HelpMarker("Scales the banners by the specified percentage\n" +
+                                       "0% - Original Size" +
+                                       "100% - 2x Size" +
+                                       "-50% - 1/2x Size");
+
+            Service.Configuration.GlobalScaleFactor = ScalePercent / 100.0f;
+            Service.Configuration.ForceWindowUpdate = true;
         }
     }
 }

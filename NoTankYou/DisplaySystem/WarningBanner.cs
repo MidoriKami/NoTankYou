@@ -36,9 +36,6 @@ namespace NoTankYou.DisplaySystem
                     ImGuiWindowFlags.NoNavFocus |
                     ImGuiWindowFlags.NoInputs;
 
-        protected TextureWrap ImageLarge;
-        protected TextureWrap ImageMedium;
-        protected TextureWrap ImageSmall;
         protected TextureWrap SelectedImage;
 
         protected Dictionary<uint, Stopwatch> DeathDictionary = new();
@@ -64,30 +61,20 @@ namespace NoTankYou.DisplaySystem
         protected WarningBanner(string windowName, string imageName) : base(windowName)
         {
             var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
-            var smallPath = Path.Combine(assemblyLocation, $@"images\{imageName}_Small.png");
-            var mediumPath = Path.Combine(assemblyLocation, $@"images\{imageName}_Medium.png");
             var largePath = Path.Combine(assemblyLocation, $@"images\{imageName}_Large.png");
 
-            ImageSmall = Service.PluginInterface.UiBuilder.LoadImage(smallPath);
-            ImageMedium = Service.PluginInterface.UiBuilder.LoadImage(mediumPath);
-            ImageLarge = Service.PluginInterface.UiBuilder.LoadImage(largePath);
+            SelectedImage = Service.PluginInterface.UiBuilder.LoadImage(largePath);
 
-            SelectedImage = Service.Configuration.ImageSize switch
-            {
-                ImageSize.Small => ImageSmall,
-                ImageSize.Medium => ImageMedium,
-                ImageSize.Large => ImageLarge,
-                _ => ImageLarge
-            };
+            var combinedScaleFactor = Settings.ScaleFactor + Service.Configuration.GlobalScaleFactor;
 
             SizeConstraints = new WindowSizeConstraints()
             {
-                MinimumSize = new(this.SelectedImage.Width, this.SelectedImage.Height),
-                MaximumSize = new(this.SelectedImage.Width, this.SelectedImage.Height)
+                MinimumSize = new(this.SelectedImage.Width * combinedScaleFactor, this.SelectedImage.Height * combinedScaleFactor),
+                MaximumSize = new(this.SelectedImage.Width * combinedScaleFactor, this.SelectedImage.Height * combinedScaleFactor)
             };
 
-            Settings.BannerSize.X = SelectedImage.Width;
-            Settings.BannerSize.Y = SelectedImage.Height;
+            Settings.BannerSize.X = SelectedImage.Width * combinedScaleFactor - 1;
+            Settings.BannerSize.Y = SelectedImage.Height * combinedScaleFactor - 1;
         }
 
         protected void PreUpdate()
@@ -155,8 +142,10 @@ namespace NoTankYou.DisplaySystem
 
             if (Forced || (Visible && !Disabled && !Paused) )
             {
+                var combinedScaleFactor = Settings.ScaleFactor + Service.Configuration.GlobalScaleFactor;
+
                 ImGui.SetCursorPos(new Vector2(5, 0));
-                ImGui.Image(SelectedImage.ImGuiHandle, new Vector2(SelectedImage.Width - 5, SelectedImage.Height));
+                ImGui.Image(SelectedImage.ImGuiHandle, new Vector2((SelectedImage.Width - 5) * combinedScaleFactor, (SelectedImage.Height) * combinedScaleFactor));
                 return;
             }
         }
@@ -167,7 +156,7 @@ namespace NoTankYou.DisplaySystem
 
             if(Service.KeyState[VirtualKey.CONTROL] == false) return;
 
-            var snappingRange = 10;
+            var snappingRange = Settings.BannerSize.Y / 2 - 1;
 
             var modulesThatArentUs = DisplayManager.AllModuleSettings
                 .Where(module => module != Settings && module.Reposition == true && module.Enabled == true);
@@ -282,29 +271,21 @@ namespace NoTankYou.DisplaySystem
 
         public void ChangeImageSize(ImageSize size)
         {
-            SelectedImage = size switch
-            {
-                ImageSize.Small => ImageSmall,
-                ImageSize.Medium => ImageMedium,
-                ImageSize.Large => ImageLarge,
-                _ => SelectedImage
-            };
-
+            var combinedScaleFactor = Settings.ScaleFactor + Service.Configuration.GlobalScaleFactor;
+            
             SizeConstraints = new WindowSizeConstraints()
             {
-                MinimumSize = new(this.SelectedImage.Width, this.SelectedImage.Height),
-                MaximumSize = new(this.SelectedImage.Width, this.SelectedImage.Height)
+                MinimumSize = new(this.SelectedImage.Width * combinedScaleFactor, this.SelectedImage.Height * combinedScaleFactor),
+                MaximumSize = new(this.SelectedImage.Width * combinedScaleFactor, this.SelectedImage.Height * combinedScaleFactor)
             };
 
-            Settings.BannerSize.X = SelectedImage.Width;
-            Settings.BannerSize.Y = SelectedImage.Height;
+            Settings.BannerSize.X = SelectedImage.Width * combinedScaleFactor - 1;
+            Settings.BannerSize.Y = SelectedImage.Height * combinedScaleFactor - 1;
         }
 
         public void Dispose()
         {
-            ImageSmall.Dispose();
-            ImageMedium.Dispose();
-            ImageLarge.Dispose();
+            SelectedImage.Dispose();
         }
     }
 }

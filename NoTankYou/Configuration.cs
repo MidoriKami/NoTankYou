@@ -19,6 +19,7 @@ namespace NoTankYou
             public Vector2 BannerPosition = new Vector2(300, 300);
             public Vector2 BannerSize = new Vector2(0, 0);
             public bool PositionChanged = false;
+            public float ScaleFactor = 1.0f;
         }
         public enum MainMode
         {
@@ -44,6 +45,7 @@ namespace NoTankYou
         public int DeathGracePeriod = 5000;
 
         public bool WindowSnappingEnabled = false;
+        public float GlobalScaleFactor = 1.0f;
 
         public ModuleSettings TankStanceSettings = new ModuleSettings();
         public ModuleSettings DancePartnerSettings = new ModuleSettings();

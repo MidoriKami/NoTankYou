@@ -4,8 +4,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 {
     internal class SummonerPetSettings : SettingsCategory
     {
+        private readonly Configuration.ModuleSettings Settings;
+
         public SummonerPetSettings() : base("Summoner Pet Settings")
         {
+            Settings = Service.Configuration.SummonerSettings;
         }
 
         protected override void DrawContents()
@@ -14,13 +17,13 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
         }
         private void DrawSummonerTab()
         {
-            ImGui.Checkbox("Enable Missing Summoner Pet Warning", ref Service.Configuration.SummonerSettings.Enabled);
+            ImGui.Checkbox("Enable Missing Dance Partner Warning", ref Settings.Enabled);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.SummonerSettings.Forced);
+            ImGui.Checkbox("Force Show Banner", ref Settings.Forced);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.SummonerSettings.Reposition);
+            ImGui.Checkbox("Reposition Banner", ref Settings.Reposition);
             ImGui.Spacing();
         }
     }

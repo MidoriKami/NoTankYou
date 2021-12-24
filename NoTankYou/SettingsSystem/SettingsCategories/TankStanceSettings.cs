@@ -4,8 +4,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 {
     internal class TankStanceSettings : SettingsCategory
     {
+        private readonly Configuration.ModuleSettings Settings;
+
         public TankStanceSettings() : base("Tank Stance Settings")
         {
+            Settings = Service.Configuration.TankStanceSettings;
         }
 
         protected override void DrawContents()
@@ -13,15 +16,15 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
             DrawTankStanceTab();
         }
 
-        private static void DrawTankStanceTab()
+        private void DrawTankStanceTab()
         {
-            ImGui.Checkbox("Enable Tank Stance Warning", ref Service.Configuration.TankStanceSettings.Enabled);
+            ImGui.Checkbox("Enable Missing Dance Partner Warning", ref Settings.Enabled);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.TankStanceSettings.Forced);
+            ImGui.Checkbox("Force Show Banner", ref Settings.Forced);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.TankStanceSettings.Reposition);
+            ImGui.Checkbox("Reposition Banner", ref Settings.Reposition);
             ImGui.Spacing();
         }
     }

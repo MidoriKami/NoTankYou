@@ -4,8 +4,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 {
     internal class FaerieSettings : SettingsCategory
     {
+        private readonly Configuration.ModuleSettings Settings;
+
         public FaerieSettings() : base("Faerie Settings")
         {
+            Settings = Service.Configuration.FaerieSettings;
         }
 
         protected override void DrawContents()
@@ -13,15 +16,15 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
             DrawFaerieTab();
         }
 
-        private static void DrawFaerieTab()
+        private void DrawFaerieTab()
         {
-            ImGui.Checkbox("Enable Missing Faerie Warning", ref Service.Configuration.FaerieSettings.Enabled);
+            ImGui.Checkbox("Enable Missing Dance Partner Warning", ref Settings.Enabled);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Force Show Banner", ref Service.Configuration.FaerieSettings.Forced);
+            ImGui.Checkbox("Force Show Banner", ref Settings.Forced);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Reposition Banner", ref Service.Configuration.FaerieSettings.Reposition);
+            ImGui.Checkbox("Reposition Banner", ref Settings.Reposition);
             ImGui.Spacing();
         }
     }
