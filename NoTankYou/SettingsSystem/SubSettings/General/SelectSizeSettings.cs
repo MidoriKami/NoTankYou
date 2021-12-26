@@ -23,12 +23,12 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
         private void DrawScaleSlider()
         {
             ImGui.Text("Scale %%, Control + Click to input number directly");
-            ImGui.SliderInt("", ref ScalePercent, -50, 250, "%d %%");
+            ImGui.SliderInt("", ref ScalePercent, 50, 250, "%d %%");
             ImGuiComponents.HelpMarker("Scales the banners by the specified percentage");
 
             if (LastScalePercent != ScalePercent)
             {
-                Service.Configuration.GlobalScaleFactor = ScalePercent / 100.0f;
+                Service.Configuration.GlobalScaleFactor = (ScalePercent - 100) / 100.0f;
                 Service.Configuration.ForceWindowUpdate = true;
 
                 LastScalePercent = ScalePercent;
