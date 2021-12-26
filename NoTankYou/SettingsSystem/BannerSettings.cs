@@ -74,13 +74,22 @@ namespace NoTankYou.SettingsSystem
             ImGui.Separator();
             ImGui.Spacing();
 
-            ImGui.Checkbox("Show Exclamation Mark", ref Settings.ShowShield);
+            if (ImGui.Checkbox("Show Exclamation Mark", ref Settings.ShowShield))
+            {
+                Service.Configuration.ForceWindowUpdate = true;
+            }
             ImGui.Spacing();
 
-            ImGui.Checkbox("Show Text", ref Settings.ShowText);
+            if (ImGui.Checkbox("Show Text", ref Settings.ShowText))
+            {
+                Service.Configuration.ForceWindowUpdate = true;
+            }
             ImGui.Spacing();
 
-            ImGui.Checkbox("Show Icon", ref Settings.ShowIcon);
+            if (ImGui.Checkbox("Show Icon", ref Settings.ShowIcon))
+            {
+                Service.Configuration.ForceWindowUpdate = true;
+            }
             ImGui.Spacing();
         }
     }

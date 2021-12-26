@@ -64,16 +64,7 @@ namespace NoTankYou.DisplaySystem
             WarningText = Service.PluginInterface.UiBuilder.LoadImage(WarningTextPath);
             StatusIcon = Service.PluginInterface.UiBuilder.LoadImage(StatusIconPath);
 
-            var combinedScaleFactor = Settings.ScaleFactor + Service.Configuration.GlobalScaleFactor;
-
-            SizeConstraints = new WindowSizeConstraints()
-            {
-                MinimumSize = new(500 * combinedScaleFactor, 75 * combinedScaleFactor),
-                MaximumSize = new(500 * combinedScaleFactor, 75 * combinedScaleFactor)
-            };
-
-            Settings.BannerSize.X = 500 * combinedScaleFactor - 1;
-            Settings.BannerSize.Y = 75 * combinedScaleFactor - 1;
+            RecalculateWindowSize();
         }
 
         protected void PreUpdate()
@@ -91,8 +82,6 @@ namespace NoTankYou.DisplaySystem
             PreUpdate();
 
             if (!IsOpen) return;
-
-
 
             Forced = Settings.Forced || Settings.Reposition;
 
@@ -142,21 +131,28 @@ namespace NoTankYou.DisplaySystem
             if (Forced || (Visible && !Disabled && !Paused) )
             {
                 var combinedScaleFactor = Settings.ScaleFactor + Service.Configuration.GlobalScaleFactor;
+                var drawPositionX = 5 * combinedScaleFactor;
 
-                ImGui.SetCursorPos(new Vector2(5 * combinedScaleFactor, 0));
-                
-                if(Settings.ShowShield)
-                    ImGui.Image(WarningIcon.ImGuiHandle, new Vector2((WarningIcon.Width - 5) * combinedScaleFactor, (WarningIcon.Height) * combinedScaleFactor));
+                if (Settings.ShowShield)
+                {
+                    ImGui.SetCursorPos(new Vector2(drawPositionX, 0));
+                    ImGui.Image(WarningIcon.ImGuiHandle, new Vector2((WarningIcon.Width - 5) * combinedScaleFactor, (WarningIcon.Height- 4) * combinedScaleFactor));
+                    drawPositionX += WarningIcon.Width * combinedScaleFactor;
+                }
 
-                ImGui.SetCursorPos(new Vector2(60 * combinedScaleFactor, 0));
+                if (Settings.ShowText)
+                {
+                    ImGui.SetCursorPos(new Vector2(drawPositionX, 0));
+                    ImGui.Image(WarningText.ImGuiHandle, new Vector2((WarningText.Width - 10) * combinedScaleFactor, (WarningText.Height- 4) * combinedScaleFactor));
+                    drawPositionX += WarningText.Width * combinedScaleFactor;
+                }
 
-                if(Settings.ShowText)
-                    ImGui.Image(WarningText.ImGuiHandle, new Vector2((WarningText.Width) * combinedScaleFactor, (WarningText.Height) * combinedScaleFactor));
 
-                ImGui.SetCursorPos(new Vector2(420 * combinedScaleFactor, -2 * combinedScaleFactor));
-
-                if(Settings.ShowIcon)
-                    ImGui.Image(StatusIcon.ImGuiHandle, new Vector2((StatusIcon.Width) * combinedScaleFactor, (StatusIcon.Height) * combinedScaleFactor));
+                if (Settings.ShowIcon)
+                {
+                    ImGui.SetCursorPos(new Vector2(drawPositionX, 0));
+                    ImGui.Image(StatusIcon.ImGuiHandle, new Vector2((StatusIcon.Width - 5) * combinedScaleFactor, (StatusIcon.Height - 4) * combinedScaleFactor));
+                }
             }
         }
 
@@ -281,16 +277,31 @@ namespace NoTankYou.DisplaySystem
 
         public void UpdateImageSize()
         {
+            RecalculateWindowSize();
+        }
+
+        private void RecalculateWindowSize()
+        {
             var combinedScaleFactor = Settings.ScaleFactor + Service.Configuration.GlobalScaleFactor;
+            var windowSizeX = 5 * combinedScaleFactor;
+
+            if (Settings.ShowShield)
+                windowSizeX += (int) (WarningIcon.Width * combinedScaleFactor);
+
+            if(Settings.ShowText)
+                windowSizeX += (int) (WarningText.Width * combinedScaleFactor);
+
+            if(Settings.ShowIcon)
+                windowSizeX += (int) (StatusIcon.Width * combinedScaleFactor);
+
+            Settings.BannerSize.X = windowSizeX;
+            Settings.BannerSize.Y = 75 * combinedScaleFactor;
 
             SizeConstraints = new WindowSizeConstraints()
             {
-                MinimumSize = new(500 * combinedScaleFactor, 75 * combinedScaleFactor),
-                MaximumSize = new(500 * combinedScaleFactor, 75 * combinedScaleFactor)
+                MinimumSize = new(Settings.BannerSize.X, Settings.BannerSize.Y),
+                MaximumSize = new(Settings.BannerSize.X, Settings.BannerSize.Y)
             };
-
-            Settings.BannerSize.X = 500 * combinedScaleFactor - 1;
-            Settings.BannerSize.Y = 75 * combinedScaleFactor - 1;
         }
 
         public void Dispose()
