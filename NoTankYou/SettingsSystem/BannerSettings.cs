@@ -37,7 +37,7 @@ namespace NoTankYou.SettingsSystem
             ImGui.Spacing();
 
             ImGui.Text("Scale %%, Control + Click to input number directly");
-            ImGui.SliderInt("", ref ScalePercent, -50, 250, "%d %%");
+            ImGui.SliderInt("", ref ScalePercent, 50, 250, "%d %%");
             ImGuiComponents.HelpMarker("Scales the banners by the specified percentage\n" +
                                        "0% - Original Size" +
                                        "100% - 2x Size" +

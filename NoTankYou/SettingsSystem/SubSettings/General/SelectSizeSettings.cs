@@ -11,7 +11,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
         public SelectSizeSettings() : base("Banner Size Selection")
         {
-            ScalePercent = (int) (Service.Configuration.GlobalScaleFactor * 100.0);
+            ScalePercent = (int) (Service.Configuration.GlobalScaleFactor * 100.0) + 100;
             LastScalePercent = ScalePercent;
         }
 
