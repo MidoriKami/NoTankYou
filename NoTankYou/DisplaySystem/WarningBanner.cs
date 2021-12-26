@@ -64,7 +64,7 @@ namespace NoTankYou.DisplaySystem
             WarningText = Service.PluginInterface.UiBuilder.LoadImage(WarningTextPath);
             StatusIcon = Service.PluginInterface.UiBuilder.LoadImage(StatusIconPath);
 
-            RecalculateWindowSize();
+            UpdateImageSize();
         }
 
         protected void PreUpdate()
@@ -277,22 +277,17 @@ namespace NoTankYou.DisplaySystem
 
         public void UpdateImageSize()
         {
-            RecalculateWindowSize();
-        }
-
-        private void RecalculateWindowSize()
-        {
             var combinedScaleFactor = Settings.ScaleFactor + Service.Configuration.GlobalScaleFactor;
             var windowSizeX = 5 * combinedScaleFactor;
 
             if (Settings.ShowShield)
-                windowSizeX += (int) (WarningIcon.Width * combinedScaleFactor);
+                windowSizeX += (int)(WarningIcon.Width * combinedScaleFactor);
 
-            if(Settings.ShowText)
-                windowSizeX += (int) (WarningText.Width * combinedScaleFactor);
+            if (Settings.ShowText)
+                windowSizeX += (int)(WarningText.Width * combinedScaleFactor);
 
-            if(Settings.ShowIcon)
-                windowSizeX += (int) (StatusIcon.Width * combinedScaleFactor);
+            if (Settings.ShowIcon)
+                windowSizeX += (int)(StatusIcon.Width * combinedScaleFactor);
 
             Settings.BannerSize.X = windowSizeX;
             Settings.BannerSize.Y = 75 * combinedScaleFactor;
