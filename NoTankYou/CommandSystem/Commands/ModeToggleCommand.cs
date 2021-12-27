@@ -9,11 +9,6 @@ namespace NoTankYou.CommandSystem.Commands
 
         public static void ProcessCommand(string? secondaryCommand)
         {
-            ProcessModeCommands(secondaryCommand);
-        }
-
-        private static void ProcessModeCommands(string? secondaryCommand)
-        {
             switch (secondaryCommand)
             {
                 case null:
