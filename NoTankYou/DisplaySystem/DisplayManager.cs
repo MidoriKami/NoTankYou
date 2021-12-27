@@ -39,7 +39,7 @@ namespace NoTankYou.DisplaySystem
 
             // Battalion MainMode 4 = PvP
             PvPTerritoryBlacklist = Service.DataManager.GetExcelSheet<TerritoryType>()
-                            !.Where(r => r.BattalionMode is 4)
+                            !.Where(r => r.BattalionMode is 4 or 6)
                             .Select(r => r.RowId)
                             .ToList();
 

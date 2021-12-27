@@ -12,7 +12,7 @@ namespace NoTankYou
 
         private SettingsWindow SettingsWindow { get; init; }
         private DisplayManager DisplayManager { get; init; }
-        private CommandSystem CommandSystem { get; init; }
+        private CommandSystem.CommandSystem CommandSystem { get; init; }
 
         public NoTankYouPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -32,7 +32,7 @@ namespace NoTankYou
             Service.Framework.Update += OnFrameworkUpdate;
 
             // Create Command System
-            CommandSystem = new CommandSystem(SettingsWindow);
+            CommandSystem = new CommandSystem.CommandSystem(SettingsWindow);
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
