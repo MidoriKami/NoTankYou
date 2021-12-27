@@ -42,16 +42,12 @@ namespace NoTankYou.CommandSystem
             var primaryCommand = GetPrimaryCommand(arguments);
             var secondaryCommand = GetSecondaryCommand(arguments);
 
-            if (primaryCommand == null)
+            switch (primaryCommand?.ToLower())
             {
-                SettingsWindow.IsOpen = !SettingsWindow.IsOpen;
+                case null:
+                    SettingsWindow.IsOpen = !SettingsWindow.IsOpen;
+                    break;
 
-                Service.Configuration.Save();
-                return;
-            }
-
-            switch (primaryCommand.ToLower())
-            {
                 case "all":
                 case "everything":
                     ModuleToggleCommand.ProcessCommand(ModuleToggleCommand.Modes.All, secondaryCommand);
