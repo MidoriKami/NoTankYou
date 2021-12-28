@@ -17,6 +17,7 @@ namespace NoTankYou.SettingsSystem
         private readonly KardionSettings KardionSettings = new();
         private readonly SummonerPetSettings SummonerPetSettings = new();
         private readonly BlacklistSettings BlacklistSettings = new();
+        private readonly BlueMageSettings BlueMageSettings = new();
 
         private enum Tab
         {
@@ -26,6 +27,7 @@ namespace NoTankYou.SettingsSystem
             Faerie,
             Kardion,
             Summoner,
+            BlueMage,
             Blacklist
         }
 
@@ -76,6 +78,10 @@ namespace NoTankYou.SettingsSystem
                     SummonerPetSettings.Draw();
                     break;
 
+                case Tab.BlueMage:
+                    BlueMageSettings.Draw();
+                    break;
+
                 case Tab.Blacklist:
                     BlacklistSettings.Draw();
                     break;
@@ -121,6 +127,12 @@ namespace NoTankYou.SettingsSystem
                 if (ImGui.BeginTabItem("SMN"))
                 {
                     CurrentTab = Tab.Summoner;
+                    ImGui.EndTabItem();
+                }
+
+                if (ImGui.BeginTabItem("BLU"))
+                {
+                    CurrentTab = Tab.BlueMage;
                     ImGui.EndTabItem();
                 }
 

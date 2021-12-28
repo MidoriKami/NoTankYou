@@ -12,6 +12,7 @@ namespace NoTankYou.CommandSystem.Commands
             Kardion,
             Summoner,
             TankStance,
+            BlueMage,
             All
         }
 
@@ -33,6 +34,7 @@ namespace NoTankYou.CommandSystem.Commands
                 Modes.Faerie => Service.Configuration.FaerieSettings,
                 Modes.Kardion => Service.Configuration.KardionSettings,
                 Modes.Summoner => Service.Configuration.SummonerSettings,
+                Modes.BlueMage => Service.Configuration.BlueMageSettings,
                 _ => null
             };
 
@@ -82,6 +84,7 @@ namespace NoTankYou.CommandSystem.Commands
             ToggleOne(secondaryCommand, Service.Configuration.KardionSettings, Modes.Kardion);
             ToggleOne(secondaryCommand, Service.Configuration.SummonerSettings, Modes.Summoner);
             ToggleOne(secondaryCommand, Service.Configuration.TankStanceSettings, Modes.TankStance);
+            ToggleOne(secondaryCommand, Service.Configuration.BlueMageSettings, Modes.BlueMage);
         }
 
         private static string GetMessageForMode(Modes mode)
@@ -93,6 +96,7 @@ namespace NoTankYou.CommandSystem.Commands
                 Modes.Kardion => "[NoTankYou] Kardion Warning: ",
                 Modes.Summoner => "[NoTankYou] Summoner Pet Warning: ",
                 Modes.TankStance => "[NoTankYou] Tank Stance Warning: ",
+                Modes.BlueMage => "[NoTankYou] BlueMage Stance Warning: ",
                 _ => "[NoTankYou] Invalid Mode. Please report this to plugin author."
             };
         }

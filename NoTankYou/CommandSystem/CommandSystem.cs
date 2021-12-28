@@ -80,6 +80,11 @@ namespace NoTankYou.CommandSystem
                     ModuleToggleCommand.ProcessCommand(ModuleToggleCommand.Modes.Faerie, secondaryCommand);
                     break;
 
+                case "blu":
+                case "bluemage":
+                    ModuleToggleCommand.ProcessCommand(ModuleToggleCommand.Modes.BlueMage, secondaryCommand);
+                    break;
+
                 case "mode":
                     ModeToggleCommand.ProcessCommand(secondaryCommand);
                     break;

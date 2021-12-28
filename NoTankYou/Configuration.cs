@@ -25,6 +25,7 @@ namespace NoTankYou
             public bool ShowText = true;
             public bool ShowIcon = true;
         }
+
         public enum MainMode
         {
             Party,
@@ -54,6 +55,7 @@ namespace NoTankYou
         public ModuleSettings FaerieSettings = new ModuleSettings();
         public ModuleSettings KardionSettings = new ModuleSettings();
         public ModuleSettings SummonerSettings = new ModuleSettings();
+        public ModuleSettings BlueMageSettings = new ModuleSettings();
 
         public List<int> TerritoryBlacklist = new();
 
