@@ -68,9 +68,14 @@ A warning is only shown if no pet has been detected for more than a `half second
 You can invoke commands using `/notankyou` and `/nty`
 
 ### Command Format 
-### /notankyou [primary command] [secondary command]
+#### /notankyou [primary command] [secondary command]
 
-All primary module commands:
+### Module Commands
+
+These commands enable or disable the associated module. 
+This is a quick way to disable a module that is potentially causing a problem or to quickly toggle a module if you just want to check if a warning is showing or not.
+
+Primary commands
 * all
 * everything
 * kardion
@@ -89,33 +94,48 @@ All primary module commands:
 * scholar
 * sch
 
-All primary mode commands:
-* mode
-
-All primary blacklist/whitelist commands:
-* blacklist
-* bl
-* whitelist
-* wl
-
-All secondary commands for Modules
+Secondary commands
 * on
 * off
 * toggle
 * t
 * tog
 
-All secondary commands for Mode
+### Mode Commands
+
+There are a total of three modes, `Party Mode` `Solo Mode - Duties Only` and `Solo Mode - Everywhere`
+
+When in Party Mode, you must be in a party of at least 2 people. *Trusts do not count as a party*
+
+When in Solo Mode, only your statuses are checked to display a warning, this is effectively a way to remind yourself to use your role-critical actions.
+
+Primary commands
+* mode
+
+Secondary commands
 * party
 * solo
 * trust
 * t
 * toggle
 
-All secondary commands for blacklist/whitelist
+### Blacklist/Whitelist Commands
+
+Blacklist commands add a mapID to the blacklist, whitelist commands remove a mapID from the black list.
+
+`/blacklist add ###` and `/whitelist remove ###` do the same thing.
+
+`/blacklist remove ###` and `/whitelist add ###` do the same thing.
+
+This is useful to prevent this plugin from running in specific areas. PVP and Golden Saucer areas are automatically disabled internally.
+
+Primary Commands
+* blacklist
+* bl
+* whitelist
+* wl
+
+Secondary Commands
 * here
 * add
 * remove
-
-
-
