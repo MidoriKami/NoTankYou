@@ -23,6 +23,12 @@ Warnings will not show if there are no players with a role-specific action in th
 
 ![image](https://user-images.githubusercontent.com/9083275/147808967-3b83bd41-a1ac-4947-a161-14ab469eb32e.png)
 
+### Death Detection
+
+Any players that are dead, are not considered in evaluating if a warning banner should be shown.
+
+Once a player is revived, there is a configurable "grace period" amount of time where a player will continue to be removed from evaluation, this is to give players a chance to re-enable their role-specific actions after being revived.
+
 ## Modules
 
 ### Tank Stance
@@ -35,7 +41,9 @@ If a tank is dead, they will not be considered to be a tank for the duration of 
 ![image](https://user-images.githubusercontent.com/9083275/147809510-9894555e-d801-4ae7-b97c-8ca165a2005e.png)
 
 ### Dance Partner
-This module checks for dancers that are over lvl 60 for the status effect `closed position`
+This module checks for dancers that are over lvl 60 for the status effect `Closed Position`
+
+If there are multiple dancers, if `Party Mode` is enabled, then all of them must have `Closed Position` for the warning to go away.
 
 ![image](https://user-images.githubusercontent.com/9083275/147809651-6d50350d-bb57-4103-b4bd-106d45008fde.png)
 
