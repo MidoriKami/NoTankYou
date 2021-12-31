@@ -77,7 +77,7 @@ namespace NoTankYou.DisplaySystem
             }
         }
 
-        public void Update()
+        public override void Update()
         {
             PreUpdate();
 

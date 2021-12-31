@@ -12,8 +12,9 @@ namespace NoTankYou.DisplaySystem
     {
         private readonly List<WarningBanner> Banners = new();
 
-        private readonly List<uint> PvPTerritoryBlacklist;
-        private readonly List<uint> AllianceRaidTerritories;
+        private readonly HashSet<uint> PvPTerritoryBlacklist;
+        private readonly HashSet<uint> AllianceRaidTerritories;
+        private readonly HashSet<uint> GATETerritories;
 
         public static List<Configuration.ModuleSettings> AllModuleSettings = new()
         {
@@ -41,13 +42,19 @@ namespace NoTankYou.DisplaySystem
             PvPTerritoryBlacklist = Service.DataManager.GetExcelSheet<TerritoryType>()
                             !.Where(r => r.BattalionMode is 4 or 6)
                             .Select(r => r.RowId)
-                            .ToList();
+                            .ToHashSet();
 
             // Territory Intended Use 8 = Alliance Raid
             AllianceRaidTerritories = Service.DataManager.GetExcelSheet<TerritoryType>()
                             !.Where(r => r.TerritoryIntendedUse is 8)
                             .Select(r => r.RowId)
-                            .ToList();
+                            .ToHashSet();
+
+            // ContentFinderCondition 19 = Golden Saucer
+            GATETerritories = Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                !.Where(c => c.ContentType.Row is 19)
+                .Select(r => r.TerritoryType.Row)
+                .ToHashSet();
 
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
         }
@@ -55,12 +62,15 @@ namespace NoTankYou.DisplaySystem
         {
             try
             {
+                bool movingToGoldenSaucerEvent = GATETerritories.Contains(e);
                 bool movingToBlacklistedTerritory = Service.Configuration.TerritoryBlacklist.Contains(e);
                 bool movingToAllianceRaid = AllianceRaidTerritories.Contains(e);
                 bool movingToPvPTerritory = PvPTerritoryBlacklist.Contains(e);
+
                 bool shouldDisable = movingToPvPTerritory ||
                                      (movingToAllianceRaid && Service.Configuration.DisableInAllianceRaid) ||
-                                     movingToBlacklistedTerritory;
+                                     movingToBlacklistedTerritory ||
+                                     movingToGoldenSaucerEvent;
 
                 if (shouldDisable)
                 {

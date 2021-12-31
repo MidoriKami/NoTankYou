@@ -22,7 +22,6 @@ namespace NoTankYou.DisplaySystem
             var isBoundByDuty = IsBoundByDuty();
             var isPartyMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party;
             var isInTransition = IsInAreaTransition();
-            var isDutyStarted = IsDutyStarted();
             var isDutyEnded = IsDutyEnded();
 
             return isInParty && isBoundByDuty && isPartyMode && !isInTransition && !isDutyEnded;
@@ -34,7 +33,6 @@ namespace NoTankYou.DisplaySystem
             var isDutiesOnlySubMode = Service.Configuration.ProcessingSubMode == Configuration.SubMode.OnlyInDuty;
             var isBoundBuByDuty = IsBoundByDuty();
             var isInAreaTransition = IsInAreaTransition();
-            var isDutyStarted = IsDutyStarted();
             var isDutyEnded = IsDutyEnded();
 
             return isSoloMainMode && isDutiesOnlySubMode && isBoundBuByDuty && !isInAreaTransition && !isDutyEnded;
@@ -47,12 +45,6 @@ namespace NoTankYou.DisplaySystem
             var isInAreaTransition = IsInAreaTransition();
 
             return isSoloMainMode && isEverywhereSubMode && !isInAreaTransition;
-        }
-        private bool IsDutyStarted()
-        {
-
-            // A method for determining instance started has not been determined yet
-            return false;
         }
 
         private bool IsDutyEnded()
