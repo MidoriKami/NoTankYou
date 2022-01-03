@@ -32,6 +32,7 @@ namespace NoTankYou.DisplaySystem
             Banners.Add(new DancePartnerBanner());
             Banners.Add(new TankStanceBanner());
             Banners.Add(new SummonerBanner());
+            Banners.Add(new BlueMageTankStance());
 
             foreach (var banner in Banners)
             {

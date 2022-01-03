@@ -13,7 +13,8 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
                 Service.Configuration.KardionSettings.Reposition == true &&
                 Service.Configuration.FaerieSettings.Reposition == true &&
                 Service.Configuration.TankStanceSettings.Reposition == true &&
-                Service.Configuration.SummonerSettings.Reposition == true)
+                Service.Configuration.SummonerSettings.Reposition == true &&
+                Service.Configuration.BlueMageSettings.Reposition == true)
             {
                 CurrentlyRepositioningAll = true;
             }
@@ -39,6 +40,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
                 Service.Configuration.KardionSettings.Reposition = true;
                 Service.Configuration.FaerieSettings.Reposition = true;
                 Service.Configuration.TankStanceSettings.Reposition = true;
+                Service.Configuration.BlueMageSettings.Reposition = true;
                 Service.Configuration.SummonerSettings.Reposition = true;
                 CurrentlyRepositioningAll = true;
             }
@@ -51,6 +53,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
                 Service.Configuration.KardionSettings.Reposition = false;
                 Service.Configuration.FaerieSettings.Reposition = false;
                 Service.Configuration.TankStanceSettings.Reposition = false;
+                Service.Configuration.BlueMageSettings.Reposition = false;
                 Service.Configuration.SummonerSettings.Reposition = false;
                 CurrentlyRepositioningAll = false;
             }

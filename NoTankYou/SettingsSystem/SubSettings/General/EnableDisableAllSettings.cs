@@ -22,6 +22,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
                 Service.Configuration.FaerieSettings.Enabled = true;
                 Service.Configuration.TankStanceSettings.Enabled = true;
                 Service.Configuration.SummonerSettings.Enabled = true;
+                Service.Configuration.BlueMageSettings.Enabled = true;
             }
 
             ImGui.SameLine();
@@ -33,6 +34,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
                 Service.Configuration.FaerieSettings.Enabled = false;
                 Service.Configuration.TankStanceSettings.Enabled = false;
                 Service.Configuration.SummonerSettings.Enabled = false;
+                Service.Configuration.BlueMageSettings.Enabled = false;
             }
 
             ImGui.Spacing();

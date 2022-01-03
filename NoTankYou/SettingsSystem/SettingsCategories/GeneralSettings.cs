@@ -69,6 +69,12 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
                 ImGui.TableNextColumn();
                 DrawConditionalText(Service.Configuration.SummonerSettings.Enabled, "Enabled", "Disabled");
 
+                ImGui.TableNextColumn();
+                ImGui.Text("BLU Mighty Guard");
+
+                ImGui.TableNextColumn();
+                DrawConditionalText(Service.Configuration.BlueMageSettings.Enabled, "Enabled", "Disabled");
+
                 ImGui.EndTable();
             }
             ImGui.Spacing();

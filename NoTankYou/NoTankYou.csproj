@@ -33,6 +33,7 @@
 		<Content Include="..\images\icon\Kardion_Icon.png" Link="images\icon\Kardion_Icon.png" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\icon\Summoner_Icon.png" Link="images\icon\Summoner_Icon.png" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\icon\TankStance_Icon.png" Link="images\icon\TankStance_Icon.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\icon\BlueMage_Icon.png" Link="images\icon\BlueMage_Icon.png" CopyToOutputDirectory="Always" />
 
 		<Content Include="..\images\icon\Warning_Icon.png" Link="images\icon\Warning_Icon.png" CopyToOutputDirectory="Always" />
 
@@ -41,6 +42,7 @@
 		<Content Include="..\images\text\Kardion_Text.png" Link="images\text\Kardion_Text.png" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\text\Summoner_Text.png" Link="images\text\Summoner_Text.png" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\text\TankStance_Text.png" Link="images\text\TankStance_Text.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\text\BlueMage_Text.png" Link="images\text\BlueMage_Text.png" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
 	<ItemGroup>
