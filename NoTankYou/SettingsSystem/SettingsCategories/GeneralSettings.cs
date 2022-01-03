@@ -8,8 +8,6 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
     {
         private readonly GeneralBasicSettings BasicSettings = new();
         private readonly ModeSelectSettings ModeSelectSettings = new();
-        private readonly SelectSizeSettings SelectSizeSettings = new();
-        private readonly RepositionSettings RepositionSettings = new();
         private readonly EnableDisableAllSettings EnableDisableAllSettings = new();
 
         public GeneralSettings() : base("General Settings")
@@ -24,10 +22,6 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
             BasicSettings.Draw();
 
             ModeSelectSettings.Draw();
-
-            SelectSizeSettings.Draw();
-
-            RepositionSettings.Draw();
 
             EnableDisableAllSettings.Draw();
 

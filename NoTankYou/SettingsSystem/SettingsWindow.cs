@@ -17,10 +17,12 @@ namespace NoTankYou.SettingsSystem
         private readonly KardionSettings KardionSettings = new();
         private readonly SummonerPetSettings SummonerPetSettings = new();
         private readonly BlacklistSettings BlacklistSettings = new();
+        private readonly DisplaySettings DisplaySettings = new();
 
         private enum Tab
         {
             General,
+            Display,
             TankStance,
             DancePartner,
             Faerie,
@@ -54,6 +56,10 @@ namespace NoTankYou.SettingsSystem
             {
                 case Tab.General:
                     GeneralSettings.Draw();
+                    break;
+
+                case Tab.Display:
+                    DisplaySettings.Draw();
                     break;
 
                 case Tab.TankStance:
@@ -91,6 +97,12 @@ namespace NoTankYou.SettingsSystem
                 if (ImGui.BeginTabItem("General"))
                 {
                     CurrentTab = Tab.General;
+                    ImGui.EndTabItem();
+                }
+
+                if (ImGui.BeginTabItem("Display"))
+                {
+                    CurrentTab = Tab.Display;
                     ImGui.EndTabItem();
                 }
 
