@@ -26,7 +26,7 @@ namespace NoTankYou.DisplaySystem.Banners
             var blueMageTanks = blueMagePlayers.Where(p => p.Statuses.Any(s => s.StatusId == AetherialMimicryTankStatusID));
 
             Visible = blueMageTanks
-                .All(p => p.Statuses.All(s => s.StatusId != MightyGuardStatusID));
+                .All(p => p.Statuses.All(s => s.StatusId != MightyGuardStatusID)) && blueMagePlayers.Count > 0;
         }
 
         protected override void UpdateSolo()

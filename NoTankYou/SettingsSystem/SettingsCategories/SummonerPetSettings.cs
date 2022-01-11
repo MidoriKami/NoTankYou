@@ -7,8 +7,10 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
         protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.SummonerSettings;
 
 
-        public SummonerPetSettings() : base("Summoner Pet Settings")
+        public SummonerPetSettings()
         {
+            CategoryName = "Summoner Pet Settings";
+            TabName = "SMN";
         }
     }
 }

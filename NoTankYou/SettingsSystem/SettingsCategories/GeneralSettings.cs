@@ -4,20 +4,21 @@ using System.Numerics;
 
 namespace NoTankYou.SettingsSystem.SettingsCategories
 {
-    internal class GeneralSettings : SettingsCategory
+    internal class GeneralSettings : TabCategory
     {
         private readonly GeneralBasicSettings BasicSettings = new();
         private readonly ModeSelectSettings ModeSelectSettings = new();
         private readonly EnableDisableAllSettings EnableDisableAllSettings = new();
 
-        public GeneralSettings() : base("General Settings")
+        public GeneralSettings()
         {
-
+            CategoryName = "General Settings";
+            TabName = "General";
         }
 
         protected override void DrawContents()
         {
-            ImGui.BeginChildFrame(1, new Vector2(440, 365), ImGuiWindowFlags.NoBackground);
+            ImGui.BeginChildFrame(1, new Vector2(490, 365), ImGuiWindowFlags.NoBackground);
 
             BasicSettings.Draw();
 
@@ -39,41 +40,14 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
             if (ImGui.BeginTable("##StatusTable", 2))
             {
-                ImGui.TableNextColumn();
-                ImGui.Text("Tank Stance");
+                foreach (var (name, module) in SettingsModules.Modules)
+                {
+                    ImGui.TableNextColumn();
+                    ImGui.Text(name);
 
-                ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.TankStanceSettings.Enabled, "Enabled", "Disabled");
-
-                ImGui.TableNextColumn();
-                ImGui.Text("Dance Partner");
-
-                ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.DancePartnerSettings.Enabled, "Enabled", "Disabled");
-
-                ImGui.TableNextColumn();
-                ImGui.Text("Faerie");
-
-                ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.FaerieSettings.Enabled, "Enabled", "Disabled");
-
-                ImGui.TableNextColumn();
-                ImGui.Text("Kardion");
-
-                ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.KardionSettings.Enabled, "Enabled", "Disabled");
-
-                ImGui.TableNextColumn();
-                ImGui.Text("Summoner Pet");
-
-                ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.SummonerSettings.Enabled, "Enabled", "Disabled");
-
-                ImGui.TableNextColumn();
-                ImGui.Text("BLU Mighty Guard");
-
-                ImGui.TableNextColumn();
-                DrawConditionalText(Service.Configuration.BlueMageSettings.Enabled, "Enabled", "Disabled");
+                    ImGui.TableNextColumn();
+                    DrawConditionalText(module.Enabled, "Enabled", "Disabled");
+                }
 
                 ImGui.EndTable();
             }

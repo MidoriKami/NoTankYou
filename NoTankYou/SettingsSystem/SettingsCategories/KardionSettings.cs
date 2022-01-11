@@ -7,8 +7,10 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
         protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.KardionSettings;
 
 
-        public KardionSettings() : base("Kardion Settings")
+        public KardionSettings()
         {
+            CategoryName = "Sage Kardion Settings";
+            TabName = "SGE";
         }
     }
 }

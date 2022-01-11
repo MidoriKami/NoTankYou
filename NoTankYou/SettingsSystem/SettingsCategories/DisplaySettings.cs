@@ -7,13 +7,15 @@ using NoTankYou.SettingsSystem.SubSettings.General;
 
 namespace NoTankYou.SettingsSystem.SettingsCategories
 {
-    internal class DisplaySettings : SettingsCategory
+    internal class DisplaySettings : TabCategory
     {
         private readonly SelectSizeSettings SelectSizeSettings = new();
         private readonly RepositionSettings RepositionSettings = new();
 
-        public DisplaySettings() : base("Display")
+        public DisplaySettings()
         {
+            CategoryName = "Display Settings";
+            TabName = "Display";
         }
 
         protected override void DrawContents()

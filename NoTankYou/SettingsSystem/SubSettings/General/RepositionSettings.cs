@@ -1,27 +1,18 @@
-﻿using ImGuiNET;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ImGuiNET;
 using System.Numerics;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace NoTankYou.SettingsSystem.SubSettings.General
 {
     internal class RepositionSettings : SettingsCategory
     {
         private bool CurrentlyRepositioningAll = false;
-
+        
         public RepositionSettings() : base("Reposition Banner Settings")
         {
-            if (Service.Configuration.DancePartnerSettings.Reposition == true &&
-                Service.Configuration.KardionSettings.Reposition == true &&
-                Service.Configuration.FaerieSettings.Reposition == true &&
-                Service.Configuration.TankStanceSettings.Reposition == true &&
-                Service.Configuration.SummonerSettings.Reposition == true &&
-                Service.Configuration.BlueMageSettings.Reposition == true)
-            {
-                CurrentlyRepositioningAll = true;
-            }
-            else
-            {
-                CurrentlyRepositioningAll = false;
-            }
+            CurrentlyRepositioningAll = SettingsModules.Modules.Values.All(element => element.Reposition == true);
         }
 
         protected override void DrawContents()
@@ -36,12 +27,11 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
         {
             if (ImGui.Button("Enable Reposition All", new(150, 25)))
             {
-                Service.Configuration.DancePartnerSettings.Reposition = true;
-                Service.Configuration.KardionSettings.Reposition = true;
-                Service.Configuration.FaerieSettings.Reposition = true;
-                Service.Configuration.TankStanceSettings.Reposition = true;
-                Service.Configuration.BlueMageSettings.Reposition = true;
-                Service.Configuration.SummonerSettings.Reposition = true;
+                foreach(var (name, element) in SettingsModules.Modules)
+                {
+                    element.Reposition = true;
+                }
+
                 CurrentlyRepositioningAll = true;
             }
 
@@ -49,12 +39,11 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
             if (ImGui.Button("Disable Reposition All", new(150, 25)))
             {
-                Service.Configuration.DancePartnerSettings.Reposition = false;
-                Service.Configuration.KardionSettings.Reposition = false;
-                Service.Configuration.FaerieSettings.Reposition = false;
-                Service.Configuration.TankStanceSettings.Reposition = false;
-                Service.Configuration.BlueMageSettings.Reposition = false;
-                Service.Configuration.SummonerSettings.Reposition = false;
+                foreach (var (name, element) in SettingsModules.Modules)
+                {
+                    element.Reposition = false;
+                }
+
                 CurrentlyRepositioningAll = false;
             }
 

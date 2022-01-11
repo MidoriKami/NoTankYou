@@ -4,7 +4,7 @@
     <Authors></Authors>
     <Company></Company>
     <Version>1.0</Version>
-	<AssemblyVersion>2.3.1.3</AssemblyVersion>
+	<AssemblyVersion>2.4.0.0</AssemblyVersion>
     <Description>Dalamud Plugin to show a warning if no tanks have their tank stances on</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/MidoriKami/NoTankYou.git</PackageProjectUrl>
@@ -34,6 +34,7 @@
 		<Content Include="..\images\icon\Summoner_Icon.png" Link="images\icon\Summoner_Icon.png" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\icon\TankStance_Icon.png" Link="images\icon\TankStance_Icon.png" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\icon\BlueMage_Icon.png" Link="images\icon\BlueMage_Icon.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\icon\Food_Icon.png" Link="images\icon\Food_Icon.png" CopyToOutputDirectory="Always" />
 
 		<Content Include="..\images\icon\Warning_Icon.png" Link="images\icon\Warning_Icon.png" CopyToOutputDirectory="Always" />
 
@@ -43,6 +44,7 @@
 		<Content Include="..\images\text\Summoner_Text.png" Link="images\text\Summoner_Text.png" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\text\TankStance_Text.png" Link="images\text\TankStance_Text.png" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\text\BlueMage_Text.png" Link="images\text\BlueMage_Text.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\text\Food_Text.png" Link="images\text\Food_Text.png" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
 	<ItemGroup>

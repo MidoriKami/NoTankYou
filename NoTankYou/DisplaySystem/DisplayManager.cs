@@ -22,7 +22,9 @@ namespace NoTankYou.DisplaySystem
             Service.Configuration.KardionSettings,
             Service.Configuration.DancePartnerSettings,
             Service.Configuration.TankStanceSettings,
-            Service.Configuration.SummonerSettings
+            Service.Configuration.SummonerSettings,
+            Service.Configuration.BlueMageSettings,
+            Service.Configuration.FoodSettings
         };
 
         public DisplayManager()
@@ -33,6 +35,7 @@ namespace NoTankYou.DisplaySystem
             Banners.Add(new TankStanceBanner());
             Banners.Add(new SummonerBanner());
             Banners.Add(new BlueMageTankStance());
+            Banners.Add(new FoodBanner());
 
             foreach (var banner in Banners)
             {
@@ -63,31 +66,12 @@ namespace NoTankYou.DisplaySystem
         {
             try
             {
-                bool movingToGoldenSaucerEvent = GATETerritories.Contains(e);
-                bool movingToBlacklistedTerritory = Service.Configuration.TerritoryBlacklist.Contains(e);
-                bool movingToAllianceRaid = AllianceRaidTerritories.Contains(e);
-                bool movingToPvPTerritory = PvPTerritoryBlacklist.Contains(e);
+                bool shouldDisable = ShouldDisableInNewInstance(e);
 
-                bool shouldDisable = movingToPvPTerritory ||
-                                     (movingToAllianceRaid && Service.Configuration.DisableInAllianceRaid) ||
-                                     movingToBlacklistedTerritory ||
-                                     movingToGoldenSaucerEvent;
-
-                if (shouldDisable)
+                foreach (var banner in Banners)
                 {
-                    foreach (var banner in Banners)
-                    {
-                        banner.Disabled = true;
-                    }
+                    banner.Disabled = shouldDisable;
                 }
-                else
-                {
-                    foreach (var banner in Banners)
-                    {
-                        banner.Disabled = false;
-                    }
-                }
-
 
                 // Skip delaying if we are the reason we are re-evaluating
                 if (sender == this) return;
@@ -110,6 +94,21 @@ namespace NoTankYou.DisplaySystem
             {
                 PluginLog.Error(ex.Message);
             }
+        }
+
+        private bool ShouldDisableInNewInstance(uint e)
+        {
+            bool movingToGoldenSaucerEvent = GATETerritories.Contains(e);
+            bool movingToBlacklistedTerritory = Service.Configuration.TerritoryBlacklist.Contains((int)e);
+            bool movingToAllianceRaid = AllianceRaidTerritories.Contains(e);
+            bool movingToPvPTerritory = PvPTerritoryBlacklist.Contains(e);
+
+            bool shouldDisable = movingToPvPTerritory ||
+                                 (movingToAllianceRaid && Service.Configuration.DisableInAllianceRaid) ||
+                                 movingToBlacklistedTerritory ||
+                                 movingToGoldenSaucerEvent;
+
+            return shouldDisable;
         }
 
         internal void Update()

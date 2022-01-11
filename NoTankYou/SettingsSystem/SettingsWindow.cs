@@ -1,4 +1,5 @@
-﻿using Dalamud.Interface.Windowing;
+﻿using System.Collections.Generic;
+using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using NoTankYou.SettingsSystem.SettingsCategories;
 using System.Numerics;
@@ -8,18 +9,22 @@ namespace NoTankYou.SettingsSystem
     internal class SettingsWindow : Window
     {
         private Tab CurrentTab = Tab.General;
-        private readonly Vector2 WindowSize = new(450, 500);
+        private readonly Vector2 WindowSize = new(500, 500);
 
-        private readonly GeneralSettings GeneralSettings = new();
-        private readonly TankStanceSettings TankStanceSettings = new();
-        private readonly DancePartnerSettings DancePartnerSettings = new();
-        private readonly FaerieSettings FaerieSettings = new();
-        private readonly KardionSettings KardionSettings = new();
-        private readonly SummonerPetSettings SummonerPetSettings = new();
-        private readonly BlacklistSettings BlacklistSettings = new();
-        private readonly BlueMageSettings BlueMageSettings = new();
-        private readonly DisplaySettings DisplaySettings = new();
-
+        private readonly Dictionary<Tab, TabCategory> SettingsCategories = new()
+        {
+            { Tab.General, new GeneralSettings() },
+            { Tab.Display, new DisplaySettings() },
+            { Tab.TankStance, new TankStanceSettings() },
+            { Tab.DancePartner, new DancePartnerSettings() },
+            { Tab.Faerie, new FaerieSettings() },
+            { Tab.Kardion, new KardionSettings() },
+            { Tab.Summoner, new SummonerPetSettings() },
+            { Tab.BlueMage, new BlueMageSettings() },
+            { Tab.Food, new FoodSettings()},
+            { Tab.Blacklist, new BlacklistSettings() }
+        };
+    
         private enum Tab
         {
             General,
@@ -30,6 +35,7 @@ namespace NoTankYou.SettingsSystem
             Kardion,
             Summoner,
             BlueMage,
+            Food,
             Blacklist
         }
 
@@ -37,7 +43,7 @@ namespace NoTankYou.SettingsSystem
         {
             IsOpen = false;
 
-            SizeConstraints = new WindowSizeConstraints()
+            SizeConstraints = new Window.WindowSizeConstraints()
             {
                 MinimumSize = new(WindowSize.X, WindowSize.Y),
                 MaximumSize = new(WindowSize.X, WindowSize.Y)
@@ -54,107 +60,26 @@ namespace NoTankYou.SettingsSystem
 
             DrawTabs();
 
-            switch (CurrentTab)
-            {
-                case Tab.General:
-                    GeneralSettings.Draw();
-                    break;
-
-                case Tab.Display:
-                    DisplaySettings.Draw();
-                    break;
-
-                case Tab.TankStance:
-                    TankStanceSettings.Draw();
-                    break;
-
-                case Tab.DancePartner:
-                    DancePartnerSettings.Draw();
-                    break;
-
-                case Tab.Faerie:
-                    FaerieSettings.Draw();
-                    break;
-
-                case Tab.Kardion:
-                    KardionSettings.Draw();
-                    break;
-
-                case Tab.Summoner:
-                    SummonerPetSettings.Draw();
-                    break;
-
-                case Tab.BlueMage:
-                    BlueMageSettings.Draw();
-                    break;
-
-                case Tab.Blacklist:
-                    BlacklistSettings.Draw();
-                    break;
-            }
+            SettingsCategories[CurrentTab].Draw();
 
             ImGui.Separator();
             DrawSaveAndCloseButtons();
         }
         private void DrawTabs()
         {
-            if (ImGui.BeginTabBar("No Tank You Tab Toolbar", ImGuiTabBarFlags.NoTooltip))
+            if (ImGui.BeginTabBar("No Tank You Settings", ImGuiTabBarFlags.NoTooltip))
             {
-                if (ImGui.BeginTabItem("General"))
+                foreach (var (tab, data) in SettingsCategories)
                 {
-                    CurrentTab = Tab.General;
-                    ImGui.EndTabItem();
-                }
-
-                if (ImGui.BeginTabItem("Display"))
-                {
-                    CurrentTab = Tab.Display;
-                    ImGui.EndTabItem();
-                }
-
-                if (ImGui.BeginTabItem("Tanks"))
-                {
-                    CurrentTab = Tab.TankStance;
-                    ImGui.EndTabItem();
-                }
-
-                if (ImGui.BeginTabItem("DNC"))
-                {
-                    CurrentTab = Tab.DancePartner;
-                    ImGui.EndTabItem();
-                }
-
-                if (ImGui.BeginTabItem("SCH"))
-                {
-                    CurrentTab = Tab.Faerie;
-                    ImGui.EndTabItem();
-                }
-
-                if (ImGui.BeginTabItem("SGE"))
-                {
-                    CurrentTab = Tab.Kardion;
-                    ImGui.EndTabItem();
-                }
-
-                if (ImGui.BeginTabItem("SMN"))
-                {
-                    CurrentTab = Tab.Summoner;
-                    ImGui.EndTabItem();
-                }
-
-                if (ImGui.BeginTabItem("BLU"))
-                {
-                    CurrentTab = Tab.BlueMage;
-                    ImGui.EndTabItem();
-                }
-
-                if (ImGui.BeginTabItem("Blacklist"))
-                {
-                    CurrentTab = Tab.Blacklist;
-                    ImGui.EndTabItem();
+                    if (ImGui.BeginTabItem(data.TabName))
+                    {
+                        CurrentTab = tab;
+                        ImGui.EndTabItem();
+                    }
                 }
             }
         }
+
         public override void OnClose()
         {
             base.OnClose();

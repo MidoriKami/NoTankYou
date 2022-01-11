@@ -46,6 +46,8 @@ namespace NoTankYou
         public bool DisableInAllianceRaid = true;
         public int TerritoryChangeDelayTime = 8000;
         public int DeathGracePeriod = 5000;
+        public float FoodEarlyWarningTime = 600.0f;
+        public bool FoodSoloMode = true;
 
         public bool WindowSnappingEnabled = false;
         public float GlobalScaleFactor = 1.0f;
@@ -56,8 +58,10 @@ namespace NoTankYou
         public ModuleSettings KardionSettings = new ModuleSettings();
         public ModuleSettings SummonerSettings = new ModuleSettings();
         public ModuleSettings BlueMageSettings = new ModuleSettings();
+        public ModuleSettings FoodSettings = new ModuleSettings();
 
         public List<int> TerritoryBlacklist = new();
+        public List<int> FoodTerritoryWhitelist = new();
 
         public bool ForceWindowUpdate = false;
 
@@ -68,11 +72,14 @@ namespace NoTankYou
             this.pluginInterface = pluginInterface;
 
             TerritoryBlacklist ??= new();
+            FoodTerritoryWhitelist ??= new();
+
             TankStanceSettings ??= new ModuleSettings();
             DancePartnerSettings ??= new ModuleSettings();
             FaerieSettings ??= new ModuleSettings();
             KardionSettings ??= new ModuleSettings();
             SummonerSettings ??= new ModuleSettings();
+            FoodSettings ??= new ModuleSettings();
             Save();
         }
 

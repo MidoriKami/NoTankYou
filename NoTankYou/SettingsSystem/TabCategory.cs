@@ -1,16 +1,11 @@
-﻿using System.Collections.Generic;
-using ImGuiNET;
+﻿using ImGuiNET;
 
 namespace NoTankYou.SettingsSystem
 {
-    internal abstract class SettingsCategory
+    internal abstract class TabCategory
     {
-        protected readonly string CategoryName;
-
-        protected SettingsCategory(string categoryName)
-        {
-            this.CategoryName = categoryName;
-        }
+        public string CategoryName { get; protected set; } = "Unset CategoryName";
+        public string TabName { get; protected set; } = "Unset TabName";
 
         protected abstract void DrawContents();
 

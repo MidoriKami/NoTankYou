@@ -8,14 +8,14 @@ using ImGuiNET;
 
 namespace NoTankYou.SettingsSystem
 {
-    internal abstract class BannerSettings : SettingsCategory
+    internal abstract class BannerSettings : TabCategory
     {
         protected abstract ref Configuration.ModuleSettings Settings { get; }
 
         private int ScalePercent = 100;
         private int LastScalePercent = 100;
 
-        protected BannerSettings(string categoryName) : base(categoryName)
+        protected BannerSettings()
         {
             ScalePercent = (int) (Settings.ScaleFactor * 100);
             LastScalePercent = ScalePercent;

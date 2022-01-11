@@ -4,12 +4,14 @@ using System.Numerics;
 
 namespace NoTankYou.SettingsSystem.SettingsCategories
 {
-    internal class BlacklistSettings : SettingsCategory
+    internal class BlacklistSettings : TabCategory
     {
         private int ModifyBlacklistValue;
 
-        public BlacklistSettings() : base("Blacklist Settings")
+        public BlacklistSettings()
         {
+            CategoryName = "Blacklist Settings";
+            TabName = "Blacklist";
         }
 
         protected override void DrawContents()

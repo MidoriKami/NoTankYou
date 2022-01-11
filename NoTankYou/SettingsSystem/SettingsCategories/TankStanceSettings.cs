@@ -6,8 +6,10 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
     {
         protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.TankStanceSettings;
 
-        public TankStanceSettings() : base("Tank Stance Settings")
+        public TankStanceSettings()
         {
+            CategoryName = "Tank Stance Settings";
+            TabName = "Tanks";
         }
     }
 }

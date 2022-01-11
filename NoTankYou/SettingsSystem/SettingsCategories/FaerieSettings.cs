@@ -6,8 +6,10 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
     {
         protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.FaerieSettings;
 
-        public FaerieSettings() : base("Faerie Settings")
+        public FaerieSettings()
         {
+            CategoryName = "Scholar Faerie Settings";
+            TabName = "SCH";
         }
     }
 }

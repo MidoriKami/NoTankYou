@@ -8,8 +8,10 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 {
     internal class BlueMageSettings : BannerSettings
     {
-        public BlueMageSettings() : base("Blue Mage Settings")
+        public BlueMageSettings()
         {
+            CategoryName = "Blue Mage Settings";
+            TabName = "BLU";
         }
 
         protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.BlueMageSettings;

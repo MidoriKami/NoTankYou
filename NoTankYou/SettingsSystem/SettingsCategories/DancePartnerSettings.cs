@@ -6,8 +6,10 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
     {
         protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.DancePartnerSettings;
 
-        public DancePartnerSettings() : base("Dance Partner Settings")
+        public DancePartnerSettings()
         {
+            CategoryName = "Dance Partner Settings";
+            TabName = "DNC";
         }
     }
 }
