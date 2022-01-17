@@ -10,6 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Keys;
+using Dalamud.Interface;
+using Dalamud.Logging;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -130,28 +132,27 @@ namespace NoTankYou.DisplaySystem
 
             if (Forced || (Visible && !Disabled && !Paused) )
             {
-                var combinedScaleFactor = Settings.ScaleFactor + Service.Configuration.GlobalScaleFactor;
+                var combinedScaleFactor = GetScaleMultiplier();
                 var drawPositionX = 5 * combinedScaleFactor;
 
                 if (Settings.ShowShield)
                 {
                     ImGui.SetCursorPos(new Vector2(drawPositionX, 0));
-                    ImGui.Image(WarningIcon.ImGuiHandle, new Vector2((WarningIcon.Width - 5) * combinedScaleFactor, (WarningIcon.Height- 4) * combinedScaleFactor));
-                    drawPositionX += WarningIcon.Width * combinedScaleFactor;
+                    ImGui.Image(WarningIcon.ImGuiHandle, ImGuiHelpers.ScaledVector2((WarningIcon.Width - 5) * combinedScaleFactor, (WarningIcon.Height- 4) * combinedScaleFactor));
+                    drawPositionX += WarningIcon.Width * combinedScaleFactor * ImGuiHelpers.GlobalScale;
                 }
 
                 if (Settings.ShowText)
                 {
                     ImGui.SetCursorPos(new Vector2(drawPositionX, 0));
-                    ImGui.Image(WarningText.ImGuiHandle, new Vector2((WarningText.Width - 10) * combinedScaleFactor, (WarningText.Height- 4) * combinedScaleFactor));
-                    drawPositionX += WarningText.Width * combinedScaleFactor;
+                    ImGui.Image(WarningText.ImGuiHandle, ImGuiHelpers.ScaledVector2((WarningText.Width - 10) * combinedScaleFactor, (WarningText.Height- 4) * combinedScaleFactor));
+                    drawPositionX += WarningText.Width * combinedScaleFactor * ImGuiHelpers.GlobalScale;
                 }
-
 
                 if (Settings.ShowIcon)
                 {
                     ImGui.SetCursorPos(new Vector2(drawPositionX, 0));
-                    ImGui.Image(StatusIcon.ImGuiHandle, new Vector2((StatusIcon.Width - 5) * combinedScaleFactor, (StatusIcon.Height - 4) * combinedScaleFactor));
+                    ImGui.Image(StatusIcon.ImGuiHandle, ImGuiHelpers.ScaledVector2((StatusIcon.Width - 5) * combinedScaleFactor, (StatusIcon.Height - 4) * combinedScaleFactor));
                 }
             }
         }
@@ -169,36 +170,36 @@ namespace NoTankYou.DisplaySystem
 
             foreach (var module in modulesThatArentUs)
             {
-                var leftDistance = Math.Abs( module.BannerPosition.X - (Settings.BannerPosition.X + Settings.BannerSize.X) );
-                var rightDistance = Math.Abs(Settings.BannerPosition.X - (module.BannerPosition.X + module.BannerSize.X));
-                var topDistance = Math.Abs(module.BannerPosition.Y - (Settings.BannerPosition.Y + Settings.BannerSize.Y));
-                var bottomDistance = Math.Abs(Settings.BannerPosition.Y - (module.BannerPosition.Y + module.BannerSize.Y));
+                var leftDistance = Math.Abs( module.BannerPosition.X - (Settings.BannerPosition.X + Settings.BannerSize.X * ImGuiHelpers.GlobalScale) );
+                var rightDistance = Math.Abs(Settings.BannerPosition.X - (module.BannerPosition.X + module.BannerSize.X * ImGuiHelpers.GlobalScale));
+                var topDistance = Math.Abs(module.BannerPosition.Y - (Settings.BannerPosition.Y + Settings.BannerSize.Y * ImGuiHelpers.GlobalScale));
+                var bottomDistance = Math.Abs(Settings.BannerPosition.Y - (module.BannerPosition.Y + module.BannerSize.Y * ImGuiHelpers.GlobalScale));
 
                 var xDistance = Math.Abs(module.BannerPosition.X - Settings.BannerPosition.X);
                 var yDistance = Math.Abs(module.BannerPosition.Y - Settings.BannerPosition.Y);
 
                 if (leftDistance < snappingRange && yDistance < snappingRange) 
                 {
-                    Settings.BannerPosition.X = module.BannerPosition.X - Settings.BannerSize.X;
+                    Settings.BannerPosition.X = module.BannerPosition.X - Settings.BannerSize.X * ImGuiHelpers.GlobalScale;
                     Settings.BannerPosition.Y = module.BannerPosition.Y;
                     Settings.PositionChanged = true;
                 } 
                 else if (rightDistance < snappingRange && yDistance < snappingRange)
                 {
-                    Settings.BannerPosition.X = module.BannerPosition.X + module.BannerSize.X;
+                    Settings.BannerPosition.X = module.BannerPosition.X + module.BannerSize.X * ImGuiHelpers.GlobalScale;
                     Settings.BannerPosition.Y = module.BannerPosition.Y;
                     Settings.PositionChanged = true;
                 }
                 else if (topDistance < snappingRange && xDistance < snappingRange)
                 {
                     Settings.BannerPosition.X = module.BannerPosition.X;
-                    Settings.BannerPosition.Y = module.BannerPosition.Y - Settings.BannerSize.Y;
+                    Settings.BannerPosition.Y = module.BannerPosition.Y - Settings.BannerSize.Y * ImGuiHelpers.GlobalScale;
                     Settings.PositionChanged = true;
                 }
                 else if (bottomDistance < snappingRange && xDistance < snappingRange)
                 {
                     Settings.BannerPosition.X = module.BannerPosition.X;
-                    Settings.BannerPosition.Y = module.BannerPosition.Y + module.BannerSize.Y;
+                    Settings.BannerPosition.Y = module.BannerPosition.Y + module.BannerSize.Y * ImGuiHelpers.GlobalScale;
                     Settings.PositionChanged = true;
                 }
             }
@@ -277,7 +278,7 @@ namespace NoTankYou.DisplaySystem
 
         public void UpdateImageSize()
         {
-            var combinedScaleFactor = Settings.ScaleFactor + Service.Configuration.GlobalScaleFactor;
+            var combinedScaleFactor = GetScaleMultiplier();
             var windowSizeX = 5 * combinedScaleFactor;
 
             if (Settings.ShowShield)
@@ -290,13 +291,27 @@ namespace NoTankYou.DisplaySystem
                 windowSizeX += (int)(StatusIcon.Width * combinedScaleFactor);
 
             Settings.BannerSize.X = windowSizeX;
-            Settings.BannerSize.Y = 75 * combinedScaleFactor;
+            Settings.BannerSize.Y = 75 * combinedScaleFactor ;
 
             SizeConstraints = new WindowSizeConstraints()
             {
                 MinimumSize = new(Settings.BannerSize.X, Settings.BannerSize.Y),
                 MaximumSize = new(Settings.BannerSize.X, Settings.BannerSize.Y)
             };
+
+            PluginLog.Information($"scaledata: min:{SizeConstraints.Value.MaximumSize}, max:{SizeConstraints.Value.MaximumSize}");
+        }
+
+        private float GetScaleMultiplier()
+        {
+            if (Service.Configuration.OverrideIndividualScaleSettings)
+            {
+                return Service.Configuration.GlobalScaleFactor;
+            }
+            else
+            {
+                return Settings.ScaleFactor;
+            }
         }
 
         public void Dispose()

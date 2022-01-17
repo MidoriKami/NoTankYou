@@ -1,6 +1,7 @@
 ﻿using Dalamud.Interface.Components;
 using ImGuiNET;
 using System.Numerics;
+using Dalamud.Interface;
 
 namespace NoTankYou.SettingsSystem.SettingsCategories
 {
@@ -34,7 +35,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
             }
             else
             {
-                ImGui.TextColored(new Vector4(180, 0, 0, 0.8f), "Blacklist is empty");
+                ImGui.TextColored(new (180, 0, 0, 0.8f), "Blacklist is empty");
             }
 
             ImGui.Spacing();
@@ -49,7 +50,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
             ImGui.Text($"Currently in MapID: [{Service.ClientState.TerritoryType}]");
             ImGui.Spacing();
 
-            if (ImGui.Button("Add Here", new(125, 25)))
+            if (ImGui.Button("Add Here", ImGuiHelpers.ScaledVector2(125, 25)))
             {
                 var blacklist = Service.Configuration.TerritoryBlacklist;
 
@@ -62,7 +63,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
             ImGui.SameLine();
 
-            if (ImGui.Button("Remove Here", new(125, 25)))
+            if (ImGui.Button("Remove Here", ImGuiHelpers.ScaledVector2(125, 25)))
             {
                 var blacklist = Service.Configuration.TerritoryBlacklist;
 
@@ -82,20 +83,20 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
             ImGui.Text("Manually Add or Remove");
             ImGui.Spacing();
 
-            ImGui.PushItemWidth(150);
+            ImGui.PushItemWidth(150 * ImGuiHelpers.GlobalScale);
             ImGui.InputInt("##AddToBlacklist", ref ModifyBlacklistValue, 0, 0);
             ImGui.PopItemWidth();
 
             ImGui.SameLine();
 
-            if (ImGui.Button("Add", new(75, 25)))
+            if (ImGui.Button("Add", ImGuiHelpers.ScaledVector2(75, 25)))
             {
                 AddToBlacklist(ModifyBlacklistValue);
             }
 
             ImGui.SameLine();
 
-            if (ImGui.Button("Remove", new(75, 25)))
+            if (ImGui.Button("Remove", ImGuiHelpers.ScaledVector2(75, 25)))
             {
                 RemoveFromBlacklist(ModifyBlacklistValue);
             }

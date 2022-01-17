@@ -3,6 +3,7 @@ using System.Linq;
 using ImGuiNET;
 using System.Numerics;
 using System.Runtime.InteropServices.ComTypes;
+using Dalamud.Interface;
 
 namespace NoTankYou.SettingsSystem.SubSettings.General
 {
@@ -25,7 +26,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
         private void DrawRepositionAll()
         {
-            if (ImGui.Button("Enable Reposition All", new(150, 25)))
+            if (ImGui.Button("Enable Reposition All", ImGuiHelpers.ScaledVector2(150, 25)))
             {
                 foreach(var (name, element) in SettingsModules.Modules)
                 {
@@ -37,7 +38,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
             ImGui.SameLine();
 
-            if (ImGui.Button("Disable Reposition All", new(150, 25)))
+            if (ImGui.Button("Disable Reposition All", ImGuiHelpers.ScaledVector2(150, 25)))
             {
                 foreach (var (name, element) in SettingsModules.Modules)
                 {

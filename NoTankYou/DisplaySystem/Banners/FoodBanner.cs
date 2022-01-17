@@ -51,13 +51,10 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateSolo()
         {
-            var currentTerritory = Service.ClientState.TerritoryType;
-
             bool currentlyInCombat = Service.Condition[ConditionFlag.InCombat];
-            bool whiteListedTerritory = Service.Configuration.FoodTerritoryWhitelist.Contains(currentTerritory);
 
-            // Do update run if we are in combat
-            if (currentlyInCombat || !whiteListedTerritory)
+            // Don't show if in combat
+            if (currentlyInCombat)
             {
                 Visible = false;
                 return;

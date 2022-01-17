@@ -32,7 +32,9 @@ namespace NoTankYou.SettingsSystem
 
         private void DrawScaleSettings()
         {
-            ImGui.Text("Scaling Settings");
+            if (Service.Configuration.OverrideIndividualScaleSettings == true) return;
+
+                ImGui.Text("Scaling Settings");
             ImGui.Separator();
             ImGui.Spacing();
 

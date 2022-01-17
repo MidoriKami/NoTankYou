@@ -1,6 +1,7 @@
 ﻿using Dalamud.Interface.Components;
 using ImGuiNET;
 using System.Numerics;
+using Dalamud.Interface;
 
 namespace NoTankYou.SettingsSystem.SubSettings.General
 {
@@ -28,10 +29,10 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
             ImGui.RadioButton("Party Mode", ref MainMode, (int)Configuration.MainMode.Party);
             ImGuiComponents.HelpMarker("Checks entire party's status to display warnings");
             ImGui.SameLine();
-            ImGui.Indent(200);
+            ImGui.Indent(200 * ImGuiHelpers.GlobalScale);
             ImGui.RadioButton("Solo Mode", ref MainMode, (int)Configuration.MainMode.Solo);
             ImGuiComponents.HelpMarker("Checks only your status to display warnings");
-            ImGui.Indent(-200);
+            ImGui.Indent(-200 * ImGuiHelpers.GlobalScale);
 
             if (MainMode == (int)Configuration.MainMode.Party)
             {
@@ -43,14 +44,14 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
             if (MainMode == (int)Configuration.MainMode.Solo)
             {
                 ImGui.Spacing();
-                ImGui.Indent(250);
+                ImGui.Indent(250 * ImGuiHelpers.GlobalScale);
                 ImGui.RadioButton("Only In Duty", ref SubMode, (int)Configuration.SubMode.OnlyInDuty);
                 ImGuiComponents.HelpMarker("Only instanced content");
 
                 ImGui.Spacing();
                 ImGui.RadioButton("Everywhere", ref SubMode, (int)Configuration.SubMode.Everywhere);
                 ImGuiComponents.HelpMarker("Includes Open World and Towns");
-                ImGui.Indent(-250);
+                ImGui.Indent(-250 * ImGuiHelpers.GlobalScale);
             }
 
             Service.Configuration.ProcessingMainMode = (Configuration.MainMode)MainMode;

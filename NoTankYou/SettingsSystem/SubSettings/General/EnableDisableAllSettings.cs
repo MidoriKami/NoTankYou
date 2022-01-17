@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Dalamud.Interface;
 using ImGuiNET;
 
 namespace NoTankYou.SettingsSystem.SubSettings.General
@@ -16,7 +17,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
         private void DrawEnabledDisableAll()
         {
-            if (ImGui.Button("Enable All", new(100, 25)))
+            if (ImGui.Button("Enable All", ImGuiHelpers.ScaledVector2(100, 25)))
             {
                 foreach (var (name, element) in SettingsModules.Modules)
                 {
@@ -26,7 +27,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
             ImGui.SameLine();
 
-            if (ImGui.Button("Disable All", new(100, 25)))
+            if (ImGui.Button("Disable All", ImGuiHelpers.ScaledVector2(100, 25)))
             {
                 foreach (var (name, element) in SettingsModules.Modules)
                 {

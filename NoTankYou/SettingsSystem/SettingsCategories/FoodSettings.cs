@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
 using ImGuiNET;
@@ -39,19 +40,24 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         protected override void DrawContents()
         {
-            ImGui.BeginChildFrame(2, new Vector2(490, 365), ImGuiWindowFlags.NoBackground);
+            ImGui.BeginChildFrame(2, ImGuiHelpers.ScaledVector2(490, 365), ImGuiWindowFlags.NoBackground);
 
-            ImGui.TextColored(new Vector4(0, 250, 0, 1.0f), "Food Warning will only show in Whitelisted Areas");
-            ImGui.Separator();
-            ImGui.Spacing();
+            DrawFoodSoloModeCheckbox();
 
-            PrintWhitelist();
+            if (Service.Configuration.FoodSoloMode == false)
+            {
+                ImGui.TextColored(new Vector4(0, 250, 0, 1.0f), "Food Warning will only show in Whitelisted Areas");
+                ImGui.Separator();
+                ImGui.Spacing();
 
-            PrintAddRemoveCurrentTerritoryWhitelist();
+                PrintWhitelist();
 
-            PrintAddRemoveManualTerritoryWhitelist();
+                PrintAddRemoveCurrentTerritoryWhitelist();
 
-            PrintAddRemoveManualWithNameTerritoryWhitelist();
+                PrintAddRemoveManualTerritoryWhitelist();
+
+                PrintAddRemoveManualWithNameTerritoryWhitelist();
+            }
 
             ImGui.Text("Food Specific Settings");
             ImGui.Separator();
@@ -59,7 +65,6 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
             DrawEarlyWarningTime();
 
-            DrawFoodSoloModeCheckbox();
 
             base.DrawContents();
 
@@ -94,7 +99,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
             ImGui.Text($"Currently in MapID: [{Service.ClientState.TerritoryType}]");
             ImGui.Spacing();
 
-            if (ImGui.Button("Add Here", new(125, 25)))
+            if (ImGui.Button("Add Here", ImGuiHelpers.ScaledVector2(125, 25)))
             {
                 var whitelist = Service.Configuration.FoodTerritoryWhitelist;
 
@@ -107,7 +112,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
             ImGui.SameLine();
 
-            if (ImGui.Button("Remove Here", new(125, 25)))
+            if (ImGui.Button("Remove Here", ImGuiHelpers.ScaledVector2(125, 25)))
             {
                 var whitelist = Service.Configuration.FoodTerritoryWhitelist;
 
@@ -128,20 +133,20 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
             ImGui.Text("Manually Add or Remove");
             ImGui.Spacing();
 
-            ImGui.PushItemWidth(150);
+            ImGui.PushItemWidth(150 * ImGuiHelpers.GlobalScale);
             ImGui.InputInt("##AddToWhitelist", ref ModifyWhitelistValue, 0, 0);
             ImGui.PopItemWidth();
 
             ImGui.SameLine();
 
-            if (ImGui.Button("Add", new(75, 25)))
+            if (ImGui.Button("Add", ImGuiHelpers.ScaledVector2(75, 25)))
             {
                 AddToWhitelist(ModifyWhitelistValue);
             }
 
             ImGui.SameLine();
 
-            if (ImGui.Button("Remove", new(75, 25)))
+            if (ImGui.Button("Remove", ImGuiHelpers.ScaledVector2(75, 25)))
             {
                 RemoveFromWhitelist(ModifyWhitelistValue);
             }
@@ -211,7 +216,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
                 ImGui.Spacing();
 
 
-                if (ImGui.Button("Add Instance", new(125, 25)))
+                if (ImGui.Button("Add Instance", ImGuiHelpers.ScaledVector2(125, 25)))
                 {
                     var whitelist = Service.Configuration.FoodTerritoryWhitelist;
 
@@ -222,8 +227,6 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
                     if (!whitelist.Contains(instanceId))
                     {
-
-                            
                         whitelist.Add(instanceId);
                         Service.Configuration.ForceWindowUpdate = true;
                     }
@@ -231,7 +234,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
                 ImGui.SameLine();
 
-                if (ImGui.Button("Remove Instance", new(125, 25)))
+                if (ImGui.Button("Remove Instance", ImGuiHelpers.ScaledVector2(125, 25)))
                 {
                     var whitelist = Service.Configuration.FoodTerritoryWhitelist;
 
@@ -274,7 +277,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
         }
         private static void DrawEarlyWarningTime()
         {
-            ImGui.PushItemWidth(60);
+            ImGui.PushItemWidth(60 * ImGuiHelpers.GlobalScale);
             ImGui.InputFloat("Early Warning Time (Seconds)", ref Service.Configuration.FoodEarlyWarningTime, 0, 0);
             ImGui.PopItemWidth();
             ImGuiComponents.HelpMarker("How many seconds before food expires to show a warning for.\n" +
