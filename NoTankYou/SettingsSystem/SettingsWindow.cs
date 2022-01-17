@@ -3,6 +3,7 @@ using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using NoTankYou.SettingsSystem.SettingsCategories;
 using System.Numerics;
+using Dalamud.Interface;
 
 namespace NoTankYou.SettingsSystem
 {
@@ -92,16 +93,16 @@ namespace NoTankYou.SettingsSystem
             ImGui.Spacing();
 
             var windowSize = ImGui.GetWindowSize();
-            ImGui.SetCursorPos(new Vector2(5, windowSize.Y - 30));
+            ImGui.SetCursorPos(new Vector2(5, windowSize.Y - 30 * ImGuiHelpers.GlobalScale));
 
-            if (ImGui.Button("Save", new(100, 25)))
+            if (ImGui.Button("Save", ImGuiHelpers.ScaledVector2(100, 25)))
             {
                 Service.Configuration.Save();
             }
 
-            ImGui.SameLine(ImGui.GetWindowWidth() - 155);
+            ImGui.SameLine(ImGui.GetWindowWidth() - 155 *ImGuiHelpers.GlobalScale);
 
-            if (ImGui.Button("Save & Close", new(150, 25)))
+            if (ImGui.Button("Save & Close", ImGuiHelpers.ScaledVector2(150, 25)))
             {
                 Service.Configuration.Save();
                 IsOpen = false;

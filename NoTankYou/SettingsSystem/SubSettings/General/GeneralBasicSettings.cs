@@ -1,4 +1,5 @@
-﻿using Dalamud.Interface.Components;
+﻿using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace NoTankYou.SettingsSystem.SubSettings.General
@@ -29,7 +30,7 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
         private static void DrawChangeWaitFrameCount()
         {
-            ImGui.PushItemWidth(50);
+            ImGui.PushItemWidth(50 * ImGuiHelpers.GlobalScale);
             ImGui.InputInt("Number of Wait Frames", ref Service.Configuration.NumberOfWaitFrames, 0, 0);
             ImGui.PopItemWidth();
             ImGuiComponents.HelpMarker("How many frames to wait between warning evaluations.\n" +

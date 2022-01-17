@@ -1,6 +1,7 @@
 ﻿using ImGuiNET;
 using NoTankYou.SettingsSystem.SubSettings.General;
 using System.Numerics;
+using Dalamud.Interface;
 
 namespace NoTankYou.SettingsSystem.SettingsCategories
 {
@@ -18,7 +19,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         protected override void DrawContents()
         {
-            ImGui.BeginChildFrame(1, new Vector2(490, 365), ImGuiWindowFlags.NoBackground);
+            ImGui.BeginChildFrame(1, ImGuiHelpers.ScaledVector2(490, 365), ImGuiWindowFlags.NoBackground);
 
             BasicSettings.Draw();
 

@@ -51,6 +51,7 @@ namespace NoTankYou
 
         public bool WindowSnappingEnabled = false;
         public float GlobalScaleFactor = 1.0f;
+        public bool OverrideIndividualScaleSettings = false;
 
         public ModuleSettings TankStanceSettings = new ModuleSettings();
         public ModuleSettings DancePartnerSettings = new ModuleSettings();
