@@ -25,7 +25,7 @@ namespace NoTankYou.DisplaySystem.Banners
 
         protected override void UpdateInParty()
         {
-            var tankPlayers = GetFilteredPartyList(p => p.ClassJob.GameData.Role == TankRoleID);
+            var tankPlayers = GetFilteredPartyList(p => p.ClassJob.GameData?.Role == TankRoleID);
 
             Visible = tankPlayers
                 .All(p => !p.Statuses.Any(s => TankStances.Contains(s.StatusId))) && tankPlayers.Count > 0;
@@ -36,7 +36,7 @@ namespace NoTankYou.DisplaySystem.Banners
             var player = Service.ClientState.LocalPlayer;
             if (player == null) return;
 
-            var playerIsTank = player.ClassJob.GameData.Role == TankRoleID && player.CurrentHp > 0;
+            var playerIsTank = player.ClassJob.GameData?.Role == TankRoleID && player.CurrentHp > 0;
             var tankStanceFound = player.StatusList.Any(s => TankStances.Contains(s.StatusId));
 
             Visible = playerIsTank && !tankStanceFound;

@@ -21,10 +21,10 @@ namespace NoTankYou.DisplaySystem
             var isInParty = Service.PartyList.Length > 0;
             var isBoundByDuty = IsBoundByDuty();
             var isPartyMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Party;
-            var isInTransition = IsInAreaTransition();
+            var isUnableToUseActions = UnableToUseActions();
             var isDutyEnded = IsDutyEnded();
 
-            return isInParty && isBoundByDuty && isPartyMode && !isInTransition && !isDutyEnded;
+            return isInParty && isBoundByDuty && isPartyMode && !isUnableToUseActions && !isDutyEnded;
         }
 
         public bool IsSoloDutiesOnly()
@@ -32,19 +32,19 @@ namespace NoTankYou.DisplaySystem
             var isSoloMainMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo;
             var isDutiesOnlySubMode = Service.Configuration.ProcessingSubMode == Configuration.SubMode.OnlyInDuty;
             var isBoundBuByDuty = IsBoundByDuty();
-            var isInAreaTransition = IsInAreaTransition();
+            var isUnableToUseActions = UnableToUseActions();
             var isDutyEnded = IsDutyEnded();
 
-            return isSoloMainMode && isDutiesOnlySubMode && isBoundBuByDuty && !isInAreaTransition && !isDutyEnded;
+            return isSoloMainMode && isDutiesOnlySubMode && isBoundBuByDuty && !isUnableToUseActions && !isDutyEnded;
         }
 
         public bool IsSoloEverywhere()
         {
             var isSoloMainMode = Service.Configuration.ProcessingMainMode == Configuration.MainMode.Solo;
             var isEverywhereSubMode = Service.Configuration.ProcessingSubMode == Configuration.SubMode.Everywhere;
-            var isInAreaTransition = IsInAreaTransition();
+            var isUnableToUseActions = UnableToUseActions();
 
-            return isSoloMainMode && isEverywhereSubMode && !isInAreaTransition;
+            return isSoloMainMode && isEverywhereSubMode && !isUnableToUseActions;
         }
 
         private bool IsDutyEnded()
@@ -65,14 +65,16 @@ namespace NoTankYou.DisplaySystem
             return baseBoundByDuty || boundBy56 || boundBy95;
         }
 
-        private bool IsInAreaTransition()
+        private bool UnableToUseActions()
         {
             var baseTransition = Service.Condition[ConditionFlag.BetweenAreas];
             var transition51 = Service.Condition[ConditionFlag.BetweenAreas51];
             var beingMoved = Service.Condition[ConditionFlag.BeingMoved];
             var jumping61 = Service.Condition[ConditionFlag.Jumping61];
+            var mounted = Service.Condition[ConditionFlag.Mounted];
+            var mounted2 = Service.Condition[ConditionFlag.Mounted2];
 
-            return baseTransition || transition51 || beingMoved || jumping61;
+            return baseTransition || transition51 || beingMoved || jumping61 || mounted || mounted2;
         }
     }
 }
