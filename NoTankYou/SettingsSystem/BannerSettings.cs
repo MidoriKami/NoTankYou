@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace NoTankYou.SettingsSystem
 {
-    internal abstract class BannerSettings : TabCategory
+    internal abstract class BannerSettings : DisplayModule
     {
         protected abstract ref Configuration.ModuleSettings Settings { get; }
 
@@ -34,9 +30,11 @@ namespace NoTankYou.SettingsSystem
         {
             if (Service.Configuration.OverrideIndividualScaleSettings == true) return;
 
-                ImGui.Text("Scaling Settings");
+            ImGui.Indent(-20 * ImGuiHelpers.GlobalScale);
+            ImGui.Text("Scaling Settings");
             ImGui.Separator();
             ImGui.Spacing();
+            ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
             ImGui.Text("Scale %%, Control + Click to input number directly");
             ImGui.SliderInt("", ref ScalePercent, 50, 250, "%d %%");
@@ -57,9 +55,11 @@ namespace NoTankYou.SettingsSystem
 
         private void DrawGenericSettings()
         {
+            ImGui.Indent(-20 * ImGuiHelpers.GlobalScale);
             ImGui.Text("General Settings");
             ImGui.Separator();
             ImGui.Spacing();
+            ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
             ImGui.Checkbox("Enable Warning", ref Settings.Enabled);
             ImGui.Spacing();
@@ -72,9 +72,11 @@ namespace NoTankYou.SettingsSystem
         }
         private void DrawComponentControl()
         {
+            ImGui.Indent(-20 * ImGuiHelpers.GlobalScale);
             ImGui.Text("Image Component Settings");
             ImGui.Separator();
             ImGui.Spacing();
+            ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
             if (ImGui.Checkbox("Show Exclamation Mark", ref Settings.ShowShield))
             {

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
-using Dalamud.Logging;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 
-namespace NoTankYou.SettingsSystem.SettingsCategories
+namespace NoTankYou.SettingsSystem.DisplayModules.WarningsTab.SubModules
 {
     internal class FoodSettings : BannerSettings
     {
@@ -24,8 +20,7 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         public FoodSettings()
         {
-            CategoryName = "Food Warning Settings";
-            TabName = "Food";
+            CategoryString = "Food Warning Settings";
 
             ContentFinderConditionList = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!.ToList();
 
@@ -40,8 +35,6 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         protected override void DrawContents()
         {
-            ImGui.BeginChildFrame(2, ImGuiHelpers.ScaledVector2(490, 365), ImGuiWindowFlags.NoBackground);
-
             DrawFoodSoloModeCheckbox();
 
             if (Service.Configuration.FoodSoloMode == false)
@@ -65,10 +58,12 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
             DrawEarlyWarningTime();
 
-
             base.DrawContents();
+        }
 
-            ImGui.EndChildFrame();
+        public override void Dispose()
+        {
+            
         }
 
         private static void PrintWhitelist()
@@ -92,9 +87,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         private static void PrintAddRemoveCurrentTerritoryWhitelist()
         {
+            ImGui.Indent(-20 * ImGuiHelpers.GlobalScale);
             ImGui.Text("Whitelist Operations");
             ImGui.Separator();
             ImGui.Spacing();
+            ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
             ImGui.Text($"Currently in MapID: [{Service.ClientState.TerritoryType}]");
             ImGui.Spacing();
@@ -161,9 +158,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
         private void PrintAddRemoveManualWithNameTerritoryWhitelist()
         {
 
+            ImGui.Indent(-20 * ImGuiHelpers.GlobalScale);
             ImGui.Text("Add or Remove by DutyFinder Name");
             ImGui.Separator();
             ImGui.Spacing();
+            ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
             if (ImGui.BeginCombo("##ContentTypeSelection", SelectedContentTypeString))
             {

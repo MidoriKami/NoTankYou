@@ -1,5 +1,4 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Logging;
 
 namespace NoTankYou.CommandSystem.Commands
 {

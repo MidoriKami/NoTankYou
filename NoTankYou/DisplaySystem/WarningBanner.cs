@@ -11,7 +11,6 @@ using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Keys;
 using Dalamud.Interface;
-using Dalamud.Logging;
 
 namespace NoTankYou.DisplaySystem
 {
@@ -298,8 +297,6 @@ namespace NoTankYou.DisplaySystem
                 MinimumSize = new(Settings.BannerSize.X, Settings.BannerSize.Y),
                 MaximumSize = new(Settings.BannerSize.X, Settings.BannerSize.Y)
             };
-
-            PluginLog.Information($"scaledata: min:{SizeConstraints.Value.MaximumSize}, max:{SizeConstraints.Value.MaximumSize}");
         }
 
         private float GetScaleMultiplier()

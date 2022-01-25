@@ -1,6 +1,5 @@
 ﻿using Dalamud.Configuration;
 using Dalamud.Plugin;
-using NoTankYou.DisplaySystem;
 using System;
 using System.Collections.Generic;
 using System.Numerics;

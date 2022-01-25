@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-
-namespace NoTankYou.SettingsSystem.SettingsCategories
+﻿namespace NoTankYou.SettingsSystem.DisplayModules.WarningsTab.SubModules
 {
     internal class KardionSettings : BannerSettings
     {
@@ -9,8 +7,12 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         public KardionSettings()
         {
-            CategoryName = "Sage Kardion Settings";
-            TabName = "SGE";
+            CategoryString = "Sage Kardion Settings";
+        }
+
+        public override void Dispose()
+        {
+            
         }
     }
 }

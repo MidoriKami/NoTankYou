@@ -2,7 +2,7 @@
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
-namespace NoTankYou.SettingsSystem.SubSettings.General
+namespace NoTankYou.SettingsSystem.DisplayModules.SettingsTab.SubModules
 {
     internal class GeneralBasicSettings : SettingsCategory
     {

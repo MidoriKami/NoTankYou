@@ -1,43 +1,47 @@
-﻿using ImGuiNET;
-using NoTankYou.SettingsSystem.SubSettings.General;
-using System.Numerics;
+﻿using System.Numerics;
 using Dalamud.Interface;
+using ImGuiNET;
+using NoTankYou.SettingsSystem.DisplayModules.SettingsTab.SubModules;
 
-namespace NoTankYou.SettingsSystem.SettingsCategories
+namespace NoTankYou.SettingsSystem.DisplayModules.SettingsTab
 {
-    internal class GeneralSettings : TabCategory
+    internal class BannerSettings : DisplayModule
     {
-        private readonly GeneralBasicSettings BasicSettings = new();
         private readonly ModeSelectSettings ModeSelectSettings = new();
         private readonly EnableDisableAllSettings EnableDisableAllSettings = new();
+        private readonly RepositionSettings RepositionSettings = new();
+        private readonly SelectSizeSettings SelectSizeSettings = new();
 
-        public GeneralSettings()
+        public BannerSettings()
         {
-            CategoryName = "General Settings";
-            TabName = "General";
+            CategoryString = "Banner Settings";
         }
 
         protected override void DrawContents()
         {
-            ImGui.BeginChildFrame(1, ImGuiHelpers.ScaledVector2(490, 365), ImGuiWindowFlags.NoBackground);
-
-            BasicSettings.Draw();
-
             ModeSelectSettings.Draw();
 
             EnableDisableAllSettings.Draw();
 
-            DrawStatus();
+            RepositionSettings.Draw();
 
-            ImGui.EndChildFrame();
+            SelectSizeSettings.Draw();
+
+            DrawStatus();
+        }
+
+        public override void Dispose()
+        {
+
         }
 
         private static void DrawStatus()
         {
+            ImGui.Indent(-20 * ImGuiHelpers.GlobalScale);
             ImGui.Text("Warning Statuses");
-
             ImGui.Separator();
             ImGui.Spacing();
+            ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
             if (ImGui.BeginTable("##StatusTable", 2))
             {

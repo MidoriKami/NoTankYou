@@ -1,9 +1,9 @@
-﻿using Dalamud.Interface.Components;
-using ImGuiNET;
-using System.Numerics;
+﻿using System.Numerics;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
+using ImGuiNET;
 
-namespace NoTankYou.SettingsSystem.SubSettings.General
+namespace NoTankYou.SettingsSystem.DisplayModules.SettingsTab.SubModules
 {
     internal class ModeSelectSettings : SettingsCategory
     {

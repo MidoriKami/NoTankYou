@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ImGuiNET;
+﻿using System.Linq;
 using System.Numerics;
-using System.Runtime.InteropServices.ComTypes;
 using Dalamud.Interface;
+using ImGuiNET;
 
-namespace NoTankYou.SettingsSystem.SubSettings.General
+namespace NoTankYou.SettingsSystem.DisplayModules.SettingsTab.SubModules
 {
     internal class RepositionSettings : SettingsCategory
     {

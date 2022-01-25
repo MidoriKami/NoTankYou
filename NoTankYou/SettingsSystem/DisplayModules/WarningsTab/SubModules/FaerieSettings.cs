@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-
-namespace NoTankYou.SettingsSystem.SettingsCategories
+﻿namespace NoTankYou.SettingsSystem.DisplayModules.WarningsTab.SubModules
 {
     internal class FaerieSettings : BannerSettings
     {
@@ -8,8 +6,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         public FaerieSettings()
         {
-            CategoryName = "Scholar Faerie Settings";
-            TabName = "SCH";
+            CategoryString = "Scholar Faerie Settings";
+        }
+
+        public override void Dispose()
+        {
         }
     }
 }

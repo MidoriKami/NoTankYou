@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Dalamud.Interface;
 using ImGuiNET;
 
 namespace NoTankYou.SettingsSystem
@@ -16,8 +16,10 @@ namespace NoTankYou.SettingsSystem
 
         public void Draw()
         {
+            ImGui.Indent(-20 * ImGuiHelpers.GlobalScale);
             ImGui.Text(CategoryName);
             ImGui.Separator();
+            ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
             ImGui.Spacing();
 
             DrawContents();

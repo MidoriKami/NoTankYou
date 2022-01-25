@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-
-namespace NoTankYou.SettingsSystem.SettingsCategories
+﻿namespace NoTankYou.SettingsSystem.DisplayModules.WarningsTab.SubModules
 {
     internal class TankStanceSettings : BannerSettings
     {
@@ -8,8 +6,12 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         public TankStanceSettings()
         {
-            CategoryName = "Tank Stance Settings";
-            TabName = "Tanks";
+            CategoryString = "Tank Stance Settings";
+        }
+
+        public override void Dispose()
+        {
+            
         }
     }
 }

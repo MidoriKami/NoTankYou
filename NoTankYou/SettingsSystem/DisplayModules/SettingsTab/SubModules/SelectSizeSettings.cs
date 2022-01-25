@@ -1,8 +1,8 @@
-﻿using Dalamud.Interface.Components;
+﻿using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
-using NoTankYou.DisplaySystem;
 
-namespace NoTankYou.SettingsSystem.SubSettings.General
+namespace NoTankYou.SettingsSystem.DisplayModules.SettingsTab.SubModules
 {
     internal class SelectSizeSettings : SettingsCategory
     {
@@ -33,6 +33,8 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
             if (Service.Configuration.OverrideIndividualScaleSettings)
             {
+                ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
+
                 ImGui.Text("Scale %%, Control + Click to input number directly");
                 ImGui.SliderInt("", ref ScalePercent, 50, 250, "%d %%");
                 ImGuiComponents.HelpMarker("Scales the banners by the specified percentage");
@@ -44,6 +46,8 @@ namespace NoTankYou.SettingsSystem.SubSettings.General
 
                     LastScalePercent = ScalePercent;
                 }
+
+                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
         }
     }

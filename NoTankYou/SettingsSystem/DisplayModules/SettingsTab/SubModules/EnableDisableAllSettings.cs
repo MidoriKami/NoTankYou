@@ -1,8 +1,7 @@
-﻿using System.Runtime.CompilerServices;
-using Dalamud.Interface;
+﻿using Dalamud.Interface;
 using ImGuiNET;
 
-namespace NoTankYou.SettingsSystem.SubSettings.General
+namespace NoTankYou.SettingsSystem.DisplayModules.SettingsTab.SubModules
 {
     internal class EnableDisableAllSettings : SettingsCategory
     {

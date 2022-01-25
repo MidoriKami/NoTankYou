@@ -1,6 +1,5 @@
 ﻿using System;
 using Dalamud.Game.Command;
-using Dalamud.Game.Text.SeStringHandling;
 using NoTankYou.CommandSystem.Commands;
 using NoTankYou.SettingsSystem;
 

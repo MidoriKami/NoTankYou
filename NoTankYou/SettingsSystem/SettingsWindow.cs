@@ -1,43 +1,28 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using NoTankYou.SettingsSystem.SettingsCategories;
 using System.Numerics;
 using Dalamud.Interface;
+using NoTankYou.SettingsSystem.SettingsTabs;
 
 namespace NoTankYou.SettingsSystem
 {
     internal class SettingsWindow : Window
     {
-        private Tab CurrentTab = Tab.General;
-        private readonly Vector2 WindowSize = new(500, 500);
+        private Tab CurrentTab = Tab.Settings;
+        private readonly Vector2 WindowSize = new(550, 650);
+
 
         private readonly Dictionary<Tab, TabCategory> SettingsCategories = new()
         {
-            { Tab.General, new GeneralSettings() },
-            { Tab.Display, new DisplaySettings() },
-            { Tab.TankStance, new TankStanceSettings() },
-            { Tab.DancePartner, new DancePartnerSettings() },
-            { Tab.Faerie, new FaerieSettings() },
-            { Tab.Kardion, new KardionSettings() },
-            { Tab.Summoner, new SummonerPetSettings() },
-            { Tab.BlueMage, new BlueMageSettings() },
-            { Tab.Food, new FoodSettings()},
-            { Tab.Blacklist, new BlacklistSettings() }
+            {Tab.Settings, new SettingsTab() },
+            {Tab.Warnings, new WarningsTab() }
         };
     
         private enum Tab
         {
-            General,
-            Display,
-            TankStance,
-            DancePartner,
-            Faerie,
-            Kardion,
-            Summoner,
-            BlueMage,
-            Food,
-            Blacklist
+            Settings,
+            Warnings
         }
 
         public SettingsWindow() : base("No Tank You Settings")
@@ -59,13 +44,18 @@ namespace NoTankYou.SettingsSystem
         {
             if (!IsOpen) return;
 
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10, 5));
+
             DrawTabs();
 
             SettingsCategories[CurrentTab].Draw();
 
             ImGui.Separator();
             DrawSaveAndCloseButtons();
+
+            ImGui.PopStyleVar();
         }
+
         private void DrawTabs()
         {
             if (ImGui.BeginTabBar("No Tank You Settings", ImGuiTabBarFlags.NoTooltip))

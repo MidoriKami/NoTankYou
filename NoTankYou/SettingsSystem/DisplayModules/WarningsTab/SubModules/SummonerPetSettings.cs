@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-
-namespace NoTankYou.SettingsSystem.SettingsCategories
+﻿namespace NoTankYou.SettingsSystem.DisplayModules.WarningsTab.SubModules
 {
     internal class SummonerPetSettings : BannerSettings
     {
@@ -9,8 +7,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         public SummonerPetSettings()
         {
-            CategoryName = "Summoner Pet Settings";
-            TabName = "SMN";
+            CategoryString = "Summoner Pet Settings";
+        }
+
+        public override void Dispose()
+        {
         }
     }
 }

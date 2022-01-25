@@ -1,18 +1,16 @@
-﻿using Dalamud.Interface.Components;
+﻿using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
-using System.Numerics;
-using Dalamud.Interface;
 
-namespace NoTankYou.SettingsSystem.SettingsCategories
+namespace NoTankYou.SettingsSystem.DisplayModules.SettingsTab
 {
-    internal class BlacklistSettings : TabCategory
+    internal class BlacklistSettings : DisplayModule
     {
         private int ModifyBlacklistValue;
 
         public BlacklistSettings()
         {
-            CategoryName = "Blacklist Settings";
-            TabName = "Blacklist";
+            CategoryString = "Blacklist Settings";
         }
 
         protected override void DrawContents()
@@ -23,6 +21,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
             PrintAddRemoveManualTerritoryBlacklist();
         }
+
+        public override void Dispose()
+        {
+        }
+
         private static void PrintBlackList()
         {
             ImGui.Text("Currently Blacklisted Areas");
@@ -43,9 +46,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
         }
         private static void PrintAddRemoveCurrentTerritoryBlacklist()
         {
+            ImGui.Indent(-20 * ImGuiHelpers.GlobalScale);
             ImGui.Text("Blacklist Operations");
             ImGui.Separator();
             ImGui.Spacing();
+            ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
             ImGui.Text($"Currently in MapID: [{Service.ClientState.TerritoryType}]");
             ImGui.Spacing();

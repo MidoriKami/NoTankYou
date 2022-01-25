@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-
-namespace NoTankYou.SettingsSystem.SettingsCategories
+﻿namespace NoTankYou.SettingsSystem.DisplayModules.WarningsTab.SubModules
 {
     internal class DancePartnerSettings : BannerSettings
     {
@@ -8,8 +6,11 @@ namespace NoTankYou.SettingsSystem.SettingsCategories
 
         public DancePartnerSettings()
         {
-            CategoryName = "Dance Partner Settings";
-            TabName = "DNC";
+            CategoryString = "Dance Partner Settings";
+        }
+
+        public override void Dispose()
+        {
         }
     }
 }
