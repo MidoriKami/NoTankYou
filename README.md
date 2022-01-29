@@ -40,6 +40,13 @@ If a tank is dead, they will not be considered to be a tank for the duration of 
 
 ![image](https://user-images.githubusercontent.com/9083275/147809510-9894555e-d801-4ae7-b97c-8ca165a2005e.png)
 
+### Blue Mage
+Functions similarly to the `Tank Stance` module. 
+
+A bluemage that has the effect `Aetherial Manipulation: Tank` will be consisted to be a tank, and if they are missing the effect `Mighty Guard` the Might Guard warning will appear.
+
+![image](https://user-images.githubusercontent.com/9083275/151652364-b03aeefe-db1c-4913-ad87-7a11c4f5699e.png)
+
 ### Dance Partner
 This module checks for dancers that are over lvl 60 for the status effect `Closed Position`
 
@@ -71,6 +78,18 @@ This module does account for when your pet transitions between the various pet s
 A warning is only shown if no pet has been detected for more than a `half second`.
 
 ![image](https://user-images.githubusercontent.com/9083275/147809864-fe55d64c-3537-4f7e-b3ac-d858043c5314.png)
+
+### Food Check
+This module will alert you if you or anyone in your party's food buff is either missing or about to expire (early warning time is configurable).
+
+You can set this module to "Solo Mode" to check yourself for food status, the warning banner will obey the regular behavior for `Party Mode`/`Solo Mode - Duties Only`/`Solo Mode - Everywhere`
+
+If you disable "Solo Mode" for Food Check, the food check will evaluate every party members food buff, and will show the warning if ***any*** party member's food buff is missing or about to expire. This will **only warn you for whitelisted instances**. You must manually whitelist each and every instance that you want to enable party food check for.
+
+This feature is intended for statics and premade group attempting coordinated content. I do not want to see players telling others to eat food in casual dungeons and trials.
+Don't be toxic. If you only care about your own food buff, use `Solo Mode` under Food Check Settings.
+
+![image](https://user-images.githubusercontent.com/9083275/151652278-b36c8057-1d7f-4c63-95b8-8c87c72b53be.png)
 
 # Commands
 You can invoke commands using `/notankyou` and `/nty`
