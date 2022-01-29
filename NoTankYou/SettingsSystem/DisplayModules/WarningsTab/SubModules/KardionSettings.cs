@@ -7,7 +7,7 @@
 
         public KardionSettings()
         {
-            CategoryString = "Sage Kardion Settings";
+            CategoryString = "Sage Kardion";
         }
 
         public override void Dispose()

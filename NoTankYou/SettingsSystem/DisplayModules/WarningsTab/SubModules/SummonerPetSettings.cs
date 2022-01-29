@@ -7,7 +7,7 @@
 
         public SummonerPetSettings()
         {
-            CategoryString = "Summoner Pet Settings";
+            CategoryString = "Summoner Pet";
         }
 
         public override void Dispose()

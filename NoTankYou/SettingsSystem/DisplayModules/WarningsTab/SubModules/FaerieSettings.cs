@@ -6,7 +6,7 @@
 
         public FaerieSettings()
         {
-            CategoryString = "Scholar Faerie Settings";
+            CategoryString = "Scholar Faerie";
         }
 
         public override void Dispose()

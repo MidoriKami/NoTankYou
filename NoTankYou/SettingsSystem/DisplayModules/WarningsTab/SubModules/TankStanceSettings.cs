@@ -6,7 +6,7 @@
 
         public TankStanceSettings()
         {
-            CategoryString = "Tank Stance Settings";
+            CategoryString = "Tank Stance";
         }
 
         public override void Dispose()

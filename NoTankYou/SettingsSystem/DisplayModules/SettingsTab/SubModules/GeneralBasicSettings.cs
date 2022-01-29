@@ -55,7 +55,11 @@ namespace NoTankYou.SettingsSystem.DisplayModules.SettingsTab.SubModules
         private static void DrawInstanceLoadDelayTimeTextField()
         {
             ImGui.Text("Instance Load Grace Period");
+            
+            ImGui.PushItemWidth(150 * ImGuiHelpers.GlobalScale);
             ImGui.InputInt("##TerritoryChangeDelay", ref Service.Configuration.TerritoryChangeDelayTime, 1000, 5000);
+            ImGui.PopItemWidth();
+
             ImGuiComponents.HelpMarker("Hide warnings on map change for (milliseconds)\n" +
                                        "Recommended: 8,000 - 15,000\n" +
                                        "Minimum: 3,000");
@@ -71,7 +75,11 @@ namespace NoTankYou.SettingsSystem.DisplayModules.SettingsTab.SubModules
         private void DrawDeathGracePeriod()
         {
             ImGui.Text("Death Grace Period");
+
+            ImGui.PushItemWidth(150 * ImGuiHelpers.GlobalScale);
             ImGui.InputInt("##DeathChangeDelay", ref Service.Configuration.DeathGracePeriod, 1000, 5000);
+            ImGui.PopItemWidth();
+            
             ImGuiComponents.HelpMarker("Wait this many milliseconds before warning about someone who just rezed from death\n" +
                                        "Recommended: 5,000\n" +
                                        "Minimum: 1,000");

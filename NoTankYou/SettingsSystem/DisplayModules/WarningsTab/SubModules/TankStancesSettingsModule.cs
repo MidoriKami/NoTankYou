@@ -7,7 +7,7 @@
 
         public TankStancesSettingsModule()
         {
-            CategoryString = "Tank Stances";
+            CategoryString = "Tank Stances (Regular & Blue Mage)";
         }
 
         protected override void DrawContents()

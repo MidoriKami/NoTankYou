@@ -4,7 +4,7 @@
     {
         public BlueMageSettings()
         {
-            CategoryString = "Blue Mage Settings";
+            CategoryString = "Blue Mage";
         }
 
         protected override ref Configuration.ModuleSettings Settings => ref Service.Configuration.BlueMageSettings;

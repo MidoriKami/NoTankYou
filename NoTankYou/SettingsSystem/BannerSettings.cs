@@ -37,7 +37,7 @@ namespace NoTankYou.SettingsSystem
             ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
             ImGui.Text("Scale %%, Control + Click to input number directly");
-            ImGui.SliderInt("", ref ScalePercent, 50, 250, "%d %%");
+            ImGui.SliderInt($"##{CategoryString}", ref ScalePercent, 50, 250, "%d %%");
             ImGuiComponents.HelpMarker("Scales the banners by the specified percentage\n" +
                                        "0% - Original Size" +
                                        "100% - 2x Size" +
@@ -61,13 +61,13 @@ namespace NoTankYou.SettingsSystem
             ImGui.Spacing();
             ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
-            ImGui.Checkbox("Enable Warning", ref Settings.Enabled);
+            ImGui.Checkbox($"Enable Warning##{CategoryString}", ref Settings.Enabled);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Force Show Banner", ref Settings.Forced);
+            ImGui.Checkbox($"Force Show Banner##{CategoryString}", ref Settings.Forced);
             ImGui.Spacing();
 
-            ImGui.Checkbox("Reposition Banner", ref Settings.Reposition);
+            ImGui.Checkbox($"Reposition Banner##{CategoryString}", ref Settings.Reposition);
             ImGui.Spacing();
         }
         private void DrawComponentControl()
@@ -78,19 +78,19 @@ namespace NoTankYou.SettingsSystem
             ImGui.Spacing();
             ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
-            if (ImGui.Checkbox("Show Exclamation Mark", ref Settings.ShowShield))
+            if (ImGui.Checkbox($"Show Exclamation Mark##{CategoryString}", ref Settings.ShowShield))
             {
                 Service.Configuration.ForceWindowUpdate = true;
             }
             ImGui.Spacing();
 
-            if (ImGui.Checkbox("Show Text", ref Settings.ShowText))
+            if (ImGui.Checkbox($"Show Text##{CategoryString}", ref Settings.ShowText))
             {
                 Service.Configuration.ForceWindowUpdate = true;
             }
             ImGui.Spacing();
 
-            if (ImGui.Checkbox("Show Icon", ref Settings.ShowIcon))
+            if (ImGui.Checkbox($"Show Icon##{CategoryString}", ref Settings.ShowIcon))
             {
                 Service.Configuration.ForceWindowUpdate = true;
             }

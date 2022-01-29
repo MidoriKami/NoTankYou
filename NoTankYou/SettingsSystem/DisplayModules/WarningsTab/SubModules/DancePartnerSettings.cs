@@ -6,7 +6,7 @@
 
         public DancePartnerSettings()
         {
-            CategoryString = "Dance Partner Settings";
+            CategoryString = "Dancer Dance Partner ";
         }
 
         public override void Dispose()

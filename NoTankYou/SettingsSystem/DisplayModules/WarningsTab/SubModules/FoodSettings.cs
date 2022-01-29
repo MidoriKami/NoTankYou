@@ -20,7 +20,7 @@ namespace NoTankYou.SettingsSystem.DisplayModules.WarningsTab.SubModules
 
         public FoodSettings()
         {
-            CategoryString = "Food Warning Settings";
+            CategoryString = "Food Check";
 
             ContentFinderConditionList = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!.ToList();
 
@@ -39,7 +39,7 @@ namespace NoTankYou.SettingsSystem.DisplayModules.WarningsTab.SubModules
 
             if (Service.Configuration.FoodSoloMode == false)
             {
-                ImGui.TextColored(new Vector4(0, 250, 0, 1.0f), "Food Warning will only show in Whitelisted Areas");
+                ImGui.TextColored(new Vector4(0, 250, 0, 0.5f), "Food Warning will only show in Whitelisted Areas");
                 ImGui.Separator();
                 ImGui.Spacing();
 
@@ -52,9 +52,11 @@ namespace NoTankYou.SettingsSystem.DisplayModules.WarningsTab.SubModules
                 PrintAddRemoveManualWithNameTerritoryWhitelist();
             }
 
+            ImGui.Indent(-20 *ImGuiHelpers.GlobalScale);
             ImGui.Text("Food Specific Settings");
             ImGui.Separator();
             ImGui.Spacing();
+            ImGui.Indent(20 * ImGuiHelpers.GlobalScale);
 
             DrawEarlyWarningTime();
 
