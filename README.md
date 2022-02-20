@@ -1,4 +1,6 @@
 # No Tank You
+[![Download count](https://img.shields.io/endpoint?url=https://vz32sgcoal.execute-api.us-east-1.amazonaws.com/NoTankYou)](https://github.com/MidoriKami/NoTankYou)
+
 Plugin for XivLauncher/Dalamud, shows a warning banner ingame **you or your party members** are forgetting to do role-specific actions.
 Tank Stance, Dance Partner, Scholar Faerie, Summoner Pet, Sage Kardion.
 
