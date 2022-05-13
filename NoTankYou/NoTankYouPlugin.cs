@@ -1,69 +1,58 @@
 ﻿using Dalamud.Game;
+using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using NoTankYou.DisplaySystem;
-using NoTankYou.SettingsSystem;
+using Microsoft.VisualBasic;
+using NoTankYou.Data;
+using NoTankYou.System;
+using NoTankYou.Windows;
 
 namespace NoTankYou
 {
+    //D:\Documents\Visual Studio 2022\Repositories\Plugins\NoTankYou2\NoTankYou\NoTankYou.csproj
     public sealed class NoTankYouPlugin : IDalamudPlugin
     {
         public string Name => "No Tank You";
-
-        private SettingsWindow SettingsWindow { get; init; }
-        private DisplayManager DisplayManager { get; init; }
-        private CommandSystem.CommandSystem CommandSystem { get; init; }
+        private const string SettingsCommand = "/nty";
 
         public NoTankYouPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
         {
             // Create Static Services for use everywhere
             pluginInterface.Create<Service>();
+            Service.Chat.Enable();
+
+            // Register Slash Commands
+            Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
+            {
+                HelpMessage = "open configuration window"
+            });
 
             // If configuration json exists load it, if not make new config object
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-            Service.Configuration.Initialize(Service.PluginInterface);
 
-            // Create Windows
-            SettingsWindow = new SettingsWindow();
-            DisplayManager = new DisplayManager();
-
-            // Register FrameworkUpdate
-            Service.Framework.Update += OnFrameworkUpdate;
-
-            // Create Command System
-            CommandSystem = new CommandSystem.CommandSystem(SettingsWindow);
+            // Create Custom Services
+            Service.WindowManager = new WindowManager();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
-
-            // Register Windows
-            Service.WindowSystem.AddWindow(SettingsWindow);
-
-            Service.Chat.Enable();
-        }
-        private void OnFrameworkUpdate(Framework framework)
-        {
-            DisplayManager.Update();
         }
 
-        private void DrawUI()
-        {
-            Service.WindowSystem.Draw();
-        }
-        private void DrawConfigUI()
-        {
-            SettingsWindow.IsOpen = true;
-        }
+        private void OnCommand(string command, string arguments) => Service.WindowManager.ExecuteCommand(command, arguments);
+
+        private void DrawUI() => Service.WindowSystem.Draw();
+
+        private void DrawConfigUI() => Service.WindowManager.GetWindowOfType<NoTankYouWindow>()?.Toggle();
 
         public void Dispose()
         {
-            DisplayManager.Dispose();
-            SettingsWindow.Dispose();
-            CommandSystem.Dispose();
             Service.WindowSystem.RemoveAllWindows();
-            Service.Framework.Update -= OnFrameworkUpdate;
+
+            Service.PluginInterface.UiBuilder.Draw -= DrawUI;
+            Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
+
+            Service.Commands.RemoveHandler(SettingsCommand);
         }
     }
 }
