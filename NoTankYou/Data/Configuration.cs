@@ -10,6 +10,9 @@ namespace NoTankYou.Data
 
         public bool DeveloperMode = false;
 
+        public ModuleSettings ModuleSettings { get; set; } = new();
+        public DisplaySettings DisplaySettings { get; set; } = new();
+
         public void Save() => Service.PluginInterface.SavePluginConfig(this);
     }
 }

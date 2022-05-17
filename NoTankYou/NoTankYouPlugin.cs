@@ -1,26 +1,25 @@
-﻿using Dalamud.Game;
+﻿using CheapLoc;
 using Dalamud.Game.Command;
-using Dalamud.IoC;
 using Dalamud.Plugin;
-using Microsoft.VisualBasic;
 using NoTankYou.Data;
 using NoTankYou.System;
-using NoTankYou.Windows;
+using NoTankYou.Windows.NoTankYouWindow;
 
 namespace NoTankYou
 {
     //D:\Documents\Visual Studio 2022\Repositories\Plugins\NoTankYou2\NoTankYou\NoTankYou.csproj
     public sealed class NoTankYouPlugin : IDalamudPlugin
     {
-        public string Name => "No Tank You";
+        public string Name => "NoTankYou";
         private const string SettingsCommand = "/nty";
 
-        public NoTankYouPlugin(
-            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
+        public NoTankYouPlugin(DalamudPluginInterface pluginInterface)
         {
             // Create Static Services for use everywhere
             pluginInterface.Create<Service>();
             Service.Chat.Enable();
+
+            Loc.SetupWithFallbacks();
 
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
@@ -32,6 +31,7 @@ namespace NoTankYou
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
             // Create Custom Services
+            Service.ModuleManager = new ModuleManager();
             Service.WindowManager = new WindowManager();
 
             // Register draw callbacks
@@ -47,7 +47,7 @@ namespace NoTankYou
 
         public void Dispose()
         {
-            Service.WindowSystem.RemoveAllWindows();
+            Service.WindowManager.Dispose();
 
             Service.PluginInterface.UiBuilder.Draw -= DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;

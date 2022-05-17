@@ -1,8 +1,4 @@
-﻿using System;
-using System.Numerics;
-using Dalamud.Interface;
-using Dalamud.Interface.Components;
-using ImGuiNET;
+﻿using ImGuiNET;
 
 namespace NoTankYou.Utilities
 {
