@@ -28,7 +28,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public SageConfiguration()
         {
-
+            AboutImage = Image.LoadImage("Sage");
         }
 
         public void DrawTabItem()

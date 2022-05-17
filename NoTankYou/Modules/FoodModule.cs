@@ -17,7 +17,6 @@ namespace NoTankYou.Modules
         public string WarningText => Strings.Modules.Food.WarningText;
 
         private const int WellFedStatusID = 48;
-        private int FoodEarlyWarningTime = 600;
 
         public FoodModule()
         {
@@ -30,7 +29,7 @@ namespace NoTankYou.Modules
 
             if (statusEffect == null) return true;
 
-            return statusEffect.RemainingTime < FoodEarlyWarningTime;
+            return statusEffect.RemainingTime < Settings.FoodEarlyWarningTime;
         }
     }
 }

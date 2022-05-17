@@ -28,7 +28,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public SummonerConfiguration()
         {
-
+            AboutImage = Image.LoadImage("Summoner");
         }
 
         public void DrawTabItem()

@@ -26,9 +26,23 @@ namespace NoTankYou.ModuleConfiguration
         public TextureWrap? AboutImage { get; }
         private static FoodModuleSettings Settings => Service.Configuration.ModuleSettings.Food;
 
+        private readonly InfoBox EarlyWarningTime = new()
+        {
+            Label = Strings.Modules.Food.EarlyWarningLabel,
+            ContentsAction = () =>
+            {
+                ImGui.SetNextItemWidth(75.0f * ImGuiHelpers.GlobalScale);
+                ImGui.InputInt(Strings.Common.Labels.Seconds, ref Settings.FoodEarlyWarningTime, 0, 0);
+                if (ImGui.IsItemDeactivatedAfterEdit())
+                {
+                    Settings.FoodEarlyWarningTime = Math.Clamp(Settings.FoodEarlyWarningTime, 0, 3600);
+                }
+            }
+        };
+
         public FoodConfiguration()
         {
-
+            AboutImage = Image.LoadImage("Food");
         }
 
         public void DrawTabItem()
@@ -38,6 +52,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public void DrawOptions()
         {
+            EarlyWarningTime.DrawCentered();
         }
     }
 }

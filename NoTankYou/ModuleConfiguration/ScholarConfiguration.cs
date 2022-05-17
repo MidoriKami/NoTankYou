@@ -28,7 +28,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public ScholarConfiguration()
         {
-
+            AboutImage = Image.LoadImage("Scholar");
         }
 
         public void DrawTabItem()

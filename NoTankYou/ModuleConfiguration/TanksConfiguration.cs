@@ -22,7 +22,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public TanksConfiguration()
         {
-
+            AboutImage = Image.LoadImage("Tank");
         }
 
         public void DrawTabItem()
