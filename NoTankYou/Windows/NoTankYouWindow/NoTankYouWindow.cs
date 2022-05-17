@@ -14,7 +14,7 @@ namespace NoTankYou.Windows.NoTankYouWindow
         private readonly SelectionPane SelectionPane = new()
         {
             Padding = 6.0f,
-            SelectionPaneWidth = 300.0f
+            SelectionPaneWidth = 225.0f
         };
 
         public NoTankYouWindow() : base("NoTankYou Settings")
@@ -23,7 +23,7 @@ namespace NoTankYou.Windows.NoTankYouWindow
 
             SizeConstraints = new WindowSizeConstraints
             {
-                MinimumSize = new Vector2(775, 400),
+                MinimumSize = new Vector2(600, 400),
                 MaximumSize = new Vector2(9999,9999)
             };
 
