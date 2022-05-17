@@ -17,6 +17,7 @@ namespace NoTankYou.Tabs
             new TanksConfiguration(),
             new DancerConfiguration(),
             new FoodConfiguration(),
+            new SageConfiguration(),
         };
 
         public string TabName => Strings.Common.Tabs.Modules;

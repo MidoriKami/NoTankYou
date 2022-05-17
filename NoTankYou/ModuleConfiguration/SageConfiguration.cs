@@ -1,4 +1,9 @@
-﻿using Dalamud.Interface;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
@@ -7,27 +12,26 @@ using NoTankYou.Enums;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
-using NoTankYou.Windows.PartyFrameOverlayWindow;
 
 namespace NoTankYou.ModuleConfiguration
 {
-    internal class TanksConfiguration : IConfigurable
+    internal class SageConfiguration : IConfigurable
     {
-        public ModuleType ModuleType => ModuleType.Tanks;
-        public string ConfigurationPaneLabel => Strings.Modules.Tank.ConfigurationPanelLabel;
+        public ModuleType ModuleType => ModuleType.Sage;
+        public string ConfigurationPaneLabel => Strings.Modules.Sage.ConfigurationPanelLabel;
         public InfoBox? AboutInformationBox { get; }
         public InfoBox? TechnicalInformation { get; }
         public TextureWrap? AboutImage { get; }
-        private static TankModuleSettings Settings => Service.Configuration.ModuleSettings.Tank;
+        private static SageModuleSettings Settings => Service.Configuration.ModuleSettings.Sage;
 
-        public TanksConfiguration()
+        public SageConfiguration()
         {
 
         }
 
         public void DrawTabItem()
         {
-            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Modules.Tank.Label);
+            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Modules.Sage.Label);
         }
 
         public readonly InfoBox Options = new()

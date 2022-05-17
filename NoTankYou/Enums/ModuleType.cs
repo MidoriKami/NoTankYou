@@ -5,6 +5,7 @@
         Tanks,
         PartyOverlay,
         Dancer,
-        Food
+        Food,
+        Sage
     }
 }
