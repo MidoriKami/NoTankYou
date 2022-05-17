@@ -14,6 +14,7 @@ namespace NoTankYou.Modules
         public List<ClassJob> ClassJobs { get; }
         private static SageModuleSettings Settings => Service.Configuration.ModuleSettings.Sage;
         public GenericSettings GenericSettings => Settings;
+        public string WarningText => Strings.Modules.Sage.WarningText;
 
         private const int KardiaStatusID = 2604;
 
@@ -22,8 +23,6 @@ namespace NoTankYou.Modules
             ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
                 .Where(job => job.RowId is 40)
                 .ToList();
-
-            Settings.WarningText = Strings.Modules.Sage.WarningText;
         }
 
         public bool ShowWarning(PlayerCharacter character)

@@ -16,6 +16,7 @@ namespace NoTankYou.Modules
         public List<ClassJob> ClassJobs { get; }
         private static TankModuleSettings Settings => Service.Configuration.ModuleSettings.Tank;
         public GenericSettings GenericSettings => Settings;
+        public string WarningText => Strings.Modules.Tank.WarningText;
 
         private readonly List<Status> TankStances;
 
@@ -30,8 +31,6 @@ namespace NoTankYou.Modules
                 .Select(r => r.StatusGainSelf.Value!)
                 .Where(r => r.IsPermanent)
                 .ToList();
-
-            Settings.WarningText = Strings.Modules.Tank.WarningText;
         }
 
         public bool ShowWarning(PlayerCharacter character)

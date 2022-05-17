@@ -10,13 +10,14 @@ namespace NoTankYou.Interfaces
     {
         List<ClassJob> ClassJobs { get; }
         GenericSettings GenericSettings { get; }
+        string WarningText { get; }
 
         bool ShowWarning(PlayerCharacter character);
 
         bool ShouldShowWarning(PlayerCharacter character)
         {
-            //if (!GenericSettings.Enabled) return false;
-            if(GenericSettings.SoloMode && character.ObjectId != Service.ClientState.LocalPlayer?.ObjectId) return false;
+            if (!GenericSettings.Enabled) return false;
+            if (GenericSettings.SoloMode && character.ObjectId != Service.ClientState.LocalPlayer?.ObjectId) return false;
             if (character.CurrentHp == 0) return false;
 
             return ShowWarning(character);
@@ -26,7 +27,7 @@ namespace NoTankYou.Interfaces
         {
             return new WarningState
             {
-                Message = GenericSettings.WarningText,
+                Message = WarningText,
                 Priority = GenericSettings.Priority,
             };
         }

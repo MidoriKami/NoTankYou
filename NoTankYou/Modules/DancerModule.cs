@@ -14,6 +14,7 @@ namespace NoTankYou.Modules
         public List<ClassJob> ClassJobs { get; }
         private static DancerModuleSettings Settings => Service.Configuration.ModuleSettings.Dancer;
         public GenericSettings GenericSettings => Settings;
+        public string WarningText => Strings.Modules.Dancer.WarningText;
 
         private const int ClosedPositionStatusId = 1823;
 
@@ -22,8 +23,6 @@ namespace NoTankYou.Modules
             ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
                 .Where(job => job.RowId is 38)
                 .ToList();
-
-            Settings.WarningText = Strings.Modules.Dancer.WarningText;
         }
 
         public bool ShowWarning(PlayerCharacter character)

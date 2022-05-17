@@ -14,6 +14,7 @@ namespace NoTankYou.Modules
         public List<ClassJob> ClassJobs { get; }
         private static FoodModuleSettings Settings => Service.Configuration.ModuleSettings.Food;
         public GenericSettings GenericSettings => Settings;
+        public string WarningText => Strings.Modules.Food.WarningText;
 
         private const int WellFedStatusID = 48;
         private int FoodEarlyWarningTime = 600;
@@ -21,8 +22,6 @@ namespace NoTankYou.Modules
         public FoodModule()
         {
             ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!.ToList();
-
-            Settings.WarningText = Strings.Modules.Food.WarningText;
         }
 
         public bool ShowWarning(PlayerCharacter character)

@@ -17,6 +17,7 @@ namespace NoTankYou.Modules
         public List<ClassJob> ClassJobs { get; }
         private static ScholarModuleSettings Settings => Service.Configuration.ModuleSettings.Scholar;
         public GenericSettings GenericSettings => Settings;
+        public string WarningText => Strings.Modules.Scholar.WarningText;
 
         private const int DissipationStatusID = 791;
 
@@ -28,8 +29,6 @@ namespace NoTankYou.Modules
             ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
                 .Where(job => job.RowId is 28)
                 .ToList();
-
-            Settings.WarningText = Strings.Modules.Scholar.WarningText;
         }
 
         public bool ShowWarning(PlayerCharacter character)

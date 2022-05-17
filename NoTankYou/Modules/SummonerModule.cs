@@ -16,14 +16,13 @@ namespace NoTankYou.Modules
         public List<ClassJob> ClassJobs { get; }
         private static SummonerModuleSettings Settings => Service.Configuration.ModuleSettings.Summoner;
         public GenericSettings GenericSettings => Settings;
+        public string WarningText => Strings.Modules.Summoner.WarningText;
 
         public SummonerModule()
         {
             ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
                 .Where(job => job.RowId is 27 or 26)
                 .ToList();
-
-            Settings.WarningText = Strings.Modules.Summoner.WarningText;
         }
 
         public bool ShowWarning(PlayerCharacter character)
