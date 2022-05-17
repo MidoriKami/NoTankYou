@@ -11,6 +11,7 @@ namespace NoTankYou.Localization
         public Sage Sage { get; set; } = new();
         public Scholar Scholar { get; set; } = new();
         public Summoner Summoner { get; set; } = new();
+        public BlueMage BlueMage { get; set; } = new();
     }
 
     public class Tank
@@ -66,6 +67,16 @@ namespace NoTankYou.Localization
         public readonly string WarningText = Loc.Localize("Summoner_WarningText", "Pet Summon Missing");
         public readonly string Description = Loc.Localize("Summoner_Description", "Summoners use a summoned pet known as a 'Carbuncle' to allow them to use various offensive abilities. The summoned pet will be transformed into various other summons during combat.");
         public readonly string TechnicalDescription = Loc.Localize("Summoner_TechnicalInformation", "This module will alert you when a summoner does not have any associated summon in the field.");
+    }
+
+    public class BlueMage
+    {
+        public readonly string Label = Loc.Localize("BlueMage_Label", "Blue Mage");
+        public readonly string ConfigurationPanelLabel = Loc.Localize("BlueMage_ConfigurationPanelLabel", "Blue Mage Configuration");
+        public readonly string WarningText = Loc.Localize("BlueMage_WarningText", "Blue Mage Action Missing");
+        public readonly string Description = Loc.Localize("BlueMage_Description", "Blue Mage Stuff Here");
+        public readonly string TechnicalDescription = Loc.Localize("BlueMage_TechnicalInformation", "Technical Blue Stuff Here");
+
     }
     #endregion
 

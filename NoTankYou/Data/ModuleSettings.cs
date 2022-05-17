@@ -10,5 +10,6 @@ namespace NoTankYou.Data
         public ScholarModuleSettings Scholar { get; set; } = new();
         public SummonerModuleSettings Summoner { get; set; } = new();
         public TankModuleSettings Tank { get; set; } = new();
+        public BlueMageModuleSettings BlueMage { get; set; } = new();
     }
 }

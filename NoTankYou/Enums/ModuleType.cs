@@ -8,6 +8,7 @@
         Food,
         Sage,
         Scholar,
-        Summoner
+        Summoner,
+        BlueMage
     }
 }

@@ -20,6 +20,7 @@ namespace NoTankYou.Tabs
             new SageConfiguration(),
             new ScholarConfiguration(),
             new SummonerConfiguration(),
+            new BlueMageConfiguration(),
         };
 
         public string TabName => Strings.Common.Tabs.Modules;
