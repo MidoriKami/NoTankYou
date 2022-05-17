@@ -21,6 +21,7 @@ namespace NoTankYou.Components
         private readonly List<ITab> Tabs = new()
         {
             new DisplayTab(),
+            new ModulesTab(),
             new SettingsTab(),
         };
 

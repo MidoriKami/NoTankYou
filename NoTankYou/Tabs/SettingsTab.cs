@@ -10,7 +10,6 @@ namespace NoTankYou.Tabs
         public ITabItem? SelectedTabItem { get; set; }
         public List<ITabItem> TabItems { get; set; } = new()
         {
-            new TankStanceConfiguration(),
         };
 
         public string TabName => Strings.Common.Tabs.Settings;

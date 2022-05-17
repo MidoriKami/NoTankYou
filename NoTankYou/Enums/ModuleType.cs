@@ -2,7 +2,9 @@
 {
     public enum ModuleType
     {
-        TankStance,
-        PartyOverlay
+        Tanks,
+        PartyOverlay,
+        Dancer,
+        Food
     }
 }
