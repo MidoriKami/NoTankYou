@@ -18,6 +18,8 @@ namespace NoTankYou.Localization
         public readonly string Label = Loc.Localize("Tank_Label", "Tanks");
         public readonly string ConfigurationPanelLabel = Loc.Localize("Tank_ConfigurationPanelLabel", "Tanks Configuration");
         public readonly string WarningText = Loc.Localize("Tank_WarningText", "Tank Stance Missing");
+        public readonly string Description = Loc.Localize("Tank_Description", "Tank stance blah blah stuff and things");
+        public readonly string TechnicalDescription = Loc.Localize("Tanks_TechnicalInformation", "More stuff");
     }
 
     public class Dancer
@@ -25,6 +27,8 @@ namespace NoTankYou.Localization
         public readonly string Label = Loc.Localize("Dancer_Label", "Dancer");
         public readonly string ConfigurationPanelLabel = Loc.Localize("Dancer_ConfigurationPanelLabel", "Dancer Configuration");
         public readonly string WarningText = Loc.Localize("Dancer_WarningText", "Dance Partner Missing");
+        public readonly string Description = Loc.Localize("Dance_Description", "Dancer stance blah blah stuff and things");
+        public readonly string TechnicalDescription = Loc.Localize("Dance_TechnicalInformation", "More stuff");
     }
 
     public class Food
@@ -32,6 +36,8 @@ namespace NoTankYou.Localization
         public readonly string Label = Loc.Localize("Food_Label", "Food");
         public readonly string ConfigurationPanelLabel = Loc.Localize("Food_ConfigurationPanelLabel", "Food Configuration");
         public readonly string WarningText = Loc.Localize("Food_WarningText", "Food Missing");
+        public readonly string Description = Loc.Localize("Food_Description", "Food stance blah blah stuff and things");
+        public readonly string TechnicalDescription = Loc.Localize("Food_TechnicalInformation", "More stuff");
     }
 
     public class Sage
@@ -39,6 +45,8 @@ namespace NoTankYou.Localization
         public readonly string Label = Loc.Localize("Sage_Label", "Sage");
         public readonly string ConfigurationPanelLabel = Loc.Localize("Sage_ConfigurationPanelLabel", "Sage Configuration");
         public readonly string WarningText = Loc.Localize("Sage_WarningText", "Kardia Partner Missing");
+        public readonly string Description = Loc.Localize("Sage_Description", "Sage stance blah blah stuff and things");
+        public readonly string TechnicalDescription = Loc.Localize("Sage_TechnicalInformation", "More stuff");
     }
 
     public class Scholar
@@ -46,6 +54,8 @@ namespace NoTankYou.Localization
         public readonly string Label = Loc.Localize("Scholar_Label", "Scholar");
         public readonly string ConfigurationPanelLabel = Loc.Localize("Scholar_ConfigurationPanelLabel", "Scholar Configuration");
         public readonly string WarningText = Loc.Localize("Scholar_WarningText", "Faerie Summon Missing");
+        public readonly string Description = Loc.Localize("Scholar_Description", "Scholar stance blah blah stuff and things");
+        public readonly string TechnicalDescription = Loc.Localize("Scholar_TechnicalInformation", "More stuff");
     }
 
     public class Summoner
@@ -53,6 +63,8 @@ namespace NoTankYou.Localization
         public readonly string Label = Loc.Localize("Summoner_Label", "Summoner");
         public readonly string ConfigurationPanelLabel = Loc.Localize("Summoner_ConfigurationPanelLabel", "Summoner Configuration");
         public readonly string WarningText = Loc.Localize("Summoner_WarningText", "Pet Summon Missing");
+        public readonly string Description = Loc.Localize("Summoner_Description", "Summoner stance blah blah stuff and things");
+        public readonly string TechnicalDescription = Loc.Localize("Summoner_TechnicalInformation", "More stuff");
     }
 
     #endregion
@@ -71,6 +83,7 @@ namespace NoTankYou.Localization
         public readonly string Options = Loc.Localize("Labels_Options", "Options");
         public readonly string Description = Loc.Localize("Labels_Description", "Description");
         public readonly string TechnicalDescription = Loc.Localize("Labels_TechnicalDescription", "Technical Description");
+        public readonly string Priority = Loc.Localize("Labels_Priority", "Priority");
     }
 
     public class Tabs
@@ -103,6 +116,7 @@ namespace NoTankYou.Localization
     {
         public readonly string NoSelection = Loc.Localize("Configuration_NoSelection", "Select an item to configure in the left pane");
         public readonly string Enable = Loc.Localize("Configuration_Enable", "Enable");
+        public readonly string SoloMode = Loc.Localize("Configuration_SoloMode", "Solo Mode");
     }
     #endregion
 

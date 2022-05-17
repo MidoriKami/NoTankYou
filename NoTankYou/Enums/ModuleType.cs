@@ -7,6 +7,7 @@
         Dancer,
         Food,
         Sage,
-        Scholar
+        Scholar,
+        Summoner
     }
 }

@@ -16,24 +16,24 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.ModuleConfiguration
 {
-    internal class SageConfiguration : IConfigurable
+    internal class SummonerConfiguration : IConfigurable
     {
-        public ModuleType ModuleType => ModuleType.Sage;
-        public string ConfigurationPaneLabel => Strings.Modules.Sage.ConfigurationPanelLabel;
-        public string AboutInformationBox => Strings.Modules.Sage.Description;
-        public string TechnicalInformation => Strings.Modules.Sage.TechnicalDescription;
+        public ModuleType ModuleType => ModuleType.Summoner;
+        public string ConfigurationPaneLabel => Strings.Modules.Summoner.ConfigurationPanelLabel;
+        public string AboutInformationBox => Strings.Modules.Summoner.Description;
+        public string TechnicalInformation => Strings.Modules.Summoner.TechnicalDescription;
         public TextureWrap? AboutImage { get; }
         public GenericSettings GenericSettings => Settings;
-        private static SageModuleSettings Settings => Service.Configuration.ModuleSettings.Sage;
+        private static SummonerModuleSettings Settings => Service.Configuration.ModuleSettings.Summoner;
 
-        public SageConfiguration()
+        public SummonerConfiguration()
         {
 
         }
 
         public void DrawTabItem()
         {
-            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Modules.Sage.Label);
+            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Modules.Summoner.Label);
         }
 
         public void DrawOptions()

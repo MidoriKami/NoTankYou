@@ -7,6 +7,7 @@ using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
+using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
 using NoTankYou.Interfaces;
@@ -19,10 +20,10 @@ namespace NoTankYou.ModuleConfiguration
     {
         public ModuleType ModuleType => ModuleType.Dancer;
         public string ConfigurationPaneLabel => Strings.Modules.Dancer.ConfigurationPanelLabel;
-        public InfoBox? AboutInformationBox { get; }
-        public InfoBox? TechnicalInformation { get; }
+        public string AboutInformationBox => Strings.Modules.Dancer.Description;
+        public string TechnicalInformation => Strings.Modules.Dancer.TechnicalDescription;
         public TextureWrap? AboutImage { get; }
-
+        public GenericSettings GenericSettings => Settings;
         private static DancerModuleSettings Settings => Service.Configuration.ModuleSettings.Dancer;
 
         public DancerConfiguration()
@@ -35,27 +36,8 @@ namespace NoTankYou.ModuleConfiguration
             ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Modules.Dancer.Label);
         }
 
-        public readonly InfoBox Options = new()
+        public void DrawOptions()
         {
-            Label = Strings.Common.Labels.Options,
-            ContentsAction = () =>
-            {
-                if (ImGui.Checkbox(Strings.Configuration.Enable, ref Settings.Enabled))
-                {
-                    Service.Configuration.Save();
-                }
-            }
-        };
-
-        public void DrawOptionsContents()
-        {
-            ImGuiHelpers.ScaledDummy(10.0f);
-            Options.DrawCentered();
-
-            ImGuiHelpers.ScaledDummy(30.0f);
-
-            ImGuiHelpers.ScaledDummy(20.0f);
-
         }
     }
 }

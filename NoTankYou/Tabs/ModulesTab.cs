@@ -19,6 +19,7 @@ namespace NoTankYou.Tabs
             new FoodConfiguration(),
             new SageConfiguration(),
             new ScholarConfiguration(),
+            new SummonerConfiguration(),
         };
 
         public string TabName => Strings.Common.Tabs.Modules;

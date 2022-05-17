@@ -1,8 +1,10 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
+using NoTankYou.Data.Components;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
 
@@ -11,11 +13,12 @@ namespace NoTankYou.Interfaces
     internal interface IConfigurable : ITabItem
     {
         string ConfigurationPaneLabel { get; }
-        InfoBox? AboutInformationBox { get; }
-        InfoBox? TechnicalInformation { get; }
+        string AboutInformationBox { get; }
+        string TechnicalInformation { get; }
         TextureWrap? AboutImage { get; }
+        GenericSettings GenericSettings { get; }
 
-        void DrawOptionsContents();
+        void DrawOptions();
 
         void ITabItem.DrawConfigurationPane()
         {
@@ -51,8 +54,7 @@ namespace NoTankYou.Interfaces
                 {
                     if (ImGui.BeginChild("OptionsContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar))
                     {
-                        DrawOptionsContents();
-
+                        DrawBaseOptions();
                     }
                     ImGui.EndChild();
 
@@ -91,19 +93,68 @@ namespace NoTankYou.Interfaces
 
             ImGui.PushStyleColor(ImGuiCol.Text, Colors.Grey);
 
-            if (AboutInformationBox != null)
+            new InfoBox
             {
-                AboutInformationBox.DrawCentered();
-                ImGuiHelpers.ScaledDummy(30.0f);
-            }
+                Label = Strings.Common.Labels.Description,
+                ContentsAction = () =>
+                {
+                    ImGui.Text(AboutInformationBox);
+                }
+            }.DrawCentered();
+            ImGuiHelpers.ScaledDummy(30.0f);
 
-            if (TechnicalInformation != null)
+            new InfoBox
             {
-                TechnicalInformation.DrawCentered();
-                ImGuiHelpers.ScaledDummy(20.0f);
-            }
+                Label = Strings.Common.Labels.TechnicalDescription,
+                ContentsAction = () =>
+                {
+                    ImGui.Text(TechnicalInformation);
+                }
+            }.DrawCentered();
+            ImGuiHelpers.ScaledDummy(20.0f);
 
             ImGui.PopStyleColor();
+        }
+
+        void DrawBaseOptions()
+        {
+            ImGuiHelpers.ScaledDummy(10.0f);
+            new InfoBox
+            {
+                Label = Strings.Common.Labels.Options,
+                ContentsAction = () =>
+                {
+                    if (ImGui.Checkbox(Strings.Configuration.Enable, ref GenericSettings.Enabled))
+                    {
+                        Service.Configuration.Save();
+                    }
+
+                    if (ImGui.Checkbox(Strings.Configuration.SoloMode, ref GenericSettings.SoloMode))
+                    {
+                        Service.Configuration.Save();
+                    }
+                }
+            }.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            new InfoBox
+            {
+                Label = Strings.Common.Labels.Priority,
+                ContentsAction = () =>
+                {
+                    ImGui.SetNextItemWidth(75.0f * ImGuiHelpers.GlobalScale);
+                    ImGui.InputInt("", ref GenericSettings.Priority, 1, 1);
+                    if (ImGui.IsItemDeactivatedAfterEdit())
+                    {
+                        GenericSettings.Priority = Math.Clamp(GenericSettings.Priority, 1, 10);
+                    }
+                }
+            }.DrawCentered();
+            
+            ImGuiHelpers.ScaledDummy(30.0f);
+            DrawOptions();
+
+            ImGuiHelpers.ScaledDummy(20.0f);
         }
     }
 }
