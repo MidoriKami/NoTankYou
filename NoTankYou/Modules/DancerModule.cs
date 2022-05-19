@@ -26,6 +26,7 @@ namespace NoTankYou.Modules
         public bool EvaluateWarning(PlayerCharacter character)
         {
             if (character.Level < 60) return false;
+            if (Service.PartyList.Length < 2) return false;
 
             return !character.StatusList.Any(s => s.StatusId is ClosedPositionStatusId);
         }
