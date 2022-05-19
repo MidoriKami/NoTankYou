@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
@@ -133,6 +134,12 @@ namespace NoTankYou.Interfaces
                     {
                         Service.Configuration.Save();
                     }
+
+                    if (ImGui.Checkbox(Strings.Configuration.DutiesOnly, ref GenericSettings.DutiesOnly))
+                    {
+                        Service.Configuration.Save();
+                    }
+                    ImGuiComponents.HelpMarker(Strings.Configuration.DutiesOnlyHelp);
                 }
             }.DrawCentered();
 
@@ -146,7 +153,7 @@ namespace NoTankYou.Interfaces
                     ImGui.InputInt("", ref GenericSettings.Priority, 1, 1);
                     if (ImGui.IsItemDeactivatedAfterEdit())
                     {
-                        GenericSettings.Priority = Math.Clamp(GenericSettings.Priority, 1, 10);
+                        GenericSettings.Priority = Math.Clamp(GenericSettings.Priority, 0, 10);
                     }
                 }
             }.DrawCentered();

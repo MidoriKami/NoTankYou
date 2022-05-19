@@ -1,6 +1,7 @@
 ﻿using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
+using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
@@ -20,6 +21,18 @@ namespace NoTankYou.ModuleConfiguration
         public GenericSettings GenericSettings => Settings;
         private static TankModuleSettings Settings => Service.Configuration.ModuleSettings.Tank;
 
+        private readonly InfoBox AdditionalOptions = new()
+        {
+            Label = Strings.Common.Labels.AdditionalOptions,
+            ContentsAction = () =>
+            {
+                if (ImGui.Checkbox(Strings.Modules.Tank.DisableInAllianceRaid, ref Settings.DisableInAllianceRaid))
+                {
+                    Service.Configuration.Save();
+                }
+            }
+        };
+
         public TanksConfiguration()
         {
             AboutImage = Image.LoadImage("Tank");
@@ -32,6 +45,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public void DrawOptions()
         {
+            AdditionalOptions.DrawCentered();
         }
     }
 }

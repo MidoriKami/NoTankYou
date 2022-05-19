@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dalamud;
 using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
+using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
@@ -40,6 +42,27 @@ namespace NoTankYou.ModuleConfiguration
             }
         };
 
+        private readonly InfoBox ZoneFilters = new()
+        {
+            Label = Strings.Modules.Food.ZoneFilters,
+            ContentsAction = () =>
+            {
+                ImGui.Text(Strings.Modules.Food.ZoneFiltersDescription);
+
+                ImGui.Spacing();
+
+                if (ImGui.Checkbox(Strings.Common.Labels.Savage, ref Settings.SavageDuties))
+                {
+                    Service.Configuration.Save();
+                }
+
+                if (ImGui.Checkbox(Strings.Common.Labels.Ultimate, ref Settings.UltimateDuties))
+                {
+                    Service.Configuration.Save();
+                }
+            }
+        };
+
         public FoodConfiguration()
         {
             AboutImage = Image.LoadImage("Food");
@@ -52,6 +75,9 @@ namespace NoTankYou.ModuleConfiguration
 
         public void DrawOptions()
         {
+            ZoneFilters.DrawCentered();
+            ImGuiHelpers.ScaledDummy(30.0f);
+
             EarlyWarningTime.DrawCentered();
         }
     }

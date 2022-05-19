@@ -11,7 +11,7 @@ namespace NoTankYou.Modules
 {
     internal class DancerModule : IModule
     {
-        public List<ClassJob> ClassJobs { get; }
+        public List<uint> ClassJobs { get; }
         private static DancerModuleSettings Settings => Service.Configuration.ModuleSettings.Dancer;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Dancer.WarningText;
@@ -20,12 +20,10 @@ namespace NoTankYou.Modules
 
         public DancerModule()
         {
-            ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
-                .Where(job => job.RowId is 38)
-                .ToList();
+            ClassJobs = new List<uint> { 38 };
         }
 
-        public bool ShowWarning(PlayerCharacter character)
+        public bool EvaluateWarning(PlayerCharacter character)
         {
             if (character.Level < 60) return false;
 

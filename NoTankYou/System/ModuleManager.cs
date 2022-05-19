@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Interfaces;
 using NoTankYou.Modules;
 
@@ -18,7 +17,7 @@ namespace NoTankYou.System
             new FoodModule(),
         };
 
-        public List<IModule> GetModulesForClassJob(ClassJob job)
+        public List<IModule> GetModulesForClassJob(uint job)
         {
             return Modules
                 .Where(module => module.ClassJobs.Contains(job))

@@ -13,19 +13,17 @@ namespace NoTankYou.Modules
 {
     internal class SummonerModule : IModule
     {
-        public List<ClassJob> ClassJobs { get; }
+        public List<uint> ClassJobs { get; }
         private static SummonerModuleSettings Settings => Service.Configuration.ModuleSettings.Summoner;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Summoner.WarningText;
 
         public SummonerModule()
         {
-            ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
-                .Where(job => job.RowId is 27 or 26)
-                .ToList();
+            ClassJobs = new List<uint> {27, 26};
         }
 
-        public bool ShowWarning(PlayerCharacter character)
+        public bool EvaluateWarning(PlayerCharacter character)
         {
             var hasPet = HasPet(character);
 

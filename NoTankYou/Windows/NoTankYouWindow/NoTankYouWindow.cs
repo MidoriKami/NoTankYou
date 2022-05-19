@@ -59,7 +59,7 @@ namespace NoTankYou.Windows.NoTankYouWindow
 
         public override void OnClose()
         {
-            Service.PluginInterface.UiBuilder.AddNotification("Settings Saved", "No Tank You", NotificationType.Success);
+            Service.PluginInterface.UiBuilder.AddNotification("Settings Saved", "NoTankYou", NotificationType.Success);
 
             Service.Configuration.Save();
         }

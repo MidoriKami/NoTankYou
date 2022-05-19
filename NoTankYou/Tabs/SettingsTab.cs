@@ -2,6 +2,7 @@
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.ModuleConfiguration;
+using NoTankYou.TabItems;
 
 namespace NoTankYou.Tabs
 {
@@ -10,6 +11,7 @@ namespace NoTankYou.Tabs
         public ITabItem? SelectedTabItem { get; set; }
         public List<ITabItem> TabItems { get; set; } = new()
         {
+            new BlacklistTabItem(),
         };
 
         public string TabName => Strings.Common.Tabs.Settings;

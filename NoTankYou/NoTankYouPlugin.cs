@@ -33,6 +33,8 @@ namespace NoTankYou
             // Create Custom Services
             Service.ModuleManager = new ModuleManager();
             Service.WindowManager = new WindowManager();
+            Service.EventManager = new EventManager();
+            Service.HudManager = new HudManager();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -48,6 +50,8 @@ namespace NoTankYou
         public void Dispose()
         {
             Service.WindowManager.Dispose();
+            Service.EventManager.Dispose();
+            Service.HudManager.Dispose();
 
             Service.PluginInterface.UiBuilder.Draw -= DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;

@@ -14,7 +14,7 @@ namespace NoTankYou.Modules
 {
     internal class ScholarModule : IModule
     {
-        public List<ClassJob> ClassJobs { get; }
+        public List<uint> ClassJobs { get; }
         private static ScholarModuleSettings Settings => Service.Configuration.ModuleSettings.Scholar;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Scholar.WarningText;
@@ -26,13 +26,13 @@ namespace NoTankYou.Modules
         private bool LastDissipationStatus;
         public ScholarModule()
         {
-            ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
-                .Where(job => job.RowId is 28)
-                .ToList();
+            ClassJobs = new List<uint> { 28 }; 
         }
 
-        public bool ShowWarning(PlayerCharacter character)
+        public bool EvaluateWarning(PlayerCharacter character)
         {
+            if (character.Level < 4) return false;
+
             var hasPet = HasPet(character);
             var hasDissipation = HasDissipation(character);
 

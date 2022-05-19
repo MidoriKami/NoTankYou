@@ -11,7 +11,7 @@ namespace NoTankYou.Modules
 {
     internal class SageModule : IModule
     {
-        public List<ClassJob> ClassJobs { get; }
+        public List<uint> ClassJobs { get; }
         private static SageModuleSettings Settings => Service.Configuration.ModuleSettings.Sage;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Sage.WarningText;
@@ -20,12 +20,10 @@ namespace NoTankYou.Modules
 
         public SageModule()
         {
-            ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
-                .Where(job => job.RowId is 40)
-                .ToList();
+            ClassJobs = new List<uint> { 40 };
         }
 
-        public bool ShowWarning(PlayerCharacter character)
+        public bool EvaluateWarning(PlayerCharacter character)
         {
             return !character.StatusList.Any(p => p.StatusId == KardiaStatusID);
         }

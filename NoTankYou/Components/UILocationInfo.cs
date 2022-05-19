@@ -2,7 +2,7 @@
 
 namespace NoTankYou.Components
 {
-    internal class UILocationInfo
+    public class UILocationInfo
     {
         public Vector2 Position { get; set; }
         public Vector2 Size { get; set; }

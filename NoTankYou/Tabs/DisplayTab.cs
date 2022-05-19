@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using NoTankYou.DisplayTabItems;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
+using NoTankYou.TabItems;
 
 namespace NoTankYou.Tabs
 {

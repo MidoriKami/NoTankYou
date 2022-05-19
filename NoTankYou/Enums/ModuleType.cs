@@ -9,6 +9,7 @@
         Sage,
         Scholar,
         Summoner,
-        BlueMage
+        BlueMage,
+        Blacklist
     }
 }

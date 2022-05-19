@@ -34,6 +34,8 @@ namespace NoTankYou
         public static WindowSystem WindowSystem { get; set; } = new("NoTankYou");
         public static WindowManager WindowManager { get; set; } = null!;
         public static ModuleManager ModuleManager { get; set; } = null!;
+        public static EventManager EventManager { get; set; } = null!;
+        public static HudManager HudManager { get; set; } = null!;
         public static Configuration Configuration { get; set; } = null!;
     }
 }
