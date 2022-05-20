@@ -1,5 +1,4 @@
 ﻿using Dalamud.Game.ClientState.Objects.SubKinds;
-using Lumina.Excel.GeneratedSheets;
 
 namespace NoTankYou.Utilities
 {
@@ -13,14 +12,6 @@ namespace NoTankYou.Utilities
                 return result as PlayerCharacter;
 
             return null;
-        }
-
-        public static ClassJob? GetClassJob(int objectId)
-        {
-            var player = GetPlayer(objectId);
-            if (player == null) return null;
-
-            return player.ClassJob.GameData;
         }
     }
 }

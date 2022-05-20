@@ -171,7 +171,7 @@ namespace NoTankYou.System
 
             return objectId;
         }
-
+        
         public bool IsTargetable(uint objectID)
         {
             for (var i = 0; i < _partyList->MemberCount; ++i)

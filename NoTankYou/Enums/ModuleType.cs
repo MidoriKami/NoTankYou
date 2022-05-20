@@ -10,6 +10,7 @@
         Scholar,
         Summoner,
         BlueMage,
-        Blacklist
+        Blacklist,
+        Attributions
     }
 }

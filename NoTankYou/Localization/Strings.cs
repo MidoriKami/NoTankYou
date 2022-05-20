@@ -23,6 +23,8 @@ namespace NoTankYou.Localization
         public readonly string Description = Loc.Localize("Tank_Description", "Tanks use role actions commonly referred to as 'Tank Stances' to manage enemy aggro. If there are no tanks in the party with their 'Tank Stances' on then enemies may start attacking the healers or dps players directly, possibly leading to a party wipe.");
         public readonly string TechnicalDescription = Loc.Localize("Tank_TechnicalInformation", "This module will alert you if there are no tanks in the party with their tank stance on. If a tank with a stance on dies, this module will not consider their stance to be on until they are revived.");
         public readonly string DisableInAllianceRaid = Loc.Localize("Tank_DisableInAllianceRaid", "Disable in Alliance Raid");
+        public readonly string CheckAllianceStances = Loc.Localize("Tank_CheckAllianceStances", "Check Alliance Members");
+        public readonly string CheckAllianceStancesDescription = Loc.Localize("Tank_CheckAllianceStancesDescription", "If Enabled, checks other alliance's tanks for a tank stance to warn if no tanks have their stance on\nIf Disabled, only checks your party for tank stances");
     }
 
     public class Dancer
@@ -133,6 +135,7 @@ namespace NoTankYou.Localization
     {
         public PartyOverlay PartyOverlay { get; set; } = new();
         public Blacklist Blacklist { get; set; } = new();
+        public Attributions Attributions { get; set; } = new();
     }
 
     public class PartyOverlay
@@ -156,6 +159,13 @@ namespace NoTankYou.Localization
         public readonly string CurrentLocation = Loc.Localize("Blacklist_CurrentLocation", "Currently in {0}");
         public readonly string ID = Loc.Localize("Blacklist_ID", "Add by zone ID");
         public readonly string Name = Loc.Localize("Blacklist_Name", "Add by zone name");
+    }
+
+    public class Attributions
+    {
+        public readonly string Label = Loc.Localize("Attributions_Label", "Attributions");
+        public readonly string FreeCompanyDescription = Loc.Localize("Attributions_FreeCompanyDescription", "Free Company Artwork by 'artofawang'");
+
     }
     #endregion
 

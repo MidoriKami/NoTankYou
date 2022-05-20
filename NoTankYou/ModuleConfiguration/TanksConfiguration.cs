@@ -1,4 +1,5 @@
 ﻿using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
@@ -29,6 +30,15 @@ namespace NoTankYou.ModuleConfiguration
                 if (ImGui.Checkbox(Strings.Modules.Tank.DisableInAllianceRaid, ref Settings.DisableInAllianceRaid))
                 {
                     Service.Configuration.Save();
+                }
+
+                if (!Settings.DisableInAllianceRaid)
+                {
+                    if (ImGui.Checkbox(Strings.Modules.Tank.CheckAllianceStances, ref Settings.CheckAllianceStances))
+                    {
+                        Service.Configuration.Save();
+                    }
+                    ImGuiComponents.HelpMarker(Strings.Modules.Tank.CheckAllianceStancesDescription);
                 }
             }
         };
