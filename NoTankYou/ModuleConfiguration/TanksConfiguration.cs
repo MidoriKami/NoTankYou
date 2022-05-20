@@ -1,5 +1,4 @@
-﻿using Dalamud.Interface;
-using Dalamud.Interface.Components;
+﻿using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;

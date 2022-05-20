@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NoTankYou.Data.Components
+﻿namespace NoTankYou.Data.Components
 {
     public class GenericSettings
     {

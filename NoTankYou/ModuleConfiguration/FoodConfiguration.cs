@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dalamud;
 using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
-using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;

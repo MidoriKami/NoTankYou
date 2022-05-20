@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Data.Components;
@@ -11,7 +9,6 @@ using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
 using Action = Lumina.Excel.GeneratedSheets.Action;
-using Status = Lumina.Excel.GeneratedSheets.Status;
 
 namespace NoTankYou.Modules
 {

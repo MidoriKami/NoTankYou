@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using CheapLoc;
+﻿using CheapLoc;
 
 namespace NoTankYou.Localization
 {

@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
-using NoTankYou.Utilities;
-using NoTankYou.Windows.PartyFrameOverlayWindow;
 
 namespace NoTankYou.Interfaces
 {

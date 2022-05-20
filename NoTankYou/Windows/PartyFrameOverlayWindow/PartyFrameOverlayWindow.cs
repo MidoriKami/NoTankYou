@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Numerics;
-using Dalamud;
 using Dalamud.Interface.Windowing;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 using ImGuiScene;
-using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Data.Modules;
 using NoTankYou.System;
 using NoTankYou.Utilities;

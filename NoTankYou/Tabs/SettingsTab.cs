@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.ModuleConfiguration;
 using NoTankYou.TabItems;
 
 namespace NoTankYou.Tabs
