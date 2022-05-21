@@ -61,21 +61,28 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
 
         public override void Draw()
         {
-            Service.HudManager.ForEach((int memberId) =>
+            if (Service.HudManager.Disabled)
             {
-                var playerKey = (uint)Service.HudManager.GetHudGroupMember(memberId);
-
-                var updateDictionary = Service.HudManager.WarningStates;
-
-                if (updateDictionary.ContainsKey(playerKey))
+                ResetAllAnimation();
+            }
+            else
+            {
+                Service.HudManager.ForEach((int memberId) =>
                 {
-                    AnimateShieldWarning(updateDictionary[playerKey].Message, memberId);
-                }
-                else
-                {
-                    ResetAnimation(memberId);
-                }
-            });
+                    var playerKey = (uint)Service.HudManager.GetHudGroupMember(memberId);
+
+                    var updateDictionary = Service.HudManager.WarningStates;
+
+                    if (updateDictionary.ContainsKey(playerKey))
+                    {
+                        AnimateShieldWarning(updateDictionary[playerKey].Message, memberId);
+                    }
+                    else
+                    {
+                        ResetAnimation(memberId);
+                    }
+                });
+            }
         }
 
         public static void ResetAllAnimation()
