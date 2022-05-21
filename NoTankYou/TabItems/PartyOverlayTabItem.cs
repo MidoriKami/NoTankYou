@@ -4,6 +4,7 @@ using ImGuiScene;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
+using NoTankYou.Data.Overlays;
 using NoTankYou.Enums;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
@@ -15,7 +16,7 @@ namespace NoTankYou.TabItems
     internal class PartyOverlayTabItem : IConfigurable
     {
         public ModuleType ModuleType => ModuleType.PartyOverlay;
-        public string ConfigurationPaneLabel => Strings.TabItems.PartyOverlay.Label;
+        public string ConfigurationPaneLabel => Strings.TabItems.PartyOverlay.ConfigurationLabel;
 
         public string AboutInformationBox => Strings.TabItems.PartyOverlay.Description;
 

@@ -158,6 +158,7 @@ namespace NoTankYou.Localization
     public class PartyOverlay
     {
         public readonly string Label = Loc.Localize("PartyOverlay_Label", "Party Frame Overlay");
+        public readonly string ConfigurationLabel = Loc.Localize("PartyOverlay_ConfigurationLabel", "Party Frame Overlay Configuration");
         public readonly string Description = Loc.Localize("PartyOverlay_Description", "The party frame overlay I'll just write this later, if I forgot let me know.");
         public readonly string TechnicalDescription = Loc.Localize("PartyOverlay_TechnicalDescription", "Technical words, if I forgot this too, also let me know.");
         public readonly string DisplayOptions = Loc.Localize("PartyOverlay_DisplayOptions", "Display Options");

@@ -6,7 +6,7 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 using ImGuiScene;
-using NoTankYou.Data.Modules;
+using NoTankYou.Data.Overlays;
 using NoTankYou.System;
 using NoTankYou.Utilities;
 

@@ -1,4 +1,4 @@
-﻿namespace NoTankYou.Data.Modules
+﻿namespace NoTankYou.Data.Overlays
 {
     public class PartyOverlaySettings
     {
