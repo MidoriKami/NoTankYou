@@ -37,6 +37,7 @@ namespace NoTankYou.System
 
         public HashSet<int> PartyMemberObjectIDList { get; private set; }= new();
         public HashSet<PlayerCharacter> PartyMemberPlayerCharacterList { get; private set; } = new();
+        public float UIScale { get; private set; }
         private BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
 
         private Queue<PlayerCharacter> PlayerUpdateQueue = new();
@@ -243,8 +244,10 @@ namespace NoTankYou.System
             var xOffset = rootNode->X;
             var yOffset = rootNode->Y;
 
-            var xPosition = resourceNode->X;
-            var yPosition = resourceNode->Y;
+            UIScale = rootNode->ScaleX;
+
+            var xPosition = resourceNode->X * UIScale;
+            var yPosition = resourceNode->Y * UIScale;
 
             return new Vector2(xPosition + xOffset, yPosition + yOffset);
         }
@@ -255,7 +258,7 @@ namespace NoTankYou.System
             var width = resourceNode->Width;
             var height = resourceNode->Height;
 
-            return new Vector2(width, height);
+            return new Vector2(width, height) * UIScale;
         }
 
         public UILocationInfo GetJobLocationInfo(int partyIndex)
@@ -271,8 +274,8 @@ namespace NoTankYou.System
 
             return new UILocationInfo
             {
-                Position = new Vector2(xPosition, yPosition),
-                Size = new Vector2(width, height)
+                Position = new Vector2(xPosition, yPosition) * UIScale,
+                Size = new Vector2(width, height) * UIScale
             };
         }
 
@@ -289,8 +292,8 @@ namespace NoTankYou.System
 
             return new UILocationInfo
             {
-                Position = new Vector2(xPosition, yPosition),
-                Size = new Vector2(width, height)
+                Position = new Vector2(xPosition, yPosition) * UIScale,
+                Size = new Vector2(width, height) * UIScale
             };
         }
     }
