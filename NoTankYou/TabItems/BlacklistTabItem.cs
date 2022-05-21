@@ -92,9 +92,9 @@ namespace NoTankYou.TabItems
 
         private static readonly HashSet<SearchResult> AllTerritories = new();
         private static readonly HashSet<string> CategoryList = new();
-        private static HashSet<SearchResult> instanceNames = new();
-        private static string selectedContentTypeString = "";
-        private static SearchResult selectedResult = new();
+        private static HashSet<SearchResult> _instanceNames = new();
+        private static string _selectedContentTypeString = "";
+        private static SearchResult _selectedResult = new();
 
         private static readonly InfoBox AddById = new()
         {
@@ -129,17 +129,17 @@ namespace NoTankYou.TabItems
                 var region = ImGui.GetContentRegionAvail() * 0.80f;
 
                 ImGui.SetNextItemWidth(region.X);
-                if (ImGui.BeginCombo("##ContentTypeSelection", selectedContentTypeString))
+                if (ImGui.BeginCombo("##ContentTypeSelection", _selectedContentTypeString))
                 {
                     foreach (var searchResult in CategoryList.OrderBy(s => s))
                     {
-                        bool isSelected = searchResult == selectedContentTypeString;
+                        bool isSelected = searchResult == _selectedContentTypeString;
                         if (ImGui.Selectable(searchResult, isSelected))
                         {
-                            selectedContentTypeString = searchResult;
+                            _selectedContentTypeString = searchResult;
 
-                            instanceNames = AllTerritories
-                                .Where(r => r.TerritoryIntendedUse == selectedContentTypeString)
+                            _instanceNames = AllTerritories
+                                .Where(r => r.TerritoryIntendedUse == _selectedContentTypeString)
                                 .ToHashSet();
                         }
 
@@ -153,17 +153,17 @@ namespace NoTankYou.TabItems
                 }
                 ImGui.Spacing();
 
-                if (selectedContentTypeString != string.Empty)
+                if (_selectedContentTypeString != string.Empty)
                 {
                     ImGui.SetNextItemWidth(region.X);
-                    if (ImGui.BeginCombo("##TerritorySelectByName", selectedResult.TerritoryName))
+                    if (ImGui.BeginCombo("##TerritorySelectByName", _selectedResult.TerritoryName))
                     {
-                        foreach (var instanceName in instanceNames.OrderBy(o => o.TerritoryName))
+                        foreach (var instanceName in _instanceNames.OrderBy(o => o.TerritoryName))
                         {
-                            bool isSelected = instanceName == selectedResult;
+                            bool isSelected = instanceName == _selectedResult;
                             if (ImGui.Selectable(instanceName.TerritoryName, isSelected))
                             {
-                                selectedResult = instanceName;
+                                _selectedResult = instanceName;
                             }
 
                             if (isSelected)
@@ -177,18 +177,18 @@ namespace NoTankYou.TabItems
 
                     ImGui.Spacing();
 
-                    if (selectedResult.TerritoryName != string.Empty)
+                    if (_selectedResult.TerritoryName != string.Empty)
                     {
                         if (ImGui.Button(Strings.Commands.Add, ImGuiHelpers.ScaledVector2(region.X / 2 - 10.0f, 25)))
                         {
-                            Add(selectedResult.TerritoryID);
+                            Add(_selectedResult.TerritoryID);
                         }
 
                         ImGui.SameLine();
 
                         if (ImGui.Button(Strings.Commands.Remove, ImGuiHelpers.ScaledVector2(region.X /2 - 10.0f, 25)))
                         {
-                            Remove(selectedResult.TerritoryID);
+                            Remove(_selectedResult.TerritoryID);
                         }
                     }
                 }
