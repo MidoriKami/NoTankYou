@@ -9,7 +9,7 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.ModuleConfiguration
 {
-    internal class BlueMageConfiguration : IConfigurable
+    internal class BlueMageConfiguration : ICustomConfigurable
     {
         public ModuleType ModuleType => ModuleType.BlueMage;
 

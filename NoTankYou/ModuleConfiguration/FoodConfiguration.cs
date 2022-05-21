@@ -12,7 +12,7 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.ModuleConfiguration
 {
-    internal class FoodConfiguration : IConfigurable
+    internal class FoodConfiguration : ICustomConfigurable
     {
         public ModuleType ModuleType => ModuleType.Food;
         public string ConfigurationPaneLabel => Strings.Modules.Food.ConfigurationPanelLabel;

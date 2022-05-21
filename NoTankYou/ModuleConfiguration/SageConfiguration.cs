@@ -9,7 +9,7 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.ModuleConfiguration
 {
-    internal class SageConfiguration : IConfigurable
+    internal class SageConfiguration : ICustomConfigurable
     {
         public ModuleType ModuleType => ModuleType.Sage;
         public string ConfigurationPaneLabel => Strings.Modules.Sage.ConfigurationPanelLabel;

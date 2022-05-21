@@ -9,7 +9,7 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.ModuleConfiguration
 {
-    internal class ScholarConfiguration : IConfigurable
+    internal class ScholarConfiguration : ICustomConfigurable
     {
         public ModuleType ModuleType => ModuleType.Scholar;
         public string ConfigurationPaneLabel => Strings.Modules.Scholar.ConfigurationPanelLabel;

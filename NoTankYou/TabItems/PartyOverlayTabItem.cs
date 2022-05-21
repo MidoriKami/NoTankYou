@@ -85,7 +85,7 @@ namespace NoTankYou.TabItems
             ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.TabItems.PartyOverlay.Label);
         }
 
-        public void DrawBaseOptions()
+        public void DrawOptions()
         {
             ImGuiHelpers.ScaledDummy(10.0f);
             Options.DrawCentered();
@@ -94,11 +94,6 @@ namespace NoTankYou.TabItems
             DisplayOptions.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
-        }
-
-        public void DrawOptions()
-        {
-            // Unused, overriding behavior in DrawBaseOptions
         }
     }
 }

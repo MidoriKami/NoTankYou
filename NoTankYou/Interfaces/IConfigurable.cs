@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
 using Dalamud.Interface;
-using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
-using NoTankYou.Data.Components;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
 
@@ -17,9 +19,10 @@ namespace NoTankYou.Interfaces
         string AboutInformationBox { get; }
         string TechnicalInformation { get; }
         TextureWrap? AboutImage { get; }
-        GenericSettings GenericSettings { get; }
 
         void DrawOptions();
+
+        void DrawBaseOptions() => DrawOptions();
 
         void ITabItem.DrawConfigurationPane()
         {
@@ -41,7 +44,8 @@ namespace NoTankYou.Interfaces
             {
                 if (ImGui.BeginTabItem(Strings.Common.Labels.About))
                 {
-                    if (ImGui.BeginChild("AboutContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar))
+                    if (ImGui.BeginChild("AboutContentsChild", ImGui.GetContentRegionAvail(), false,
+                            ImGuiWindowFlags.AlwaysVerticalScrollbar))
                     {
                         DrawAboutContents();
                     }
@@ -53,10 +57,12 @@ namespace NoTankYou.Interfaces
 
                 if (ImGui.BeginTabItem(Strings.Common.Labels.Options))
                 {
-                    if (ImGui.BeginChild("OptionsContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar))
+                    if (ImGui.BeginChild("OptionsContentsChild", ImGui.GetContentRegionAvail(), false,
+                            ImGuiWindowFlags.AlwaysVerticalScrollbar))
                     {
                         DrawBaseOptions();
                     }
+
                     ImGui.EndChild();
 
                     ImGui.EndTabItem();
@@ -73,20 +79,26 @@ namespace NoTankYou.Interfaces
 
             if (AboutImage != null)
             {
-                var imageRatio = (float)AboutImage.Height / AboutImage.Width;
+                var imageRatio = (float) AboutImage.Height / AboutImage.Width;
                 var width = region.X * 0.80f;
                 var height = width * imageRatio;
                 var imageSize = new Vector2(width, height);
                 var insetVector = new Vector2(2.5f);
 
-                ImGui.SetCursorPos(currentPosition with { X = region.X / 2.0f - imageSize.X / 2.0f, Y = currentPosition.Y + 10.0f * ImGuiHelpers.GlobalScale });
+                ImGui.SetCursorPos(currentPosition with
+                {
+                    X = region.X / 2.0f - imageSize.X / 2.0f,
+                    Y = currentPosition.Y + 10.0f * ImGuiHelpers.GlobalScale
+                });
                 var startPosition = ImGui.GetCursorScreenPos();
                 var imageStart = startPosition + insetVector;
                 var imageStop = startPosition + imageSize - insetVector;
 
-                ImGui.GetWindowDrawList().AddRectFilled(startPosition, startPosition + imageSize, ImGui.GetColorU32(Colors.White), 40.0f);
+                ImGui.GetWindowDrawList().AddRectFilled(startPosition, startPosition + imageSize,
+                    ImGui.GetColorU32(Colors.White), 40.0f);
 
-                ImGui.GetWindowDrawList().AddImageRounded(AboutImage.ImGuiHandle, imageStart, imageStop, Vector2.Zero, Vector2.One, ImGui.GetColorU32(Colors.White), 40.0f);
+                ImGui.GetWindowDrawList().AddImageRounded(AboutImage.ImGuiHandle, imageStart, imageStop, Vector2.Zero,
+                    Vector2.One, ImGui.GetColorU32(Colors.White), 40.0f);
 
                 ImGui.SetCursorScreenPos(startPosition + imageSize);
                 ImGuiHelpers.ScaledDummy(20.0f);
@@ -97,71 +109,19 @@ namespace NoTankYou.Interfaces
             new InfoBox
             {
                 Label = Strings.Common.Labels.Description,
-                ContentsAction = () =>
-                {
-                    ImGui.Text(AboutInformationBox);
-                }
+                ContentsAction = () => { ImGui.Text(AboutInformationBox); }
             }.DrawCentered();
             ImGuiHelpers.ScaledDummy(30.0f);
 
             new InfoBox
             {
                 Label = Strings.Common.Labels.TechnicalDescription,
-                ContentsAction = () =>
-                {
-                    ImGui.Text(TechnicalInformation);
-                }
+                ContentsAction = () => { ImGui.Text(TechnicalInformation); }
             }.DrawCentered();
             ImGuiHelpers.ScaledDummy(20.0f);
 
             ImGui.PopStyleColor();
         }
 
-        void DrawBaseOptions()
-        {
-            ImGuiHelpers.ScaledDummy(10.0f);
-            new InfoBox
-            {
-                Label = Strings.Common.Labels.Options,
-                ContentsAction = () =>
-                {
-                    if (ImGui.Checkbox(Strings.Configuration.Enable, ref GenericSettings.Enabled))
-                    {
-                        Service.Configuration.Save();
-                    }
-
-                    if (ImGui.Checkbox(Strings.Configuration.SoloMode, ref GenericSettings.SoloMode))
-                    {
-                        Service.Configuration.Save();
-                    }
-
-                    if (ImGui.Checkbox(Strings.Configuration.DutiesOnly, ref GenericSettings.DutiesOnly))
-                    {
-                        Service.Configuration.Save();
-                    }
-                    ImGuiComponents.HelpMarker(Strings.Configuration.DutiesOnlyHelp);
-                }
-            }.DrawCentered();
-
-            ImGuiHelpers.ScaledDummy(30.0f);
-            new InfoBox
-            {
-                Label = Strings.Common.Labels.Priority,
-                ContentsAction = () =>
-                {
-                    ImGui.SetNextItemWidth(75.0f * ImGuiHelpers.GlobalScale);
-                    ImGui.InputInt("", ref GenericSettings.Priority, 1, 1);
-                    if (ImGui.IsItemDeactivatedAfterEdit())
-                    {
-                        GenericSettings.Priority = Math.Clamp(GenericSettings.Priority, 0, 10);
-                    }
-                }
-            }.DrawCentered();
-            
-            ImGuiHelpers.ScaledDummy(30.0f);
-            DrawOptions();
-
-            ImGuiHelpers.ScaledDummy(20.0f);
-        }
     }
 }

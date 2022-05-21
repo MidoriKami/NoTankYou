@@ -9,7 +9,7 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.ModuleConfiguration
 {
-    internal class DancerConfiguration : IConfigurable
+    internal class DancerConfiguration : ICustomConfigurable
     {
         public ModuleType ModuleType => ModuleType.Dancer;
         public string ConfigurationPaneLabel => Strings.Modules.Dancer.ConfigurationPanelLabel;

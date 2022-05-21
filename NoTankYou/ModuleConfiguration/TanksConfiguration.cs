@@ -11,7 +11,7 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.ModuleConfiguration
 {
-    internal class TanksConfiguration : IConfigurable
+    internal class TanksConfiguration : ICustomConfigurable
     {
         public ModuleType ModuleType => ModuleType.Tanks;
         public string ConfigurationPaneLabel => Strings.Modules.Tank.ConfigurationPanelLabel;

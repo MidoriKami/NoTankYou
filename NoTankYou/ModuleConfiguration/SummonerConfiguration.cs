@@ -9,7 +9,7 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.ModuleConfiguration
 {
-    internal class SummonerConfiguration : IConfigurable
+    internal class SummonerConfiguration : ICustomConfigurable
     {
         public ModuleType ModuleType => ModuleType.Summoner;
         public string ConfigurationPaneLabel => Strings.Modules.Summoner.ConfigurationPanelLabel;
