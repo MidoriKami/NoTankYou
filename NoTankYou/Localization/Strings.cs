@@ -94,10 +94,16 @@ namespace NoTankYou.Localization
     {
         public readonly string Label = Loc.Localize("BlueMage_Label", "Blue Mage");
         public readonly string ConfigurationPanelLabel = Loc.Localize("BlueMage_ConfigurationPanelLabel", "Blue Mage Configuration");
-        public readonly string WarningText = Loc.Localize("BlueMage_WarningText", "Blue Mage Action Missing");
-        public readonly string Description = Loc.Localize("BlueMage_Description", "Blue Mage Stuff Here");
-        public readonly string TechnicalDescription = Loc.Localize("BlueMage_TechnicalInformation", "Technical Blue Stuff Here");
-
+        public readonly string Description = Loc.Localize("BlueMage_Description", "Blue Mage is a job about shenanigans, Blue Mages learn skills by being hit by those skills.");
+        public readonly string TechnicalDescription = Loc.Localize("BlueMage_TechnicalInformation", "This module can be configured to warn you about missing Aetherial Mimicry, Mighty Guard, and Basic Instinct. The warnings for Aetherial Mimicry can only be used while outside of instances, and is incompatible with the 'Only in Duties' option.");
+        public readonly string GenericWarning = Loc.Localize("BlueMage_GenericWarning", "Warning Something is Missing");
+        public readonly string Mimicry = Loc.Localize("BlueMage_Mimicry", "Aetherial Mimicry Missing");
+        public readonly string MightyGuard = Loc.Localize("BlueMage_MightyGuard", "Mighty Guard Missing");
+        public readonly string BasicInstinct = Loc.Localize("BlueMage_BasicInstinct", "Basic Instinct Missing");
+        public readonly string MimicryLabel = Loc.Localize("BlueMage_MimicryLabel", "Aetherial Mimicry");
+        public readonly string MightyGuardLabel = Loc.Localize("BlueMage_MightyGuardLabel", "Mighty Guard");
+        public readonly string BasicInstinctLabel = Loc.Localize("BlueMage_BasicInstinctLabel", "Basic Instinct");
+        public readonly string MimicryWarning = Loc.Localize("BlueMage_MimicryWarning", "Can not be used with 'Only in Duties'");
     }
     #endregion
 
@@ -134,6 +140,7 @@ namespace NoTankYou.Localization
         public readonly string Ultimate = Loc.Localize("Labels_Ultimate", "Ultimate");
         public readonly string ModeSelect = Loc.Localize("Labels_ModeSelect", "Mode Select");
         public readonly string Unset = Loc.Localize("Labels_Unset", "Unset");
+        public readonly string Warnings = Loc.Localize("Labels_Warnings", "Warnings");
     }
 
     public class Tabs

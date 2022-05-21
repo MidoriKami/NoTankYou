@@ -7,7 +7,7 @@ namespace NoTankYou.System
 {
     public class ModuleManager
     {
-        public List<IModule> Modules { get; set; } = new()
+        private List<IModule> Modules { get; } = new()
         {
             new TankModule(),
             new DancerModule(),
@@ -16,6 +16,7 @@ namespace NoTankYou.System
             new SummonerModule(),
             new FoodModule(),
             new FreeCompanyModule(),
+            new BlueMageModule(),
         };
 
         public List<IModule> GetModulesForClassJob(uint job)
