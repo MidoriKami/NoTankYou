@@ -99,8 +99,12 @@ namespace NoTankYou.System
         private void FrameworkUpdate(Framework framework)
         {
             if (PlayerUpdateQueue.Count == 0) return;
-            if (BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone()) return;
             if (!IsPartyListVisible()) return;
+            if (BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone() || Service.ClientState.IsPvP)
+            {
+                PartyMemberPlayerCharacterList.Clear();
+                return;
+            }
 
             var currentPlayer = PlayerUpdateQueue.Dequeue();
 

@@ -45,8 +45,9 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
         {
             var enabled = Settings.Enabled;
             var partyListVisible = HudManager.IsPartyListVisible();
+            var isPvP = Service.ClientState.IsPvP;
 
-            IsOpen = partyListVisible && enabled;
+            IsOpen = partyListVisible && enabled && !isPvP;
         }
 
         public override void PreDraw()
