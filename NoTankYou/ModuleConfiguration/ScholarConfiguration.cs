@@ -21,7 +21,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public ScholarConfiguration()
         {
-            AboutImage = Image.LoadImage("Scholar");
+            AboutImage = Image.LoadImage("Unavailable");
         }
 
         public void DrawTabItem()

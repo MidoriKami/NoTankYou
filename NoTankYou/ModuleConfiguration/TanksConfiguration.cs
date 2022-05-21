@@ -44,7 +44,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public TanksConfiguration()
         {
-            AboutImage = Image.LoadImage("Tank");
+            AboutImage = Image.LoadImage("Unavailable");
         }
 
         public void DrawTabItem()

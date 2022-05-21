@@ -59,7 +59,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public FoodConfiguration()
         {
-            AboutImage = Image.LoadImage("Food");
+            AboutImage = Image.LoadImage("Unavailable");
         }
 
         public void DrawTabItem()

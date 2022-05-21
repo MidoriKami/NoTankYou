@@ -21,7 +21,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public DancerConfiguration()
         {
-            AboutImage = Image.LoadImage("Dancer");
+            AboutImage = Image.LoadImage("Unavailable");
         }
 
         public void DrawTabItem()

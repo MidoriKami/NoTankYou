@@ -22,7 +22,7 @@ namespace NoTankYou.ModuleConfiguration
 
         public BlueMageConfiguration()
         {
-            AboutImage = Image.LoadImage("BlueMage");
+            AboutImage = Image.LoadImage("Unavailable");
         }
 
         public void DrawTabItem()
