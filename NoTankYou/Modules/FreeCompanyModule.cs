@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Data.Components;
@@ -10,7 +7,6 @@ using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules
 {
@@ -51,7 +47,6 @@ namespace NoTankYou.Modules
                     {
                         var targetStatus = Service.DataManager.GetExcelSheet<Status>()!.GetRow(Settings.BuffList[i])!.RowId;
 
-                        // If this status is missing, send warning
                         if (!character.StatusList.Any(status => status.StatusId == targetStatus))
                         {
                             return true;
