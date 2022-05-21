@@ -38,6 +38,7 @@ namespace NoTankYou.System
         public HashSet<int> PartyMemberObjectIDList { get; private set; }= new();
         public HashSet<PlayerCharacter> PartyMemberPlayerCharacterList { get; private set; } = new();
         public float UIScale { get; private set; }
+        public bool Disabled { get; private set; }
         private BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
 
         private Queue<PlayerCharacter> PlayerUpdateQueue = new();
@@ -99,13 +100,13 @@ namespace NoTankYou.System
 
         private void FrameworkUpdate(Framework framework)
         {
+            Disabled = true;
+
             if (PlayerUpdateQueue.Count == 0) return;
             if (!IsPartyListVisible()) return;
-            if (BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone() || Service.ClientState.IsPvP)
-            {
-                PartyMemberPlayerCharacterList.Clear();
-                return;
-            }
+            if (BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone() || Service.ClientState.IsPvP) return;
+
+            Disabled = false;
 
             var currentPlayer = PlayerUpdateQueue.Dequeue();
 
