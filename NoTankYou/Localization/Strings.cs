@@ -12,6 +12,7 @@ namespace NoTankYou.Localization
         public Scholar Scholar { get; set; } = new();
         public Summoner Summoner { get; set; } = new();
         public BlueMage BlueMage { get; set; } = new();
+        public FreeCompany FreeCompany { get; set; } = new();
     }
 
     public class Tank
@@ -24,6 +25,21 @@ namespace NoTankYou.Localization
         public readonly string DisableInAllianceRaid = Loc.Localize("Tank_DisableInAllianceRaid", "Disable in Alliance Raid");
         public readonly string CheckAllianceStances = Loc.Localize("Tank_CheckAllianceStances", "Check Alliance Members");
         public readonly string CheckAllianceStancesDescription = Loc.Localize("Tank_CheckAllianceStancesDescription", "If Enabled, checks other alliance's tanks for a tank stance to warn if no tanks have their stance on\nIf Disabled, only checks your party for tank stances");
+    }
+
+    public class FreeCompany
+    {
+        public readonly string Label = Loc.Localize("FreeCompany_Label", "Free Company");
+        public readonly string ConfigurationPanelLabel = Loc.Localize("FreeCompany_ConfigurationPaneLabel", "Free Company Configuration");
+        public readonly string WarningText = Loc.Localize("FreeCompany_WarningText", "FreeCompany Effect Missing");
+        public readonly string Description = Loc.Localize("FreeCompany_Description", "Free Companies are able to provide various buffs to members. These buffs have limited durations and need to be refreshed periodically.");
+        public readonly string TechnicalDescription = Loc.Localize("FreeCompany_TechnicalDescription", "This module will alert you when you do not have the configured number of Free Company status effects on you. This module will only evaluate you for warnings, it will never warn you about the status of others.");
+        public readonly string Any = Loc.Localize("FreeCompany_Any", "Any");
+        public readonly string AnyDescription = Loc.Localize("FreeCompany_AnyDescription", "Display warning if missing any Free Company buffs");
+        public readonly string Specific = Loc.Localize("FreeCompany_Specific", "Specific");
+        public readonly string SpecificDescription = Loc.Localize("FreeCompany_SpecificDescription", "Display warning if missing specific Free Company buffs");
+        public readonly string BuffCount = Loc.Localize("FreeCompany_BuffCount", "Buff Count");
+        public readonly string BuffSelection = Loc.Localize("FreeCompany_BuffSelection", "Buff Selection");
     }
 
     public class Dancer
@@ -116,6 +132,8 @@ namespace NoTankYou.Localization
         public readonly string AdditionalOptions = Loc.Localize("Labels_AdditionalOptions", "Additional Options");
         public readonly string Savage = Loc.Localize("Labels_Savage", "Savage");
         public readonly string Ultimate = Loc.Localize("Labels_Ultimate", "Ultimate");
+        public readonly string ModeSelect = Loc.Localize("Labels_ModeSelect", "Mode Select");
+        public readonly string Unset = Loc.Localize("Labels_Unset", "Unset");
     }
 
     public class Tabs

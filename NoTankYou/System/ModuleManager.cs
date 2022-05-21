@@ -15,6 +15,7 @@ namespace NoTankYou.System
             new SageModule(),
             new SummonerModule(),
             new FoodModule(),
+            new FreeCompanyModule(),
         };
 
         public List<IModule> GetModulesForClassJob(uint job)

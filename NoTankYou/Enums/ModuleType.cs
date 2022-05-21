@@ -11,6 +11,7 @@
         Summoner,
         BlueMage,
         Blacklist,
-        Attributions
+        Attributions,
+        FreeCompany
     }
 }

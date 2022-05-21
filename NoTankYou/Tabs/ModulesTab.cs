@@ -17,6 +17,7 @@ namespace NoTankYou.Tabs
             new ScholarConfiguration(),
             new SummonerConfiguration(),
             new BlueMageConfiguration(),
+            new FreeCompanyConfiguration(),
         };
 
         public string TabName => Strings.Common.Tabs.Modules;
