@@ -220,6 +220,8 @@ namespace NoTankYou.System
 
         public void ForEach(Action<int> partyMemberAction)
         {
+            if (!IsPartyListVisible()) return;
+
             for (var i = 0; i < _partyList->MemberCount; ++i)
             {
                 if (_partyList->PartyMember[i].PartyMemberComponent->OwnerNode->AtkResNode.IsVisible)
