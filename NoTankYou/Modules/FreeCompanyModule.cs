@@ -36,6 +36,8 @@ namespace NoTankYou.Modules
 
         public bool EvaluateWarning(PlayerCharacter character)
         {
+            if (Service.EventManager.DutyStarted) return false;
+
             switch (Settings.ScanMode)
             {
                 case FreeCompanyBuffScanMode.Any:
