@@ -1,0 +1,3 @@
+files:
+  - source: /translations/NoTankYou_Localizable.json
+    translation: /translations/NoTankYou_%two_letters_code%.json
