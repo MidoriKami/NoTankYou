@@ -19,6 +19,14 @@ namespace NoTankYou.System
             new BlueMageModule(),
         };
 
+        public void ProcessCommand(string command, string arguments)
+        {
+            foreach (var module in Modules.OfType<ICommand>())
+            {
+                module.ProcessCommand(command, arguments);
+            }
+        }
+
         public List<IModule> GetModulesForClassJob(uint job)
         {
             return Modules

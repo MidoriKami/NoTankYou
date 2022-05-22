@@ -17,6 +17,7 @@ namespace NoTankYou.Modules
         private static ScholarModuleSettings Settings => Service.Configuration.ModuleSettings.Scholar;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Scholar.WarningText;
+        public string ModuleCommand => "sch";
 
         private const int DissipationStatusID = 791;
 

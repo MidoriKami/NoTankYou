@@ -1,17 +1,22 @@
-﻿using CheapLoc;
+﻿using System.IO;
+using System.Runtime.InteropServices.ComTypes;
+using CheapLoc;
 using Dalamud.Game.Command;
+using Dalamud.Logging;
 using Dalamud.Plugin;
-using NoTankYou.Data;
+using NoTankYou.Localization;
 using NoTankYou.System;
+using NoTankYou.Utilities;
 using NoTankYou.Windows.NoTankYouWindow;
+using Configuration = NoTankYou.Data.Configuration;
 
 namespace NoTankYou
 {
-    //D:\Documents\Visual Studio 2022\Repositories\Plugins\NoTankYou2\NoTankYou\NoTankYou.csproj
     public sealed class NoTankYouPlugin : IDalamudPlugin
     {
         public string Name => "NoTankYou";
         private const string SettingsCommand = "/nty";
+        private const string HelpCommand = "/nty help";
 
         public NoTankYouPlugin(DalamudPluginInterface pluginInterface)
         {
@@ -27,8 +32,21 @@ namespace NoTankYou
                 HelpMessage = "open configuration window"
             });
 
+            Service.Commands.AddHandler(HelpCommand, new CommandInfo(OnCommand)
+            {
+                HelpMessage = "display a list of all available commands"
+            });
+
             // If configuration json exists load it, if not make new config object
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+
+            // Initialize Languages
+            var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
+            var filePath = Path.Combine(assemblyLocation, @"translations");
+
+            Service.Localization = new Dalamud.Localization(filePath, "NoTankYou_");
+            var dalamudLanguage = Service.PluginInterface.UiLanguage;
+            LoadLocalization(dalamudLanguage);
 
             // Create Custom Services
             Service.ModuleManager = new ModuleManager();
@@ -39,9 +57,44 @@ namespace NoTankYou
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+            Service.PluginInterface.LanguageChanged += LoadLocalization;
         }
 
-        private void OnCommand(string command, string arguments) => Service.WindowManager.ExecuteCommand(command, arguments);
+        private static void LoadLocalization(string languageCode)
+        {
+            PluginLog.Information($"Loading Localization for {languageCode}");
+
+            Service.Localization.SetupWithLangCode(languageCode);
+
+            Strings.ReInitialize();
+        }
+
+        private void OnCommand(string command, string arguments)
+        {
+            Service.WindowManager.ExecuteCommand(command, arguments);
+            Service.ModuleManager.ProcessCommand(command, arguments);
+
+            switch (arguments)
+            {
+                case "help":
+                    Chat.Print("Commands", Strings.Commands.Help);
+                    break;
+
+                case "coffee":
+                    Chat.Print("Chad Mode", "Unable to brew, coffee printer out of ink.");
+                    break;
+#if DEBUG
+                case "generateloc":
+                    Chat.Debug("Generating Localization File");
+                    Service.Localization.ExportLocalizable();
+                    break;
+#else
+                case "generateloc":
+                    Chat.Debug("Command not available in release mode");
+                    break;
+#endif
+            }
+        }
 
         private void DrawUI() => Service.WindowSystem.Draw();
 
@@ -55,8 +108,10 @@ namespace NoTankYou
 
             Service.PluginInterface.UiBuilder.Draw -= DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
+            Service.PluginInterface.LanguageChanged -= LoadLocalization;
 
             Service.Commands.RemoveHandler(SettingsCommand);
+            Service.Commands.RemoveHandler(HelpCommand);
         }
     }
 }

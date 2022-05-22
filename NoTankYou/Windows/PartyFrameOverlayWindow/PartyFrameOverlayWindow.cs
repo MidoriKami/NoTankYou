@@ -7,12 +7,13 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Data.Overlays;
+using NoTankYou.Interfaces;
 using NoTankYou.System;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Windows.PartyFrameOverlayWindow
 {
-    internal unsafe class PartyFrameOverlayWindow : Window, IDisposable
+    internal unsafe class PartyFrameOverlayWindow : Window, IDisposable, ICommand
     {
         private readonly Stopwatch AnimationStopwatch = new();
         private PartyOverlaySettings Settings => Service.Configuration.DisplaySettings.PartyOverlay;
@@ -196,6 +197,30 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             var warningTextPosition = nameInfo.Position with {X = nameInfo.Position.X + nameInfo.Size.X - textSize.X, Y = nameInfo.Position.Y - 10.0f};
             ImGui.SetCursorPos(warningTextPosition);
             ImGui.TextColored(color, warningText);
+        }
+
+        void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
+        {
+            if (primaryCommand == "partyoverlay")
+            {
+                switch (secondaryCommand)
+                {
+                    case null:
+                        Settings.Enabled = !Settings.Enabled;
+                        ResetAllAnimation();
+                        break;
+
+                    case "on":
+                        Settings.Enabled = true;
+                        ResetAllAnimation();
+                        break;
+
+                    case "off":
+                        Settings.Enabled = false;
+                        ResetAllAnimation();
+                        break;
+                }
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ namespace NoTankYou.Modules
         public List<uint> ClassJobs { get; }
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.BlueMage.GenericWarning;
+        public string ModuleCommand => "blu";
         private static BlueMageModuleSettings Settings => Service.Configuration.ModuleSettings.BlueMage;
 
         private readonly List<uint> MimicryStatusEffects;

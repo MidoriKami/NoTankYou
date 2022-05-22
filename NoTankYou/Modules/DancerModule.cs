@@ -14,6 +14,7 @@ namespace NoTankYou.Modules
         private static DancerModuleSettings Settings => Service.Configuration.ModuleSettings.Dancer;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Dancer.WarningText;
+        public string ModuleCommand => "dnc";
 
         private const int ClosedPositionStatusId = 1823;
 

@@ -18,6 +18,7 @@ namespace NoTankYou.Modules
         private static TankModuleSettings Settings => Service.Configuration.ModuleSettings.Tank;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Tank.WarningText;
+        public string ModuleCommand => "tank";
 
         private readonly List<uint> TankStances;
 

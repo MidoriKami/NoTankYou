@@ -16,6 +16,7 @@ namespace NoTankYou.Modules
         private static SummonerModuleSettings Settings => Service.Configuration.ModuleSettings.Summoner;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Summoner.WarningText;
+        public string ModuleCommand => "smn";
 
         public SummonerModule()
         {

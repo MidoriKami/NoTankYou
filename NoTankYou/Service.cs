@@ -1,9 +1,7 @@
 ﻿using Dalamud.Data;
 using Dalamud.Game;
 using Dalamud.Game.ClientState;
-using Dalamud.Game.ClientState.Buddy;
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Game.ClientState.Keys;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.Command;
@@ -27,8 +25,6 @@ namespace NoTankYou
         [PluginService] public static DataManager DataManager { get; private set; } = null!;
         [PluginService] public static Framework Framework { get; private set; } = null!;
         [PluginService] public static ObjectTable ObjectTable { get; private set; } = null!;
-        [PluginService] public static BuddyList BuddyList { get; private set; } = null!;
-        [PluginService] public static KeyState KeyState { get; private set; } = null!;
         [PluginService] public static GameGui GameGui { get; private set; } = null!;
 
         public static WindowSystem WindowSystem { get; set; } = new("NoTankYou");
@@ -36,6 +32,7 @@ namespace NoTankYou
         public static ModuleManager ModuleManager { get; set; } = null!;
         public static EventManager EventManager { get; set; } = null!;
         public static HudManager HudManager { get; set; } = null!;
+        public static Dalamud.Localization Localization { get; set; } = null!;
         public static Configuration Configuration { get; set; } = null!;
     }
 }

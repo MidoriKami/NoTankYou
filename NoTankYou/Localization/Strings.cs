@@ -208,17 +208,18 @@ namespace NoTankYou.Localization
     #region Commands
     public class Commands
     {
-        public readonly string On = Loc.Localize("On", "on");
-        public readonly string Show = Loc.Localize("Show", "show");
-        public readonly string Off = Loc.Localize("Off", "off");
-        public readonly string Hide = Loc.Localize("Hide", "hide");
-        public readonly string Close = Loc.Localize("Close", "close");
-        public readonly string Open = Loc.Localize("Open", "open");
-        public readonly string Toggle = Loc.Localize("Toggle", "toggle");
-        public readonly string Help = Loc.Localize("Help", "help");
-        public readonly string Core = Loc.Localize("Core", "Core");
         public readonly string Add = Loc.Localize("Commands_Add", "Add");
         public readonly string Remove = Loc.Localize("Commands_Remove", "Remove");
+        public readonly string Help = Loc.Localize("Commands_Help", "NoTankYou Commands:\n" +
+                                                                    "/nty blu (on | off) - Toggle Blue Mage Module\n" +
+                                                                    "/nty dnc (on | off) - Toggle Dancer Module\n" +
+                                                                    "/nty food (on | off) - Toggle Food Module\n" +
+                                                                    "/nty fc (on | off) - Toggle Free Company Module\n" +
+                                                                    "/nty sge (on | off) - Toggle Sage Module\n" +
+                                                                    "/nty sch (on | off) - Toggle Scholar Module\n" +
+                                                                    "/nty smn (on | off) - Toggle Summoner Module\n" +
+                                                                    "/nty tanks (on | off) - Toggle Tanks Module\n" +
+                                                                    "/nty partyoverlay (on | off) - Toggle Party Overlay");
     }
     #endregion
 

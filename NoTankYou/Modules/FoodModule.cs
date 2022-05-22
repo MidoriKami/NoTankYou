@@ -16,6 +16,7 @@ namespace NoTankYou.Modules
         private static FoodModuleSettings Settings => Service.Configuration.ModuleSettings.Food;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Food.WarningText;
+        public string ModuleCommand => "food";
 
         private const int WellFedStatusID = 48;
         private readonly List<uint> SavageDuties;

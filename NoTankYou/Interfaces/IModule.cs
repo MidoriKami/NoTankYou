@@ -5,11 +5,12 @@ using NoTankYou.Data.Components;
 
 namespace NoTankYou.Interfaces
 {
-    public interface IModule
+    public interface IModule : ICommand
     {
         List<uint> ClassJobs { get; }
         GenericSettings GenericSettings { get; }
         string WarningText { get; }
+        string ModuleCommand { get; }
 
         bool EvaluateWarning(PlayerCharacter character);
 
@@ -31,6 +32,27 @@ namespace NoTankYou.Interfaces
                 Message = WarningText,
                 Priority = GenericSettings.Priority,
             };
+        }
+
+        void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
+        {
+            if (primaryCommand == ModuleCommand)
+            {
+                switch (secondaryCommand)
+                {
+                    case null:
+                        GenericSettings.Enabled = !GenericSettings.Enabled;
+                        break;
+
+                    case "on":
+                        GenericSettings.Enabled = true;
+                        break;
+
+                    case "off":
+                        GenericSettings.Enabled = false;
+                        break;
+                }
+            }
         }
     }
 }

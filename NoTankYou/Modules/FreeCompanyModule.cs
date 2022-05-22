@@ -15,6 +15,7 @@ namespace NoTankYou.Modules
         public List<uint> ClassJobs { get; }
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.FreeCompany.WarningText;
+        public string ModuleCommand => "fc";
         private static FreeCompanyModuleSettings Settings => Service.Configuration.ModuleSettings.FreeCompany;
 
         private readonly List<uint> FreeCompanyStatusIDList;

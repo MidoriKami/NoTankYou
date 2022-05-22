@@ -14,6 +14,7 @@ namespace NoTankYou.Modules
         private static SageModuleSettings Settings => Service.Configuration.ModuleSettings.Sage;
         public GenericSettings GenericSettings => Settings;
         public string WarningText => Strings.Modules.Sage.WarningText;
+        public string ModuleCommand => "sge";
 
         private const int KardiaStatusID = 2604;
 

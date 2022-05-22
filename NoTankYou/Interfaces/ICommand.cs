@@ -1,6 +1,6 @@
 ﻿namespace NoTankYou.Interfaces
 {
-    internal interface ICommand
+    public interface ICommand
     {
         protected void Execute(string? primaryCommand, string? secondaryCommand);
 
