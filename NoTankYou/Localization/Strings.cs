@@ -166,8 +166,8 @@ namespace NoTankYou.Localization
     {
         public readonly string Label = Loc.Localize("PartyOverlay_Label", "Party Frame Overlay");
         public readonly string ConfigurationLabel = Loc.Localize("PartyOverlay_ConfigurationLabel", "Party Frame Overlay Configuration");
-        public readonly string Description = Loc.Localize("PartyOverlay_Description", "The party frame overlay I'll just write this later, if I forgot let me know.");
-        public readonly string TechnicalDescription = Loc.Localize("PartyOverlay_TechnicalDescription", "Technical words, if I forgot this too, also let me know.");
+        public readonly string Description = Loc.Localize("PartyOverlay_Description", "The Party Frame Overlay modifies how the Party Frame appears to display various NoTankYou warnings. The various components can be configured and the flashing animation can be disabled if it is disorienting.");
+        public readonly string TechnicalDescription = Loc.Localize("PartyOverlay_TechnicalDescription", "Sometimes disabling or uninstalling the plugin can leave the job icons missing, or the player name text to remain colored, this is only temporary as when you join a party or the game updates the party interface it will naturally reset everything.");
         public readonly string DisplayOptions = Loc.Localize("PartyOverlay_DisplayOptions", "Display Options");
         public readonly string JobIcon = Loc.Localize("PartyOverlay_JobIcons", "Job Icon");
         public readonly string PlayerName = Loc.Localize("PartyOverlay_PlayerName", "Player Name");
