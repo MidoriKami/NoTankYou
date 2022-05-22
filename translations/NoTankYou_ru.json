@@ -368,11 +368,11 @@
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_Description": {
-    "message": "The party frame overlay I'll just write this later, if I forgot let me know.",
+    "message": "The Party Frame Overlay modifies how the Party Frame appears to display various NoTankYou warnings. The various components can be configured and the flashing animation can be disabled if it is disorienting.",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_TechnicalDescription": {
-    "message": "Technical words, if I forgot this too, also let me know.",
+    "message": "Sometimes disabling or uninstalling the plugin can leave the job icons missing, or the player name text to remain colored, this is only temporary as when you join a party or the game updates the party interface it will naturally reset everything.",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_DisplayOptions": {
