@@ -140,7 +140,7 @@ namespace NoTankYou.TabItems
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
                     ImGuiHelpers.ScaledDummy(15.0f);
-
+                    
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
                     ImGui.SetNextItemWidth(75.0f * ImGuiHelpers.GlobalScale);
