@@ -55,53 +55,70 @@ namespace NoTankYou.Modules
 
             if (Settings.CheckAllianceStances && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType))
             {
-                var partyTanks = Service.PartyList.Where(m => ClassJobs.Contains(m.ClassJob.Id)).ToList();
-                var allianceTanks = GetAllianceTanks();
-
-                var partyMissingStance = !partyTanks.Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId)));
-                var allianceMissingStance = !allianceTanks.Any(tanks => tanks.StatusList.Any(status => TankStances.Contains(status.StatusId)));
-
-                if (partyMissingStance && allianceMissingStance)
-                {
-                    return new WarningState
-                    {
-                        MessageShort = MessageShort,
-                        MessageLong = MessageLong,
-                        IconID = GetTankIcon(character).Item1,
-                        IconLabel = GetTankIcon(character).Item2,
-                        Priority = Settings.Priority,
-                    };
-                }
+                return EvaluateAllianceStances(character);
             }
 
             if (Service.PartyList.Length == 0)
             {
-                if (!character.StatusList.Any(status => TankStances.Contains(status.StatusId)))
-                {
-                    return new WarningState
-                    {
-                        MessageShort = MessageShort,
-                        MessageLong = MessageLong,
-                        IconID = GetTankIcon(character).Item1,
-                        IconLabel = GetTankIcon(character).Item2,
-                        Priority = Settings.Priority,
-                    };
-                }
+                return EvaluateSolo(character);
             }
-            else
+
+            return EvaluateParty(character);
+        }
+
+        private WarningState? EvaluateParty(PlayerCharacter character)
+        {
+            if (!Service.PartyList.Where(partyMember => partyMember.CurrentHP > 0 && ClassJobs.Contains(partyMember.ClassJob.Id))
+                    .Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId))))
             {
-                if (!Service.PartyList.Where(partyMember => partyMember.CurrentHP > 0 && ClassJobs.Contains(partyMember.ClassJob.Id))
-                        .Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId))))
+                return new WarningState
                 {
-                    return new WarningState
-                    {
-                        MessageShort = MessageShort,
-                        MessageLong = MessageLong,
-                        IconID = GetTankIcon(character).Item1,
-                        IconLabel = GetTankIcon(character).Item2,
-                        Priority = Settings.Priority,
-                    };
-                }
+                    MessageShort = MessageShort,
+                    MessageLong = MessageLong,
+                    IconID = GetTankIcon(character).Item1,
+                    IconLabel = GetTankIcon(character).Item2,
+                    Priority = Settings.Priority,
+                };
+            }
+
+            return null;
+        }
+
+        private WarningState? EvaluateSolo(PlayerCharacter character)
+        {
+            if (!character.StatusList.Any(status => TankStances.Contains(status.StatusId)))
+            {
+                return new WarningState
+                {
+                    MessageShort = MessageShort,
+                    MessageLong = MessageLong,
+                    IconID = GetTankIcon(character).Item1,
+                    IconLabel = GetTankIcon(character).Item2,
+                    Priority = Settings.Priority,
+                };
+            }
+
+            return null;
+        }
+
+        private WarningState? EvaluateAllianceStances(PlayerCharacter character)
+        {
+            var partyTanks = Service.PartyList.Where(m => ClassJobs.Contains(m.ClassJob.Id)).ToList();
+            var allianceTanks = GetAllianceTanks();
+
+            var partyMissingStance = !partyTanks.Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId)));
+            var allianceMissingStance = !allianceTanks.Any(tanks => tanks.StatusList.Any(status => TankStances.Contains(status.StatusId)));
+
+            if (partyMissingStance && allianceMissingStance)
+            {
+                return new WarningState
+                {
+                    MessageShort = MessageShort,
+                    MessageLong = MessageLong,
+                    IconID = GetTankIcon(character).Item1,
+                    IconLabel = GetTankIcon(character).Item2,
+                    Priority = Settings.Priority,
+                };
             }
 
             return null;
