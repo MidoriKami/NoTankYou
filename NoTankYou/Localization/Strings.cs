@@ -182,7 +182,6 @@ namespace NoTankYou.Localization
         public readonly string ConfigurationLabel = Loc.Localize("BannerOverlay_ConfigurationLabel", "Warning Banner Overlay Configuration");
         public readonly string Description = Loc.Localize("BannerOverlay_Description", "The Warning Banner Overlay displays various NoTankYou warnings. The banner includes the warning text, the player the warning is from, and the skill that the player needs to use to resolve the warning.");
         public readonly string TechnicalDescription = Loc.Localize("BannerOverlay_TechnicalDescription", "This module when set to list mode will show warnings for multiple party members at the same time. Only the highest priority warning for each party member will be displayed.");
-        public readonly string AnimationOptions = Loc.Localize("BannerOverlay_AnimationOptions", "Animation Options");
         public readonly string WarningCountDescription = Loc.Localize("BannerOverlay_WarningCountDescription", "Maximum number of players to display");
         public readonly string WarningCount = Loc.Localize("BannerOverlay_WarningCount", "Player Count");
         public readonly string TopPriorityDescription = Loc.Localize("BannerOverlay_TopPriorityDescription", "Display only one warning at a time");
@@ -233,7 +232,6 @@ namespace NoTankYou.Localization
     {
         public readonly string NoSelection = Loc.Localize("Configuration_NoSelection", "Select an item to configure in the left pane");
         public readonly string Enable = Loc.Localize("Configuration_Enable", "Enable");
-        public readonly string Disable = Loc.Localize("Configuration_Disable", "Disable");
         public readonly string SoloMode = Loc.Localize("Configuration_SoloMode", "Solo Mode");
         public readonly string DutiesOnly = Loc.Localize("Configuration_DutiesOnly", "Duties Only");
         public readonly string DutiesOnlyHelp = Loc.Localize("Configuration_DutiesOnlyHelp", "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere");
