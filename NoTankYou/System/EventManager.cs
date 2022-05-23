@@ -1,6 +1,7 @@
 ﻿using System;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
+using Condition = NoTankYou.Utilities.Condition;
 
 namespace NoTankYou.System
 {
@@ -18,6 +19,11 @@ namespace NoTankYou.System
             SignatureHelper.Initialise(this);
 
             DutyEventHook?.Enable();
+
+            if (Condition.IsBoundByDuty())
+            {
+                DutyStarted = true;
+            }
         }
 
         public void Dispose()
