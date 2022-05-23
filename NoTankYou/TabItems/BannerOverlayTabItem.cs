@@ -187,6 +187,18 @@ namespace NoTankYou.TabItems
                     Service.Configuration.Save();
                 }
 
+                if (Settings.WarningText)
+                {
+                    ImGui.Indent(15.0f * ImGuiHelpers.GlobalScale);
+
+                    if (ImGui.Checkbox(Strings.TabItems.BannerOverlay.PlayerNames, ref Settings.PlayerNames))
+                    {
+                        Service.Configuration.Save();
+                    }
+
+                    ImGui.Indent(-15.0f * ImGuiHelpers.GlobalScale);
+                }
+
                 if (ImGui.Checkbox(Strings.TabItems.BannerOverlay.Icon, ref Settings.Icon))
                 {
                     Service.Configuration.Save();

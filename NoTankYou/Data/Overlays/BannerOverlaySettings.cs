@@ -14,5 +14,6 @@ namespace NoTankYou.Data.Overlays
         public bool WarningShield = true;
         public bool WarningText = true;
         public bool Icon = true;
+        public bool PlayerNames = true;
     }
 }

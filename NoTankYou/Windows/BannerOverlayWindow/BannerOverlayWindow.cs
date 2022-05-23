@@ -145,11 +145,14 @@ namespace NoTankYou.Windows.BannerOverlayWindow
                 var textSize = DrawUtilities.CalculateTextSize(warningText, scale);
                 startingPosition = startingPosition with {X = startingPosition.X + textSize.X};
 
-                textSize = DrawUtilities.CalculateTextSize(source, scale);
-                startingPosition = startingPosition with {X = startingPosition.X - textSize.X / 2.0f, Y = startingPosition.Y + textSize.Y};
-                DrawUtilities.TextOutlined(startingPosition, source, scale / 2.0f);
+                if (Settings.PlayerNames)
+                {
+                    textSize = DrawUtilities.CalculateTextSize(source, scale);
+                    startingPosition = startingPosition with {X = startingPosition.X - textSize.X / 2.0f, Y = startingPosition.Y + textSize.Y};
+                    DrawUtilities.TextOutlined(startingPosition, source, scale / 2.0f);
+                    startingPosition = startingPosition with { X = startingPosition.X + textSize.X / 2.0f, Y = startingPosition.Y - textSize.Y };
+                }
 
-                startingPosition = startingPosition with { X = startingPosition.X + textSize.X / 2.0f, Y = startingPosition.Y - textSize.Y };
             }
 
             if (Settings.Icon)
