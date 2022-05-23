@@ -5,8 +5,8 @@ namespace NoTankYou.Data.Components
 {
     public class SimpleTerritory : IEquatable<SimpleTerritory>
     {
-        public uint TerritoryID { get; set; }
-        public string Name { get; set; }
+        public uint TerritoryID { get; }
+        public string Name { get; }
 
         public SimpleTerritory(uint id)
         {

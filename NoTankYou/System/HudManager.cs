@@ -45,7 +45,7 @@ namespace NoTankYou.System
 
         private readonly Stopwatch UpdateStopwatch = new();
 
-        public Dictionary<uint, WarningState> WarningStates { get; private set; }= new();
+        public Dictionary<uint, WarningState> WarningStates { get; private set; } = new();
 
         public HudManager()
         {
@@ -131,7 +131,9 @@ namespace NoTankYou.System
         private void ProcessModule(IModule module, PlayerCharacter character)
         {
             // If this is a valid warning
-            if (!module.ShouldShowWarning(character)) return;
+            var warning = module.ShouldShowWarning(character);
+
+            if (warning == null) return;
 
             // If we already have an entry
             if (WarningStates.ContainsKey(character.ObjectId))
@@ -140,14 +142,14 @@ namespace NoTankYou.System
 
                 if (module.GenericSettings.Priority > existingEntry.Priority)
                 {
-                    WarningStates[character.ObjectId] = module.GetWarningState();
+                    WarningStates[character.ObjectId] = warning;
                 }
             }
 
             // Else we need to make a new entry
             else
             {
-                WarningStates[character.ObjectId] = module.GetWarningState();
+                WarningStates[character.ObjectId] = warning;
             }
         }
 

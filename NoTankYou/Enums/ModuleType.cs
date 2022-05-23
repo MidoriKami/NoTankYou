@@ -12,6 +12,7 @@
         BlueMage,
         Blacklist,
         Attributions,
-        FreeCompany
+        FreeCompany,
+        BannerOverlay
     }
 }

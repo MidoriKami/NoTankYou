@@ -39,7 +39,7 @@ namespace NoTankYou.Components
 
             ImGui.SameLine();
 
-            Utilities.Draw.VerticalLine();
+            DrawUtilities.VerticalLine();
 
             ImGuiHelpers.ScaledDummy(0.0f);
 

@@ -11,6 +11,7 @@ namespace NoTankYou.Tabs
         public List<ITabItem> TabItems { get; set; } = new()
         {
             new PartyOverlayTabItem(),
+            new BannerOverlayTabItem(),
         };
 
         public string TabName => Strings.Common.Tabs.Display;

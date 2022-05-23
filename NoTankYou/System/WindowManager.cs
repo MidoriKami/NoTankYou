@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NoTankYou.Interfaces;
+using NoTankYou.Windows.BannerOverlayWindow;
 using NoTankYou.Windows.NoTankYouWindow;
 using NoTankYou.Windows.PartyFrameOverlayWindow;
 
@@ -13,6 +14,7 @@ namespace NoTankYou.System
         {
             new NoTankYouWindow(),
             new PartyFrameOverlayWindow(),
+            new BannerOverlayWindow(),
         };
 
         public void Dispose()

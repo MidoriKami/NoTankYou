@@ -33,6 +33,8 @@ namespace NoTankYou
         public static EventManager EventManager { get; set; } = null!;
         public static HudManager HudManager { get; set; } = null!;
         public static Dalamud.Localization Localization { get; set; } = null!;
+        public static IconManager IconManager { get; set; } = null!;
+        public static FontManager FontManager { get; set; } = null!;
         public static Configuration Configuration { get; set; } = null!;
     }
 }

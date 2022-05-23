@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 using CheapLoc;
 using Dalamud.Game.Command;
 using Dalamud.Logging;
@@ -53,6 +52,8 @@ namespace NoTankYou
             Service.WindowManager = new WindowManager();
             Service.EventManager = new EventManager();
             Service.HudManager = new HudManager();
+            Service.IconManager = new IconManager();
+            Service.FontManager = new FontManager();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -105,6 +106,8 @@ namespace NoTankYou
             Service.WindowManager.Dispose();
             Service.EventManager.Dispose();
             Service.HudManager.Dispose();
+            Service.IconManager.Dispose();
+            Service.FontManager.Dispose();
 
             Service.PluginInterface.UiBuilder.Draw -= DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;

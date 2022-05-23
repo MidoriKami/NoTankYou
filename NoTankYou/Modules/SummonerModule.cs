@@ -3,6 +3,8 @@ using System.Linq;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
+using Lumina.Excel.GeneratedSheets;
+using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Interfaces;
@@ -15,19 +17,34 @@ namespace NoTankYou.Modules
         public List<uint> ClassJobs { get; }
         private static SummonerModuleSettings Settings => Service.Configuration.ModuleSettings.Summoner;
         public GenericSettings GenericSettings => Settings;
-        public string WarningText => Strings.Modules.Summoner.WarningText;
+        public string MessageLong => Strings.Modules.Summoner.WarningText;
+        public string MessageShort => Strings.Modules.Summoner.WarningTextShort;
         public string ModuleCommand => "smn";
+
+        private readonly Action SummonCarbuncle;
 
         public SummonerModule()
         {
             ClassJobs = new List<uint> {27, 26};
+
+            SummonCarbuncle = Service.DataManager.GetExcelSheet<Action>()!.GetRow(25798)!;
         }
 
-        public bool EvaluateWarning(PlayerCharacter character)
+        public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            var hasPet = HasPet(character);
+            if(!HasPet(character))
+            {
+                return new WarningState
+                {
+                    MessageLong = MessageLong,
+                    MessageShort = MessageShort,
+                    IconID = SummonCarbuncle.Icon,
+                    IconLabel = SummonCarbuncle.Name.RawString,
+                    Priority = Settings.Priority
+                };
+            }
 
-            return !hasPet;
+            return null;
         }
 
         private bool HasPet(PlayerCharacter character)

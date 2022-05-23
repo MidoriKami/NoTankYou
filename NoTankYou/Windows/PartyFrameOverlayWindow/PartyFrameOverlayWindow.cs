@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Numerics;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
-using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 using ImGuiScene;
@@ -24,13 +24,13 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
         {
             Service.WindowSystem.AddWindow(this);
 
-            SignatureHelper.Initialise(this);
-
             WarningIcon = Image.LoadImage("Warning");
 
             Flags |= ImGuiWindowFlags.NoDecoration;
             Flags |= ImGuiWindowFlags.NoBackground;
             Flags |= ImGuiWindowFlags.NoInputs;
+
+            ForceMainWindow = true;
 
             AnimationStopwatch.Start();
         }
@@ -47,8 +47,9 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             var enabled = Settings.Enabled;
             var partyListVisible = HudManager.IsPartyListVisible();
             var isPvP = Service.ClientState.IsPvP;
+            var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
 
-            IsOpen = partyListVisible && enabled && !isPvP;
+            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty;
         }
 
         public override void PreDraw()
@@ -68,7 +69,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             }
             else
             {
-                Service.HudManager.ForEach((int memberId) =>
+                Service.HudManager.ForEach(memberId =>
                 {
                     var playerKey = (uint)Service.HudManager.GetHudGroupMember(memberId);
 
@@ -76,7 +77,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
 
                     if (updateDictionary.ContainsKey(playerKey))
                     {
-                        AnimateShieldWarning(updateDictionary[playerKey].Message, memberId);
+                        AnimateShieldWarning(updateDictionary[playerKey].MessageLong, memberId);
                     }
                     else
                     {

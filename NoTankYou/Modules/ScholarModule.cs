@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
+using Lumina.Excel.GeneratedSheets;
+using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Interfaces;
@@ -16,7 +18,8 @@ namespace NoTankYou.Modules
         public List<uint> ClassJobs { get; }
         private static ScholarModuleSettings Settings => Service.Configuration.ModuleSettings.Scholar;
         public GenericSettings GenericSettings => Settings;
-        public string WarningText => Strings.Modules.Scholar.WarningText;
+        public string MessageLong => Strings.Modules.Scholar.WarningText;
+        public string MessageShort => Strings.Modules.Scholar.WarningTextShort;
         public string ModuleCommand => "sch";
 
         private const int DissipationStatusID = 791;
@@ -24,14 +27,19 @@ namespace NoTankYou.Modules
         private readonly HashSet<uint> CharacterWaitList = new();
 
         private bool LastDissipationStatus;
+
+        private readonly Action SeleneAction;
+
         public ScholarModule()
         {
-            ClassJobs = new List<uint> { 28 }; 
+            ClassJobs = new List<uint> { 28 };
+
+            SeleneAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(17216)!;
         }
 
-        public bool EvaluateWarning(PlayerCharacter character)
+        public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (character.Level < 4) return false;
+            if (character.Level < 4) return null;
 
             var hasPet = HasPet(character);
             var hasDissipation = HasDissipation(character);
@@ -40,7 +48,7 @@ namespace NoTankYou.Modules
             if (LastDissipationStatus && !hasDissipation)
             {
                 CharacterWaitList.Add(character.ObjectId);
-                Task.Delay(500).ContinueWith(t =>
+                Task.Delay(500).ContinueWith(_ =>
                 {
                     CharacterWaitList.Remove(character.ObjectId);
                 });
@@ -48,9 +56,20 @@ namespace NoTankYou.Modules
 
             LastDissipationStatus = hasDissipation;
 
-            if (CharacterWaitList.Contains(character.ObjectId)) return false;
+            if (CharacterWaitList.Contains(character.ObjectId)) return null;
+            if (!hasPet && !hasDissipation)
+            {
+                return new WarningState
+                {
+                    MessageLong = MessageLong,
+                    MessageShort = MessageShort,
+                    IconID = SeleneAction.Icon,
+                    IconLabel = SeleneAction.Name.RawString,
+                    Priority = Settings.Priority
+                };
+            }
 
-            return !hasPet && !hasDissipation;
+            return null;
         }
 
         private bool HasDissipation(PlayerCharacter character)

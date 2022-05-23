@@ -2,7 +2,6 @@
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
-using NoTankYou.Data.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Enums;
 using NoTankYou.Interfaces;
@@ -40,7 +39,7 @@ namespace NoTankYou.TabItems
 
         private readonly InfoBox DisplayOptions = new()
         {
-            Label = Strings.TabItems.PartyOverlay.DisplayOptions,
+            Label = Strings.Common.Labels.DisplayOptions,
             ContentsAction = () =>
             {
                 if (ImGui.Checkbox(Strings.TabItems.PartyOverlay.JobIcon, ref Settings.JobIcon))
@@ -72,7 +71,6 @@ namespace NoTankYou.TabItems
         };
 
         public TextureWrap? AboutImage { get; }
-        public GenericSettings GenericSettings => null!;
         private static PartyOverlaySettings Settings => Service.Configuration.DisplaySettings.PartyOverlay;
 
         public PartyOverlayTabItem()

@@ -4,7 +4,6 @@ using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
-using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
 using NoTankYou.Interfaces;

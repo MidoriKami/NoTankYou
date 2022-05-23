@@ -3,6 +3,7 @@ using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.GeneratedSheets;
+using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Interfaces;
@@ -17,7 +18,8 @@ namespace NoTankYou.Modules
         public List<uint> ClassJobs { get; }
         private static TankModuleSettings Settings => Service.Configuration.ModuleSettings.Tank;
         public GenericSettings GenericSettings => Settings;
-        public string WarningText => Strings.Modules.Tank.WarningText;
+        public string MessageLong => Strings.Modules.Tank.WarningText;
+        public string MessageShort => Strings.Modules.Tank.WarningTextShort;
         public string ModuleCommand => "tank";
 
         private readonly List<uint> TankStances;
@@ -45,9 +47,11 @@ namespace NoTankYou.Modules
                 .ToHashSet();
         }
 
-        public bool EvaluateWarning(PlayerCharacter character)
+        public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (Settings.DisableInAllianceRaid && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType)) return false;
+            GetTankIcon(character);
+
+            if (Settings.DisableInAllianceRaid && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType)) return null;
 
             if (Settings.CheckAllianceStances && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType))
             {
@@ -57,18 +61,50 @@ namespace NoTankYou.Modules
                 var partyMissingStance = !partyTanks.Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId)));
                 var allianceMissingStance = !allianceTanks.Any(tanks => tanks.StatusList.Any(status => TankStances.Contains(status.StatusId)));
 
-                return partyMissingStance && allianceMissingStance;
+                if (partyMissingStance && allianceMissingStance)
+                {
+                    return new WarningState
+                    {
+                        MessageShort = MessageShort,
+                        MessageLong = MessageLong,
+                        IconID = GetTankIcon(character).Item1,
+                        IconLabel = GetTankIcon(character).Item2,
+                        Priority = Settings.Priority,
+                    };
+                }
             }
 
             if (Service.PartyList.Length == 0)
             {
-                return !character.StatusList.Any(status => TankStances.Contains(status.StatusId));
+                if (!character.StatusList.Any(status => TankStances.Contains(status.StatusId)))
+                {
+                    return new WarningState
+                    {
+                        MessageShort = MessageShort,
+                        MessageLong = MessageLong,
+                        IconID = GetTankIcon(character).Item1,
+                        IconLabel = GetTankIcon(character).Item2,
+                        Priority = Settings.Priority,
+                    };
+                }
             }
             else
             {
-                return !Service.PartyList.Where(partyMember => partyMember.CurrentHP > 0 && ClassJobs.Contains(partyMember.ClassJob.Id))
-                    .Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId)));
+                if (!Service.PartyList.Where(partyMember => partyMember.CurrentHP > 0 && ClassJobs.Contains(partyMember.ClassJob.Id))
+                        .Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId))))
+                {
+                    return new WarningState
+                    {
+                        MessageShort = MessageShort,
+                        MessageLong = MessageLong,
+                        IconID = GetTankIcon(character).Item1,
+                        IconLabel = GetTankIcon(character).Item2,
+                        Priority = Settings.Priority,
+                    };
+                }
             }
+
+            return null;
         }
 
         private unsafe int GetAllianceMemberObjectID(int index)
@@ -80,6 +116,24 @@ namespace NoTankYou.Modules
             var objectId = *(int*) (baseAddress + allianceDataOffset + index * 0x4);
 
             return objectId;
+        }
+
+        private (uint, string) GetTankIcon(PlayerCharacter character)
+        {
+            var classJob = character.ClassJob.Id;
+
+            if (classJob == 19)
+                classJob = 1;
+
+            if (classJob == 21)
+                classJob = 3;
+
+            var action = Service.DataManager.GetExcelSheet<Action>()!
+                .Where(r => r.ClassJob.Row == classJob)
+                .Where(r => TankStances.Contains(r.StatusGainSelf.Value!.RowId))
+                .First();
+
+            return (action.Icon, action.Name.RawString);
         }
 
         private IEnumerable<PlayerCharacter> GetAllianceTanks()

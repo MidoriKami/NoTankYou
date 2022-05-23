@@ -9,31 +9,23 @@ namespace NoTankYou.Interfaces
     {
         List<uint> ClassJobs { get; }
         GenericSettings GenericSettings { get; }
-        string WarningText { get; }
+        string MessageLong { get; }
+        string MessageShort { get; }
         string ModuleCommand { get; }
 
-        bool EvaluateWarning(PlayerCharacter character);
+        WarningState? EvaluateWarning(PlayerCharacter character);
 
-        bool ShouldShowWarning(PlayerCharacter character)
+        WarningState? ShouldShowWarning(PlayerCharacter character)
         {
-            if (!GenericSettings.Enabled) return false;
-            if (GenericSettings.DutiesOnly && !Service.EventManager.DutyStarted) return false;
-            if (GenericSettings.SoloMode && character.ObjectId != Service.ClientState.LocalPlayer?.ObjectId) return false;
-            if (!Service.HudManager.IsTargetable(character.ObjectId)) return false;
-            if (character.CurrentHp == 0) return false;
+            if (!GenericSettings.Enabled) return null;
+            if (GenericSettings.DutiesOnly && !Service.EventManager.DutyStarted) return null;
+            if (GenericSettings.SoloMode && character.ObjectId != Service.ClientState.LocalPlayer?.ObjectId) return null;
+            if (!Service.HudManager.IsTargetable(character.ObjectId)) return null;
+            if (character.CurrentHp == 0) return null;
 
             return EvaluateWarning(character);
         }
-
-        WarningState GetWarningState()
-        {
-            return new WarningState
-            {
-                Message = WarningText,
-                Priority = GenericSettings.Priority,
-            };
-        }
-
+        
         void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
         {
             if (primaryCommand == ModuleCommand)
