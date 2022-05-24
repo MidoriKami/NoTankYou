@@ -25,7 +25,7 @@ namespace NoTankYou.Utilities
             DrawText(startingPosition, text, Colors.Black, scale);
         }
 
-        public static void DrawIconWithName(Vector2 drawPosition, uint iconID, string name, float scale)
+        public static void DrawIconWithName(Vector2 drawPosition, uint iconID, string name, float scale, bool drawText = true)
         {
             if (!Service.FontManager.FontBuilt) return;
 
@@ -41,15 +41,18 @@ namespace NoTankYou.Utilities
 
                 drawList.AddImage(icon.ImGuiHandle, drawPosition, drawPosition + imageSize);
 
-                drawPosition.X += imageSize.X / 2.0f;
-                drawPosition.Y += imageSize.Y + 2.0f * scale;
+                if (drawText)
+                {
+                    drawPosition.X += imageSize.X / 2.0f;
+                    drawPosition.Y += imageSize.Y + 2.0f * scale;
 
-                var textSize = CalculateTextSize(name, scale / 2.75f);
-                var textOffset = new Vector2(0.0f, 5.0f) * scale;
+                    var textSize = CalculateTextSize(name, scale / 2.75f);
+                    var textOffset = new Vector2(0.0f, 5.0f) * scale;
 
-                drawPosition.X -= textSize.X / 2.0f;
+                    drawPosition.X -= textSize.X / 2.0f;
 
-                TextOutlined(drawPosition + textOffset, name, scale / 2.75f);
+                    TextOutlined(drawPosition + textOffset, name, scale / 2.75f);
+                }
             }
         }
 

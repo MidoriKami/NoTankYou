@@ -195,6 +195,7 @@ namespace NoTankYou.Localization
         public readonly string Icon = Loc.Localize("BannerOverlay_Icon", "Show Icon");
         public readonly string UnlockToSave = Loc.Localize("BannerOverlay_UnlockToSave", "Lock to Apply");
         public readonly string PlayerNames = Loc.Localize("BannerOverlay_PlayerNames", "Show Player Names");
+        public readonly string IconText = Loc.Localize("BannerOverlay_IconText", "Show Icon Text");
     }
 
     public class PartyOverlay

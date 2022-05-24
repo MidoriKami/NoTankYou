@@ -157,7 +157,7 @@ namespace NoTankYou.Windows.BannerOverlayWindow
 
             if (Settings.Icon)
             {
-                DrawUtilities.DrawIconWithName(startingPosition, iconId, skillName, scale);
+                DrawUtilities.DrawIconWithName(startingPosition, iconId, skillName, scale, Settings.IconText);
             }
         }
 

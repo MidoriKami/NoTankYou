@@ -203,6 +203,18 @@ namespace NoTankYou.TabItems
                 {
                     Service.Configuration.Save();
                 }
+
+                if (Settings.Icon)
+                {
+                    ImGui.Indent(15.0f * ImGuiHelpers.GlobalScale);
+
+                    if (ImGui.Checkbox(Strings.TabItems.BannerOverlay.IconText, ref Settings.IconText))
+                    {
+                        Service.Configuration.Save();
+                    }
+
+                    ImGui.Indent(-15.0f * ImGuiHelpers.GlobalScale);
+                }
             }
         };
 
