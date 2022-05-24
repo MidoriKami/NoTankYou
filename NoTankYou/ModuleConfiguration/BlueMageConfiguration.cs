@@ -76,6 +76,7 @@ namespace NoTankYou.ModuleConfiguration
                     {
                         Service.Configuration.Save();
                     }
+                    ImGuiComponents.HelpMarker(Strings.Configuration.SoloModeHelp);
 
                     if (ImGui.Checkbox(Strings.Configuration.DutiesOnly, ref Settings.DutiesOnly))
                     {
