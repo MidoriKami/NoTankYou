@@ -101,7 +101,7 @@ namespace NoTankYou.Localization
         public readonly string Label = Loc.Localize("BlueMage_Label", "Blue Mage");
         public readonly string ConfigurationPanelLabel = Loc.Localize("BlueMage_ConfigurationPanelLabel", "Blue Mage Configuration");
         public readonly string Description = Loc.Localize("BlueMage_Description", "Blue Mage is a job about shenanigans, Blue Mages learn skills by being hit by those skills.");
-        public readonly string TechnicalDescription = Loc.Localize("BlueMage_TechnicalInformation", "This module can be configured to warn you about missing Aetherial Mimicry, Mighty Guard, and Basic Instinct. The warnings for Aetherial Mimicry can only be used while outside of instances, and is incompatible with the 'Only in Duties' option.");
+        public readonly string TechnicalDescription = Loc.Localize("BlueMage_TechnicalInformation", "This module can be configured to warn you about missing Aetherial Mimicry, Mighty Guard, and Basic Instinct. The warnings for Aetherial Mimicry can only be used while outside of instances, and is incompatible with the 'Duties Only' option.");
         public readonly string GenericWarning = Loc.Localize("BlueMage_GenericWarning", "Warning Something is Missing");
         public readonly string Mimicry = Loc.Localize("BlueMage_Mimicry", "Aetherial Mimicry Missing");
         public readonly string MightyGuard = Loc.Localize("BlueMage_MightyGuard", "Mighty Guard Missing");
@@ -109,7 +109,7 @@ namespace NoTankYou.Localization
         public readonly string MimicryLabel = Loc.Localize("BlueMage_MimicryLabel", "Aetherial Mimicry");
         public readonly string MightyGuardLabel = Loc.Localize("BlueMage_MightyGuardLabel", "Mighty Guard");
         public readonly string BasicInstinctLabel = Loc.Localize("BlueMage_BasicInstinctLabel", "Basic Instinct");
-        public readonly string MimicryWarning = Loc.Localize("BlueMage_MimicryWarning", "Can not be used with 'Only in Duties'");
+        public readonly string MimicryWarning = Loc.Localize("BlueMage_MimicryWarning", "Can not be used with 'Duties Only'");
     }
     #endregion
 
@@ -236,6 +236,7 @@ namespace NoTankYou.Localization
         public readonly string SoloMode = Loc.Localize("Configuration_SoloMode", "Solo Mode");
         public readonly string DutiesOnly = Loc.Localize("Configuration_DutiesOnly", "Duties Only");
         public readonly string DutiesOnlyHelp = Loc.Localize("Configuration_DutiesOnlyHelp", "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere");
+        public readonly string SoloModeHelp = Loc.Localize("Configuration_SoloModeHelp", "Requires the party frame to be visible to evaluate warnings\nSystem > Character Configuration > UI Settings > Party List > (Uncheck) Hide party list while solo");
     }
     #endregion
 
