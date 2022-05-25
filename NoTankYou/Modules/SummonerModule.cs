@@ -32,6 +32,8 @@ namespace NoTankYou.Modules
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
+            if (character.Level < 2) return null;
+
             if(!HasPet(character))
             {
                 return new WarningState
