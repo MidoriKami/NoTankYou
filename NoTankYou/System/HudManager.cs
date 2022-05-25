@@ -234,7 +234,10 @@ namespace NoTankYou.System
             {
                 if (_partyList->PartyMember[i].PartyMemberComponent->OwnerNode->AtkResNode.IsVisible)
                 {
-                    partyMemberAction(i);
+                    if (IsTargetable((uint)GetHudGroupMember(i)) )
+                    {
+                        partyMemberAction(i);
+                    }
                 }
             }
         }
