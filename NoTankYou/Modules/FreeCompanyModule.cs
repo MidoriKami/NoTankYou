@@ -44,6 +44,7 @@ namespace NoTankYou.Modules
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
             if (Service.EventManager.DutyStarted) return null;
+            if (!CurrentlyInHomeworld(character)) return null;
 
             switch (Settings.ScanMode)
             {
@@ -83,6 +84,14 @@ namespace NoTankYou.Modules
             }
 
             return null;
+        }
+
+        private bool CurrentlyInHomeworld(PlayerCharacter character)
+        {
+            var homeworld = character.HomeWorld.Id;
+            var currentWorld = character.CurrentWorld.Id;
+
+            return homeworld == currentWorld;
         }
     }
 }
