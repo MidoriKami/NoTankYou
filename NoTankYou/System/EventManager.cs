@@ -1,4 +1,6 @@
 ﻿using System;
+using Dalamud.Game;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
 using Condition = NoTankYou.Utilities.Condition;
@@ -24,11 +26,27 @@ namespace NoTankYou.System
             {
                 DutyStarted = true;
             }
+
+            Service.Framework.Update += DutyCombatListener;
+        }
+
+        // Fallback listener that triggers duty started when combat starts while bound by duty
+        private void DutyCombatListener(Framework framework)
+        {
+            if (Condition.IsBoundByDuty())
+            {
+                if (!DutyStarted && Service.Condition[ConditionFlag.InCombat])
+                {
+                    DutyStarted = true;
+                }
+            }
         }
 
         public void Dispose()
         {
             DutyEventHook?.Dispose();
+
+            Service.Framework.Update -= DutyCombatListener;
         }
 
         private byte DutyEventFunction(void* a1, void* a2, ushort* a3)
