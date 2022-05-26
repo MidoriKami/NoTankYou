@@ -269,7 +269,8 @@ namespace NoTankYou.Localization
                                                                     "/nty sch (on | off) - Toggle Scholar Module\n" +
                                                                     "/nty smn (on | off) - Toggle Summoner Module\n" +
                                                                     "/nty tanks (on | off) - Toggle Tanks Module\n" +
-                                                                    "/nty partyoverlay (on | off) - Toggle Party Overlay");
+                                                                    "/nty partyoverlay (on | off) - Toggle Party Overlay" +
+                                                                    "/nty banneroverlay (on | off) - Toggle Banner Overlay");
     }
     #endregion
 
