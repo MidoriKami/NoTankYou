@@ -9,7 +9,7 @@ namespace NoTankYou.Utilities
         {
             var stringBuilder = new SeStringBuilder();
             stringBuilder.AddUiForeground(45);
-            stringBuilder.AddText($"[DailyDuty] ");
+            stringBuilder.AddText($"[NoTankYou] ");
             stringBuilder.AddUiForegroundOff();
             stringBuilder.AddUiForeground(62);
             stringBuilder.AddText($"[{tag}] ");
