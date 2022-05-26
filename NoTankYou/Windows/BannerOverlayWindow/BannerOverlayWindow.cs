@@ -163,7 +163,7 @@ namespace NoTankYou.Windows.BannerOverlayWindow
 
         void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
         {
-            if (primaryCommand == "partyoverlay")
+            if (primaryCommand == "banneroverlay")
             {
                 switch (secondaryCommand)
                 {
