@@ -6,6 +6,7 @@ using Dalamud.Interface.Windowing;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 using ImGuiScene;
+using NoTankYou.Data.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Interfaces;
 using NoTankYou.System;
@@ -17,6 +18,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
     {
         private readonly Stopwatch AnimationStopwatch = new();
         private PartyOverlaySettings Settings => Service.Configuration.DisplaySettings.PartyOverlay;
+        private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
 
         private readonly TextureWrap WarningIcon;
 
@@ -47,9 +49,10 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             var enabled = Settings.Enabled;
             var partyListVisible = HudManager.IsPartyListVisible();
             var isPvP = Service.ClientState.IsPvP;
+            var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
             var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
 
-            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty;
+            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty && !blacklisted;
         }
 
         public override void PreDraw()

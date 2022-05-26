@@ -7,6 +7,7 @@ using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
+using NoTankYou.Data.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Enums;
 using NoTankYou.Interfaces;
@@ -18,6 +19,7 @@ namespace NoTankYou.Windows.BannerOverlayWindow
    internal class BannerOverlayWindow : Window, IDisposable, ICommand
    {
         private static BannerOverlaySettings Settings => Service.Configuration.DisplaySettings.BannerOverlay;
+        private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
         private readonly TextureWrap WarningIcon;
         private readonly TextureWrap Crosshair;
 
@@ -47,9 +49,10 @@ namespace NoTankYou.Windows.BannerOverlayWindow
             var enabled = Settings.Enabled;
             var partyListVisible = HudManager.IsPartyListVisible();
             var isPvP = Service.ClientState.IsPvP;
+            var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
             var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
 
-            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty;
+            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty && !blacklisted;
         }
 
         public override void PreDraw()
