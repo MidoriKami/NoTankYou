@@ -12,6 +12,7 @@ namespace NoTankYou.Tabs
         {
             new BlacklistTabItem(),
             new AttributionsTabItem(),
+            new AdvancedOptionsTabItem(),
         };
 
         public string TabName => Strings.Common.Tabs.Settings;

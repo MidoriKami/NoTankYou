@@ -10,6 +10,7 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using NoTankYou.Components;
+using NoTankYou.Data;
 using NoTankYou.Data.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Utilities;
@@ -39,7 +40,8 @@ namespace NoTankYou.System
         public HashSet<PlayerCharacter> PartyMemberPlayerCharacterList { get; private set; } = new();
         public float UIScale { get; private set; }
         public bool Disabled { get; private set; }
-        private BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
+        private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
+        private static SystemSettings SystemSettings => Service.Configuration.SystemSettings;
 
         private Queue<PlayerCharacter> PlayerUpdateQueue = new();
 
@@ -209,7 +211,7 @@ namespace NoTankYou.System
 
         public static bool IsPartyListVisible()
         {
-            return _partyList != null && _partyList->AtkUnitBase.IsVisible;
+            return _partyList != null && (SystemSettings.DisablePartyListVisibilityChecking || _partyList->AtkUnitBase.IsVisible);
         }
 
         private HashSet<int> GetPartyObjectIDs()

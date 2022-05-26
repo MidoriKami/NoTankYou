@@ -13,6 +13,7 @@
         Blacklist,
         Attributions,
         FreeCompany,
-        BannerOverlay
+        BannerOverlay,
+        AdvancedOptions
     }
 }

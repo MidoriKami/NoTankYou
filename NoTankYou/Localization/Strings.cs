@@ -174,6 +174,7 @@ namespace NoTankYou.Localization
         public Blacklist Blacklist { get; set; } = new();
         public Attributions Attributions { get; set; } = new();
         public BannerOverlay BannerOverlay { get; set; } = new();
+        public AdvancedOptions AdvancedOptions { get; set; } = new();
     }
 
     public class BannerOverlay
@@ -226,6 +227,19 @@ namespace NoTankYou.Localization
         public readonly string Label = Loc.Localize("Attributions_Label", "Attributions");
         public readonly string FreeCompanyDescription = Loc.Localize("Attributions_FreeCompanyDescription", "Free Company Artwork by 'artofawang'");
 
+    }
+
+    public class AdvancedOptions
+    {
+        public readonly string Label = Loc.Localize("AdvancedOptions_Label", "Advanced Options");
+        public readonly string DisablePartyListChecking = Loc.Localize("AdvancedOptions_DisablePartyListChecking", "Party List Visibility Checking");
+        public readonly string DisablePartyListCheckingDisclaimer = Loc.Localize("AdvancedOptions_DisablePartyListCheckingDisclaimer", 
+            "NoTankYou uses the visibility status of the Party List to know when to show warnings\n\n" +
+            "If the party list is being hidden through other means, NoTankYou will not show any warnings\n\n" +
+            "You can override this behavior by disabling visibility checking\n\n" +
+            "When visibility checking is disabled, warnings will appear when they otherwise would not, such as during cutscenes, active time events, area transitions, and more");
+        public readonly string StrongWarning = Loc.Localize("AdvancedOptions_StrongWarning", "Only use this setting as a last resort!");
+        public readonly string DisableFeature = Loc.Localize("Configuration_DisableFeature", "Disable Visibility Checking");
     }
     #endregion
 
