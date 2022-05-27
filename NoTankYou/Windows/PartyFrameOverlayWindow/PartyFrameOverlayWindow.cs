@@ -48,7 +48,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
         {
             var enabled = Settings.Enabled;
             var partyListVisible = HudManager.IsPartyListVisible();
-            var isPvP = Service.ClientState.IsPvP;
+            var isPvP = Territory.IsPvP();
             var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
             var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
 

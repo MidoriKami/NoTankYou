@@ -106,7 +106,8 @@ namespace NoTankYou.System
 
             if (PlayerUpdateQueue.Count == 0) return;
             if (!IsPartyListVisible()) return;
-            if (BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone() || Service.ClientState.IsPvP) return;
+            if (Territory.IsPvP()) return;
+            if (BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone()) return;
 
             Disabled = false;
 

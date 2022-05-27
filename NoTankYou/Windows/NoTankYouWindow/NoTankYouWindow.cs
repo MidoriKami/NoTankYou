@@ -38,7 +38,7 @@ namespace NoTankYou.Windows.NoTankYouWindow
 
         public override void PreOpenCheck()
         {
-            if (Service.ClientState.IsPvP)
+            if (Territory.IsPvP())
                 IsOpen = false;
         }
 
