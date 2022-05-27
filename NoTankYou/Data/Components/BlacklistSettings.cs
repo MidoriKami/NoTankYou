@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace NoTankYou.Data.Components
 {
@@ -7,16 +6,15 @@ namespace NoTankYou.Data.Components
     {
         public bool Enabled = false;
 
-        public List<SimpleTerritory> Territories = new();
+        public List<uint> Territories = new();
     }
-
     public static class BlacklistSettingsExtensions
     {
         public static bool ContainsCurrentZone(this BlacklistSettings settings)
         {
             var currentTerritory = Service.ClientState.TerritoryType;
 
-            return settings.Territories.Any(t => t.TerritoryID == currentTerritory);
+            return settings.Territories.Contains(currentTerritory);
         }
     }
 }

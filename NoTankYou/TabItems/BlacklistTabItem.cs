@@ -48,7 +48,7 @@ namespace NoTankYou.TabItems
 
                     foreach (var territory in Settings.Territories)
                     {
-                        ImGui.Text(territory.ToString());
+                        ImGui.Text(GetLabelForTerritory(territory));
                     }
 
                     if (Settings.Territories.Count > 5)
@@ -69,9 +69,8 @@ namespace NoTankYou.TabItems
             ContentsAction = () =>
             {
                 var currentTerritoryID = Service.ClientState.TerritoryType;
-                var territoryInfo = new SimpleTerritory(currentTerritoryID);
 
-                ImGui.Text(Strings.TabItems.Blacklist.CurrentLocation.Format(territoryInfo));
+                ImGui.Text(Strings.TabItems.Blacklist.CurrentLocation.Format(GetLabelForTerritory(currentTerritoryID)));
                 ImGui.Spacing();
 
                 if (ImGui.Button(Strings.Commands.Add, ImGuiHelpers.ScaledVector2(60, 23)))
@@ -254,28 +253,32 @@ namespace NoTankYou.TabItems
 
         private static void Add(uint id)
         {
-            var blacklist = Settings.Territories;
-
-            var territoryInfo = new SimpleTerritory(id);
-
-            if (!blacklist.Contains(territoryInfo))
+            if (!Settings.Territories.Contains(id))
             {
-                blacklist.Add(territoryInfo);
+                Settings.Territories.Add(id);
                 Service.Configuration.Save();
             }
         }
 
         private static void Remove(uint id)
         {
-            var blacklist = Settings.Territories;
-
-            var territoryInfo = new SimpleTerritory(id);
-
-            if (blacklist.Contains(territoryInfo))
+            if (Settings.Territories.Contains(id))
             {
-                blacklist.Remove(territoryInfo);
+                Settings.Territories.Remove(id);
                 Service.Configuration.Save();
             }
+        }
+
+        private static string GetTerritoryName(uint territory)
+        {
+            var row = Service.DataManager.GetExcelSheet<TerritoryType>()!.GetRow(territory);
+
+            return row?.PlaceName.Value?.Name ?? "Invalid Name";
+        }
+
+        private static string GetLabelForTerritory(uint territory)
+        {
+            return $"[ {territory}, {GetTerritoryName(territory)} ]";
         }
     }
 }
