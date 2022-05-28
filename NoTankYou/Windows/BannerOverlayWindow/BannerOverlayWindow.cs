@@ -62,11 +62,7 @@ namespace NoTankYou.Windows.BannerOverlayWindow
 
         public override void Draw()
         {
-            if (Settings.Reposition)
-            {
-                Flags &= ~ImGuiWindowFlags.NoInputs;
-                DrawCrosshair();
-            }
+            LockUnlockWindow();
 
             WarningsDisplayed = 0;
 
@@ -87,6 +83,19 @@ namespace NoTankYou.Windows.BannerOverlayWindow
                     }
                 }
             });
+        }
+
+        private void LockUnlockWindow()
+        {
+            if (Settings.Reposition)
+            {
+                Flags &= ~ImGuiWindowFlags.NoInputs;
+                DrawCrosshair();
+            }
+            else
+            {
+                Flags |= ImGuiWindowFlags.NoInputs;
+            }
         }
 
         private void DrawCrosshair()
