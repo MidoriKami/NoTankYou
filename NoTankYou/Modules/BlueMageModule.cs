@@ -48,7 +48,7 @@ namespace NoTankYou.Modules
                     MessageLong = Strings.Modules.BlueMage.Mimicry,
                     IconID = MimicryAction.Icon,
                     IconLabel = MimicryAction.Name.ToString(),
-                    Priority = Settings.Priority,
+                    Priority = GenericSettings.Priority,
                 };
             }
 
@@ -60,7 +60,7 @@ namespace NoTankYou.Modules
                     MessageLong = Strings.Modules.BlueMage.MightyGuard,
                     IconID = MightyGuardAction.Icon,
                     IconLabel = MightyGuardAction.Name.ToString(),
-                    Priority = Settings.Priority,
+                    Priority = GenericSettings.Priority,
                 };
             }
 
@@ -72,7 +72,7 @@ namespace NoTankYou.Modules
                     MessageLong = Strings.Modules.BlueMage.BasicInstinct,
                     IconID = BasicInstinctAction.Icon,
                     IconLabel = BasicInstinctAction.Name.ToString(),
-                    Priority = Settings.Priority,
+                    Priority = GenericSettings.Priority,
                 };
             }
 

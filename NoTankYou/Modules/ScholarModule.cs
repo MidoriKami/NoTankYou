@@ -65,7 +65,7 @@ namespace NoTankYou.Modules
                     MessageShort = MessageShort,
                     IconID = SeleneAction.Icon,
                     IconLabel = SeleneAction.Name.RawString,
-                    Priority = Settings.Priority
+                    Priority = GenericSettings.Priority
                 };
             }
 

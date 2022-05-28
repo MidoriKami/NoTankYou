@@ -43,7 +43,7 @@ namespace NoTankYou.Modules
                     MessageShort = MessageShort,
                     IconID = ClosedPositionAction.Icon,
                     IconLabel = ClosedPositionAction.Name.RawString,
-                    Priority = Settings.Priority
+                    Priority = GenericSettings.Priority
                 };
             }
 

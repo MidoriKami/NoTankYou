@@ -70,7 +70,7 @@ namespace NoTankYou.Modules
                     MessageShort = MessageShort,
                     IconID = Food.Icon,
                     IconLabel = Strings.Modules.Food.Label,
-                    Priority = Settings.Priority
+                    Priority = GenericSettings.Priority
                 };
             }
 

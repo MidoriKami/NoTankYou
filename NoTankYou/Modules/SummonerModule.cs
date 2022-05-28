@@ -42,7 +42,7 @@ namespace NoTankYou.Modules
                     MessageShort = MessageShort,
                     IconID = SummonCarbuncle.Icon,
                     IconLabel = SummonCarbuncle.Name.RawString,
-                    Priority = Settings.Priority
+                    Priority = GenericSettings.Priority
                 };
             }
 

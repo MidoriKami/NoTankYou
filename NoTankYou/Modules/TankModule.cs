@@ -77,7 +77,7 @@ namespace NoTankYou.Modules
                     MessageLong = MessageLong,
                     IconID = GetTankIcon(character).Item1,
                     IconLabel = GetTankIcon(character).Item2,
-                    Priority = Settings.Priority,
+                    Priority = GenericSettings.Priority,
                 };
             }
 
@@ -94,7 +94,7 @@ namespace NoTankYou.Modules
                     MessageLong = MessageLong,
                     IconID = GetTankIcon(character).Item1,
                     IconLabel = GetTankIcon(character).Item2,
-                    Priority = Settings.Priority,
+                    Priority = GenericSettings.Priority,
                 };
             }
 
@@ -117,7 +117,7 @@ namespace NoTankYou.Modules
                     MessageLong = MessageLong,
                     IconID = GetTankIcon(character).Item1,
                     IconLabel = GetTankIcon(character).Item2,
-                    Priority = Settings.Priority,
+                    Priority = GenericSettings.Priority,
                 };
             }
 

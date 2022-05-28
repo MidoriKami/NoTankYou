@@ -40,7 +40,7 @@ namespace NoTankYou.Modules
                     MessageShort = MessageShort,
                     IconID = KardiaAction.Icon,
                     IconLabel = KardiaAction.Name.RawString,
-                    Priority = Settings.Priority
+                    Priority = GenericSettings.Priority
                 };
             }
 
