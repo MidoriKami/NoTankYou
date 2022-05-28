@@ -37,21 +37,21 @@ namespace NoTankYou.TabItems
             Label = Strings.TabItems.Blacklist.CurrentStatus,
             ContentsAction = () =>
             {
-                if (Settings.Territories.Count > 0)
+                if (Settings.BlacklistedZones.Count > 0)
                 {
-                    if (Settings.Territories.Count > 5)
+                    if (Settings.BlacklistedZones.Count > 5)
                     {
                         var region = ImGui.GetContentRegionAvail() * 0.80f;
 
                         ImGui.BeginChild("TerritoryBlacklistChild", ImGuiHelpers.ScaledVector2(region.X, 100), true);
                     }
 
-                    foreach (var territory in Settings.Territories)
+                    foreach (var territory in Settings.BlacklistedZones)
                     {
                         ImGui.Text(GetLabelForTerritory(territory));
                     }
 
-                    if (Settings.Territories.Count > 5)
+                    if (Settings.BlacklistedZones.Count > 5)
                     {
                         ImGui.EndChild();
                     }
@@ -253,18 +253,18 @@ namespace NoTankYou.TabItems
 
         private static void Add(uint id)
         {
-            if (!Settings.Territories.Contains(id))
+            if (!Settings.BlacklistedZones.Contains(id))
             {
-                Settings.Territories.Add(id);
+                Settings.BlacklistedZones.Add(id);
                 Service.Configuration.Save();
             }
         }
 
         private static void Remove(uint id)
         {
-            if (Settings.Territories.Contains(id))
+            if (Settings.BlacklistedZones.Contains(id))
             {
-                Settings.Territories.Remove(id);
+                Settings.BlacklistedZones.Remove(id);
                 Service.Configuration.Save();
             }
         }
