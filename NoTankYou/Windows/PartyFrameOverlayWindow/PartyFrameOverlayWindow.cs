@@ -31,6 +31,9 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             Flags |= ImGuiWindowFlags.NoDecoration;
             Flags |= ImGuiWindowFlags.NoBackground;
             Flags |= ImGuiWindowFlags.NoInputs;
+            Flags |= ImGuiWindowFlags.NoBringToFrontOnFocus;
+            Flags |= ImGuiWindowFlags.NoFocusOnAppearing;
+            Flags |= ImGuiWindowFlags.NoNavFocus;
 
             ForceMainWindow = true;
 
