@@ -28,6 +28,12 @@ namespace NoTankYou.System
             }
 
             Service.Framework.Update += DutyCombatListener;
+            Service.ClientState.TerritoryChanged += TerritoryChanged;
+        }
+
+        private void TerritoryChanged(object? sender, ushort e)
+        {
+            DutyStarted = false;
         }
 
         // Fallback listener that triggers duty started when combat starts while bound by duty
@@ -47,6 +53,7 @@ namespace NoTankYou.System
             DutyEventHook?.Dispose();
 
             Service.Framework.Update -= DutyCombatListener;
+            Service.ClientState.TerritoryChanged -= TerritoryChanged;
         }
 
         private byte DutyEventFunction(void* a1, void* a2, ushort* a3)
