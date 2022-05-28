@@ -6,7 +6,7 @@ namespace NoTankYou.Data.Components
     {
         public bool Enabled = false;
 
-        public List<uint> Territories = new();
+        public List<uint> BlacklistedZones = new();
     }
     public static class BlacklistSettingsExtensions
     {
@@ -14,7 +14,7 @@ namespace NoTankYou.Data.Components
         {
             var currentTerritory = Service.ClientState.TerritoryType;
 
-            return settings.Territories.Contains(currentTerritory);
+            return settings.BlacklistedZones.Contains(currentTerritory);
         }
     }
 }
