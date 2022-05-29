@@ -12,5 +12,6 @@ namespace NoTankYou.Data.Overlays
         public bool FlashingEffects = true;
         public Vector4 WarningTextColor = Colors.SoftRed;
         public Vector4 WarningOutlineColor = Colors.Red;
+        public bool DisableInSanctuary = false;
     }
 }

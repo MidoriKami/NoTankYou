@@ -16,5 +16,6 @@ namespace NoTankYou.Data.Overlays
         public bool Icon = true;
         public bool PlayerNames = true;
         public bool IconText = true;
+        public bool DisableInSanctuary = false;
     }
 }

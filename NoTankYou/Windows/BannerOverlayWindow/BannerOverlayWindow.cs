@@ -4,6 +4,7 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
+using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
@@ -16,7 +17,7 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.Windows.BannerOverlayWindow
 {
-   internal class BannerOverlayWindow : Window, IDisposable, ICommand
+   internal unsafe class BannerOverlayWindow : Window, IDisposable, ICommand
    {
         private static BannerOverlaySettings Settings => Service.Configuration.DisplaySettings.BannerOverlay;
         private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
@@ -25,8 +26,13 @@ namespace NoTankYou.Windows.BannerOverlayWindow
 
         private int WarningsDisplayed;
 
+        [Signature("E8 ?? ?? ?? ?? 84 C0 75 21 48 8B 4F 10", ScanType = ScanType.StaticAddress)]
+        private readonly byte* IsInSanctuary = null;
+
         public BannerOverlayWindow() : base("NoTankYouBannerOverlay")
         {
+            SignatureHelper.Initialise(this);
+
             Service.WindowSystem.AddWindow(this);
 
             WarningIcon = Image.LoadImage("BigWarning");
@@ -54,8 +60,9 @@ namespace NoTankYou.Windows.BannerOverlayWindow
             var isPvP = Territory.IsPvP();
             var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
             var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
+            var inSanctuary = Settings.DisableInSanctuary && (*IsInSanctuary != 0);
 
-            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty && !blacklisted;
+            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty && !blacklisted && !inSanctuary;
         }
 
         public override void PreDraw()

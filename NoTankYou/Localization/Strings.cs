@@ -112,6 +112,7 @@ namespace NoTankYou.Localization
         public readonly string MightyGuardLabel = Loc.Localize("BlueMage_MightyGuardLabel", "Mighty Guard");
         public readonly string BasicInstinctLabel = Loc.Localize("BlueMage_BasicInstinctLabel", "Basic Instinct");
         public readonly string MimicryWarning = Loc.Localize("BlueMage_MimicryWarning", "Can not be used with 'Duties Only'");
+        public readonly string BasicInstinctInfo = Loc.Localize("BlueMage_BasicInstinctInfo", "Warning will only show when solo with no other players");
     }
     #endregion
 
@@ -256,8 +257,9 @@ namespace NoTankYou.Localization
         public readonly string Enable = Loc.Localize("Configuration_Enable", "Enable");
         public readonly string SoloMode = Loc.Localize("Configuration_SoloMode", "Solo Mode");
         public readonly string DutiesOnly = Loc.Localize("Configuration_DutiesOnly", "Duties Only");
+        public readonly string HideInSanctuary = Loc.Localize("Configuration_HideInSanctuary", "Hide in Sanctuaries");
         public readonly string DutiesOnlyHelp = Loc.Localize("Configuration_DutiesOnlyHelp", "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere");
-        public readonly string SoloModeHelp = Loc.Localize("Configuration_SoloModeHelp", "Requires the party frame to be visible to evaluate warnings\nSystem > Character Configuration > UI Settings > Party List > (Uncheck) Hide party list while solo");
+        public readonly string SoloModeHelp = Loc.Localize("Configuration_SoloModeHelp", "Only evaluates warnings for you, does not check party members\n\nRequires the party frame to be visible to evaluate warnings\nSystem > Character Configuration > UI Settings > Party List > (Uncheck) Hide party list while solo");
     }
     #endregion
 

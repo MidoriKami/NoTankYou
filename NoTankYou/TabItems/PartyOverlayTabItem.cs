@@ -34,6 +34,14 @@ namespace NoTankYou.TabItems
 
                     Service.Configuration.Save();
                 }
+
+                if (Settings.Enabled)
+                {
+                    if (ImGui.Checkbox(Strings.Configuration.HideInSanctuary, ref Settings.DisableInSanctuary))
+                    {
+                        Service.Configuration.Save();
+                    }
+                }
             }
         };
 

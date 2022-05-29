@@ -30,12 +30,15 @@ namespace NoTankYou.TabItems
             {
                 if (ImGui.Checkbox(Strings.Configuration.Enable, ref Settings.Enabled))
                 {
-                    if (!Settings.Enabled)
-                    {
-                        PartyFrameOverlayWindow.ResetAllAnimation();
-                    }
-
                     Service.Configuration.Save();
+                }
+
+                if (Settings.Enabled)
+                {
+                    if (ImGui.Checkbox(Strings.Configuration.HideInSanctuary, ref Settings.DisableInSanctuary))
+                    {
+                        Service.Configuration.Save();
+                    }
                 }
             }
         };

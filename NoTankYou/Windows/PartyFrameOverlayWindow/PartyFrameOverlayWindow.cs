@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
-using Dalamud.Logging;
+using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 using ImGuiScene;
@@ -22,9 +22,13 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
         private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
 
         private readonly TextureWrap WarningIcon;
+        [Signature("E8 ?? ?? ?? ?? 84 C0 75 21 48 8B 4F 10", ScanType = ScanType.StaticAddress)]
+        private readonly byte* IsInSanctuary = null;
 
         public PartyFrameOverlayWindow() : base("NoTankYouPartyFrameOverlay")
         {
+            SignatureHelper.Initialise(this);
+
             Service.WindowSystem.AddWindow(this);
 
             WarningIcon = Image.LoadImage("Warning");
@@ -55,8 +59,9 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             var isPvP = Territory.IsPvP();
             var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
             var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
+            var inSanctuary = Settings.DisableInSanctuary && (*IsInSanctuary != 0);
 
-            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty && !blacklisted;
+            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty && !blacklisted && !inSanctuary;
         }
 
         public override void PreDraw()
