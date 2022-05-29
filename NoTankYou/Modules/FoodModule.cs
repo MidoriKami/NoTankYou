@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dalamud;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
@@ -50,6 +51,8 @@ namespace NoTankYou.Modules
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
+            if (Settings.DisableInCombat && Service.Condition[ConditionFlag.InCombat]) return null;
+
             if (Settings.SavageDuties || Settings.UltimateDuties)
             {
                 var inSavage = SavageDuties.Contains(Service.ClientState.TerritoryType);

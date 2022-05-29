@@ -57,6 +57,18 @@ namespace NoTankYou.ModuleConfiguration
             }
         };
 
+        private readonly InfoBox AdditionalOptions = new()
+        {
+            Label = Strings.Modules.Food.AdditionalOptionsLabel,
+            ContentsAction = () =>
+            {
+                if (ImGui.Checkbox(Strings.Modules.Food.SuppressInCombat, ref Settings.DisableInCombat))
+                {
+                    Service.Configuration.Save();
+                }
+            }
+        };
+
         public FoodConfiguration()
         {
             AboutImage = Image.LoadImage("Unavailable");
@@ -70,8 +82,11 @@ namespace NoTankYou.ModuleConfiguration
         public void DrawOptions()
         {
             ZoneFilters.DrawCentered();
+            
             ImGuiHelpers.ScaledDummy(30.0f);
-
+            AdditionalOptions.DrawCentered();
+            
+            ImGuiHelpers.ScaledDummy(30.0f);
             EarlyWarningTime.DrawCentered();
         }
     }

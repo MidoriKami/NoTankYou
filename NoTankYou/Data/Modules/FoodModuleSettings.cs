@@ -8,5 +8,6 @@ namespace NoTankYou.Data.Modules
         public int FoodEarlyWarningTime = 600;
         public bool SavageDuties = false;
         public bool UltimateDuties = false;
+        public bool DisableInCombat = true;
     }
 }

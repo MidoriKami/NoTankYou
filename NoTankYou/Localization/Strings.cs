@@ -64,6 +64,8 @@ namespace NoTankYou.Localization
         public readonly string EarlyWarningLabel = Loc.Localize("Food_EarlyWarningLabel", "Early Warning Time");
         public readonly string ZoneFilters = Loc.Localize("Food_ZoneFilters", "Zone Filters");
         public readonly string ZoneFiltersDescription = Loc.Localize("Food_ZoneFiltersDescription", "Only check players for food when in the following zones");
+        public readonly string AdditionalOptionsLabel = Loc.Localize("Food_AdditionalOptionsLabel", "Additional Options");
+        public readonly string SuppressInCombat = Loc.Localize("Food_SuppressInCombat", "Suppress in Combat");
     }
 
     public class Sage
