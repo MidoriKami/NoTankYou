@@ -9,6 +9,7 @@ using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
+using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules
 {
@@ -24,6 +25,7 @@ namespace NoTankYou.Modules
         private const int WellFedStatusID = 48;
         private readonly List<uint> SavageDuties;
         private readonly List<uint> UltimateDuties;
+        private readonly List<uint> ExtremeUnrealDuties;
 
         private readonly Item Food;
 
@@ -46,6 +48,13 @@ namespace NoTankYou.Modules
                 .Select(t => t.TerritoryType.Row)
                 .ToList();
 
+            // ContentType.Row 4 == Trials
+            ExtremeUnrealDuties = Service.DataManager.GetExcelSheet<ContentFinderCondition>(ClientLanguage.English)!
+                .Where(t => t.ContentType.Row == 4)
+                .Where(t => t.Name.RawString.Contains("Extreme") || t.Name.RawString.Contains("Unreal"))
+                .Select(t => t.TerritoryType.Row)
+                .ToList();
+
             Food = Service.DataManager.GetExcelSheet<Item>()!.GetRow(30482)!;
         }
 
@@ -53,15 +62,17 @@ namespace NoTankYou.Modules
         {
             if (Settings.DisableInCombat && Service.Condition[ConditionFlag.InCombat]) return null;
 
-            if (Settings.SavageDuties || Settings.UltimateDuties)
+            if (Settings.SavageDuties || Settings.UltimateDuties || Settings.ExtremeUnreal)
             {
                 var inSavage = SavageDuties.Contains(Service.ClientState.TerritoryType);
                 var inUltimate = UltimateDuties.Contains(Service.ClientState.TerritoryType);
+                var inExtremeUnreal = ExtremeUnrealDuties.Contains(Service.ClientState.TerritoryType);
 
                 var savageCheck = Settings.SavageDuties && inSavage;
                 var ultimateCheck = Settings.UltimateDuties && inUltimate;
+                var extremeUnrealCheck = Settings.ExtremeUnreal && inExtremeUnreal;
 
-                if (!savageCheck && !ultimateCheck) return null;
+                if (!savageCheck && !ultimateCheck && !extremeUnrealCheck) return null;
             }
 
             var statusEffect = character.StatusList.FirstOrDefault(status => status.StatusId == WellFedStatusID);

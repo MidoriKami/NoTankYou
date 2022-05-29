@@ -9,5 +9,6 @@ namespace NoTankYou.Data.Modules
         public bool SavageDuties = false;
         public bool UltimateDuties = false;
         public bool DisableInCombat = true;
+        public bool ExtremeUnreal = false;
     }
 }

@@ -54,6 +54,11 @@ namespace NoTankYou.ModuleConfiguration
                 {
                     Service.Configuration.Save();
                 }
+
+                if (ImGui.Checkbox(Strings.Common.Labels.ExtremeUnreal, ref Settings.ExtremeUnreal))
+                {
+                    Service.Configuration.Save();
+                }
             }
         };
 

@@ -147,6 +147,7 @@ namespace NoTankYou.Localization
         public readonly string AdditionalOptions = Loc.Localize("Labels_AdditionalOptions", "Additional Options");
         public readonly string Savage = Loc.Localize("Labels_Savage", "Savage");
         public readonly string Ultimate = Loc.Localize("Labels_Ultimate", "Ultimate");
+        public readonly string ExtremeUnreal = Loc.Localize("Labels_ExtremeUnreal", "Extreme & Unreal");
         public readonly string ModeSelect = Loc.Localize("Labels_ModeSelect", "Mode Select");
         public readonly string Unset = Loc.Localize("Labels_Unset", "Unset");
         public readonly string Warnings = Loc.Localize("Labels_Warnings", "Warnings");
