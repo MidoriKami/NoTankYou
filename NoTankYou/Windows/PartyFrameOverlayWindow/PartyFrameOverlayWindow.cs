@@ -22,8 +22,11 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
         private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
 
         private readonly TextureWrap WarningIcon;
-        [Signature("E8 ?? ?? ?? ?? 84 C0 75 21 48 8B 4F 10", ScanType = ScanType.StaticAddress)]
-        private readonly byte* IsInSanctuary = null;
+
+        private delegate bool IsInSanctuary();
+
+        [Signature("E8 ?? ?? ?? ?? 84 C0 75 21 48 8B 4F 10")]
+        private readonly IsInSanctuary SanctuaryFunction = null!;
 
         public PartyFrameOverlayWindow() : base("NoTankYouPartyFrameOverlay")
         {
@@ -59,7 +62,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             var isPvP = Territory.IsPvP();
             var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
             var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
-            var inSanctuary = Settings.DisableInSanctuary && (*IsInSanctuary != 0);
+            var inSanctuary = Settings.DisableInSanctuary && SanctuaryFunction();
 
             IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty && !blacklisted && !inSanctuary;
         }
