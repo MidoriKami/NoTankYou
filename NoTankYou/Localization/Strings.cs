@@ -156,6 +156,7 @@ namespace NoTankYou.Localization
         public readonly string Unlocked = Loc.Localize("Labels_Unlocked", "Unlocked");
         public readonly string Unlock = Loc.Localize("Labels_Unlock", "Unlock");
         public readonly string Apply = Loc.Localize("Labels_Apply", "Apply");
+        public readonly string Reset = Loc.Localize("Labels_Reset", "Reset");
     }
 
     public class Tabs
@@ -211,6 +212,9 @@ namespace NoTankYou.Localization
         public readonly string PlayerName = Loc.Localize("PartyOverlay_PlayerName", "Player Name");
         public readonly string WarningText = Loc.Localize("PartyOverlay_WarningText", "Warning Text");
         public readonly string FlashingEffects = Loc.Localize("PartyOverlay_FlashingEffects", "Flashing Effects");
+        public readonly string ColorOptions = Loc.Localize("PartyOverlay_ColorOptions", "Color Options");
+        public readonly string WarningTextColor = Loc.Localize("PartyOverlay_WarningTextColor", "Warning Text");
+        public readonly string WarningOutlineColor = Loc.Localize("PartyOverlay_WarningOutlineColor", "Name Outline");
     }
 
     public class Blacklist

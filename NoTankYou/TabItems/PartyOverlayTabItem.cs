@@ -70,6 +70,32 @@ namespace NoTankYou.TabItems
             }
         };
 
+        private readonly InfoBox ColorOptions = new()
+        {
+            Label = Strings.TabItems.PartyOverlay.ColorOptions,
+            ContentsAction = () =>
+            {
+                ImGui.ColorEdit4(Strings.TabItems.PartyOverlay.WarningText, ref Settings.WarningTextColor, ImGuiColorEditFlags.NoInputs);
+                if(ImGui.IsItemDeactivatedAfterEdit())
+                {
+                    Service.Configuration.Save();
+                }
+
+                ImGui.ColorEdit4(Strings.TabItems.PartyOverlay.WarningOutlineColor, ref Settings.WarningOutlineColor, ImGuiColorEditFlags.NoInputs);
+                if(ImGui.IsItemDeactivatedAfterEdit())
+                {
+                    Service.Configuration.Save();
+                }
+
+                if (ImGui.Button(Strings.Common.Labels.Reset, ImGuiHelpers.ScaledVector2(75.0f, 23.0f)))
+                {
+                    Settings.WarningOutlineColor = Colors.Red;
+                    Settings.WarningTextColor = Colors.SoftRed;
+                    Service.Configuration.Save();
+                }
+            }
+        };
+
         public TextureWrap? AboutImage { get; }
         private static PartyOverlaySettings Settings => Service.Configuration.DisplaySettings.PartyOverlay;
 
@@ -90,6 +116,9 @@ namespace NoTankYou.TabItems
 
             ImGuiHelpers.ScaledDummy(30.0f);
             DisplayOptions.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            ColorOptions.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }

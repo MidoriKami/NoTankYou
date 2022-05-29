@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 using ImGuiScene;
@@ -153,17 +154,24 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
         {
             if (!Settings.FlashingEffects)
             {
-                partyMember.Name->AtkResNode.AddRed = 255;
+                partyMember.Name->AtkResNode.AddRed = (ushort)(Settings.WarningOutlineColor.X * 255);
+                partyMember.Name->AtkResNode.AddGreen = (ushort) ( Settings.WarningOutlineColor.Y * 255 );
+                partyMember.Name->AtkResNode.AddBlue = (ushort) ( Settings.WarningOutlineColor.Z * 255 );
             }
             else
             {
                 if (AnimationStopwatch.ElapsedMilliseconds < 500)
                 {
                     partyMember.Name->AtkResNode.AddRed = 0;
+                    partyMember.Name->AtkResNode.AddGreen = 0;
+                    partyMember.Name->AtkResNode.AddRed = 0;
+
                 }
                 else if (AnimationStopwatch.ElapsedMilliseconds > 500)
                 {
-                    partyMember.Name->AtkResNode.AddRed = 255;
+                    partyMember.Name->AtkResNode.AddRed = (ushort)(Settings.WarningOutlineColor.X * 255);
+                    partyMember.Name->AtkResNode.AddGreen = (ushort) ( Settings.WarningOutlineColor.Y * 255 );
+                    partyMember.Name->AtkResNode.AddBlue = (ushort) ( Settings.WarningOutlineColor.Z * 255 );
                 }
             }
         }
@@ -172,7 +180,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
         {
             if (!Settings.FlashingEffects)
             {
-                DrawText(Colors.SoftRed, warningText, hudPartyIndex);
+                DrawText(Settings.WarningTextColor, warningText, hudPartyIndex);
             }
             else
             {
@@ -183,7 +191,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
                 }
                 else if (AnimationStopwatch.ElapsedMilliseconds > 500)
                 {
-                    DrawText(Colors.SoftRed, warningText, hudPartyIndex);
+                    DrawText(Settings.WarningTextColor, warningText, hudPartyIndex);
                 }
             }
         }
