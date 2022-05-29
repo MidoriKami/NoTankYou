@@ -52,28 +52,54 @@ namespace NoTankYou.Modules
                 };
             }
 
-            if (Settings.TankStance && !character.StatusList.Any(status => status.StatusId == MightyGuardStatusEffect))
+            if (Settings.TankStance)
             {
-                return new WarningState
+                if (Service.PartyList.Length == 0)
                 {
-                    MessageShort = Strings.Modules.BlueMage.MightyGuardLabel,
-                    MessageLong = Strings.Modules.BlueMage.MightyGuard,
-                    IconID = MightyGuardAction.Icon,
-                    IconLabel = MightyGuardAction.Name.ToString(),
-                    Priority = GenericSettings.Priority,
-                };
+                    if (!character.StatusList.Any(status => status.StatusId == MightyGuardStatusEffect))
+                    {
+                        return new WarningState
+                        {
+                            MessageShort = Strings.Modules.BlueMage.MightyGuardLabel,
+                            MessageLong = Strings.Modules.BlueMage.MightyGuard,
+                            IconID = MightyGuardAction.Icon,
+                            IconLabel = MightyGuardAction.Name.ToString(),
+                            Priority = GenericSettings.Priority,
+                        };
+                    }
+                }
+                else if(Service.PartyList.Length > 1)
+                {
+                    var partyBlueMages = Service.PartyList.Where(partyMember => partyMember.CurrentHP > 0 && ClassJobs.Contains(partyMember.ClassJob.Id));
+                    var anyMightyGuard = partyBlueMages.Any(tanks => tanks.Statuses.Any(status => status.StatusId == MightyGuardStatusEffect));
+
+                    if (!anyMightyGuard)
+                    {
+                        return new WarningState
+                        {
+                            MessageShort = Strings.Modules.BlueMage.MightyGuardLabel,
+                            MessageLong = Strings.Modules.BlueMage.MightyGuard,
+                            IconID = MightyGuardAction.Icon,
+                            IconLabel = MightyGuardAction.Name.ToString(),
+                            Priority = GenericSettings.Priority,
+                        };
+                    }
+                }
             }
 
             if (Settings.BasicInstinct && !character.StatusList.Any(status => status.StatusId == BasicInstinct))
             {
-                return new WarningState
+                if (Service.PartyList.Length == 0)
                 {
-                    MessageShort = Strings.Modules.BlueMage.BasicInstinctLabel,
-                    MessageLong = Strings.Modules.BlueMage.BasicInstinct,
-                    IconID = BasicInstinctAction.Icon,
-                    IconLabel = BasicInstinctAction.Name.ToString(),
-                    Priority = GenericSettings.Priority,
-                };
+                    return new WarningState
+                    {
+                        MessageShort = Strings.Modules.BlueMage.BasicInstinctLabel,
+                        MessageLong = Strings.Modules.BlueMage.BasicInstinct,
+                        IconID = BasicInstinctAction.Icon,
+                        IconLabel = BasicInstinctAction.Name.ToString(),
+                        Priority = GenericSettings.Priority,
+                    };
+                }
             }
 
             return null;

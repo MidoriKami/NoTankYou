@@ -46,6 +46,7 @@ namespace NoTankYou.ModuleConfiguration
                 {
                     Service.Configuration.Save();
                 }
+                ImGuiComponents.HelpMarker(Strings.Modules.BlueMage.BasicInstinctInfo);
             }
         };
 
