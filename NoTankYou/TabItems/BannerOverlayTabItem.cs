@@ -3,14 +3,12 @@ using System.Numerics;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
-using ImGuiScene;
 using NoTankYou.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Enums;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
-using NoTankYou.Windows.PartyFrameOverlayWindow;
 
 namespace NoTankYou.TabItems
 {
@@ -18,9 +16,6 @@ namespace NoTankYou.TabItems
     {
         public ModuleType ModuleType => ModuleType.BannerOverlay;
         public string ConfigurationPaneLabel => Strings.TabItems.BannerOverlay.ConfigurationLabel;
-        public string AboutInformationBox => Strings.TabItems.BannerOverlay.Description;
-        public string TechnicalInformation => Strings.TabItems.BannerOverlay.TechnicalDescription;
-        public TextureWrap? AboutImage { get; }
         private static BannerOverlaySettings Settings => Service.Configuration.DisplaySettings.BannerOverlay;
 
         private readonly InfoBox Options = new()
@@ -220,11 +215,6 @@ namespace NoTankYou.TabItems
                 }
             }
         };
-
-        public BannerOverlayTabItem()
-        {
-            AboutImage = Image.LoadImage("BannerOverlay");
-        }
 
         public void DrawTabItem()
         {

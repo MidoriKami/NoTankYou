@@ -54,6 +54,7 @@ namespace NoTankYou
             Service.HudManager = new HudManager();
             Service.IconManager = new IconManager();
             Service.FontManager = new FontManager();
+            Service.ContextManager = new ContextManager();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -108,6 +109,7 @@ namespace NoTankYou
             Service.HudManager.Dispose();
             Service.IconManager.Dispose();
             Service.FontManager.Dispose();
+            Service.ContextManager.Dispose();
 
             Service.PluginInterface.UiBuilder.Draw -= DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;

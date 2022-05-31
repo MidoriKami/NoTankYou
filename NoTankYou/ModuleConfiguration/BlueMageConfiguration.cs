@@ -2,7 +2,6 @@
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
-using ImGuiScene;
 using NoTankYou.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
@@ -15,11 +14,7 @@ namespace NoTankYou.ModuleConfiguration
     internal class BlueMageConfiguration : IConfigurable
     {
         public ModuleType ModuleType => ModuleType.BlueMage;
-
         public string ConfigurationPaneLabel => Strings.Modules.BlueMage.ConfigurationPanelLabel;
-        public string AboutInformationBox => Strings.Modules.BlueMage.Description;
-        public string TechnicalInformation => Strings.Modules.BlueMage.TechnicalDescription;
-        public TextureWrap? AboutImage { get; }
         private static BlueMageModuleSettings Settings => Service.Configuration.ModuleSettings.BlueMage;
 
         private readonly InfoBox Warnings = new()
@@ -49,11 +44,6 @@ namespace NoTankYou.ModuleConfiguration
                 ImGuiComponents.HelpMarker(Strings.Modules.BlueMage.BasicInstinctInfo);
             }
         };
-
-        public BlueMageConfiguration()
-        {
-            AboutImage = Image.LoadImage("Unavailable");
-        }
 
         public void DrawTabItem()
         {

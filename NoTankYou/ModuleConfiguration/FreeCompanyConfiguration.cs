@@ -4,7 +4,6 @@ using System.Numerics;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
-using ImGuiScene;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Modules;
@@ -19,10 +18,6 @@ namespace NoTankYou.ModuleConfiguration
     {
         public ModuleType ModuleType => ModuleType.FreeCompany;
         public string ConfigurationPaneLabel => Strings.Modules.FreeCompany.ConfigurationPanelLabel;
-        public string AboutInformationBox => Strings.Modules.FreeCompany.Description;
-        public string TechnicalInformation => Strings.Modules.FreeCompany.TechnicalDescription;
-        public TextureWrap? AboutImage { get; }
-
         private static FreeCompanyModuleSettings Settings => Service.Configuration.ModuleSettings.FreeCompany;
 
         private readonly InfoBox Options = new()
@@ -140,11 +135,6 @@ namespace NoTankYou.ModuleConfiguration
                 }
             }
         };
-
-        public FreeCompanyConfiguration()
-        {
-            AboutImage = Image.LoadImage("FreeCompany");
-        }
 
         public void DrawTabItem()
         {

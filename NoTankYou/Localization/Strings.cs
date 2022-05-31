@@ -21,8 +21,6 @@ namespace NoTankYou.Localization
         public readonly string ConfigurationPanelLabel = Loc.Localize("Tank_ConfigurationPanelLabel", "Tanks Configuration");
         public readonly string WarningText = Loc.Localize("Tank_WarningText", "Tank Stance Missing");
         public readonly string WarningTextShort = Loc.Localize("Tank_WarningTextShort", "Tank Stance");
-        public readonly string Description = Loc.Localize("Tank_Description", "Tanks use role actions commonly referred to as 'Tank Stances' to manage enemy aggro. If there are no tanks in the party with their 'Tank Stances' on then enemies may start attacking the healers or dps players directly, possibly leading to a party wipe.");
-        public readonly string TechnicalDescription = Loc.Localize("Tank_TechnicalInformation", "This module will alert you if there are no tanks in the party with their tank stance on. If a tank with a stance on dies, this module will not consider their stance to be on until they are revived.");
         public readonly string DisableInAllianceRaid = Loc.Localize("Tank_DisableInAllianceRaid", "Disable in Alliance Raid");
         public readonly string CheckAllianceStances = Loc.Localize("Tank_CheckAllianceStances", "Check Alliance Members");
         public readonly string CheckAllianceStancesDescription = Loc.Localize("Tank_CheckAllianceStancesDescription", "If Enabled, checks other alliance's tanks for a tank stance to warn if no tanks have their stance on\nIf Disabled, only checks your party for tank stances");
@@ -34,8 +32,6 @@ namespace NoTankYou.Localization
         public readonly string ConfigurationPanelLabel = Loc.Localize("FreeCompany_ConfigurationPaneLabel", "Free Company Configuration");
         public readonly string WarningText = Loc.Localize("FreeCompany_WarningText", "FreeCompany Buff Missing");
         public readonly string WarningTextShort = Loc.Localize("FreeCompany_WarningTextShort", "FreeCompany Buff");
-        public readonly string Description = Loc.Localize("FreeCompany_Description", "Free Companies are able to provide various buffs to members. These buffs have limited durations and need to be refreshed periodically.");
-        public readonly string TechnicalDescription = Loc.Localize("FreeCompany_TechnicalDescription", "This module will alert you when you do not have the configured number of Free Company status effects on you. This module will only evaluate you for warnings, it will never warn you about the status of others.");
         public readonly string Any = Loc.Localize("FreeCompany_Any", "Any");
         public readonly string AnyDescription = Loc.Localize("FreeCompany_AnyDescription", "Display warning if missing any Free Company buffs");
         public readonly string Specific = Loc.Localize("FreeCompany_Specific", "Specific");
@@ -50,8 +46,6 @@ namespace NoTankYou.Localization
         public readonly string ConfigurationPanelLabel = Loc.Localize("Dancer_ConfigurationPanelLabel", "Dancer Configuration");
         public readonly string WarningText = Loc.Localize("Dancer_WarningText", "Dance Partner Missing");
         public readonly string WarningTextShort = Loc.Localize("Dancer_WarningTextShort", "Dance Partner");
-        public readonly string Description = Loc.Localize("Dance_Description", "Dancers use a job action commonly referred to as 'Dance Partner' on another party member to give both the dancer and their partner a buff. This buff significantly increases both the dancer and their partners outgoing DPS.");
-        public readonly string TechnicalDescription = Loc.Localize("Dance_TechnicalInformation", "This module will alert you when there are dancers that do not have the 'Closed Position' status effect on themselves. This effect is granted to the dancer when they also put 'Dance Partner' on another player.");
     }
 
     public class Food
@@ -59,8 +53,6 @@ namespace NoTankYou.Localization
         public readonly string Label = Loc.Localize("Food_Label", "Food");
         public readonly string ConfigurationPanelLabel = Loc.Localize("Food_ConfigurationPanelLabel", "Food Configuration");
         public readonly string WarningText = Loc.Localize("Food_WarningText", "Food Missing");
-        public readonly string Description = Loc.Localize("Food_Description", "Consuming food grants the player the status effect 'Well Fed' while under this effect several of your stats will be increased for the duration of the buff.");
-        public readonly string TechnicalDescription = Loc.Localize("Food_TechnicalInformation", "This module will alert you when the remaining duration of the 'Well Fed' status effect is less than the pre-configured value.");
         public readonly string EarlyWarningLabel = Loc.Localize("Food_EarlyWarningLabel", "Early Warning Time");
         public readonly string ZoneFilters = Loc.Localize("Food_ZoneFilters", "Zone Filters");
         public readonly string ZoneFiltersDescription = Loc.Localize("Food_ZoneFiltersDescription", "Only check players for food when in the following zones");
@@ -74,8 +66,6 @@ namespace NoTankYou.Localization
         public readonly string ConfigurationPanelLabel = Loc.Localize("Sage_ConfigurationPanelLabel", "Sage Configuration");
         public readonly string WarningText = Loc.Localize("Sage_WarningText", "Kardia Partner Missing");
         public readonly string WarningTextShort = Loc.Localize("Sage_WarningTextShort", "Kardia Partner");
-        public readonly string Description = Loc.Localize("Sage_Description", "Sages use a job action commonly referred to as 'Kardia' or 'Kardion' on another party member to heal that party member whenever the sage uses a offensive ability.");
-        public readonly string TechnicalDescription = Loc.Localize("Sage_TechnicalInformation", "This module will alert you when there are sages that do not have the 'Kardia' effect on themselves. This effect is granted to the sage when they also put 'Kardion' on another player.");
     }
 
     public class Scholar
@@ -84,8 +74,6 @@ namespace NoTankYou.Localization
         public readonly string ConfigurationPanelLabel = Loc.Localize("Scholar_ConfigurationPanelLabel", "Scholar Configuration");
         public readonly string WarningText = Loc.Localize("Scholar_WarningText", "Faerie Summon Missing");
         public readonly string WarningTextShort = Loc.Localize("Scholar_WarningTextShort", "Faerie Summon");
-        public readonly string Description = Loc.Localize("Scholar_Description", "Scholar uses a summoned pet known as a 'Faerie' to allow them to use various healing abilities. The faerie will periodically heal allies within its range automatically. A Scholar's ability to heal their party is significantly impacted if they do not summon their faerie.");
-        public readonly string TechnicalDescription = Loc.Localize("Scholar_TechnicalInformation", "This module will alert you when a scholar does not have their faerie summoned, as long as that scholar does not also have the 'Dissipation' status effect.");
     }
 
     public class Summoner
@@ -94,16 +82,12 @@ namespace NoTankYou.Localization
         public readonly string ConfigurationPanelLabel = Loc.Localize("Summoner_ConfigurationPanelLabel", "Summoner Configuration");
         public readonly string WarningText = Loc.Localize("Summoner_WarningText", "Pet Summon Missing");
         public readonly string WarningTextShort = Loc.Localize("Summoner_WarningTextShort", "Pet Summon");
-        public readonly string Description = Loc.Localize("Summoner_Description", "Summoners use a summoned pet known as a 'Carbuncle' to allow them to use various offensive abilities. The summoned pet will be transformed into various other summons during combat.");
-        public readonly string TechnicalDescription = Loc.Localize("Summoner_TechnicalInformation", "This module will alert you when a summoner does not have any associated summon in the field.");
     }
 
     public class BlueMage
     {
         public readonly string Label = Loc.Localize("BlueMage_Label", "Blue Mage");
         public readonly string ConfigurationPanelLabel = Loc.Localize("BlueMage_ConfigurationPanelLabel", "Blue Mage Configuration");
-        public readonly string Description = Loc.Localize("BlueMage_Description", "Blue Mage is a job about shenanigans, Blue Mages learn skills by being hit by those skills.");
-        public readonly string TechnicalDescription = Loc.Localize("BlueMage_TechnicalInformation", "This module can be configured to warn you about missing Aetherial Mimicry, Mighty Guard, and Basic Instinct. The warnings for Aetherial Mimicry can only be used while outside of instances, and is incompatible with the 'Duties Only' option.");
         public readonly string GenericWarning = Loc.Localize("BlueMage_GenericWarning", "Warning Something is Missing");
         public readonly string Mimicry = Loc.Localize("BlueMage_Mimicry", "Aetherial Mimicry Missing");
         public readonly string MightyGuard = Loc.Localize("BlueMage_MightyGuard", "Mighty Guard Missing");
@@ -125,10 +109,7 @@ namespace NoTankYou.Localization
 
     public class Labels
     {
-        public readonly string About = Loc.Localize("Labels_About", "About");
         public readonly string Options = Loc.Localize("Labels_Options", "Options");
-        public readonly string Description = Loc.Localize("Labels_Description", "Description");
-        public readonly string TechnicalDescription = Loc.Localize("Labels_TechnicalDescription", "Technical Description");
         public readonly string Priority = Loc.Localize("Labels_Priority", "Priority");
         public readonly string Seconds = Loc.Localize("Labels_Seconds", "Seconds");
         public readonly string City = Loc.Localize("Labels_City", "City");
@@ -186,8 +167,6 @@ namespace NoTankYou.Localization
     {
         public readonly string Label = Loc.Localize("BannerOverlay_Label", "Banner Overlay");
         public readonly string ConfigurationLabel = Loc.Localize("BannerOverlay_ConfigurationLabel", "Warning Banner Overlay Configuration");
-        public readonly string Description = Loc.Localize("BannerOverlay_Description", "The Warning Banner Overlay displays various NoTankYou warnings. The banner includes the warning text, the player the warning is from, and the skill that the player needs to use to resolve the warning.");
-        public readonly string TechnicalDescription = Loc.Localize("BannerOverlay_TechnicalDescription", "This module when set to list mode will show warnings for multiple party members at the same time. Only the highest priority warning for each party member will be displayed.");
         public readonly string WarningCountDescription = Loc.Localize("BannerOverlay_WarningCountDescription", "Maximum number of players to display");
         public readonly string WarningCount = Loc.Localize("BannerOverlay_WarningCount", "Player Count");
         public readonly string TopPriorityDescription = Loc.Localize("BannerOverlay_TopPriorityDescription", "Display only one warning at a time");
@@ -208,14 +187,11 @@ namespace NoTankYou.Localization
     {
         public readonly string Label = Loc.Localize("PartyOverlay_Label", "Party Frame Overlay");
         public readonly string ConfigurationLabel = Loc.Localize("PartyOverlay_ConfigurationLabel", "Party Frame Overlay Configuration");
-        public readonly string Description = Loc.Localize("PartyOverlay_Description", "The Party Frame Overlay modifies how the Party Frame appears to display various NoTankYou warnings. The various components can be configured and the flashing animation can be disabled if it is disorienting.");
-        public readonly string TechnicalDescription = Loc.Localize("PartyOverlay_TechnicalDescription", "Sometimes disabling or uninstalling the plugin can leave the job icons missing, or the player name text to remain colored, this is only temporary as when you join a party or the game updates the party interface it will naturally reset everything.");
         public readonly string JobIcon = Loc.Localize("PartyOverlay_JobIcons", "Job Icon");
         public readonly string PlayerName = Loc.Localize("PartyOverlay_PlayerName", "Player Name");
         public readonly string WarningText = Loc.Localize("PartyOverlay_WarningText", "Warning Text");
         public readonly string FlashingEffects = Loc.Localize("PartyOverlay_FlashingEffects", "Flashing Effects");
         public readonly string ColorOptions = Loc.Localize("PartyOverlay_ColorOptions", "Color Options");
-        public readonly string WarningTextColor = Loc.Localize("PartyOverlay_WarningTextColor", "Warning Text");
         public readonly string WarningOutlineColor = Loc.Localize("PartyOverlay_WarningOutlineColor", "Name Outline");
     }
 

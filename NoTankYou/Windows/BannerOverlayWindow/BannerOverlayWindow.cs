@@ -4,7 +4,6 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
@@ -13,12 +12,11 @@ using NoTankYou.Data.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Enums;
 using NoTankYou.Interfaces;
-using NoTankYou.System;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Windows.BannerOverlayWindow
 {
-   internal unsafe class BannerOverlayWindow : Window, IDisposable, ICommand
+   internal class BannerOverlayWindow : Window, IDisposable, ICommand
    {
         private static BannerOverlaySettings Settings => Service.Configuration.DisplaySettings.BannerOverlay;
         private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
@@ -59,13 +57,13 @@ namespace NoTankYou.Windows.BannerOverlayWindow
         public override void PreOpenCheck()
         {
             var enabled = Settings.Enabled;
-            var partyListVisible = HudManager.IsPartyListVisible();
+            var showWarnings = Service.ContextManager.ShowWarnings;
             var isPvP = Territory.IsPvP();
             var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
             var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
             var inSanctuary = Settings.DisableInSanctuary && SanctuaryFunction();
 
-            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty && !blacklisted && !inSanctuary;
+            IsOpen = showWarnings && enabled && !isPvP && !inCrossWorldParty && !blacklisted && !inSanctuary;
         }
 
         public override void PreDraw()
@@ -79,23 +77,26 @@ namespace NoTankYou.Windows.BannerOverlayWindow
 
             WarningsDisplayed = 0;
 
-            Service.HudManager.ForEach(memberId =>
+            Service.HudManager.ForEach(ProcessMember);
+        }
+
+        private void ProcessMember(int index, bool targetable, bool visible)
+        {
+            if (!targetable) return;
+
+            var playerKey = (uint)Service.HudManager.GetHudGroupMember(index);
+
+            var warning = Service.HudManager.WarningStates[index];
+
+            if (warning != null)
             {
-                var playerKey = (uint)Service.HudManager.GetHudGroupMember(memberId);
+                var player = PlayerLocator.GetPlayer((int)playerKey);
 
-                var updateDictionary = Service.HudManager.WarningStates;
-
-                if (updateDictionary.ContainsKey(playerKey))
+                if (player != null)
                 {
-                    var warning = updateDictionary[playerKey];
-                    var player = PlayerLocator.GetPlayer((int)playerKey);
-
-                    if (player != null)
-                    {
-                        DrawWarningStatBanner(warning, player);
-                    }
+                    DrawWarningStatBanner(warning, player);
                 }
-            });
+            }
         }
 
         private void LockUnlockWindow()

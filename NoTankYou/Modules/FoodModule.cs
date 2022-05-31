@@ -9,7 +9,6 @@ using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules
 {

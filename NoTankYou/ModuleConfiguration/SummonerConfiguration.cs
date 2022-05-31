@@ -1,5 +1,4 @@
 ﻿using ImGuiNET;
-using ImGuiScene;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
@@ -13,17 +12,8 @@ namespace NoTankYou.ModuleConfiguration
     {
         public ModuleType ModuleType => ModuleType.Summoner;
         public string ConfigurationPaneLabel => Strings.Modules.Summoner.ConfigurationPanelLabel;
-        public string AboutInformationBox => Strings.Modules.Summoner.Description;
-        public string TechnicalInformation => Strings.Modules.Summoner.TechnicalDescription;
-        public TextureWrap? AboutImage { get; }
         public GenericSettings GenericSettings => Settings;
         private static SummonerModuleSettings Settings => Service.Configuration.ModuleSettings.Summoner;
-
-        public SummonerConfiguration()
-        {
-            AboutImage = Image.LoadImage("Unavailable");
-        }
-
         public void DrawTabItem()
         {
             ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Modules.Summoner.Label);

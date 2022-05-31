@@ -1,7 +1,6 @@
 ﻿using System;
 using Dalamud.Interface;
 using ImGuiNET;
-using ImGuiScene;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
@@ -16,10 +15,7 @@ namespace NoTankYou.ModuleConfiguration
     {
         public ModuleType ModuleType => ModuleType.Food;
         public string ConfigurationPaneLabel => Strings.Modules.Food.ConfigurationPanelLabel;
-        public string AboutInformationBox => Strings.Modules.Food.Description;
-        public string TechnicalInformation => Strings.Modules.Food.TechnicalDescription;
         public GenericSettings GenericSettings => Settings;
-        public TextureWrap? AboutImage { get; }
         private static FoodModuleSettings Settings => Service.Configuration.ModuleSettings.Food;
 
         private readonly InfoBox EarlyWarningTime = new()
@@ -73,11 +69,6 @@ namespace NoTankYou.ModuleConfiguration
                 }
             }
         };
-
-        public FoodConfiguration()
-        {
-            AboutImage = Image.LoadImage("Unavailable");
-        }
 
         public void DrawTabItem()
         {

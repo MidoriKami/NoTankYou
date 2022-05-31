@@ -1,5 +1,4 @@
 ﻿using ImGuiNET;
-using ImGuiScene;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
@@ -13,16 +12,8 @@ namespace NoTankYou.ModuleConfiguration
     {
         public ModuleType ModuleType => ModuleType.Sage;
         public string ConfigurationPaneLabel => Strings.Modules.Sage.ConfigurationPanelLabel;
-        public string AboutInformationBox => Strings.Modules.Sage.Description;
-        public string TechnicalInformation => Strings.Modules.Sage.TechnicalDescription;
-        public TextureWrap? AboutImage { get; }
         public GenericSettings GenericSettings => Settings;
         private static SageModuleSettings Settings => Service.Configuration.ModuleSettings.Sage;
-
-        public SageConfiguration()
-        {
-            AboutImage = Image.LoadImage("Unavailable");
-        }
 
         public void DrawTabItem()
         {

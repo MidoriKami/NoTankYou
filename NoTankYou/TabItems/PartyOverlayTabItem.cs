@@ -1,6 +1,5 @@
 ﻿using Dalamud.Interface;
 using ImGuiNET;
-using ImGuiScene;
 using NoTankYou.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Enums;
@@ -15,10 +14,6 @@ namespace NoTankYou.TabItems
     {
         public ModuleType ModuleType => ModuleType.PartyOverlay;
         public string ConfigurationPaneLabel => Strings.TabItems.PartyOverlay.ConfigurationLabel;
-
-        public string AboutInformationBox => Strings.TabItems.PartyOverlay.Description;
-
-        public string TechnicalInformation => Strings.TabItems.PartyOverlay.TechnicalDescription;
 
         private readonly InfoBox Options = new()
         {
@@ -104,13 +99,7 @@ namespace NoTankYou.TabItems
             }
         };
 
-        public TextureWrap? AboutImage { get; }
         private static PartyOverlaySettings Settings => Service.Configuration.DisplaySettings.PartyOverlay;
-
-        public PartyOverlayTabItem()
-        {
-            AboutImage = Image.LoadImage("PartyOverlay");
-        }
 
         public void DrawTabItem()
         {

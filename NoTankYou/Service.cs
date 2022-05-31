@@ -35,6 +35,7 @@ namespace NoTankYou
         public static Dalamud.Localization Localization { get; set; } = null!;
         public static IconManager IconManager { get; set; } = null!;
         public static FontManager FontManager { get; set; } = null!;
+        public static ContextManager ContextManager { get; set; } = null!;
         public static Configuration Configuration { get; set; } = null!;
     }
 }

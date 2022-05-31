@@ -10,7 +10,6 @@ using ImGuiScene;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Interfaces;
-using NoTankYou.System;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Windows.PartyFrameOverlayWindow
@@ -58,13 +57,18 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
         public override void PreOpenCheck()
         {
             var enabled = Settings.Enabled;
-            var partyListVisible = HudManager.IsPartyListVisible();
+            var showWarnings = Service.ContextManager.ShowWarnings;
             var isPvP = Territory.IsPvP();
             var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
             var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
             var inSanctuary = Settings.DisableInSanctuary && SanctuaryFunction();
 
-            IsOpen = partyListVisible && enabled && !isPvP && !inCrossWorldParty && !blacklisted && !inSanctuary;
+            IsOpen = showWarnings && enabled && !isPvP && !inCrossWorldParty && !blacklisted && !inSanctuary;
+
+            if (!IsOpen)
+            {
+                ResetAllAnimation();
+            }
         }
 
         public override void PreDraw()
@@ -78,27 +82,21 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
 
         public override void Draw()
         {
-            if (Service.HudManager.Disabled)
+            Service.HudManager.ForEach(SetWarningForPartyIndex);
+        }
+
+        private void SetWarningForPartyIndex(int index, bool targetable, bool visible)
+        {
+            var updateDictionary = Service.HudManager.WarningStates;
+            var warning = updateDictionary[index];
+
+            if (warning != null && targetable && visible)
             {
-                ResetAllAnimation();
+                AnimateShieldWarning(warning.MessageLong, index);
             }
             else
             {
-                Service.HudManager.ForEach(memberId =>
-                {
-                    var playerKey = (uint)Service.HudManager.GetHudGroupMember(memberId);
-
-                    var updateDictionary = Service.HudManager.WarningStates;
-
-                    if (updateDictionary.ContainsKey(playerKey))
-                    {
-                        AnimateShieldWarning(updateDictionary[playerKey].MessageLong, memberId);
-                    }
-                    else
-                    {
-                        ResetAnimation(memberId);
-                    }
-                });
+                ResetAnimation(index, targetable, visible);
             }
         }
 
@@ -107,11 +105,25 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             Service.HudManager.ForEach(ResetAnimation);
         }
 
-        private static void ResetAnimation(int hudPartyIndex)
+        private static void ResetAnimation(int hudPartyIndex, bool targetable, bool visible)
         {
             var partyMember = Service.HudManager[hudPartyIndex];
-            partyMember.ClassJobIcon->AtkResNode.ToggleVisibility(true);
-            partyMember.Name->AtkResNode.AddRed = 0;
+
+            var hudMember = Service.HudManager.GetHudGroupMember(hudPartyIndex);
+            if (hudMember != 0)
+            {
+                partyMember.ClassJobIcon->AtkResNode.ToggleVisibility(true);
+                partyMember.Name->AtkResNode.AddRed = 0;
+                partyMember.Name->AtkResNode.AddGreen = 0;
+                partyMember.Name->AtkResNode.AddRed = 0;
+            }
+            else
+            {
+                partyMember.ClassJobIcon->AtkResNode.ToggleVisibility(false);
+                partyMember.Name->AtkResNode.AddRed = 0;
+                partyMember.Name->AtkResNode.AddGreen = 0;
+                partyMember.Name->AtkResNode.AddRed = 0;
+            }
         }
         
         private void AnimateShieldWarning(string warningText, int hudPartyIndex)

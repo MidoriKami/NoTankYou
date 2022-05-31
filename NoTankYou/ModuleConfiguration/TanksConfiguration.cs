@@ -1,6 +1,5 @@
 ﻿using Dalamud.Interface.Components;
 using ImGuiNET;
-using ImGuiScene;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
@@ -15,9 +14,6 @@ namespace NoTankYou.ModuleConfiguration
     {
         public ModuleType ModuleType => ModuleType.Tanks;
         public string ConfigurationPaneLabel => Strings.Modules.Tank.ConfigurationPanelLabel;
-        public string AboutInformationBox => Strings.Modules.Tank.Description;
-        public string TechnicalInformation => Strings.Modules.Tank.TechnicalDescription;
-        public TextureWrap? AboutImage { get; }
         public GenericSettings GenericSettings => Settings;
         private static TankModuleSettings Settings => Service.Configuration.ModuleSettings.Tank;
 
@@ -41,11 +37,6 @@ namespace NoTankYou.ModuleConfiguration
                 }
             }
         };
-
-        public TanksConfiguration()
-        {
-            AboutImage = Image.LoadImage("Unavailable");
-        }
 
         public void DrawTabItem()
         {

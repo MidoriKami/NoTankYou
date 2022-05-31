@@ -1,5 +1,4 @@
 ﻿using ImGuiNET;
-using ImGuiScene;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
@@ -13,17 +12,8 @@ namespace NoTankYou.ModuleConfiguration
     {
         public ModuleType ModuleType => ModuleType.Scholar;
         public string ConfigurationPaneLabel => Strings.Modules.Scholar.ConfigurationPanelLabel;
-        public string AboutInformationBox => Strings.Modules.Scholar.Description;
-        public string TechnicalInformation => Strings.Modules.Scholar.TechnicalDescription;
-        public TextureWrap? AboutImage { get; }
         public GenericSettings GenericSettings => Settings;
         private static ScholarModuleSettings Settings => Service.Configuration.ModuleSettings.Scholar;
-
-        public ScholarConfiguration()
-        {
-            AboutImage = Image.LoadImage("Unavailable");
-        }
-
         public void DrawTabItem()
         {
             ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Modules.Scholar.Label);

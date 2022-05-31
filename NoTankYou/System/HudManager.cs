@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game;
-using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using NoTankYou.Components;
-using NoTankYou.Data;
 using NoTankYou.Data.Components;
-using NoTankYou.Interfaces;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.System
@@ -22,46 +17,30 @@ namespace NoTankYou.System
         #region Signatures
         private delegate IntPtr AddonOnSetup(IntPtr a1);
         private delegate IntPtr AddonFinalize(IntPtr a1);
-        private delegate byte AddonResize(IntPtr a1, IntPtr a2);
 
         [Signature("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 48 89 7C 24 ?? 41 54 41 56 41 57 48 83 EC 30 BA ?? ?? ?? ?? 48 8B F1", DetourName = nameof(PartyListSetup))]
         private readonly Hook<AddonOnSetup>? PartyListSetupHook = null;
 
         [Signature("48 89 5C 24 ?? 57 48 83 EC 20 0F B7 99 ?? ?? ?? ?? 48 8B F9 E8 ?? ?? ?? ?? 8B D3 41 B0 01 48 8D 88 ?? ?? ?? ?? E8 ?? ?? ?? ?? 45 33 C9 33 D2 48 8B CF 45 8D 41 03", DetourName = nameof(PartyListFinalize))]
         private readonly Hook<AddonFinalize>? PartyListFinalizeHook = null;
-
-        [Signature("E8 ?? ?? ?? ?? 48 8B 47 20 BA ?? ?? ?? ?? B9", DetourName = nameof(PartyListResize))]
-        private readonly Hook<AddonResize>? PartyListResizeHook = null;
         #endregion
+        private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
 
         private static AddonPartyList* _partyList;
 
-        public HashSet<int> PartyMemberObjectIDList { get; private set; }= new();
-        public HashSet<PlayerCharacter> PartyMemberPlayerCharacterList { get; private set; } = new();
-        public float UIScale { get; private set; }
-        public bool Disabled { get; private set; }
-        private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
-        private static SystemSettings SystemSettings => Service.Configuration.SystemSettings;
+        private float UIScale { get; set; }
+        private int CurrentPartyMember { get; set; }
 
-        private Queue<PlayerCharacter> PlayerUpdateQueue = new();
-
-        private readonly Stopwatch UpdateStopwatch = new();
-
-        public Dictionary<uint, WarningState> WarningStates { get; private set; } = new();
+        public readonly WarningState?[] WarningStates = new WarningState?[8];
 
         public HudManager()
         {
             SignatureHelper.Initialise(this);
 
             _partyList = (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList", 1);
-            
-            RecalculatePartyMembers();
-
-            UpdateStopwatch.Start();
 
             PartyListSetupHook?.Enable();
             PartyListFinalizeHook?.Enable();
-            PartyListResizeHook?.Enable();
 
             Service.Framework.Update += FrameworkUpdate;
         }
@@ -72,7 +51,6 @@ namespace NoTankYou.System
 
             PartyListSetupHook?.Dispose();
             PartyListFinalizeHook?.Dispose();
-            PartyListResizeHook?.Dispose();
         }
 
         #region HookedFunctions
@@ -90,83 +68,57 @@ namespace NoTankYou.System
             return PartyListFinalizeHook!.Original(a1);
         }
 
-        private byte PartyListResize(IntPtr a1, IntPtr a2)
-        {
-            var result = PartyListResizeHook!.Original(a1, a2);
-
-            RecalculatePartyMembers();
-
-            return result;
-        }
         #endregion
 
         private void FrameworkUpdate(Framework framework)
         {
-            Disabled = true;
-
-            if (PlayerUpdateQueue.Count == 0) return;
-            if (!IsPartyListVisible()) return;
+            if (!Service.ContextManager.ShowWarnings) return;
             if (Territory.IsPvP()) return;
             if (BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone()) return;
+            
+            ProcessPartyMember(CurrentPartyMember);
 
-            Disabled = false;
-
-            var currentPlayer = PlayerUpdateQueue.Dequeue();
-
-            UpdatePlayer(currentPlayer);
-
-            PlayerUpdateQueue.Enqueue(currentPlayer);
+            SelectNextPartyMember();
         }
 
-        private void UpdatePlayer(PlayerCharacter character)
+        private void SelectNextPartyMember()
         {
-            // Reset the warnings for this specific player
-            WarningStates.Remove(character.ObjectId);
+            CurrentPartyMember += 1;
 
-            // Get all relevant modules to this player
-            foreach (var module in Service.ModuleManager.GetModulesForClassJob(character.ClassJob.Id))
+            if (CurrentPartyMember >= _partyList->MemberCount)
             {
-                // Evaluate all warnings
-                ProcessModule(module, character);
+                CurrentPartyMember = 0;
             }
         }
 
-        private void ProcessModule(IModule module, PlayerCharacter character)
+        private void ProcessPartyMember(int currentPartyMember)
         {
-            // If this is a valid warning
-            var warning = module.ShouldShowWarning(character);
+            var currentMemberObjectID = GetHudGroupMember(CurrentPartyMember);
 
-            if (warning == null) return;
-
-            // If we already have an entry
-            if (WarningStates.ContainsKey(character.ObjectId))
+            if (currentMemberObjectID == 0)
             {
-                var existingEntry = WarningStates[character.ObjectId];
-
-                if (module.GenericSettings.Priority > existingEntry.Priority)
-                {
-                    WarningStates[character.ObjectId] = warning;
-                }
+                WarningStates[currentPartyMember] = null;
             }
-
-            // Else we need to make a new entry
             else
             {
-                WarningStates[character.ObjectId] = warning;
+                WarningStates[currentPartyMember] = EvaluatePartyMember(currentMemberObjectID);
             }
         }
 
-        private void RecalculatePartyMembers()
+        private WarningState? EvaluatePartyMember(int playerObjectID)
         {
-            if (_partyList != null && _partyList->MemberCount != PartyMemberObjectIDList.Count)
-            {
-                PartyMemberObjectIDList = GetPartyObjectIDs();
-                PartyMemberPlayerCharacterList = GetPlayerCharacters(PartyMemberObjectIDList);
+            var player = PlayerLocator.GetPlayer(playerObjectID);
+            if (player == null) return null;
 
-                PlayerUpdateQueue = new Queue<PlayerCharacter>(PartyMemberPlayerCharacterList);
-            }
+            var warningStates =
+                Service.ModuleManager.GetModulesForClassJob(player.ClassJob.Id)
+                    .Select(module => module.ShouldShowWarning(player))
+                    .Where(module => module != null)
+                    .ToList();
+
+            return warningStates.Any() ? warningStates.Aggregate((i1, i2) => i1!.Priority > i2!.Priority ? i1:i2) : null;
         }
-
+        
         public int GetHudGroupMember(int index)
         {
             var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
@@ -188,9 +140,6 @@ namespace NoTankYou.System
                 // If this element is our target player
                 if (GetHudGroupMember(i) == objectID)
                 {
-                    // Filter by visibility
-                    if (!partyListMemberResourceNode.IsVisible) return false;
-
                     // Filter on target-ability
                     // If alpha is 0x99, partyListMember is out of range
                     if (partyListMemberResourceNode.Color.A == 0x99) return false;
@@ -201,47 +150,19 @@ namespace NoTankYou.System
 
             return false;
         }
-
-        private static HashSet<PlayerCharacter> GetPlayerCharacters(IEnumerable<int> partyMemberObjectIDs)
-        {
-            return partyMemberObjectIDs
-                .Select(PlayerLocator.GetPlayer)
-                .Where(player => player != null)
-                .ToHashSet()!;
-        }
-
-        public static bool IsPartyListVisible()
-        {
-            return _partyList != null && (SystemSettings.DisablePartyListVisibilityChecking || _partyList->AtkUnitBase.IsVisible);
-        }
-
-        private HashSet<int> GetPartyObjectIDs()
-        {
-            HashSet<int> uiMembers = new();
-
-            for (var i = 0; i < _partyList->MemberCount; ++i)
-            {
-                uiMembers.Add(GetHudGroupMember(i));
-            }
-
-            return uiMembers;
-        }
-
+        
         public AddonPartyList.PartyListMemberStruct this[int index] => _partyList->PartyMember[index];
 
-        public void ForEach(Action<int> partyMemberAction)
+        public void ForEach(Action<int, bool, bool> action)
         {
-            if (!IsPartyListVisible()) return;
+            if (_partyList == null) return;
 
             for (var i = 0; i < _partyList->MemberCount; ++i)
             {
-                if (_partyList->PartyMember[i].PartyMemberComponent->OwnerNode->AtkResNode.IsVisible)
-                {
-                    if (IsTargetable((uint)GetHudGroupMember(i)) )
-                    {
-                        partyMemberAction(i);
-                    }
-                }
+                var memberVisible = _partyList->PartyMember[i].PartyMemberComponent->OwnerNode->AtkResNode.IsVisible;
+                var memberTargetable = IsTargetable((uint) GetHudGroupMember(i));
+
+                action(i, memberTargetable, memberVisible);
             }
         }
 
