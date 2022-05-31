@@ -106,13 +106,14 @@ namespace NoTankYou.System
             var player = PlayerLocator.GetPlayer(playerObjectID);
             if (player == null) return null;
 
-            var warningStates =
+            var highestPriorityWarning =
                 Service.ModuleManager.GetModulesForClassJob(player.ClassJob.Id)
                     .Select(module => module.ShouldShowWarning(player))
                     .Where(module => module != null)
-                    .ToList();
+                    .DefaultIfEmpty(null)
+                    .Aggregate((i1, i2) => i1!.Priority > i2!.Priority ? i1 : i2);
 
-            return warningStates.Any() ? warningStates.Aggregate((i1, i2) => i1!.Priority > i2!.Priority ? i1:i2) : null;
+            return highestPriorityWarning;
         }
         
         public int GetHudGroupMember(int index)
