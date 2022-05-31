@@ -2,12 +2,11 @@
 using System.Numerics;
 using Dalamud.Interface;
 using ImGuiNET;
-using NoTankYou.Interfaces;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Components
 {
-    internal class InfoBox : IDrawable
+    internal class InfoBox
     {
         public Vector4 Color { get; set; } = Colors.White;
         public Action ContentsAction { get; set; } = () => { ImGui.Text("Action Not Set"); };

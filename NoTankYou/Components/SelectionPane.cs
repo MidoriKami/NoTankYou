@@ -10,7 +10,7 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.Components
 {
-    internal class SelectionPane : IDrawable
+    internal class SelectionPane
     {
         private Vector2 AvailableArea => ImGui.GetContentRegionAvail();
         public float Padding { get; set; }

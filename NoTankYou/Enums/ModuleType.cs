@@ -11,9 +11,7 @@
         Summoner,
         BlueMage,
         Blacklist,
-        Attributions,
         FreeCompany,
         BannerOverlay,
-        AdvancedOptions
     }
 }

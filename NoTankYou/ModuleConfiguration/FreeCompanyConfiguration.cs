@@ -29,7 +29,6 @@ namespace NoTankYou.ModuleConfiguration
                 {
                     Service.Configuration.Save();
                 }
-                ImGuiComponents.HelpMarker(Strings.Configuration.SoloModeHelp);
             }
         };
 

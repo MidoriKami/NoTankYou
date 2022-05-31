@@ -158,9 +158,7 @@ namespace NoTankYou.Localization
     {
         public PartyOverlay PartyOverlay { get; set; } = new();
         public Blacklist Blacklist { get; set; } = new();
-        public Attributions Attributions { get; set; } = new();
         public BannerOverlay BannerOverlay { get; set; } = new();
-        public AdvancedOptions AdvancedOptions { get; set; } = new();
     }
 
     public class BannerOverlay
@@ -205,26 +203,6 @@ namespace NoTankYou.Localization
         public readonly string ID = Loc.Localize("Blacklist_ID", "Add by zone ID");
         public readonly string Name = Loc.Localize("Blacklist_Name", "Add by zone name");
     }
-
-    public class Attributions
-    {
-        public readonly string Label = Loc.Localize("Attributions_Label", "Attributions");
-        public readonly string FreeCompanyDescription = Loc.Localize("Attributions_FreeCompanyDescription", "Free Company Artwork by 'artofawang'");
-
-    }
-
-    public class AdvancedOptions
-    {
-        public readonly string Label = Loc.Localize("AdvancedOptions_Label", "Advanced Options");
-        public readonly string DisablePartyListChecking = Loc.Localize("AdvancedOptions_DisablePartyListChecking", "Party List Visibility Checking");
-        public readonly string DisablePartyListCheckingDisclaimer = Loc.Localize("AdvancedOptions_DisablePartyListCheckingDisclaimer", 
-            "NoTankYou uses the visibility status of the Party List to know when to show warnings\n\n" +
-            "If the party list is being hidden through other means, NoTankYou will not show any warnings\n\n" +
-            "You can override this behavior by disabling visibility checking\n\n" +
-            "When visibility checking is disabled, warnings will appear when they otherwise would not, such as during cutscenes, active time events, area transitions, and more");
-        public readonly string StrongWarning = Loc.Localize("AdvancedOptions_StrongWarning", "Only use this setting as a last resort!");
-        public readonly string DisableFeature = Loc.Localize("Configuration_DisableFeature", "Disable Visibility Checking");
-    }
     #endregion
 
     #region Configuration
@@ -236,7 +214,6 @@ namespace NoTankYou.Localization
         public readonly string DutiesOnly = Loc.Localize("Configuration_DutiesOnly", "Duties Only");
         public readonly string HideInSanctuary = Loc.Localize("Configuration_HideInSanctuary", "Hide in Sanctuaries");
         public readonly string DutiesOnlyHelp = Loc.Localize("Configuration_DutiesOnlyHelp", "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere");
-        public readonly string SoloModeHelp = Loc.Localize("Configuration_SoloModeHelp", "Only evaluates warnings for you, does not check party members\n\nRequires the party frame to be visible to evaluate warnings\nSystem > Character Configuration > UI Settings > Party List > (Uncheck) Hide party list while solo");
     }
     #endregion
 
