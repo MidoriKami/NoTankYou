@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
@@ -8,7 +7,6 @@ using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Components;
-using NoTankYou.Data.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Enums;
 using NoTankYou.Interfaces;
@@ -19,7 +17,6 @@ namespace NoTankYou.Windows.BannerOverlayWindow
    internal class BannerOverlayWindow : Window, IDisposable, ICommand
    {
         private static BannerOverlaySettings Settings => Service.Configuration.DisplaySettings.BannerOverlay;
-        private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
         private readonly TextureWrap WarningIcon;
         private readonly TextureWrap Crosshair;
 
@@ -56,14 +53,11 @@ namespace NoTankYou.Windows.BannerOverlayWindow
 
         public override void PreOpenCheck()
         {
+            var genericShouldShow = Condition.ShouldShowWindow();
             var enabled = Settings.Enabled;
-            var showWarnings = Service.ContextManager.ShowWarnings;
-            var isPvP = Territory.IsPvP();
-            var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
-            var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
             var inSanctuary = Settings.DisableInSanctuary && SanctuaryFunction();
 
-            IsOpen = showWarnings && enabled && !isPvP && !inCrossWorldParty && !blacklisted && !inSanctuary;
+            IsOpen = genericShouldShow && enabled && !inSanctuary;
         }
 
         public override void PreDraw()

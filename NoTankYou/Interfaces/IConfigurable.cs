@@ -18,7 +18,7 @@ namespace NoTankYou.Interfaces
             ImGui.SetCursorPos(ImGui.GetCursorPos() with {X = textStart});
             ImGui.Text(ConfigurationPaneLabel);
 
-            ImGui.Spacing();
+            ImGui.Separator();
 
             DrawTabs();
         }

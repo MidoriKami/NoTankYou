@@ -1,4 +1,5 @@
 ﻿using Dalamud.Game.ClientState.Conditions;
+using NoTankYou.Data.Components;
 
 namespace NoTankYou.Utilities
 {
@@ -9,11 +10,23 @@ namespace NoTankYou.Utilities
             var baseBoundByDuty = Service.Condition[ConditionFlag.BoundByDuty];
             var boundBy56 = Service.Condition[ConditionFlag.BoundByDuty56];
             var boundBy95 = Service.Condition[ConditionFlag.BoundByDuty95];
-
-            // Triggers when Queue is started
-            //var boundBy97 = Service.Condition[ConditionFlag.BoundToDuty97];
-
+            
             return baseBoundByDuty || boundBy56 || boundBy95;
+        }
+
+        public static bool ShouldShowWindow()
+        {
+            var hudDataAvailable = Service.HudManager.DataAvailable;
+            var showWarnings = Service.ContextManager.ShowWarnings;
+            var isPvP = Territory.IsPvP();
+
+            var blackListEnabled = Service.Configuration.SystemSettings.Blacklist.Enabled;
+            var blackListedZone = Service.Configuration.SystemSettings.Blacklist.ContainsCurrentZone();
+            var blacklisted = blackListEnabled && blackListedZone;
+
+            var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
+
+            return hudDataAvailable && showWarnings && !isPvP && !blacklisted && !inCrossWorldParty;
         }
     }
 }

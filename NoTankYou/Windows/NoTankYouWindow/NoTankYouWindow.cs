@@ -14,7 +14,7 @@ namespace NoTankYou.Windows.NoTankYouWindow
         private readonly SelectionPane SelectionPane = new()
         {
             Padding = 6.0f,
-            SelectionPaneWidth = 225.0f
+            SelectionPaneWidth = 175.0f
         };
 
         public NoTankYouWindow() : base("NoTankYou Settings")
@@ -23,7 +23,7 @@ namespace NoTankYou.Windows.NoTankYouWindow
 
             SizeConstraints = new WindowSizeConstraints
             {
-                MinimumSize = new Vector2(600, 400),
+                MinimumSize = new Vector2(550, 400),
                 MaximumSize = new Vector2(9999,9999)
             };
 
@@ -41,20 +41,10 @@ namespace NoTankYou.Windows.NoTankYouWindow
             if (Territory.IsPvP())
                 IsOpen = false;
         }
-
-        public override void PreDraw()
-        {
-
-        }
-
+        
         public override void Draw()
         {
             SelectionPane.Draw();
-        }
-
-        public override void PostDraw()
-        {
-
         }
 
         public override void OnClose()
@@ -87,7 +77,6 @@ namespace NoTankYou.Windows.NoTankYouWindow
                     Service.Configuration.DeveloperMode = false;
                     Service.Configuration.Save();
                     break;
-
             }
         }
     }

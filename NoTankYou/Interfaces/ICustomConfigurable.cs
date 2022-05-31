@@ -24,7 +24,7 @@ namespace NoTankYou.Interfaces
             ImGui.SetCursorPos(ImGui.GetCursorPos() with {X = textStart});
             ImGui.Text(ConfigurationPaneLabel);
 
-            ImGui.Spacing();
+            ImGui.Separator();
 
             if (ImGui.BeginChild("OptionsContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar))
             {

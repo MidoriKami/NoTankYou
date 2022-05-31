@@ -7,7 +7,6 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using NoTankYou.Components;
-using NoTankYou.Data.Components;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.System
@@ -24,10 +23,9 @@ namespace NoTankYou.System
         [Signature("48 89 5C 24 ?? 57 48 83 EC 20 0F B7 99 ?? ?? ?? ?? 48 8B F9 E8 ?? ?? ?? ?? 8B D3 41 B0 01 48 8D 88 ?? ?? ?? ?? E8 ?? ?? ?? ?? 45 33 C9 33 D2 48 8B CF 45 8D 41 03", DetourName = nameof(PartyListFinalize))]
         private readonly Hook<AddonFinalize>? PartyListFinalizeHook = null;
         #endregion
-        private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
 
         private static AddonPartyList* _partyList;
-
+        public bool DataAvailable => _partyList != null;
         private float UIScale { get; set; }
         private int CurrentPartyMember { get; set; }
 
@@ -72,9 +70,7 @@ namespace NoTankYou.System
 
         private void FrameworkUpdate(Framework framework)
         {
-            if (!Service.ContextManager.ShowWarnings) return;
-            if (Territory.IsPvP()) return;
-            if (BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone()) return;
+            if (!Condition.ShouldShowWindow()) return;
             
             ProcessPartyMember(CurrentPartyMember);
 

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Numerics;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 using ImGuiScene;
-using NoTankYou.Data.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Interfaces;
 using NoTankYou.Utilities;
@@ -18,7 +16,6 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
     {
         private readonly Stopwatch AnimationStopwatch = new();
         private PartyOverlaySettings Settings => Service.Configuration.DisplaySettings.PartyOverlay;
-        private static BlacklistSettings BlacklistSettings => Service.Configuration.SystemSettings.Blacklist;
 
         private readonly TextureWrap WarningIcon;
 
@@ -54,16 +51,14 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             ResetAllAnimation();
         }
         
+
         public override void PreOpenCheck()
         {
+            var genericShouldShow = Condition.ShouldShowWindow();
             var enabled = Settings.Enabled;
-            var showWarnings = Service.ContextManager.ShowWarnings;
-            var isPvP = Territory.IsPvP();
-            var blacklisted = BlacklistSettings.Enabled && BlacklistSettings.ContainsCurrentZone();
-            var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
             var inSanctuary = Settings.DisableInSanctuary && SanctuaryFunction();
 
-            IsOpen = showWarnings && enabled && !isPvP && !inCrossWorldParty && !blacklisted && !inSanctuary;
+            IsOpen = genericShouldShow && enabled && !inSanctuary;
 
             if (!IsOpen)
             {

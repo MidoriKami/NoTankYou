@@ -148,7 +148,7 @@ namespace NoTankYou.Localization
         public readonly string SettingsDescription = Loc.Localize("Tabs_SettingsDescription", "Basic settings options");
 
         public readonly string Display = Loc.Localize("Tabs_Display", "Display");
-        public readonly string DisplayDescription = Loc.Localize("Tabs_DisplayDescription", "Configure how warnings are displayed");
+        public readonly string DisplayDescription = Loc.Localize("Tabs_DisplayDescription", "How warnings display");
 
         public readonly string Modules = Loc.Localize("Tabs_Modules", "Modules");
         public readonly string ModulesDescription = Loc.Localize("Tabs_ModulesDescription", "Configure each module");
