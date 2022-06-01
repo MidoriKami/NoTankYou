@@ -124,13 +124,13 @@ namespace NoTankYou.Modules
             return null;
         }
 
-        private unsafe int GetAllianceMemberObjectID(int index)
+        private unsafe uint GetAllianceMemberObjectID(int index)
         {
             var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
             var baseAddress = (byte*) frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.Hud);
             const int allianceDataOffset = 0x0E14;
 
-            var objectId = *(int*) (baseAddress + allianceDataOffset + index * 0x4);
+            var objectId = *(uint*) (baseAddress + allianceDataOffset + index * 0x4);
 
             return objectId;
         }

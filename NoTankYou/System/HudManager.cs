@@ -89,9 +89,9 @@ namespace NoTankYou.System
 
         private void ProcessPartyMember(int currentPartyMember)
         {
-            var currentMemberObjectID = GetHudGroupMember(CurrentPartyMember);
+            var currentMemberObjectID = (uint)GetHudGroupMember(CurrentPartyMember);
 
-            if (currentMemberObjectID == 0)
+            if (currentMemberObjectID is 0 or 0xE000_0000)
             {
                 WarningStates[currentPartyMember] = null;
             }
@@ -101,7 +101,7 @@ namespace NoTankYou.System
             }
         }
 
-        private WarningState? EvaluatePartyMember(int playerObjectID)
+        private WarningState? EvaluatePartyMember(uint playerObjectID)
         {
             var player = PlayerLocator.GetPlayer(playerObjectID);
             if (player == null) return null;

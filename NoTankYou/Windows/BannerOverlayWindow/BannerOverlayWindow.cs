@@ -84,7 +84,7 @@ namespace NoTankYou.Windows.BannerOverlayWindow
 
             if (warning != null)
             {
-                var player = PlayerLocator.GetPlayer((int)playerKey);
+                var player = PlayerLocator.GetPlayer(playerKey);
 
                 if (player != null)
                 {
