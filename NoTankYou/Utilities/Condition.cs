@@ -1,5 +1,6 @@
 ﻿using Dalamud.Game.ClientState.Conditions;
 using NoTankYou.Data.Components;
+using NoTankYou.System;
 
 namespace NoTankYou.Utilities
 {
@@ -16,7 +17,7 @@ namespace NoTankYou.Utilities
 
         public static bool ShouldShowWindow()
         {
-            var hudDataAvailable = Service.HudManager.DataAvailable;
+            var hudDataAvailable = HudManager.DataAvailable;
             var showWarnings = Service.ContextManager.ShowWarnings;
             var isPvP = Territory.IsPvP();
 

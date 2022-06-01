@@ -25,7 +25,7 @@ namespace NoTankYou.System
         #endregion
 
         private static AddonPartyList* _partyList;
-        public bool DataAvailable => _partyList != null;
+        public static bool DataAvailable => _partyList != null;
         private float UIScale { get; set; }
         private int CurrentPartyMember { get; set; }
 
