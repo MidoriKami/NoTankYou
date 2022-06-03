@@ -6,6 +6,7 @@ using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
+using NoTankYou.Enums;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
@@ -71,14 +72,7 @@ namespace NoTankYou.Modules
             if (!Service.PartyList.Where(partyMember => partyMember.CurrentHP > 0 && ClassJobs.Contains(partyMember.ClassJob.Id))
                     .Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId))))
             {
-                return new WarningState
-                {
-                    MessageShort = MessageShort,
-                    MessageLong = MessageLong,
-                    IconID = GetTankIcon(character).Item1,
-                    IconLabel = GetTankIcon(character).Item2,
-                    Priority = GenericSettings.Priority,
-                };
+                return TankWarning(character);
             }
 
             return null;
@@ -88,14 +82,7 @@ namespace NoTankYou.Modules
         {
             if (!character.StatusList.Any(status => TankStances.Contains(status.StatusId)))
             {
-                return new WarningState
-                {
-                    MessageShort = MessageShort,
-                    MessageLong = MessageLong,
-                    IconID = GetTankIcon(character).Item1,
-                    IconLabel = GetTankIcon(character).Item2,
-                    Priority = GenericSettings.Priority,
-                };
+                return TankWarning(character);
             }
 
             return null;
@@ -111,14 +98,7 @@ namespace NoTankYou.Modules
 
             if (partyMissingStance && allianceMissingStance)
             {
-                return new WarningState
-                {
-                    MessageShort = MessageShort,
-                    MessageLong = MessageLong,
-                    IconID = GetTankIcon(character).Item1,
-                    IconLabel = GetTankIcon(character).Item2,
-                    Priority = GenericSettings.Priority,
-                };
+                return TankWarning(character);
             }
 
             return null;
@@ -172,6 +152,19 @@ namespace NoTankYou.Modules
             }
 
             return players;
+        }
+
+        private WarningState TankWarning(PlayerCharacter character)
+        {
+            return new WarningState
+            {
+                MessageShort = MessageShort,
+                MessageLong = MessageLong,
+                IconID = GetTankIcon(character).Item1,
+                IconLabel = GetTankIcon(character).Item2,
+                Priority = GenericSettings.Priority,
+                Sender = ModuleType.Tanks,
+            };
         }
     }
 }

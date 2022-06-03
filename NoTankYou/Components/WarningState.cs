@@ -1,4 +1,6 @@
-﻿namespace NoTankYou.Components
+﻿using NoTankYou.Enums;
+
+namespace NoTankYou.Components
 {
     public class WarningState
     {
@@ -7,5 +9,7 @@
         public string MessageLong { get; set; } = string.Empty;
         public string MessageShort { get; set; } = string.Empty;
         public int Priority { get; set; }
+        public ModuleType Sender { get; set; }
+        public SenderSubtype SenderSubtype { get; set; } 
     }
 }

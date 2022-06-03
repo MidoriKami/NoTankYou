@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
-using Dalamud.Game;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -39,14 +38,10 @@ namespace NoTankYou.System
 
             PartyListSetupHook?.Enable();
             PartyListFinalizeHook?.Enable();
-
-            Service.Framework.Update += FrameworkUpdate;
         }
 
         public void Dispose()
         {
-            Service.Framework.Update -= FrameworkUpdate;
-
             PartyListSetupHook?.Dispose();
             PartyListFinalizeHook?.Dispose();
         }
@@ -68,9 +63,9 @@ namespace NoTankYou.System
 
         #endregion
 
-        private void FrameworkUpdate(Framework framework)
+        public void Update()
         {
-            if (!Condition.ShouldShowWindow()) return;
+            if (!Condition.ShouldShowWarnings()) return;
             
             ProcessPartyMember(CurrentPartyMember);
 

@@ -7,6 +7,7 @@ using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
+using NoTankYou.Enums;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 
@@ -42,7 +43,8 @@ namespace NoTankYou.Modules
                     MessageShort = MessageShort,
                     IconID = SummonCarbuncle.Icon,
                     IconLabel = SummonCarbuncle.Name.RawString,
-                    Priority = GenericSettings.Priority
+                    Priority = GenericSettings.Priority,
+                    Sender = ModuleType.Summoner,
                 };
             }
 

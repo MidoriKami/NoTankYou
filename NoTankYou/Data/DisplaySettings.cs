@@ -6,5 +6,6 @@ namespace NoTankYou.Data
     {
         public PartyOverlaySettings PartyOverlay { get; set; } = new();
         public BannerOverlaySettings BannerOverlay { get; set; } = new();
+        public TippyOverlaySettings TippyOverlay { get; set; } = new();
     }
 }

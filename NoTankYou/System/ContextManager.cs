@@ -1,24 +1,13 @@
-﻿using System;
-using Dalamud.Game;
-using FFXIVClientStructs.FFXIV.Component.GUI;
+﻿using FFXIVClientStructs.FFXIV.Component.GUI;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 
 namespace NoTankYou.System
 {
-    public unsafe class ContextManager : IDisposable
+    public unsafe class ContextManager
     {
         public bool ShowWarnings { get; private set; } = true;
 
-        public ContextManager()
-        {
-            Service.Framework.Update += UpdateContext;
-        }
-        public void Dispose()
-        {
-            Service.Framework.Update -= UpdateContext;
-        }
-
-        private void UpdateContext(Framework framework)
+        public void Update()
         {
             var partyList = (AtkUnitBase*) Service.GameGui.GetAddonByName("_PartyList", 1);
             var todoList = (AtkUnitBase*) Service.GameGui.GetAddonByName("_ToDoList", 1);

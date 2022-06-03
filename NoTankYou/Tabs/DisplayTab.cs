@@ -12,6 +12,7 @@ namespace NoTankYou.Tabs
         {
             new PartyOverlayTabItem(),
             new BannerOverlayTabItem(),
+            new TippyOverlayTabItem(),
         };
 
         public string TabName => Strings.Common.Tabs.Display;

@@ -58,7 +58,8 @@ namespace NoTankYou.Modules
                             MessageShort = MessageShort,
                             IconID = (uint)FreeCompanyStatus.Icon,
                             IconLabel = "",
-                            Priority = GenericSettings.Priority
+                            Priority = GenericSettings.Priority,
+                            Sender = ModuleType.FreeCompany,
                         };
                     }
                     break;
@@ -76,7 +77,8 @@ namespace NoTankYou.Modules
                                 MessageShort = MessageShort,
                                 IconID = (uint)FreeCompanyStatus.Icon,
                                 IconLabel = targetStatus.Name.RawString,
-                                Priority = GenericSettings.Priority
+                                Priority = GenericSettings.Priority,
+                                Sender = ModuleType.FreeCompany,
                             };
                         }
                     }

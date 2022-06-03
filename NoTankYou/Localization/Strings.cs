@@ -1,4 +1,5 @@
-﻿using CheapLoc;
+﻿using System.Collections.Generic;
+using CheapLoc;
 
 namespace NoTankYou.Localization
 {
@@ -159,6 +160,7 @@ namespace NoTankYou.Localization
         public PartyOverlay PartyOverlay { get; set; } = new();
         public Blacklist Blacklist { get; set; } = new();
         public BannerOverlay BannerOverlay { get; set; } = new();
+        public TippyDisplay TippyDisplay { get; set; } = new();
     }
 
     public class BannerOverlay
@@ -191,6 +193,15 @@ namespace NoTankYou.Localization
         public readonly string FlashingEffects = Loc.Localize("PartyOverlay_FlashingEffects", "Flashing Effects");
         public readonly string ColorOptions = Loc.Localize("PartyOverlay_ColorOptions", "Color Options");
         public readonly string WarningOutlineColor = Loc.Localize("PartyOverlay_WarningOutlineColor", "Name Outline");
+    }
+
+    public class TippyDisplay
+    {
+        public readonly string Label = Loc.Localize("TippyDisplay_Label", "Tippy Display");
+        public readonly string ConfigurationLabel = Loc.Localize("TippyDisplay_ConfigurationLabel", "Tippy Display Configuration");
+        public readonly string WarningFrequency = Loc.Localize("TippyDisplay_WarningFrequency", "Warning Frequency");
+        public readonly string TippyNotInstalled = Loc.Localize("TippyDisplay_TippyNotInstalled", "Tippy Plugin is Not Installed");
+        public readonly string TippyNotInstalledInstructions = Loc.Localize("TippyDisplay_TippyNotInstalledInstructions", "Install Tippy to access these features");
     }
 
     public class Blacklist
@@ -236,6 +247,75 @@ namespace NoTankYou.Localization
     }
     #endregion
 
+    #region TippyMessages
+    public class TippyMessages
+    {
+        public readonly List<string> Tank = new ()
+        {
+            Loc.Localize("TippyMessages_Tank1", "I noticed your tank doesn't have their stance on. This means it's your job to pull mobs!"),
+            Loc.Localize("TippyMessages_Tank2", "If your tank forgot to turn on stance, do not politely let them know. Instead, report them and post it to /r/TalesFromDF for karma."),
+            Loc.Localize("TippyMessages_Tank3", "Remember, there is no difference between a tank without stance on and a tank that doesn't use their AOEs during trash pulls."),
+            Loc.Localize("TippyMessages_Tank4", "It's okay if your tank doesn't have stance on. They get beaten up enough in real life. Let them have a break."),
+        };
+
+        public readonly List<string> Food = new()
+        {
+            Loc.Localize("TippyMessages_Food1", "You're looking a little thin there, you should probably eat something."),
+        };
+
+        public readonly List<string> Summoner = new()
+        {
+            Loc.Localize("TippyMessages_Summoner1", "Your summoner abandoned their Carbuncle somewhere. Please report this abuse to the Arcanist's Guild as soon as possible."),
+        };
+
+        public readonly List<string> Dancer = new()
+        {
+            Loc.Localize("TippyMessages_Dancer1", "If you're wondering why your Dancer couldn't find a partner, it's because they haven't showered in a month."),
+            Loc.Localize("TippyMessages_Dancer2", "I certainly don't want to do a square dance with my Dance Partner."),
+            Loc.Localize("TippyMessages_Dancer3", "Remember to regularly rotate your Dance Partner so nobody feels left out during prom!"),
+            Loc.Localize("TippyMessages_Dancer4", "Remember to add Dance Partner to the healer so you get maximum healing."),
+        };
+
+        public readonly List<string> Scholar = new()
+        {
+            Loc.Localize("TippyMessages_Scholar1", "Be very gentle to your party's Scholar. Seraph broke up with them last week and they have yet to get over it."),
+            Loc.Localize("TippyMessages_Scholar2", "Eos is out for a Pumpkin Spice Latte, it's your job to heal now, good luck."),
+        };
+
+        public readonly List<string> Sage = new()
+        {
+            Loc.Localize("TippyMessages_Sage1", "Please remind your Sage that they are not playing WoW. Healers are required to do DPS to be effective in this game."),
+            Loc.Localize("TippyMessages_Sage2", "Apply Kardion to the DPS so you don't have to worry about healing them!"),
+        };
+
+        public readonly List<string> FreeCompany = new()
+        {
+            Loc.Localize("TippyMessages_FreeCompany1", "Avoid the social anxiety of telling your FC lead to renew buffs by simply leaving your FC!"),
+        };
+
+        public readonly TippyBlueMageMessages BlueMage = new();
+    }
+
+    public class TippyBlueMageMessages
+    {
+        public readonly List<string> AetherialMimicry = new()
+        {
+            Loc.Localize("TippyMessages_AetherialManipulation1", "Without Aetherial Manipulation, a Blue Mage is weak and unspecialized. Like your average pink-haired catgirl in Limsa Lominsa."),
+        };
+
+        public readonly List<string> BasicInstinct = new()
+        {
+            Loc.Localize("TippyMessages_BasicInstinct1", "If you had any basic instinct you'd know to not play Blue Mage."),
+        };
+
+        public readonly List<string> MightyGuard = new()
+        {
+            Loc.Localize("TippyMessages_MightyGuard1", "Did you know a Blue Mage can also function as a tank? They're both blue, and they both have a mighty guard!"),
+        };
+    }
+    #endregion
+
+
     internal static class Strings
     {
         public static Modules Modules { get; set; } = new();
@@ -243,6 +323,7 @@ namespace NoTankYou.Localization
         public static Configuration Configuration { get; set; } = new();
         public static Commands Commands { get; set; } = new();
         public static TabItems TabItems { get; set; } = new();
+        public static TippyMessages Tippy { get; set; } = new();
 
         public static void ReInitialize()
         {
@@ -251,6 +332,7 @@ namespace NoTankYou.Localization
             Configuration = new();
             Commands = new();
             TabItems = new TabItems();
+            Tippy = new TippyMessages();
         }
     }
 }

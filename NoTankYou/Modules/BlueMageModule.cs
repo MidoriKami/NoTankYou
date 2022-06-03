@@ -5,6 +5,7 @@ using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
+using NoTankYou.Enums;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 
@@ -49,6 +50,8 @@ namespace NoTankYou.Modules
                     IconID = MimicryAction.Icon,
                     IconLabel = MimicryAction.Name.ToString(),
                     Priority = GenericSettings.Priority,
+                    Sender = ModuleType.BlueMage,
+                    SenderSubtype = SenderSubtype.AetherialMimicry,
                 };
             }
 
@@ -65,6 +68,8 @@ namespace NoTankYou.Modules
                             IconID = MightyGuardAction.Icon,
                             IconLabel = MightyGuardAction.Name.ToString(),
                             Priority = GenericSettings.Priority,
+                            Sender = ModuleType.BlueMage,
+                            SenderSubtype = SenderSubtype.MightyGuard,
                         };
                     }
                 }
@@ -82,6 +87,9 @@ namespace NoTankYou.Modules
                             IconID = MightyGuardAction.Icon,
                             IconLabel = MightyGuardAction.Name.ToString(),
                             Priority = GenericSettings.Priority,
+                            Sender = ModuleType.BlueMage,
+                            SenderSubtype = SenderSubtype.MightyGuard,
+
                         };
                     }
                 }
@@ -98,6 +106,8 @@ namespace NoTankYou.Modules
                         IconID = BasicInstinctAction.Icon,
                         IconLabel = BasicInstinctAction.Name.ToString(),
                         Priority = GenericSettings.Priority,
+                        Sender = ModuleType.BlueMage,
+                        SenderSubtype = SenderSubtype.BasicInstinct,
                     };
                 }
             }

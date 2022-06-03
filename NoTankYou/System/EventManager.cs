@@ -1,5 +1,4 @@
 ﻿using System;
-using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
@@ -27,7 +26,6 @@ namespace NoTankYou.System
                 DutyStarted = true;
             }
 
-            Service.Framework.Update += DutyCombatListener;
             Service.ClientState.TerritoryChanged += TerritoryChanged;
         }
 
@@ -37,7 +35,7 @@ namespace NoTankYou.System
         }
 
         // Fallback listener that triggers duty started when combat starts while bound by duty
-        private void DutyCombatListener(Framework framework)
+        public void Update()
         {
             if (Condition.IsBoundByDuty())
             {
@@ -52,7 +50,6 @@ namespace NoTankYou.System
         {
             DutyEventHook?.Dispose();
 
-            Service.Framework.Update -= DutyCombatListener;
             Service.ClientState.TerritoryChanged -= TerritoryChanged;
         }
 

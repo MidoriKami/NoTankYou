@@ -15,7 +15,7 @@ namespace NoTankYou.Utilities
             return baseBoundByDuty || boundBy56 || boundBy95;
         }
 
-        public static bool ShouldShowWindow()
+        public static bool ShouldShowWarnings()
         {
             var hudDataAvailable = HudManager.DataAvailable;
             var showWarnings = Service.ContextManager.ShowWarnings;

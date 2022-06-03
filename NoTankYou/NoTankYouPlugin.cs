@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using CheapLoc;
+using Dalamud.Game;
 using Dalamud.Game.Command;
 using Dalamud.Logging;
 using Dalamud.Plugin;
@@ -56,10 +57,19 @@ namespace NoTankYou
             Service.FontManager = new FontManager();
             Service.ContextManager = new ContextManager();
 
+            Service.Framework.Update += OnUpdate;
+
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
             Service.PluginInterface.LanguageChanged += LoadLocalization;
+        }
+
+        private void OnUpdate(Framework framework)
+        {
+            Service.EventManager.Update();
+            Service.ContextManager.Update();
+            Service.HudManager.Update();
         }
 
         private static void LoadLocalization(string languageCode)
@@ -109,7 +119,8 @@ namespace NoTankYou
             Service.HudManager.Dispose();
             Service.IconManager.Dispose();
             Service.FontManager.Dispose();
-            Service.ContextManager.Dispose();
+
+            Service.Framework.Update -= OnUpdate;
 
             Service.PluginInterface.UiBuilder.Draw -= DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;

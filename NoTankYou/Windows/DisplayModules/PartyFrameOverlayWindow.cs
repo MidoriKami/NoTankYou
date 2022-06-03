@@ -10,7 +10,7 @@ using NoTankYou.Data.Overlays;
 using NoTankYou.Interfaces;
 using NoTankYou.Utilities;
 
-namespace NoTankYou.Windows.PartyFrameOverlayWindow
+namespace NoTankYou.Windows.DisplayModules
 {
     internal unsafe class PartyFrameOverlayWindow : Window, IDisposable, ICommand
     {
@@ -50,11 +50,10 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
 
             ResetAllAnimation();
         }
-        
 
         public override void PreOpenCheck()
         {
-            var genericShouldShow = Condition.ShouldShowWindow();
+            var genericShouldShow = Condition.ShouldShowWarnings();
             var enabled = Settings.Enabled;
             var inSanctuary = Settings.DisableInSanctuary && SanctuaryFunction();
 
@@ -120,7 +119,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
                 partyMember.Name->AtkResNode.AddRed = 0;
             }
         }
-        
+
         private void AnimateShieldWarning(string warningText, int hudPartyIndex)
         {
             var partyMember = Service.HudManager[hudPartyIndex];
@@ -170,8 +169,8 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             if (!Settings.FlashingEffects)
             {
                 partyMember.Name->AtkResNode.AddRed = (ushort)(Settings.WarningOutlineColor.X * 255);
-                partyMember.Name->AtkResNode.AddGreen = (ushort) ( Settings.WarningOutlineColor.Y * 255 );
-                partyMember.Name->AtkResNode.AddBlue = (ushort) ( Settings.WarningOutlineColor.Z * 255 );
+                partyMember.Name->AtkResNode.AddGreen = (ushort)(Settings.WarningOutlineColor.Y * 255);
+                partyMember.Name->AtkResNode.AddBlue = (ushort)(Settings.WarningOutlineColor.Z * 255);
             }
             else
             {
@@ -185,8 +184,8 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
                 else if (AnimationStopwatch.ElapsedMilliseconds > 500)
                 {
                     partyMember.Name->AtkResNode.AddRed = (ushort)(Settings.WarningOutlineColor.X * 255);
-                    partyMember.Name->AtkResNode.AddGreen = (ushort) ( Settings.WarningOutlineColor.Y * 255 );
-                    partyMember.Name->AtkResNode.AddBlue = (ushort) ( Settings.WarningOutlineColor.Z * 255 );
+                    partyMember.Name->AtkResNode.AddGreen = (ushort)(Settings.WarningOutlineColor.Y * 255);
+                    partyMember.Name->AtkResNode.AddBlue = (ushort)(Settings.WarningOutlineColor.Z * 255);
                 }
             }
         }
@@ -214,7 +213,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
         private void DrawWarningShield(int hudPartyIndex)
         {
             var iconInfo = Service.HudManager.GetJobLocationInfo(hudPartyIndex);
-            var drawPosition = iconInfo.Position + (iconInfo.Size * 0.10f);
+            var drawPosition = iconInfo.Position + iconInfo.Size * 0.10f;
             ImGui.SetCursorPos(drawPosition);
             ImGui.Image(WarningIcon.ImGuiHandle, iconInfo.Size * 0.80f);
         }
@@ -224,7 +223,7 @@ namespace NoTankYou.Windows.PartyFrameOverlayWindow
             var nameInfo = Service.HudManager.GetNameLocationInfo(hudPartyIndex);
             var textSize = ImGui.CalcTextSize(warningText);
 
-            var warningTextPosition = nameInfo.Position with {X = nameInfo.Position.X + nameInfo.Size.X - textSize.X, Y = nameInfo.Position.Y - 10.0f};
+            var warningTextPosition = nameInfo.Position with { X = nameInfo.Position.X + nameInfo.Size.X - textSize.X, Y = nameInfo.Position.Y - 10.0f };
             ImGui.SetCursorPos(warningTextPosition);
             ImGui.TextColored(color, warningText);
         }

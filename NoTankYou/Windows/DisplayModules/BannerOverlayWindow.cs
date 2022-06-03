@@ -12,10 +12,10 @@ using NoTankYou.Enums;
 using NoTankYou.Interfaces;
 using NoTankYou.Utilities;
 
-namespace NoTankYou.Windows.BannerOverlayWindow
+namespace NoTankYou.Windows.DisplayModules
 {
-   internal class BannerOverlayWindow : Window, IDisposable, ICommand
-   {
+    internal class BannerOverlayWindow : Window, IDisposable, ICommand
+    {
         private static BannerOverlaySettings Settings => Service.Configuration.DisplaySettings.BannerOverlay;
         private readonly TextureWrap WarningIcon;
         private readonly TextureWrap Crosshair;
@@ -53,7 +53,7 @@ namespace NoTankYou.Windows.BannerOverlayWindow
 
         public override void PreOpenCheck()
         {
-            var genericShouldShow = Condition.ShouldShowWindow();
+            var genericShouldShow = Condition.ShouldShowWarnings();
             var enabled = Settings.Enabled;
             var inSanctuary = Settings.DisableInSanctuary && SanctuaryFunction();
 
@@ -155,7 +155,7 @@ namespace NoTankYou.Windows.BannerOverlayWindow
                 var imageSize = new Vector2(WarningIcon.Width, WarningIcon.Height) * scale;
 
                 drawList.AddImage(WarningIcon.ImGuiHandle, startingPosition, startingPosition + imageSize);
-                startingPosition = startingPosition with{ X = startingPosition.X + imageSize.X + 10.0f * scale, Y = startingPosition.Y + 4.0f };
+                startingPosition = startingPosition with { X = startingPosition.X + imageSize.X + 10.0f * scale, Y = startingPosition.Y + 4.0f };
             }
 
             if (Settings.WarningText)
@@ -163,12 +163,12 @@ namespace NoTankYou.Windows.BannerOverlayWindow
                 DrawUtilities.TextOutlined(startingPosition, warningText, scale);
 
                 var textSize = DrawUtilities.CalculateTextSize(warningText, scale);
-                startingPosition = startingPosition with {X = startingPosition.X + textSize.X};
+                startingPosition = startingPosition with { X = startingPosition.X + textSize.X };
 
                 if (Settings.PlayerNames)
                 {
                     textSize = DrawUtilities.CalculateTextSize(source, scale);
-                    startingPosition = startingPosition with {X = startingPosition.X - textSize.X / 2.0f, Y = startingPosition.Y + textSize.Y};
+                    startingPosition = startingPosition with { X = startingPosition.X - textSize.X / 2.0f, Y = startingPosition.Y + textSize.Y };
                     DrawUtilities.TextOutlined(startingPosition, source, scale / 2.0f);
                     startingPosition = startingPosition with { X = startingPosition.X + textSize.X / 2.0f, Y = startingPosition.Y - textSize.Y };
                 }

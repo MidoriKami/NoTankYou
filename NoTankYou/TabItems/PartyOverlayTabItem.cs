@@ -6,7 +6,7 @@ using NoTankYou.Enums;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
-using NoTankYou.Windows.PartyFrameOverlayWindow;
+using NoTankYou.Windows.DisplayModules;
 
 namespace NoTankYou.TabItems
 {
