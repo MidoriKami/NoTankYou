@@ -261,6 +261,7 @@ namespace NoTankYou.Localization
         public readonly List<string> Food = new()
         {
             Loc.Localize("TippyMessages_Food1", "You're looking a little thin there, you should probably eat something."),
+            Loc.Localize("TippyMessages_Food1", "I see you don't have a food buff... Probably a wise choice."),
         };
 
         public readonly List<string> Summoner = new()
