@@ -261,7 +261,8 @@ namespace NoTankYou.Localization
         public readonly List<string> Food = new()
         {
             Loc.Localize("TippyMessages_Food1", "You're looking a little thin there, you should probably eat something."),
-            Loc.Localize("TippyMessages_Food1", "I see you don't have a food buff... Probably a wise choice."),
+            Loc.Localize("TippyMessages_Food2", "I see you don't have a food buff... Probably a wise choice."),
+            Loc.Localize("TippyMessages_Food3", "If you ate two portions I wouldn't have to bug you as often."),
         };
 
         public readonly List<string> Summoner = new()
@@ -287,6 +288,8 @@ namespace NoTankYou.Localization
         {
             Loc.Localize("TippyMessages_Sage1", "Please remind your Sage that they are not playing WoW. Healers are required to do DPS to be effective in this game."),
             Loc.Localize("TippyMessages_Sage2", "Apply Kardion to the DPS so you don't have to worry about healing them!"),
+            Loc.Localize("TippyMessages_Sage3", "Apply Kardion to yourself because nobody else is as deserving."),
+            Loc.Localize("TippyMessages_Sage4", "If anyone begs for you to apply Kardia to the tank tell them you can't - you can only give yourself Kardia. Other players receive Kardion."),
         };
 
         public readonly List<string> FreeCompany = new()
