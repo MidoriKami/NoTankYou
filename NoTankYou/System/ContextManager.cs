@@ -5,7 +5,7 @@ namespace NoTankYou.System
 {
     public unsafe class ContextManager
     {
-        public bool ShowWarnings { get; private set; } = true;
+        public bool ShowWarnings { get; private set; }
 
         public void Update()
         {

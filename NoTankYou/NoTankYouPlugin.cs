@@ -50,12 +50,12 @@ namespace NoTankYou
 
             // Create Custom Services
             Service.ModuleManager = new ModuleManager();
-            Service.WindowManager = new WindowManager();
-            Service.EventManager = new EventManager();
-            Service.HudManager = new HudManager();
-            Service.IconManager = new IconManager();
-            Service.FontManager = new FontManager();
             Service.ContextManager = new ContextManager();
+            Service.FontManager = new FontManager();
+            Service.IconManager = new IconManager();
+            Service.HudManager = new HudManager();
+            Service.EventManager = new EventManager();
+            Service.WindowManager = new WindowManager();
 
             Service.Framework.Update += OnUpdate;
 
