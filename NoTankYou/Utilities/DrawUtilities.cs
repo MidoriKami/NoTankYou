@@ -17,17 +17,21 @@ namespace NoTankYou.Utilities
 
         public static void TextOutlined(Vector2 startingPosition, string text, float scale)
         {
-            DrawText(startingPosition + new Vector2(-1.0f, 0.0f), text, Colors.White, scale);
-            DrawText(startingPosition + new Vector2(1.0f, 0.0f), text, Colors.White, scale);
-            DrawText(startingPosition + new Vector2(0.0f, -1.0f), text, Colors.White, scale);
-            DrawText(startingPosition + new Vector2(0.0f, 1.0f), text, Colors.White, scale);
+            DrawText(startingPosition + new Vector2(-1.0f, -1.0f), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(0.0f, -1.0f), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(1.0f, -1.0f), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(1.0f, 0.0f), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(1.0f, 1.0f), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(0.0f, 1.0f), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(-1.0f, 1.0f), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(-1.0f, 0.0f), text, Colors.Black, scale);
 
-            DrawText(startingPosition, text, Colors.Black, scale);
+            DrawText(startingPosition, text, Colors.White, scale);
         }
 
         public static void DrawIconWithName(Vector2 drawPosition, uint iconID, string name, float scale, bool drawText = true)
         {
-            if (!Service.FontManager.FontBuilt) return;
+            if (!Service.FontManager.GameFont.Available) return;
 
             var icon = Service.IconManager.GetIconTexture(iconID);
             if (icon != null)
@@ -58,13 +62,13 @@ namespace NoTankYou.Utilities
 
         public static Vector2 CalculateTextSize(string text, float scale)
         {
-            if(!Service.FontManager.FontBuilt) return Vector2.Zero;
+            if(!Service.FontManager.GameFont.Available) return Vector2.Zero;
 
-            var fontSize = Service.FontManager.Font.FontSize;
+            var fontSize = Service.FontManager.GameFont.ImFont.FontSize;
             var textSize = ImGui.CalcTextSize(text);
-            var fontScalar = 68.0f / textSize.Y;
+            var fontScalar = 60.0f / textSize.Y;
 
-            var textHeight = fontSize - 27.0f;
+            var textHeight = fontSize;
             var textWidth = textSize.X * fontScalar;
 
             return new Vector2(textWidth, textHeight) * scale;
@@ -72,16 +76,14 @@ namespace NoTankYou.Utilities
 
         private static void DrawText(Vector2 drawPosition, string text, Vector4 color, float scale, bool debug = false)
         {
-            if (!Service.FontManager.FontBuilt) return;
-            var font = Service.FontManager.Font;
+            if (!Service.FontManager.GameFont.Available) return;
+            var font = Service.FontManager.GameFont.ImFont;
 
             var drawList = ImGui.GetBackgroundDrawList();
             var stringSize = CalculateTextSize(text, scale);
 
             if(debug)
                 drawList.AddRect(drawPosition, drawPosition + stringSize, ImGui.GetColorU32(Colors.Green));
-
-            drawPosition.Y -= 16 * scale;
 
             drawList.AddText(font, font.FontSize * scale, drawPosition, ImGui.GetColorU32(color), text);
         }
