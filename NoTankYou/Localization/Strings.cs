@@ -268,6 +268,7 @@ namespace NoTankYou.Localization
         public readonly List<string> Summoner = new()
         {
             Loc.Localize("TippyMessages_Summoner1", "Your summoner abandoned their Carbuncle somewhere. Please report this abuse to the Arcanist's Guild as soon as possible."),
+            Loc.Localize("TippyMessages_Summoner2", "Playing with legos is more fun with a Carbuncle!"),
         };
 
         public readonly List<string> Dancer = new()
@@ -282,6 +283,7 @@ namespace NoTankYou.Localization
         {
             Loc.Localize("TippyMessages_Scholar1", "Be very gentle to your party's Scholar. Seraph broke up with them last week and they have yet to get over it."),
             Loc.Localize("TippyMessages_Scholar2", "Eos is out for a Pumpkin Spice Latte, it's your job to heal now, good luck."),
+            Loc.Localize("TippyMessages_Scholar3", "Just writing fanfics about Selene is not enough to summon them. A Scholar must cast the appropriate spells to make their waifu real."),
         };
 
         public readonly List<string> Sage = new()
@@ -295,6 +297,7 @@ namespace NoTankYou.Localization
         public readonly List<string> FreeCompany = new()
         {
             Loc.Localize("TippyMessages_FreeCompany1", "Avoid the social anxiety of telling your FC lead to renew buffs by simply leaving your FC!"),
+            Loc.Localize("TippyMessages_FreeCompany2", "No luck with the spinner during Jumbo Cactpot? Spin your FC buffs instead!"),
         };
 
         public readonly TippyBlueMageMessages BlueMage = new();
