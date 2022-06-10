@@ -17,14 +17,16 @@ namespace NoTankYou.Utilities
 
         public static void TextOutlined(Vector2 startingPosition, string text, float scale)
         {
-            DrawText(startingPosition + new Vector2(-1.0f, -1.0f), text, Colors.Black, scale);
-            DrawText(startingPosition + new Vector2(0.0f, -1.0f), text, Colors.Black, scale);
-            DrawText(startingPosition + new Vector2(1.0f, -1.0f), text, Colors.Black, scale);
-            DrawText(startingPosition + new Vector2(1.0f, 0.0f), text, Colors.Black, scale);
-            DrawText(startingPosition + new Vector2(1.0f, 1.0f), text, Colors.Black, scale);
-            DrawText(startingPosition + new Vector2(0.0f, 1.0f), text, Colors.Black, scale);
-            DrawText(startingPosition + new Vector2(-1.0f, 1.0f), text, Colors.Black, scale);
-            DrawText(startingPosition + new Vector2(-1.0f, 0.0f), text, Colors.Black, scale);
+            var outlineThickness = 1.0f * scale;
+
+            DrawText(startingPosition + new Vector2(-outlineThickness, -outlineThickness), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(0.0f, -outlineThickness), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(outlineThickness, -outlineThickness), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(outlineThickness, 0.0f), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(outlineThickness, outlineThickness), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(0.0f, outlineThickness), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(-outlineThickness, outlineThickness), text, Colors.Black, scale);
+            DrawText(startingPosition + new Vector2(-outlineThickness, 0.0f), text, Colors.Black, scale);
 
             DrawText(startingPosition, text, Colors.White, scale);
         }

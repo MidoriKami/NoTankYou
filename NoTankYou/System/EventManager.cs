@@ -1,6 +1,7 @@
 ﻿using System;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Hooking;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using Condition = NoTankYou.Utilities.Condition;
 
@@ -55,27 +56,34 @@ namespace NoTankYou.System
 
         private byte DutyEventFunction(void* a1, void* a2, ushort* a3)
         {
-            var category = *(a3);
-            var type = *(uint*)(a3 + 4);
-
-            // DirectorUpdate Category
-            if (category == 0x6D)
+            try
             {
-                DutyStarted = type switch
+                var category = *(a3);
+                var type = *(uint*)(a3 + 4);
+
+                // DirectorUpdate Category
+                if (category == 0x6D)
                 {
-                    // Duty Commenced
-                    0x40000001 => true,
+                    DutyStarted = type switch
+                    {
+                        // Duty Commenced
+                        0x40000001 => true,
 
-                    // Party Wipe
-                    0x40000005 => false,
+                        // Party Wipe
+                        0x40000005 => false,
 
-                    // Duty Recommence
-                    0x40000006 => true,
+                        // Duty Recommence
+                        0x40000006 => true,
 
-                    // Duty Completed
-                    0x40000003 => false,
-                    _ => DutyStarted
-                };
+                        // Duty Completed
+                        0x40000003 => false,
+                        _ => DutyStarted
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "Failed to get Duty Started Status");
             }
 
             return DutyEventHook!.Original(a1, a2, a3);

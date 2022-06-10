@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using CheapLoc;
 using Dalamud.Game;
 using Dalamud.Game.Command;
 using Dalamud.Logging;
@@ -23,8 +22,6 @@ namespace NoTankYou
             // Create Static Services for use everywhere
             pluginInterface.Create<Service>();
             Service.Chat.Enable();
-
-            Loc.SetupWithFallbacks();
 
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
@@ -60,7 +57,7 @@ namespace NoTankYou
             Service.Framework.Update += OnUpdate;
 
             // Register draw callbacks
-            Service.PluginInterface.UiBuilder.Draw += DrawUI;
+            Service.PluginInterface.UiBuilder.Draw += Service.WindowSystem.Draw;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
             Service.PluginInterface.LanguageChanged += LoadLocalization;
         }
@@ -108,8 +105,6 @@ namespace NoTankYou
             }
         }
 
-        private void DrawUI() => Service.WindowSystem.Draw();
-
         private void DrawConfigUI() => Service.WindowManager.GetWindowOfType<NoTankYouWindow>()?.Toggle();
 
         public void Dispose()
@@ -122,7 +117,7 @@ namespace NoTankYou
 
             Service.Framework.Update -= OnUpdate;
 
-            Service.PluginInterface.UiBuilder.Draw -= DrawUI;
+            Service.PluginInterface.UiBuilder.Draw -= Service.WindowSystem.Draw;
             Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
             Service.PluginInterface.LanguageChanged -= LoadLocalization;
 

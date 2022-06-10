@@ -104,7 +104,7 @@ namespace NoTankYou.System
             var highestPriorityWarning =
                 Service.ModuleManager.GetModulesForClassJob(player.ClassJob.Id)
                     .Select(module => module.ShouldShowWarning(player))
-                    .Where(module => module != null)
+                    .OfType<WarningState>()
                     .DefaultIfEmpty(null)
                     .Aggregate((i1, i2) => i1!.Priority > i2!.Priority ? i1 : i2);
 
@@ -158,6 +158,31 @@ namespace NoTankYou.System
             }
         }
 
+        public bool TryGetPartyFramePosition(out Vector2 position)
+        {
+            position = default;
+
+            if(_partyList == null) return false;
+
+            var resourceNode = _partyList->AtkUnitBase.GetNodeById(8);
+            if (resourceNode == null) return false;
+            
+            var rootNode = _partyList->AtkUnitBase.RootNode;
+            if(rootNode == null) return false;
+
+            var xOffset = rootNode->X;
+            var yOffset = rootNode->Y;
+
+            UIScale = rootNode->ScaleX;
+
+            var xPosition = resourceNode->X * UIScale;
+            var yPosition = resourceNode->Y * UIScale;
+
+            position = new Vector2(xPosition + xOffset, yPosition + yOffset);
+
+            return true;
+        }
+
         public Vector2 GetPartyFramePosition()
         {
             var resourceNode = _partyList->AtkUnitBase.GetNodeById(8);
@@ -172,6 +197,20 @@ namespace NoTankYou.System
             var yPosition = resourceNode->Y * UIScale;
 
             return new Vector2(xPosition + xOffset, yPosition + yOffset);
+        }
+
+        public bool TryGetUIScale(out float uiScale)
+        {
+            uiScale = 0;
+
+            if (_partyList == null) return false;
+
+            var rootNode = _partyList->AtkUnitBase.RootNode;
+            if (rootNode == null) return false;
+
+            uiScale = rootNode->ScaleX;
+
+            return true;
         }
 
         public Vector2 GetPartyFrameSize()
