@@ -137,7 +137,7 @@ namespace NoTankYou.Windows.DisplayModules
                     break;
 
                 case BannerOverlayDisplayMode.List when WarningsDisplayed < Settings.WarningCount:
-                    var adjustedPosition = Settings.Position + new Vector2(0.0f, 70.0f) * WarningsDisplayed;
+                    var adjustedPosition = Settings.Position + (new Vector2(0.0f, 80.0f) * Settings.Scale) * WarningsDisplayed;
                     DrawBanner(adjustedPosition, state.MessageShort, player.Name.TextValue, Settings.Scale, state.IconID, state.IconLabel);
                     WarningsDisplayed += 1;
                     break;
