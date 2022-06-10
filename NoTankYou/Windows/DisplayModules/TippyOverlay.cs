@@ -9,12 +9,13 @@ using Dalamud.Utility.Signatures;
 using NoTankYou.Components;
 using NoTankYou.Data.Overlays;
 using NoTankYou.Enums;
+using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Windows.DisplayModules
 {
-    internal class TippyOverlay : IDisposable
+    internal class TippyOverlay : IDisposable, ICommand
     {
         private readonly ICallGateSubscriber<string, bool> TippyRegisterMessage;
         private static TippyOverlaySettings Settings => Service.Configuration.DisplaySettings.TippyOverlay;
@@ -150,6 +151,27 @@ namespace NoTankYou.Windows.DisplayModules
         private bool TippyInstalled()
         {
             return Service.PluginInterface.PluginInternalNames.Contains("Tippy");
+        }
+
+        void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
+        {
+            if (primaryCommand == "tippyoverlay")
+            {
+                switch (secondaryCommand)
+                {
+                    case null:
+                        Settings.Enabled = !Settings.Enabled;
+                        break;
+
+                    case "on":
+                        Settings.Enabled = true;
+                        break;
+
+                    case "off":
+                        Settings.Enabled = false;
+                        break;
+                }
+            }
         }
     }
 }

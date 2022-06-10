@@ -243,7 +243,8 @@ namespace NoTankYou.Localization
                                                                     "/nty smn (on | off) - Toggle Summoner Module\n" +
                                                                     "/nty tanks (on | off) - Toggle Tanks Module\n" +
                                                                     "/nty partyoverlay (on | off) - Toggle Party Overlay\n" +
-                                                                    "/nty banneroverlay (on | off) - Toggle Banner Overlay");
+                                                                    "/nty banneroverlay (on | off) - Toggle Banner Overlay\n" +
+                                                                    "/nty tippyoverlay (on | off) - Toggle Tippy Overlay");
     }
     #endregion
 
