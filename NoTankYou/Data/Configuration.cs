@@ -9,7 +9,7 @@ namespace NoTankYou.Data
         public int Version { get; set; } = 1;
 
         public bool DeveloperMode = false;
-
+        public DebugSettings DebugSettings { get; set; } = new();
         public ModuleSettings ModuleSettings { get; set; } = new();
         public DisplaySettings DisplaySettings { get; set; } = new();
         public SystemSettings SystemSettings { get; set; } = new();

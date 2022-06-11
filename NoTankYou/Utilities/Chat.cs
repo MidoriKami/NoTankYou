@@ -1,5 +1,6 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Logging;
+using NoTankYou.Enums;
 
 namespace NoTankYou.Utilities
 {
@@ -24,21 +25,17 @@ namespace NoTankYou.Utilities
             Print("Debug", message);
         }
 
-        public static void Log(string tag, string message)
+        public static void Log(LogChannel channel, string message)
         {
             if (Service.Configuration.DeveloperMode)
             {
-                PluginLog.Information(message);
-                Print(tag, message);
-            }
-        }
-
-        public static void Warning(string tag, string message)
-        {
-            if (Service.Configuration.DeveloperMode)
-            {
-                PluginLog.Warning(message);
-                Print(tag, message);
+                switch (channel)
+                {
+                    case LogChannel.ContentDirector when Service.Configuration.DebugSettings.ContentDirector:
+                        PluginLog.Information(message);
+                        Print(channel.ToString(), message);
+                        break;
+                }
             }
         }
     }

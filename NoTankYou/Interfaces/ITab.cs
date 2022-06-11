@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Numerics;
 using ImGuiNET;
+using NoTankYou.TabItems;
 
 namespace NoTankYou.Interfaces
 {
@@ -23,6 +24,15 @@ namespace NoTankYou.Interfaces
 
                 foreach (var item in TabItems.OrderBy(item => item.ModuleType.ToString()))
                 {
+                    if (item is DebugSettingsTabItem && !Service.Configuration.DeveloperMode)
+                    {
+                        if (SelectedTabItem == item)
+                        {
+                            SelectedTabItem = null;
+                        }
+                        continue;
+                    }
+
                     ImGui.PushID(item.ModuleType.ToString());
 
                     var headerHoveredColor = ImGui.GetStyle().Colors[(int) ImGuiCol.HeaderHovered];

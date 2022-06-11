@@ -13,6 +13,7 @@
         Blacklist,
         FreeCompany,
         BannerOverlay,
-        TippyOverlay
+        TippyOverlay,
+        Debugging
     }
 }

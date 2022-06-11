@@ -11,6 +11,7 @@ namespace NoTankYou.Tabs
         public List<ITabItem> TabItems { get; set; } = new()
         {
             new BlacklistTabItem(),
+            new DebugSettingsTabItem(),
         };
 
         public string TabName => Strings.Common.Tabs.Settings;

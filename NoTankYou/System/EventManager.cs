@@ -3,6 +3,8 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
+using NoTankYou.Enums;
+using NoTankYou.Utilities;
 using Condition = NoTankYou.Utilities.Condition;
 
 namespace NoTankYou.System
@@ -24,6 +26,7 @@ namespace NoTankYou.System
 
             if (Condition.IsBoundByDuty())
             {
+                Chat.Log(LogChannel.ContentDirector, "[PluginInit] Resetting Duty Started to {false}");
                 DutyStarted = true;
             }
 
@@ -32,7 +35,11 @@ namespace NoTankYou.System
 
         private void TerritoryChanged(object? sender, ushort e)
         {
-            DutyStarted = false;
+            if (DutyStarted)
+            {
+                Chat.Log(LogChannel.ContentDirector, "[TerritoryChanged] Resetting Duty Started to {false}");
+                DutyStarted = false;
+            }
         }
 
         // Fallback listener that triggers duty started when combat starts while bound by duty
@@ -42,6 +49,7 @@ namespace NoTankYou.System
             {
                 if (!DutyStarted && Service.Condition[ConditionFlag.InCombat])
                 {
+                    Chat.Log(LogChannel.ContentDirector, "[Update] Duty Commenced");
                     DutyStarted = true;
                 }
             }
@@ -64,21 +72,32 @@ namespace NoTankYou.System
                 // DirectorUpdate Category
                 if (category == 0x6D)
                 {
-                    DutyStarted = type switch
+                    switch (type)
                     {
                         // Duty Commenced
-                        0x40000001 => true,
+                        case 0x40000001:
+                            Chat.Log(LogChannel.ContentDirector, $"[0x{type:x8}] Duty Commenced");
+                            DutyStarted = true;
+                            break;
 
                         // Party Wipe
-                        0x40000005 => false,
+                        case 0x40000005:
+                            Chat.Log(LogChannel.ContentDirector, $"[0x{type:x8}] Party Wipe");
+                            DutyStarted = false;
+                            break;
 
                         // Duty Recommence
-                        0x40000006 => true,
+                        case 0x40000006:
+                            Chat.Log(LogChannel.ContentDirector, $"[0x{type:x8}] Duty Recommenced");
+                            DutyStarted = true;
+                            break;
 
                         // Duty Completed
-                        0x40000003 => false,
-                        _ => DutyStarted
-                    };
+                        case 0x40000003:
+                            Chat.Log(LogChannel.ContentDirector, $"[0x{type:x8}] Duty Completed");
+                            DutyStarted = false;
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
