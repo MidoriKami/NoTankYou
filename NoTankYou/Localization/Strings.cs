@@ -270,6 +270,7 @@ namespace NoTankYou.Localization
         {
             Loc.Localize("TippyMessages_Summoner1", "Your summoner abandoned their Carbuncle somewhere. Please report this abuse to the Arcanist's Guild as soon as possible."),
             Loc.Localize("TippyMessages_Summoner2", "Playing with legos is more fun with a Carbuncle!"),
+            Loc.Localize("TippyMessages_Summoner3", "Your summoner is looking a bit lonely, maybe they should try to 'make' a friend."),
         };
 
         public readonly List<string> Dancer = new()
@@ -299,6 +300,7 @@ namespace NoTankYou.Localization
         {
             Loc.Localize("TippyMessages_FreeCompany1", "Avoid the social anxiety of telling your FC lead to renew buffs by simply leaving your FC!"),
             Loc.Localize("TippyMessages_FreeCompany2", "No luck with the spinner during Jumbo Cactpot? Spin your FC buffs instead!"),
+            Loc.Localize("TippyMessages_FreeCompany3", "Free Company buffs are pay to win anyways, who needs them?"),
         };
 
         public readonly TippyBlueMageMessages BlueMage = new();
@@ -308,17 +310,23 @@ namespace NoTankYou.Localization
     {
         public readonly List<string> AetherialMimicry = new()
         {
-            Loc.Localize("TippyMessages_AetherialManipulation1", "Without Aetherial Manipulation, a Blue Mage is weak and unspecialized. Like your average pink-haired catgirl in Limsa Lominsa."),
+            Loc.Localize("TippyMessages_AetherialMimicry1", "Without Aetherial Mimicry, a Blue Mage is weak and unspecialized. Like your average pink-haired catgirl in Limsa Lominsa."),
+            Loc.Localize("TippyMessages_AetherialMimicry2", "If only blue mage could pretend as hard as you, they wouldn't need to use Aetherial Mimicry."),
+            Loc.Localize("TippyMessages_AetherialMimicry3", "Is that a bird? a plane? no? That's a blue mage without Aetherial Mimicry."),
         };
 
         public readonly List<string> BasicInstinct = new()
         {
-            Loc.Localize("TippyMessages_BasicInstinct1", "If you had any basic instinct you'd know to not play Blue Mage."),
+            Loc.Localize("TippyMessages_BasicInstinct1", "If you had any Basic Instinct you'd know to not play Blue Mage."),
+            Loc.Localize("TippyMessages_BasicInstinct2", "It looks like everyone else is dead or gone, hope you have good Basic Instincts."),
+            Loc.Localize("TippyMessages_BasicInstinct3", "That was good Basic Instinct to get rid of all your 'friends'."),
         };
 
         public readonly List<string> MightyGuard = new()
         {
-            Loc.Localize("TippyMessages_MightyGuard1", "Did you know a Blue Mage can also function as a tank? They're both blue, and they both have a mighty guard!"),
+            Loc.Localize("TippyMessages_MightyGuard1", "Did you know a Blue Mage can also function as a tank? They're both blue, and they both have a Mighty Guard!"),
+            Loc.Localize("TippyMessages_MightyGuard2", "How do you expect a Blue Mage to block attacks with their face, if they don't have their Mighty Guard up?"),
+            Loc.Localize("TippyMessages_MightyGuard3", "The Blue Mage is looking rather un guarded, time to pull some pranks!"),
         };
     }
     #endregion
