@@ -49,20 +49,6 @@
 	<ItemGroup>
 		<Content Include="..\translations\**" Link="translations\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <Content Remove="..\images\BannerOverlay.png" />
-	  <Content Remove="..\images\BlueMage.png" />
-	  <Content Remove="..\images\Dancer.png" />
-	  <Content Remove="..\images\Food.png" />
-	  <Content Remove="..\images\FreeCompany.png" />
-	  <Content Remove="..\images\PartyOverlay.png" />
-	  <Content Remove="..\images\Sage.png" />
-	  <Content Remove="..\images\Scholar.png" />
-	  <Content Remove="..\images\Summoner.png" />
-	  <Content Remove="..\images\Tank.png" />
-	  <Content Remove="..\images\Unavailable.png" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="DalamudPackager" Version="2.1.7" />
