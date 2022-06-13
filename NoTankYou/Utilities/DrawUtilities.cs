@@ -70,7 +70,7 @@ namespace NoTankYou.Utilities
             var textSize = ImGui.CalcTextSize(text);
             var fontScalar = 60.0f / textSize.Y;
 
-            var textHeight = fontSize;
+            var textHeight = fontSize * 2;
             var textWidth = textSize.X * fontScalar;
 
             return new Vector2(textWidth, textHeight) * scale;
@@ -87,7 +87,7 @@ namespace NoTankYou.Utilities
             if(debug)
                 drawList.AddRect(drawPosition, drawPosition + stringSize, ImGui.GetColorU32(Colors.Green));
 
-            drawList.AddText(font, font.FontSize * scale, drawPosition, ImGui.GetColorU32(color), text);
+            drawList.AddText(font, font.FontSize * 2 * scale, drawPosition, ImGui.GetColorU32(color), text);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace NoTankYou.System
 
         public FontManager()
         {
-            GameFont = Service.PluginInterface.UiBuilder.GetGameFontHandle( new GameFontStyle( GameFontFamilyAndSize.Axis36 ) );
+            GameFont = Service.PluginInterface.UiBuilder.GetGameFontHandle( new GameFontStyle( GameFontFamilyAndSize.Axis18 ) );
         }
 
         public void Dispose()
