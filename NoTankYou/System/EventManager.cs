@@ -45,12 +45,15 @@ namespace NoTankYou.System
         // Fallback listener that triggers duty started when combat starts while bound by duty
         public void Update()
         {
-            if (Condition.IsBoundByDuty())
+            if (!DutyStarted)
             {
-                if (!DutyStarted && Service.Condition[ConditionFlag.InCombat])
+                if (Condition.IsBoundByDuty())
                 {
-                    Chat.Log(LogChannel.ContentDirector, "[Update] Duty Commenced");
-                    DutyStarted = true;
+                    if (Service.Condition[ConditionFlag.InCombat] && !Service.Condition[ConditionFlag.BetweenAreas])
+                    {
+                        Chat.Log(LogChannel.ContentDirector, "[Update] Duty Commenced");
+                        DutyStarted = true;
+                    }
                 }
             }
         }
