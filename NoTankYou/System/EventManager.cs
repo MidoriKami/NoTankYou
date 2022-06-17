@@ -17,6 +17,7 @@ namespace NoTankYou.System
         private readonly Hook<DutyEventDelegate>? DutyEventHook = null;
 
         public bool DutyStarted { get; private set; }
+        private bool CompletedThisTerritory;
 
         public EventManager()
         {
@@ -40,20 +41,19 @@ namespace NoTankYou.System
                 Chat.Log(LogChannel.ContentDirector, "[TerritoryChanged] Resetting Duty Started to {false}");
                 DutyStarted = false;
             }
+            
+            CompletedThisTerritory = false;
         }
 
         // Fallback listener that triggers duty started when combat starts while bound by duty
         public void Update()
         {
-            if (!DutyStarted)
+            if (!DutyStarted && !CompletedThisTerritory)
             {
-                if (Condition.IsBoundByDuty())
+                if (Condition.IsBoundByDuty() && Service.Condition[ConditionFlag.InCombat])
                 {
-                    if (Service.Condition[ConditionFlag.InCombat] && !Service.Condition[ConditionFlag.BetweenAreas])
-                    {
-                        Chat.Log(LogChannel.ContentDirector, "[Update] Duty Commenced");
-                        DutyStarted = true;
-                    }
+                    Chat.Log(LogChannel.ContentDirector, "[Update] Duty Commenced");
+                    DutyStarted = true;
                 }
             }
         }
@@ -99,6 +99,7 @@ namespace NoTankYou.System
                         case 0x40000003:
                             Chat.Log(LogChannel.ContentDirector, $"[0x{type:x8}] Duty Completed");
                             DutyStarted = false;
+                            CompletedThisTerritory = true;
                             break;
                     }
                 }
