@@ -1,34 +1,30 @@
 {
   "Tank_Label": {
-    "message": "Tanks",
+    "message": "Tanques",
     "description": "Tank..ctor"
   },
   "Tank_ConfigurationPanelLabel": {
-    "message": "Tanks Configuration",
+    "message": "Configuración de Tanques",
     "description": "Tank..ctor"
   },
   "Tank_WarningText": {
-    "message": "Tank Stance Missing",
+    "message": "Falta una postura de tanque",
     "description": "Tank..ctor"
   },
-  "Tank_Description": {
-    "message": "Tanks use role actions commonly referred to as 'Tank Stances' to manage enemy aggro. If there are no tanks in the party with their 'Tank Stances' on then enemies may start attacking the healers or dps players directly, possibly leading to a party wipe.",
-    "description": "Tank..ctor"
-  },
-  "Tank_TechnicalInformation": {
-    "message": "This module will alert you if there are no tanks in the party with their tank stance on. If a tank with a stance on dies, this module will not consider their stance to be on until they are revived.",
+  "Tank_WarningTextShort": {
+    "message": "Postura de tanque",
     "description": "Tank..ctor"
   },
   "Tank_DisableInAllianceRaid": {
-    "message": "Disable in Alliance Raid",
+    "message": "Desactivar en Raids de Alianza",
     "description": "Tank..ctor"
   },
   "Tank_CheckAllianceStances": {
-    "message": "Check Alliance Members",
+    "message": "Revisar en miembros de otras alianzas",
     "description": "Tank..ctor"
   },
   "Tank_CheckAllianceStancesDescription": {
-    "message": "If Enabled, checks other alliance's tanks for a tank stance to warn if no tanks have their stance on\nIf Disabled, only checks your party for tank stances",
+    "message": "Si está activado, revisa si los tanques de otras alianzas tienen su postura de tanque activa, para avisar en caso que ninguno esté activado\nSi está desactivado, solo busca una postura de tanque en tu grupo",
     "description": "Tank..ctor"
   },
   "FreeCompany_Label": {
@@ -36,43 +32,39 @@
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_ConfigurationPaneLabel": {
-    "message": "Free Company Configuration",
+    "message": "Configuración de Free Company",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_WarningText": {
-    "message": "FreeCompany Effect Missing",
+    "message": "Falta un buff de Free Company",
     "description": "FreeCompany..ctor"
   },
-  "FreeCompany_Description": {
-    "message": "Free Companies are able to provide various buffs to members. These buffs have limited durations and need to be refreshed periodically.",
-    "description": "FreeCompany..ctor"
-  },
-  "FreeCompany_TechnicalDescription": {
-    "message": "This module will alert you when you do not have the configured number of Free Company status effects on you. This module will only evaluate you for warnings, it will never warn you about the status of others.",
+  "FreeCompany_WarningTextShort": {
+    "message": "Buff de Free Company",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_Any": {
-    "message": "Any",
+    "message": "Cualquiera",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_AnyDescription": {
-    "message": "Display warning if missing any Free Company buffs",
+    "message": "Mostrar una advertencia en caso que falte algún buff de Free Company",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_Specific": {
-    "message": "Specific",
+    "message": "Específicos",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_SpecificDescription": {
-    "message": "Display warning if missing specific Free Company buffs",
+    "message": "Mostrar una advertencia si faltan buffs específicos de Free Company",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_BuffCount": {
-    "message": "Buff Count",
+    "message": "Cantidad de Buffs",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_BuffSelection": {
-    "message": "Buff Selection",
+    "message": "Selección de Buffs",
     "description": "FreeCompany..ctor"
   },
   "Dancer_Label": {
@@ -80,51 +72,47 @@
     "description": "Dancer..ctor"
   },
   "Dancer_ConfigurationPanelLabel": {
-    "message": "Dancer Configuration",
+    "message": "Configuración de Dancer",
     "description": "Dancer..ctor"
   },
   "Dancer_WarningText": {
-    "message": "Dance Partner Missing",
+    "message": "Falta una pareja de baile (Dancer)",
     "description": "Dancer..ctor"
   },
-  "Dance_Description": {
-    "message": "Dancers use a job action commonly referred to as 'Dance Partner' on another party member to give both the dancer and their partner a buff. This buff significantly increases both the dancer and their partners outgoing DPS.",
-    "description": "Dancer..ctor"
-  },
-  "Dance_TechnicalInformation": {
-    "message": "This module will alert you when there are dancers that do not have the 'Closed Position' status effect on themselves. This effect is granted to the dancer when they also put 'Dance Partner' on another player.",
+  "Dancer_WarningTextShort": {
+    "message": "Pareja de Baile",
     "description": "Dancer..ctor"
   },
   "Food_Label": {
-    "message": "Food",
+    "message": "Comida",
     "description": "Food..ctor"
   },
   "Food_ConfigurationPanelLabel": {
-    "message": "Food Configuration",
+    "message": "Configuración de Comida",
     "description": "Food..ctor"
   },
   "Food_WarningText": {
-    "message": "Food Missing",
-    "description": "Food..ctor"
-  },
-  "Food_Description": {
-    "message": "Consuming food grants the player the status effect 'Well Fed' while under this effect several of your stats will be increased for the duration of the buff.",
-    "description": "Food..ctor"
-  },
-  "Food_TechnicalInformation": {
-    "message": "This module will alert you when the remaining duration of the 'Well Fed' status effect is less than the pre-configured value.",
+    "message": "Falta un buff de comida",
     "description": "Food..ctor"
   },
   "Food_EarlyWarningLabel": {
-    "message": "Early Warning Time",
+    "message": "Tiempo de advertencia temprana",
     "description": "Food..ctor"
   },
   "Food_ZoneFilters": {
-    "message": "Zone Filters",
+    "message": "Filtros de zona",
     "description": "Food..ctor"
   },
   "Food_ZoneFiltersDescription": {
-    "message": "Only check players for food when in the following zones",
+    "message": "Solo revisar los buffs de comida de los jugadores dentro de las siguientes zonas",
+    "description": "Food..ctor"
+  },
+  "Food_AdditionalOptionsLabel": {
+    "message": "Opciones adicionales",
+    "description": "Food..ctor"
+  },
+  "Food_SuppressInCombat": {
+    "message": "Suprimir dentro de combate",
     "description": "Food..ctor"
   },
   "Sage_Label": {
@@ -132,19 +120,15 @@
     "description": "Sage..ctor"
   },
   "Sage_ConfigurationPanelLabel": {
-    "message": "Sage Configuration",
+    "message": "Configuración de Sage",
     "description": "Sage..ctor"
   },
   "Sage_WarningText": {
-    "message": "Kardia Partner Missing",
+    "message": "Falta un objetivo de Kardia",
     "description": "Sage..ctor"
   },
-  "Sage_Description": {
-    "message": "Sages use a job action commonly referred to as 'Kardia' or 'Kardion' on another party member to heal that party member whenever the sage uses a offensive ability.",
-    "description": "Sage..ctor"
-  },
-  "Sage_TechnicalInformation": {
-    "message": "This module will alert you when there are sages that do not have the 'Kardia' effect on themselves. This effect is granted to the sage when they also put 'Kardion' on another player.",
+  "Sage_WarningTextShort": {
+    "message": "Objetivo de Kardia",
     "description": "Sage..ctor"
   },
   "Scholar_Label": {
@@ -152,19 +136,15 @@
     "description": "Scholar..ctor"
   },
   "Scholar_ConfigurationPanelLabel": {
-    "message": "Scholar Configuration",
+    "message": "Configuración de Scholar",
     "description": "Scholar..ctor"
   },
   "Scholar_WarningText": {
-    "message": "Faerie Summon Missing",
+    "message": "Hada no invocada",
     "description": "Scholar..ctor"
   },
-  "Scholar_Description": {
-    "message": "Scholar uses a summoned pet known as a 'Faerie' to allow them to use various healing abilities. The faerie will periodically heal allies within its range automatically. A Scholar's ability to heal their party is significantly impacted if they do not summon their faerie.",
-    "description": "Scholar..ctor"
-  },
-  "Scholar_TechnicalInformation": {
-    "message": "This module will alert you when a scholar does not have their faerie summoned, as long as that scholar does not also have the 'Dissipation' status effect.",
+  "Scholar_WarningTextShort": {
+    "message": "Invocación de Hada",
     "description": "Scholar..ctor"
   },
   "Summoner_Label": {
@@ -172,19 +152,15 @@
     "description": "Summoner..ctor"
   },
   "Summoner_ConfigurationPanelLabel": {
-    "message": "Summoner Configuration",
+    "message": "Configuración de Summoner",
     "description": "Summoner..ctor"
   },
   "Summoner_WarningText": {
-    "message": "Pet Summon Missing",
+    "message": "Pet no invocada",
     "description": "Summoner..ctor"
   },
-  "Summoner_Description": {
-    "message": "Summoners use a summoned pet known as a 'Carbuncle' to allow them to use various offensive abilities. The summoned pet will be transformed into various other summons during combat.",
-    "description": "Summoner..ctor"
-  },
-  "Summoner_TechnicalInformation": {
-    "message": "This module will alert you when a summoner does not have any associated summon in the field.",
+  "Summoner_WarningTextShort": {
+    "message": "Invocación de Pet",
     "description": "Summoner..ctor"
   },
   "BlueMage_Label": {
@@ -192,31 +168,23 @@
     "description": "BlueMage..ctor"
   },
   "BlueMage_ConfigurationPanelLabel": {
-    "message": "Blue Mage Configuration",
-    "description": "BlueMage..ctor"
-  },
-  "BlueMage_Description": {
-    "message": "Blue Mage is a job about shenanigans, Blue Mages learn skills by being hit by those skills.",
-    "description": "BlueMage..ctor"
-  },
-  "BlueMage_TechnicalInformation": {
-    "message": "This module can be configured to warn you about missing Aetherial Mimicry, Mighty Guard, and Basic Instinct. The warnings for Aetherial Mimicry can only be used while outside of instances, and is incompatible with the 'Only in Duties' option.",
+    "message": "Configuración de Blue Mage",
     "description": "BlueMage..ctor"
   },
   "BlueMage_GenericWarning": {
-    "message": "Warning Something is Missing",
+    "message": "Advertencia Falta algo",
     "description": "BlueMage..ctor"
   },
   "BlueMage_Mimicry": {
-    "message": "Aetherial Mimicry Missing",
+    "message": "Falta Aetherial Mimicry",
     "description": "BlueMage..ctor"
   },
   "BlueMage_MightyGuard": {
-    "message": "Mighty Guard Missing",
+    "message": "Falta Mighty Guard",
     "description": "BlueMage..ctor"
   },
   "BlueMage_BasicInstinct": {
-    "message": "Basic Instinct Missing",
+    "message": "Falta \"Basic Instinct\"",
     "description": "BlueMage..ctor"
   },
   "BlueMage_MimicryLabel": {
@@ -232,51 +200,43 @@
     "description": "BlueMage..ctor"
   },
   "BlueMage_MimicryWarning": {
-    "message": "Can not be used with 'Only in Duties'",
+    "message": "No se puede usar con \"Sólo en Duties\"",
     "description": "BlueMage..ctor"
   },
-  "Labels_About": {
-    "message": "About",
-    "description": "Labels..ctor"
+  "BlueMage_BasicInstinctInfo": {
+    "message": "La advertencia solo se mostrará cuando no haya otros jugadores",
+    "description": "BlueMage..ctor"
   },
   "Labels_Options": {
-    "message": "Options",
-    "description": "Labels..ctor"
-  },
-  "Labels_Description": {
-    "message": "Description",
-    "description": "Labels..ctor"
-  },
-  "Labels_TechnicalDescription": {
-    "message": "Technical Description",
+    "message": "Opciones",
     "description": "Labels..ctor"
   },
   "Labels_Priority": {
-    "message": "Priority",
+    "message": "Prioridad",
     "description": "Labels..ctor"
   },
   "Labels_Seconds": {
-    "message": "Seconds",
+    "message": "Segundos",
     "description": "Labels..ctor"
   },
   "Labels_City": {
-    "message": "City",
+    "message": "Ciudad",
     "description": "Labels..ctor"
   },
   "Labels_OpenWorld": {
-    "message": "Open World",
+    "message": "Mundo Abierto",
     "description": "Labels..ctor"
   },
   "Labels_Inn": {
-    "message": "Inn",
+    "message": "Posada",
     "description": "Labels..ctor"
   },
   "Labels_Dungeon": {
-    "message": "Dungeon",
+    "message": "Mazmorra",
     "description": "Labels..ctor"
   },
   "Labels_AllianceRaid": {
-    "message": "Alliance Raid",
+    "message": "Raid de Alianza",
     "description": "Labels..ctor"
   },
   "Labels_Trial": {
@@ -284,7 +244,7 @@
     "description": "Labels..ctor"
   },
   "Labels_Housing": {
-    "message": "Housing",
+    "message": "Residencias",
     "description": "Labels..ctor"
   },
   "Labels_Raid": {
@@ -308,11 +268,11 @@
     "description": "Labels..ctor"
   },
   "Labels_Unknown": {
-    "message": "Unknown",
+    "message": "Desconocido",
     "description": "Labels..ctor"
   },
   "Labels_AdditionalOptions": {
-    "message": "Additional Options",
+    "message": "Opciones Adicionales",
     "description": "Labels..ctor"
   },
   "Labels_Savage": {
@@ -323,144 +283,388 @@
     "message": "Ultimate",
     "description": "Labels..ctor"
   },
+  "Labels_ExtremeUnreal": {
+    "message": "Extreme y Unreal",
+    "description": "Labels..ctor"
+  },
   "Labels_ModeSelect": {
-    "message": "Mode Select",
+    "message": "Selección de Modo",
     "description": "Labels..ctor"
   },
   "Labels_Unset": {
-    "message": "Unset",
+    "message": "Sin definir",
     "description": "Labels..ctor"
   },
   "Labels_Warnings": {
-    "message": "Warnings",
+    "message": "Advertencias",
+    "description": "Labels..ctor"
+  },
+  "Labels_DisplayOptions": {
+    "message": "Opciones de visualización",
+    "description": "Labels..ctor"
+  },
+  "Labels_Scale": {
+    "message": "Escala",
+    "description": "Labels..ctor"
+  },
+  "Labels_Locked": {
+    "message": "Bloqueado",
+    "description": "Labels..ctor"
+  },
+  "Labels_Lock": {
+    "message": "Bloquear",
+    "description": "Labels..ctor"
+  },
+  "Labels_Unlocked": {
+    "message": "Desbloqueado",
+    "description": "Labels..ctor"
+  },
+  "Labels_Unlock": {
+    "message": "Desbloquear",
+    "description": "Labels..ctor"
+  },
+  "Labels_Apply": {
+    "message": "Aplicar",
+    "description": "Labels..ctor"
+  },
+  "Labels_Reset": {
+    "message": "Restablecer",
     "description": "Labels..ctor"
   },
   "Tabs_Settings": {
-    "message": "Settings",
+    "message": "Opciones",
     "description": "Tabs..ctor"
   },
   "Tabs_SettingsDescription": {
-    "message": "Basic settings options",
+    "message": "Opciones de configuraciones básicas",
     "description": "Tabs..ctor"
   },
   "Tabs_Display": {
-    "message": "Display",
+    "message": "Visualización",
     "description": "Tabs..ctor"
   },
   "Tabs_DisplayDescription": {
-    "message": "Configure how warnings are displayed",
+    "message": "Cómo se muestran las advertencias",
     "description": "Tabs..ctor"
   },
   "Tabs_Modules": {
-    "message": "Modules",
+    "message": "Módulos",
     "description": "Tabs..ctor"
   },
   "Tabs_ModulesDescription": {
-    "message": "Configure each module",
+    "message": "Configurar cada módulo por separado",
     "description": "Tabs..ctor"
   },
+  "BannerOverlay_Label": {
+    "message": "Overlay tipo Banner",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ConfigurationLabel": {
+    "message": "Configuración de las advertencias en el overlay tipo banner",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_WarningCountDescription": {
+    "message": "Número máximo de jugadores a mostrar",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_WarningCount": {
+    "message": "Número de jugadores",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_TopPriorityDescription": {
+    "message": "Mostrar sólo una advertencia a la vez",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ListMode": {
+    "message": "Lista",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ListModeDescription": {
+    "message": "Muestra las advertencias de varios miembros de party al mismo tiempo",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_TopPriorityMode": {
+    "message": "Único",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ListModeOptions": {
+    "message": "Opciones del modo Lista",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_RepositionMode": {
+    "message": "Reposición",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ExclamationMark": {
+    "message": "Mostrar signo de exclamación",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_WarningText": {
+    "message": "Mostrar texto",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_Icon": {
+    "message": "Mostrar icono",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_UnlockToSave": {
+    "message": "Bloquea para Aplicar",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_PlayerNames": {
+    "message": "Mostrar nombres de jugadores",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_IconText": {
+    "message": "Mostrar texto de los íconos",
+    "description": "BannerOverlay..ctor"
+  },
   "PartyOverlay_Label": {
-    "message": "Party Frame Overlay",
+    "message": "Overlay en la lista de party",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_ConfigurationLabel": {
-    "message": "Party Frame Overlay Configuration",
-    "description": "PartyOverlay..ctor"
-  },
-  "PartyOverlay_Description": {
-    "message": "The Party Frame Overlay modifies how the Party Frame appears to display various NoTankYou warnings. The various components can be configured and the flashing animation can be disabled if it is disorienting.",
-    "description": "PartyOverlay..ctor"
-  },
-  "PartyOverlay_TechnicalDescription": {
-    "message": "Sometimes disabling or uninstalling the plugin can leave the job icons missing, or the player name text to remain colored, this is only temporary as when you join a party or the game updates the party interface it will naturally reset everything.",
-    "description": "PartyOverlay..ctor"
-  },
-  "PartyOverlay_DisplayOptions": {
-    "message": "Display Options",
+    "message": "Configuración del overlay en la lista de Party",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_JobIcons": {
-    "message": "Job Icon",
+    "message": "Iconos de Job",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_PlayerName": {
-    "message": "Player Name",
+    "message": "Nombre de Jugador",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_WarningText": {
-    "message": "Warning Text",
+    "message": "Texto de Advertencia",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_FlashingEffects": {
-    "message": "Flashing Effects",
+    "message": "Efectos Parpadeantes",
     "description": "PartyOverlay..ctor"
   },
+  "PartyOverlay_ColorOptions": {
+    "message": "Opciones de Color",
+    "description": "PartyOverlay..ctor"
+  },
+  "PartyOverlay_WarningOutlineColor": {
+    "message": "Contorno de Nombre",
+    "description": "PartyOverlay..ctor"
+  },
+  "TippyDisplay_Label": {
+    "message": "Visualización de Tippy",
+    "description": "TippyDisplay..ctor"
+  },
+  "TippyDisplay_ConfigurationLabel": {
+    "message": "Configuración de la visualización de Tippy",
+    "description": "TippyDisplay..ctor"
+  },
+  "TippyDisplay_WarningFrequency": {
+    "message": "Frecuencia de advertencias",
+    "description": "TippyDisplay..ctor"
+  },
+  "TippyDisplay_TippyNotInstalled": {
+    "message": "El plugin \"Tippy\" no está instalado",
+    "description": "TippyDisplay..ctor"
+  },
+  "TippyDisplay_TippyNotInstalledInstructions": {
+    "message": "Instala \"Tippy\" para acceder a estas funciones",
+    "description": "TippyDisplay..ctor"
+  },
   "Blacklist_Label": {
-    "message": "Blacklist",
+    "message": "Lista negra",
     "description": "Blacklist..ctor"
   },
   "Blacklist_CurrentStatus": {
-    "message": "Blacklisted Zones",
+    "message": "Zonas en la lista negra",
     "description": "Blacklist..ctor"
   },
   "Blacklist_Empty": {
-    "message": "Blacklist is empty",
+    "message": "La lista negra está vacía",
     "description": "Blacklist..ctor"
   },
   "Blacklist_Here": {
-    "message": "Add Here",
+    "message": "Agregar esta zona",
     "description": "Blacklist..ctor"
   },
   "Blacklist_CurrentLocation": {
-    "message": "Currently in {0}",
+    "message": "Actualmente estás en {0}",
     "description": "Blacklist..ctor"
   },
   "Blacklist_ID": {
-    "message": "Add by zone ID",
+    "message": "Añadir por ID de zona",
     "description": "Blacklist..ctor"
   },
   "Blacklist_Name": {
-    "message": "Add by zone name",
+    "message": "Añadir por nombre de la zona",
     "description": "Blacklist..ctor"
   },
-  "Attributions_Label": {
-    "message": "Attributions",
-    "description": "Attributions..ctor"
-  },
-  "Attributions_FreeCompanyDescription": {
-    "message": "Free Company Artwork by 'artofawang'",
-    "description": "Attributions..ctor"
-  },
   "Configuration_NoSelection": {
-    "message": "Select an item to configure in the left pane",
+    "message": "Selecciona el elemento que quieres configurar en el panel izquierdo",
     "description": "Configuration..ctor"
   },
   "Configuration_Enable": {
-    "message": "Enable",
+    "message": "Activar",
     "description": "Configuration..ctor"
   },
   "Configuration_SoloMode": {
-    "message": "Solo Mode",
+    "message": "Modo en solitario",
     "description": "Configuration..ctor"
   },
   "Configuration_DutiesOnly": {
-    "message": "Duties Only",
+    "message": "Solo en Duties",
+    "description": "Configuration..ctor"
+  },
+  "Configuration_HideInSanctuary": {
+    "message": "Esconder dentro de santuarios",
     "description": "Configuration..ctor"
   },
   "Configuration_DutiesOnlyHelp": {
-    "message": "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere",
+    "message": "Mientras esté activado, solo mostrará advertencias dentro de una duty\nMientras esté desactivado, mostrará advertencias siempre",
     "description": "Configuration..ctor"
   },
   "Commands_Add": {
-    "message": "Add",
+    "message": "Agregar",
     "description": "Commands..ctor"
   },
   "Commands_Remove": {
-    "message": "Remove",
+    "message": "Quitar",
     "description": "Commands..ctor"
   },
   "Commands_Help": {
-    "message": "NoTankYou Commands:\n/nty blu (on | off) - Toggle Blue Mage Module\n/nty dnc (on | off) - Toggle Dancer Module\n/nty food (on | off) - Toggle Food Module\n/nty fc (on | off) - Toggle Free Company Module\n/nty sge (on | off) - Toggle Sage Module\n/nty sch (on | off) - Toggle Scholar Module\n/nty smn (on | off) - Toggle Summoner Module\n/nty tanks (on | off) - Toggle Tanks Module\n/nty partyoverlay (on | off) - Toggle Party Overlay",
+    "message": "Comandos de NoTankYou:\n/nty blu (on | off) - Activa o desactiva el módulo de Blue Mage\n/nty dnc (on | off) - Activa o desactiva el módulo de Dancer\n/nty food (on | off) - Activa o desactiva el módulo de Comida\n/nty fc (on | off) - Activa o desactiva el módulo de Free Company\n/nty sge (on | off) - Activa o desactiva el módulo de Sage\n/nty sch (on | off) - Activa o desactiva el módulo de Scholar\n/nty smn (on | off) - Activa o desactiva el módulo de Summoner\n/nty tanks (on | off) - Activa o desactiva el módulo de Tanques\n/nty partyoverlay (on | off) - Activa o desactiva el overlay en la lista de party\n/nty banneroverlay (on | off) - Activa o desactiva el overlay tipo banner\n/nty tippyoverlay (on | off) - Activa o desactiva el overlay de Tippy",
     "description": "Commands..ctor"
+  },
+  "TippyMessages_Tank1": {
+    "message": "Me dí cuenta que tu tanque no tiene su postura activa. ¡Significa que te toca traer a los enemigos!",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Tank2": {
+    "message": "Si tu tanque olvidó activar su postura, no se lo hagas saber de forma respetuosa. Reportalos y házlo un post de Twitter para interacciones gratis!",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Tank3": {
+    "message": "Recuerda que un tanque sin postura no se diferencia en nada a un tanque que no usa sus ataques AoE en medio de las pulls.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Tank4": {
+    "message": "Está bien que tu tanque no tenga su postura activa. Lo golpean lo suficiente en la vida real, dale un descanso.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Food1": {
+    "message": "Oye, te ves un poco más delgado/a, tal vez sea buena idea comer algo.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Food2": {
+    "message": "Puedo ver que no tienes un buff de comida... tal vez sea para mejor.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Food3": {
+    "message": "Si comieras dos porciones de comida tal vez no te molestaría tan seguido.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Summoner1": {
+    "message": "Tu summoner abandonó a su pet en algún lado. Por favor reportale este abuso al gremio de Summoners lo antes posible.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Summoner2": {
+    "message": "¡Es más entretenido jugar con legos que con un Carbuncle!",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Summoner3": {
+    "message": "Tu Summoner se ve un poco solo/a, tal vez sea buena idea que intenten \"hacerse\" un amigo.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Dancer1": {
+    "message": "Si te preguntas por qué nadie acompaña a tu Dancer, es porque no se ha bañado en meses.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Dancer2": {
+    "message": "Ten por seguro que no querría bailar flamenco con mi pareja de baile.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Dancer3": {
+    "message": "Recuerda rotar tu pareja de baile regularmente para que nadie se sienta fuera en la fiesta!",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Dancer4": {
+    "message": "Recuerda asignar al Healer como tu pareja de baile para que cure más.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Scholar1": {
+    "message": "Por favor sé gentil con el Scholar de tu party, Seraph le cortó la semana pasada y todavía no lo supera.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Scholar2": {
+    "message": "Eos fué a comprarse un Latte, te toca a ti curar ahora, suerte con eso.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Scholar3": {
+    "message": "Escribir fanfics de Selene no es suficiente. Un Scholar tiene que usar los hechizos adecuados para hacer real a su waifu.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Sage1": {
+    "message": "Por favor recuerdale a tu Sage que no está jugando WoW. Los healers tienen que hacer daño para ser efectivos en este juego.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Sage2": {
+    "message": "Aplicale Kardion a un DPS para que no te tengas que preocupar en curarlo!",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Sage3": {
+    "message": "Aplicate Kardion a tí mismo/a, ya que nadie más se lo merece.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Sage4": {
+    "message": "Si alguien te pide que le apliques Kardia al tanque, diles que solo puedes aplicarte Kardia a tí mismo/a. Los demás jugadores reciben Kardion.",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_FreeCompany1": {
+    "message": "Para evitar la ansiedad de decirle al lider de tu Free Company que renueve los buffs, simplemente salte de tu FC!",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_FreeCompany2": {
+    "message": "¿No tuviste suerte con el Jumbo Cactpot de la semana? ¡Prueba suerte con los buffs de la Free Company!",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_FreeCompany3": {
+    "message": "Los buffs de Free Company son pay to win. ¿Quién los necesita, después de todo?",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_AetherialMimicry1": {
+    "message": "Sin Aetherial Mimicry, un Blue Mage no tiene fuerza ni especialidad alguna. Es como una catgirl de pelo rosa de Limsa Lominsa promedio.",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_AetherialMimicry2": {
+    "message": "Si solo al ser Blue Mage pudiese fingir tanto como tú, tal vez no necesitara usar Aetherial Mimicry.",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_AetherialMimicry3": {
+    "message": "¿Es un pájaro?, ¿Es un avión?, No... ¡Es un Blue Mage sin Aetherial Mimicry!",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_BasicInstinct1": {
+    "message": "Si tan solo tuvieras algo de \"Instinto Básico\", no jugarías Blue Mage.",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_BasicInstinct2": {
+    "message": "Al parecer todos están muertos o se fueron, espero que tengas buenos \"Instintos Básicos\".",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_BasicInstinct3": {
+    "message": "Deshacerte de todos tus \"amigos\" fué un buen \"Instinto Básico\", aparentemente.",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_MightyGuard1": {
+    "message": "¿En qué se parecen un Blue Mage y un Tanque? En que ambos son azules, y ambos tienen una \"Mighty Guard\"!",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_MightyGuard2": {
+    "message": "¿Cómo esperas que un Blue Mage tape ataques a la cara, si no tiene \"Mighty Guard\" activo?",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_MightyGuard3": {
+    "message": "Hay un Blue Mage que se vé desprotegido... ¡Hora de hacer bromas pesadas!",
+    "description": "TippyBlueMageMessages..ctor"
   }
 }
