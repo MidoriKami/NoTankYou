@@ -7,6 +7,7 @@ using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
+using NoTankYou.Extensions;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
@@ -50,8 +51,6 @@ namespace NoTankYou.Modules
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            GetTankIcon(character);
-
             if (Settings.DisableInAllianceRaid && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType)) return null;
 
             if (Settings.CheckAllianceStances && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType))
@@ -61,26 +60,22 @@ namespace NoTankYou.Modules
 
             if (Service.PartyList.Length == 0)
             {
-                return EvaluateSolo(character);
+                return character.HasStatus(TankStances) ? null : TankWarning(character);
             }
-
-            return EvaluateParty(character);
+            else
+            {
+                return EvaluateParty(character);
+            }
         }
 
         private WarningState? EvaluateParty(PlayerCharacter character)
         {
-            if (!Service.PartyList.Where(partyMember => partyMember.CurrentHP > 0 && ClassJobs.Contains(partyMember.ClassJob.Id))
-                    .Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId))))
-            {
-                return TankWarning(character);
-            }
+            var tanks = Service.PartyList
+                .WithJob(ClassJobs)
+                .Alive()
+                .ToList();
 
-            return null;
-        }
-
-        private WarningState? EvaluateSolo(PlayerCharacter character)
-        {
-            if (!character.StatusList.Any(status => TankStances.Contains(status.StatusId)))
+            if (tanks.Any() && !tanks.WithStatus(TankStances).Any())
             {
                 return TankWarning(character);
             }
@@ -90,11 +85,15 @@ namespace NoTankYou.Modules
 
         private WarningState? EvaluateAllianceStances(PlayerCharacter character)
         {
-            var partyTanks = Service.PartyList.Where(m => ClassJobs.Contains(m.ClassJob.Id)).ToList();
+            var partyTanks = Service.PartyList
+                .WithJob(ClassJobs)
+                .Alive()
+                .ToList();
+
             var allianceTanks = GetAllianceTanks();
 
-            var partyMissingStance = !partyTanks.Any(tanks => tanks.Statuses.Any(status => TankStances.Contains(status.StatusId)));
-            var allianceMissingStance = !allianceTanks.Any(tanks => tanks.StatusList.Any(status => TankStances.Contains(status.StatusId)));
+            var partyMissingStance = !partyTanks.WithStatus(TankStances).Any();
+            var allianceMissingStance = !allianceTanks.WithStatus(TankStances).Any();
 
             if (partyMissingStance && allianceMissingStance)
             {
@@ -103,7 +102,7 @@ namespace NoTankYou.Modules
 
             return null;
         }
-
+        
         private unsafe uint GetAllianceMemberObjectID(int index)
         {
             var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
@@ -115,22 +114,30 @@ namespace NoTankYou.Modules
             return objectId;
         }
 
-        private (uint, string) GetTankIcon(PlayerCharacter character)
+        private IconInfo GetTankIcon(PlayerCharacter character)
         {
-            var classJob = character.ClassJob.Id;
+            // Convert certain jobs to base class,
+            // because Paladin and Warrior don't actually have a tank stance
+            uint classJob = character.ClassJob.Id switch
+            {
+                // Paladin => Gladiator
+                19 => 1,
 
-            if (classJob == 19)
-                classJob = 1;
-
-            if (classJob == 21)
-                classJob = 3;
+                // Warrior => Marauder
+                21 => 3,
+                _ => character.ClassJob.Id
+            };
 
             var action = Service.DataManager.GetExcelSheet<Action>()!
                 .Where(r => r.ClassJob.Row == classJob)
                 .Where(r => TankStances.Contains(r.StatusGainSelf.Value!.RowId))
                 .First();
 
-            return (action.Icon, action.Name.RawString);
+            return new IconInfo
+            {
+                ID = action.Icon,
+                Name = action.Name.RawString
+            };
         }
 
         private IEnumerable<PlayerCharacter> GetAllianceTanks()
@@ -156,12 +163,14 @@ namespace NoTankYou.Modules
 
         private WarningState TankWarning(PlayerCharacter character)
         {
+            var iconInfo = GetTankIcon(character);
+
             return new WarningState
             {
                 MessageShort = MessageShort,
                 MessageLong = MessageLong,
-                IconID = GetTankIcon(character).Item1,
-                IconLabel = GetTankIcon(character).Item2,
+                IconID = iconInfo.ID,
+                IconLabel = iconInfo.Name,
                 Priority = GenericSettings.Priority,
                 Sender = ModuleType.Tanks,
             };

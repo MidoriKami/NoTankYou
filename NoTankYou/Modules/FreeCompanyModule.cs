@@ -6,6 +6,7 @@ using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
+using NoTankYou.Extensions;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 
@@ -49,7 +50,7 @@ namespace NoTankYou.Modules
             switch (Settings.ScanMode)
             {
                 case FreeCompanyBuffScanMode.Any:
-                    var fcBuffCount = character.StatusList.Count(status => FreeCompanyStatusIDList.Contains(status.StatusId));
+                    var fcBuffCount = character.StatusCount(FreeCompanyStatusIDList);
                     if (fcBuffCount < Settings.BuffCount)
                     {
                         return new WarningState
@@ -69,7 +70,7 @@ namespace NoTankYou.Modules
                     {
                         var targetStatus = Service.DataManager.GetExcelSheet<Status>()!.GetRow(Settings.BuffList[i])!;
 
-                        if (!character.StatusList.Any(status => status.StatusId == targetStatus.RowId))
+                        if (!character.HasStatus(targetStatus.RowId))
                         {
                             return new WarningState
                             {

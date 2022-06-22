@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
+using NoTankYou.Extensions;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 
@@ -33,7 +33,7 @@ namespace NoTankYou.Modules
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (!character.StatusList.Any(p => p.StatusId == KardiaStatusID))
+            if (!character.HasStatus(KardiaStatusID))
             {
                 return new WarningState
                 {

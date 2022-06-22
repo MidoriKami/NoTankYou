@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
+using NoTankYou.Extensions;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 
@@ -36,7 +36,7 @@ namespace NoTankYou.Modules
             if (character.Level < 60) return null;
             if (Service.PartyList.Length < 2) return null;
 
-            if (!character.StatusList.Any(s => s.StatusId == ClosedPositionStatusId))
+            if (!character.HasStatus(ClosedPositionStatusId))
             {
                 return new WarningState
                 {

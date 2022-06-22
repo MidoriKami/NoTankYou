@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using Dalamud.Game.ClientState.Objects.Types;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Components;
 using NoTankYou.Data.Components;
 using NoTankYou.Data.Modules;
 using NoTankYou.Enums;
+using NoTankYou.Extensions;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 
@@ -42,8 +40,8 @@ namespace NoTankYou.Modules
         {
             if (character.Level < 4) return null;
 
-            var hasPet = HasPet(character);
-            var hasDissipation = HasDissipation(character);
+            var hasPet = character.HasPet();
+            var hasDissipation = character.HasStatus(DissipationStatusID);
 
             // If we had dissipation last frame, but not now, wait a half second
             if (LastDissipationStatus && !hasDissipation)
@@ -72,18 +70,6 @@ namespace NoTankYou.Modules
             }
 
             return null;
-        }
-
-        private bool HasDissipation(PlayerCharacter character)
-        { 
-            return character.StatusList.Any(s => s.StatusId == DissipationStatusID);
-        }
-
-        private bool HasPet(PlayerCharacter character)
-        {
-            var ownedObjects = Service.ObjectTable.Where(obj => obj.OwnerId == character.ObjectId);
-
-            return ownedObjects.Any(obj => obj.ObjectKind == ObjectKind.BattleNpc && (obj as BattleNpc)?.SubKind == (byte) BattleNpcSubKind.Pet);
         }
     }
 }
