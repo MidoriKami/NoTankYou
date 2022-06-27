@@ -21,7 +21,6 @@ namespace NoTankYou
         {
             // Create Static Services for use everywhere
             pluginInterface.Create<Service>();
-            Service.Chat.Enable();
 
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
