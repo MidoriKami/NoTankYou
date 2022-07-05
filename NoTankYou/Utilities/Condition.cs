@@ -19,7 +19,7 @@ namespace NoTankYou.Utilities
         {
             var hudDataAvailable = HudManager.DataAvailable;
             var showWarnings = Service.ContextManager.ShowWarnings;
-            var isPvP = Territory.IsPvP();
+            var isPvP = Service.ClientState.IsPvP;
 
             var blackListEnabled = Service.Configuration.SystemSettings.Blacklist.Enabled;
             var blackListedZone = Service.Configuration.SystemSettings.Blacklist.ContainsCurrentZone();
