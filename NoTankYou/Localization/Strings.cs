@@ -178,7 +178,7 @@ namespace NoTankYou.Localization
         public readonly string ExclamationMark = Loc.Localize("BannerOverlay_ExclamationMark", "Show Exclamation Mark");
         public readonly string WarningText = Loc.Localize("BannerOverlay_WarningText", "Show Text");
         public readonly string Icon = Loc.Localize("BannerOverlay_Icon", "Show Icon");
-        public readonly string UnlockToSave = Loc.Localize("BannerOverlay_UnlockToSave", "Lock to Apply");
+        public readonly string UnlockToSave = Loc.Localize("BannerOverlay_UnlockToSave", "Lock to Edit");
         public readonly string PlayerNames = Loc.Localize("BannerOverlay_PlayerNames", "Show Player Names");
         public readonly string IconText = Loc.Localize("BannerOverlay_IconText", "Show Icon Text");
     }
@@ -225,6 +225,7 @@ namespace NoTankYou.Localization
         public readonly string DutiesOnly = Loc.Localize("Configuration_DutiesOnly", "Duties Only");
         public readonly string HideInSanctuary = Loc.Localize("Configuration_HideInSanctuary", "Hide in Sanctuaries");
         public readonly string DutiesOnlyHelp = Loc.Localize("Configuration_DutiesOnlyHelp", "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere");
+        public readonly string SoloModeHelp = Loc.Localize("Configuration_SoloModeHelp", "When enabled will only evaluate warnings for you");
     }
     #endregion
 
