@@ -26,6 +26,8 @@ Warnings will not show if there are no players with a role-specific action in th
 Using the ingame command `/nty` will bring up the main configuration window as seen below.
 Configuration is split into three categories, Display, Modules, Settings.
 
+You can use the command `/nty help` to view a list of all available commands.
+
 ![image](https://user-images.githubusercontent.com/9083275/177445912-c3b3bd08-91ce-4681-b1c5-177ee0ae0e7a.png)
 
 # Display
