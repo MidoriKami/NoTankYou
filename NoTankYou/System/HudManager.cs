@@ -14,7 +14,7 @@ namespace NoTankYou.System
     {
         #region Signatures
         private delegate IntPtr AddonOnSetup(IntPtr a1);
-        private delegate IntPtr AddonFinalize(IntPtr a1);
+        private delegate void AddonFinalize(IntPtr a1);
 
         [Signature("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 48 89 7C 24 ?? 41 54 41 56 41 57 48 83 EC 30 BA ?? ?? ?? ?? 48 8B F1", DetourName = nameof(PartyListSetup))]
         private readonly Hook<AddonOnSetup>? PartyListSetupHook = null;
@@ -54,11 +54,11 @@ namespace NoTankYou.System
             return PartyListSetupHook!.Original(a1);
         }
 
-        private IntPtr PartyListFinalize(IntPtr a1)
+        private void PartyListFinalize(IntPtr a1)
         {
             _partyList = null;
 
-            return PartyListFinalizeHook!.Original(a1);
+            PartyListFinalizeHook!.Original(a1);
         }
 
         #endregion
