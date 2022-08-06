@@ -1,466 +1,670 @@
 {
   "Tank_Label": {
-    "message": "Tanks",
+    "message": "タンク",
     "description": "Tank..ctor"
   },
   "Tank_ConfigurationPanelLabel": {
-    "message": "Tanks Configuration",
+    "message": "タンクの設定",
     "description": "Tank..ctor"
   },
   "Tank_WarningText": {
-    "message": "Tank Stance Missing",
+    "message": "タンクスタンスなし",
     "description": "Tank..ctor"
   },
-  "Tank_Description": {
-    "message": "Tanks use role actions commonly referred to as 'Tank Stances' to manage enemy aggro. If there are no tanks in the party with their 'Tank Stances' on then enemies may start attacking the healers or dps players directly, possibly leading to a party wipe.",
-    "description": "Tank..ctor"
-  },
-  "Tank_TechnicalInformation": {
-    "message": "This module will alert you if there are no tanks in the party with their tank stance on. If a tank with a stance on dies, this module will not consider their stance to be on until they are revived.",
+  "Tank_WarningTextShort": {
+    "message": "タンクスタンス",
     "description": "Tank..ctor"
   },
   "Tank_DisableInAllianceRaid": {
-    "message": "Disable in Alliance Raid",
+    "message": "アライアンスレイドで無効にする",
     "description": "Tank..ctor"
   },
   "Tank_CheckAllianceStances": {
-    "message": "Check Alliance Members",
+    "message": "アライアンスPTメンバーを確認する",
     "description": "Tank..ctor"
   },
   "Tank_CheckAllianceStancesDescription": {
-    "message": "If Enabled, checks other alliance's tanks for a tank stance to warn if no tanks have their stance on\nIf Disabled, only checks your party for tank stances",
+    "message": "有効にすると、他アライアンスのタンクがスタンスオフの場合に警告を表示します。\n無効の場合、自アライアンスのタンクのスタンスのみチェックします。",
     "description": "Tank..ctor"
   },
   "FreeCompany_Label": {
-    "message": "Free Company",
+    "message": "フリーカンパニー",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_ConfigurationPaneLabel": {
-    "message": "Free Company Configuration",
+    "message": "フリーカンパニー設定",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_WarningText": {
-    "message": "FreeCompany Effect Missing",
+    "message": "カンパニーアクションがありません",
     "description": "FreeCompany..ctor"
   },
-  "FreeCompany_Description": {
-    "message": "Free Companies are able to provide various buffs to members. These buffs have limited durations and need to be refreshed periodically.",
-    "description": "FreeCompany..ctor"
-  },
-  "FreeCompany_TechnicalDescription": {
-    "message": "This module will alert you when you do not have the configured number of Free Company status effects on you. This module will only evaluate you for warnings, it will never warn you about the status of others.",
+  "FreeCompany_WarningTextShort": {
+    "message": "カンパニーアクション",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_Any": {
-    "message": "Any",
+    "message": "すべて",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_AnyDescription": {
-    "message": "Display warning if missing any Free Company buffs",
+    "message": "特定のフリーカンパニーアクションがない場合に警告を表示する",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_Specific": {
-    "message": "Specific",
+    "message": "特定の",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_SpecificDescription": {
-    "message": "Display warning if missing specific Free Company buffs",
+    "message": "特定のフリーカンパニーアクションがない場合に警告を表示する",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_BuffCount": {
-    "message": "Buff Count",
+    "message": "バフの数",
     "description": "FreeCompany..ctor"
   },
   "FreeCompany_BuffSelection": {
-    "message": "Buff Selection",
+    "message": "バフの選択",
     "description": "FreeCompany..ctor"
   },
   "Dancer_Label": {
-    "message": "Dancer",
+    "message": "踊り子",
     "description": "Dancer..ctor"
   },
   "Dancer_ConfigurationPanelLabel": {
-    "message": "Dancer Configuration",
+    "message": "踊り子の設定",
     "description": "Dancer..ctor"
   },
   "Dancer_WarningText": {
-    "message": "Dance Partner Missing",
+    "message": "ダンスパートナーがいません",
     "description": "Dancer..ctor"
   },
-  "Dance_Description": {
-    "message": "Dancers use a job action commonly referred to as 'Dance Partner' on another party member to give both the dancer and their partner a buff. This buff significantly increases both the dancer and their partners outgoing DPS.",
-    "description": "Dancer..ctor"
-  },
-  "Dance_TechnicalInformation": {
-    "message": "This module will alert you when there are dancers that do not have the 'Closed Position' status effect on themselves. This effect is granted to the dancer when they also put 'Dance Partner' on another player.",
+  "Dancer_WarningTextShort": {
+    "message": "ダンスパートナー",
     "description": "Dancer..ctor"
   },
   "Food_Label": {
-    "message": "Food",
+    "message": "食事",
     "description": "Food..ctor"
   },
   "Food_ConfigurationPanelLabel": {
-    "message": "Food Configuration",
+    "message": "食事の設定",
     "description": "Food..ctor"
   },
   "Food_WarningText": {
-    "message": "Food Missing",
-    "description": "Food..ctor"
-  },
-  "Food_Description": {
-    "message": "Consuming food grants the player the status effect 'Well Fed' while under this effect several of your stats will be increased for the duration of the buff.",
-    "description": "Food..ctor"
-  },
-  "Food_TechnicalInformation": {
-    "message": "This module will alert you when the remaining duration of the 'Well Fed' status effect is less than the pre-configured value.",
+    "message": "食事が切れています",
     "description": "Food..ctor"
   },
   "Food_EarlyWarningLabel": {
-    "message": "Early Warning Time",
+    "message": "早期の警告時間",
     "description": "Food..ctor"
   },
   "Food_ZoneFilters": {
-    "message": "Zone Filters",
+    "message": "ゾーンフィルタ",
     "description": "Food..ctor"
   },
   "Food_ZoneFiltersDescription": {
-    "message": "Only check players for food when in the following zones",
+    "message": "以下のゾーンではプレイヤーの食事のみ確認する",
+    "description": "Food..ctor"
+  },
+  "Food_AdditionalOptionsLabel": {
+    "message": "追加オプション",
+    "description": "Food..ctor"
+  },
+  "Food_SuppressInCombat": {
+    "message": "戦闘を抑制する",
     "description": "Food..ctor"
   },
   "Sage_Label": {
-    "message": "Sage",
+    "message": "賢者",
     "description": "Sage..ctor"
   },
   "Sage_ConfigurationPanelLabel": {
-    "message": "Sage Configuration",
+    "message": "賢者の設定",
     "description": "Sage..ctor"
   },
   "Sage_WarningText": {
-    "message": "Kardia Partner Missing",
+    "message": "カルディアを付与していません",
     "description": "Sage..ctor"
   },
-  "Sage_Description": {
-    "message": "Sages use a job action commonly referred to as 'Kardia' or 'Kardion' on another party member to heal that party member whenever the sage uses a offensive ability.",
-    "description": "Sage..ctor"
-  },
-  "Sage_TechnicalInformation": {
-    "message": "This module will alert you when there are sages that do not have the 'Kardia' effect on themselves. This effect is granted to the sage when they also put 'Kardion' on another player.",
+  "Sage_WarningTextShort": {
+    "message": "カルディアパートナー",
     "description": "Sage..ctor"
   },
   "Scholar_Label": {
-    "message": "Scholar",
+    "message": "学者",
     "description": "Scholar..ctor"
   },
   "Scholar_ConfigurationPanelLabel": {
-    "message": "Scholar Configuration",
+    "message": "学者の設定",
     "description": "Scholar..ctor"
   },
   "Scholar_WarningText": {
-    "message": "Faerie Summon Missing",
+    "message": "フェアリーが召喚されていません",
     "description": "Scholar..ctor"
   },
-  "Scholar_Description": {
-    "message": "Scholar uses a summoned pet known as a 'Faerie' to allow them to use various healing abilities. The faerie will periodically heal allies within its range automatically. A Scholar's ability to heal their party is significantly impacted if they do not summon their faerie.",
-    "description": "Scholar..ctor"
-  },
-  "Scholar_TechnicalInformation": {
-    "message": "This module will alert you when a scholar does not have their faerie summoned, as long as that scholar does not also have the 'Dissipation' status effect.",
+  "Scholar_WarningTextShort": {
+    "message": "サモン・フェアリー",
     "description": "Scholar..ctor"
   },
   "Summoner_Label": {
-    "message": "Summoner",
+    "message": "召喚士",
     "description": "Summoner..ctor"
   },
   "Summoner_ConfigurationPanelLabel": {
-    "message": "Summoner Configuration",
+    "message": "召喚士の設定",
     "description": "Summoner..ctor"
   },
   "Summoner_WarningText": {
-    "message": "Pet Summon Missing",
+    "message": "ペットが召喚されていません",
     "description": "Summoner..ctor"
   },
-  "Summoner_Description": {
-    "message": "Summoners use a summoned pet known as a 'Carbuncle' to allow them to use various offensive abilities. The summoned pet will be transformed into various other summons during combat.",
-    "description": "Summoner..ctor"
-  },
-  "Summoner_TechnicalInformation": {
-    "message": "This module will alert you when a summoner does not have any associated summon in the field.",
+  "Summoner_WarningTextShort": {
+    "message": "サモン・カーバンクル",
     "description": "Summoner..ctor"
   },
   "BlueMage_Label": {
-    "message": "Blue Mage",
+    "message": "青魔道士",
     "description": "BlueMage..ctor"
   },
   "BlueMage_ConfigurationPanelLabel": {
-    "message": "Blue Mage Configuration",
-    "description": "BlueMage..ctor"
-  },
-  "BlueMage_Description": {
-    "message": "Blue Mage is a job about shenanigans, Blue Mages learn skills by being hit by those skills.",
-    "description": "BlueMage..ctor"
-  },
-  "BlueMage_TechnicalInformation": {
-    "message": "This module can be configured to warn you about missing Aetherial Mimicry, Mighty Guard, and Basic Instinct. The warnings for Aetherial Mimicry can only be used while outside of instances, and is incompatible with the 'Only in Duties' option.",
+    "message": "青魔道士の設定",
     "description": "BlueMage..ctor"
   },
   "BlueMage_GenericWarning": {
-    "message": "Warning Something is Missing",
+    "message": "警告が見つかりません",
     "description": "BlueMage..ctor"
   },
   "BlueMage_Mimicry": {
-    "message": "Aetherial Mimicry Missing",
+    "message": "エーテルコピーをしていません",
     "description": "BlueMage..ctor"
   },
   "BlueMage_MightyGuard": {
-    "message": "Mighty Guard Missing",
+    "message": "マイティガードをしていません",
     "description": "BlueMage..ctor"
   },
   "BlueMage_BasicInstinct": {
-    "message": "Basic Instinct Missing",
+    "message": "闘争本能がありません",
     "description": "BlueMage..ctor"
   },
   "BlueMage_MimicryLabel": {
-    "message": "Aetherial Mimicry",
+    "message": "エーテルコピー",
     "description": "BlueMage..ctor"
   },
   "BlueMage_MightyGuardLabel": {
-    "message": "Mighty Guard",
+    "message": "マイティガード",
     "description": "BlueMage..ctor"
   },
   "BlueMage_BasicInstinctLabel": {
-    "message": "Basic Instinct",
+    "message": "闘争本能",
     "description": "BlueMage..ctor"
   },
   "BlueMage_MimicryWarning": {
-    "message": "Can not be used with 'Only in Duties'",
+    "message": "「職務のみ」では使用できません",
     "description": "BlueMage..ctor"
   },
-  "Labels_About": {
-    "message": "About",
-    "description": "Labels..ctor"
+  "BlueMage_BasicInstinctInfo": {
+    "message": "警告は他のプレイヤーがいないソロの場合のみ表示されます",
+    "description": "BlueMage..ctor"
   },
   "Labels_Options": {
-    "message": "Options",
-    "description": "Labels..ctor"
-  },
-  "Labels_Description": {
-    "message": "Description",
-    "description": "Labels..ctor"
-  },
-  "Labels_TechnicalDescription": {
-    "message": "Technical Description",
+    "message": "オプション",
     "description": "Labels..ctor"
   },
   "Labels_Priority": {
-    "message": "Priority",
+    "message": "優先度",
     "description": "Labels..ctor"
   },
   "Labels_Seconds": {
-    "message": "Seconds",
+    "message": "秒",
     "description": "Labels..ctor"
   },
   "Labels_City": {
-    "message": "City",
+    "message": "都市",
     "description": "Labels..ctor"
   },
   "Labels_OpenWorld": {
-    "message": "Open World",
+    "message": "オープンワールド",
     "description": "Labels..ctor"
   },
   "Labels_Inn": {
-    "message": "Inn",
+    "message": "宿屋",
     "description": "Labels..ctor"
   },
   "Labels_Dungeon": {
-    "message": "Dungeon",
+    "message": "ダンジョン",
     "description": "Labels..ctor"
   },
   "Labels_AllianceRaid": {
-    "message": "Alliance Raid",
+    "message": "アライアンスレイド",
     "description": "Labels..ctor"
   },
   "Labels_Trial": {
-    "message": "Trial",
+    "message": "トライアル",
     "description": "Labels..ctor"
   },
   "Labels_Housing": {
-    "message": "Housing",
+    "message": "ハウジング",
     "description": "Labels..ctor"
   },
   "Labels_Raid": {
-    "message": "Raid",
+    "message": "レイド",
     "description": "Labels..ctor"
   },
   "Labels_GrandCompany": {
-    "message": "Grand Company",
+    "message": "グランドカンパニー",
     "description": "Labels..ctor"
   },
   "Labels_DeepDiveDungeon": {
-    "message": "PotD/HoH",
+    "message": "死者の宮殿/アメノミハシラ",
     "description": "Labels..ctor"
   },
   "Labels_Eureka": {
-    "message": "Eureka",
+    "message": "エウレカ",
     "description": "Labels..ctor"
   },
   "Labels_Bozja": {
-    "message": "Bozja",
+    "message": "南方ボズヤ戦線",
     "description": "Labels..ctor"
   },
   "Labels_Unknown": {
-    "message": "Unknown",
+    "message": "不明",
     "description": "Labels..ctor"
   },
   "Labels_AdditionalOptions": {
-    "message": "Additional Options",
+    "message": "追加のオプション",
     "description": "Labels..ctor"
   },
   "Labels_Savage": {
-    "message": "Savage",
+    "message": "零式",
     "description": "Labels..ctor"
   },
   "Labels_Ultimate": {
-    "message": "Ultimate",
+    "message": "絶",
+    "description": "Labels..ctor"
+  },
+  "Labels_ExtremeUnreal": {
+    "message": "極＆絶",
     "description": "Labels..ctor"
   },
   "Labels_ModeSelect": {
-    "message": "Mode Select",
+    "message": "モード選択",
     "description": "Labels..ctor"
   },
   "Labels_Unset": {
-    "message": "Unset",
+    "message": "解除する",
     "description": "Labels..ctor"
   },
   "Labels_Warnings": {
-    "message": "Warnings",
+    "message": "警告",
+    "description": "Labels..ctor"
+  },
+  "Labels_DisplayOptions": {
+    "message": "表示オプション",
+    "description": "Labels..ctor"
+  },
+  "Labels_Scale": {
+    "message": "大きさ:",
+    "description": "Labels..ctor"
+  },
+  "Labels_Locked": {
+    "message": "ロック済み",
+    "description": "Labels..ctor"
+  },
+  "Labels_Lock": {
+    "message": "ロック",
+    "description": "Labels..ctor"
+  },
+  "Labels_Unlocked": {
+    "message": "アンロック済み",
+    "description": "Labels..ctor"
+  },
+  "Labels_Unlock": {
+    "message": "ロック解除",
+    "description": "Labels..ctor"
+  },
+  "Labels_Apply": {
+    "message": "適用する",
+    "description": "Labels..ctor"
+  },
+  "Labels_Reset": {
+    "message": "リセット",
     "description": "Labels..ctor"
   },
   "Tabs_Settings": {
-    "message": "Settings",
+    "message": "設定",
     "description": "Tabs..ctor"
   },
   "Tabs_SettingsDescription": {
-    "message": "Basic settings options",
+    "message": "基本設定オプション",
     "description": "Tabs..ctor"
   },
   "Tabs_Display": {
-    "message": "Display",
+    "message": "表示",
     "description": "Tabs..ctor"
   },
   "Tabs_DisplayDescription": {
-    "message": "Configure how warnings are displayed",
+    "message": "警告の表示方法",
     "description": "Tabs..ctor"
   },
   "Tabs_Modules": {
-    "message": "Modules",
+    "message": "モジュール",
     "description": "Tabs..ctor"
   },
   "Tabs_ModulesDescription": {
-    "message": "Configure each module",
+    "message": "モジュール設定",
     "description": "Tabs..ctor"
   },
+  "BannerOverlay_Label": {
+    "message": "バナーオーバーレイ",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ConfigurationLabel": {
+    "message": "警告バナーのオーバーレイ設定",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_WarningCountDescription": {
+    "message": "表示するプレイヤーの最大人数",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_WarningCount": {
+    "message": "プレイヤー数",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_TopPriorityDescription": {
+    "message": "一度にひとつの警告のみ表示する",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ListMode": {
+    "message": "一覧",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ListModeDescription": {
+    "message": "複数のパーティメンバの警告を同時に表示する",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_TopPriorityMode": {
+    "message": "シングル",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ListModeOptions": {
+    "message": "リストオプション",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_RepositionMode": {
+    "message": "リセット",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_ExclamationMark": {
+    "message": "「！」を表示する",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_WarningText": {
+    "message": "テキストを表示する",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_Icon": {
+    "message": "アイコンを表示する",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_UnlockToSave": {
+    "message": "ロックする",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_PlayerNames": {
+    "message": "プレイヤー名を表示する",
+    "description": "BannerOverlay..ctor"
+  },
+  "BannerOverlay_IconText": {
+    "message": "アイコンテキストを表示",
+    "description": "BannerOverlay..ctor"
+  },
   "PartyOverlay_Label": {
-    "message": "Party Frame Overlay",
+    "message": "パーティフレームのオーバーレイ",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_ConfigurationLabel": {
-    "message": "Party Frame Overlay Configuration",
-    "description": "PartyOverlay..ctor"
-  },
-  "PartyOverlay_Description": {
-    "message": "The Party Frame Overlay modifies how the Party Frame appears to display various NoTankYou warnings. The various components can be configured and the flashing animation can be disabled if it is disorienting.",
-    "description": "PartyOverlay..ctor"
-  },
-  "PartyOverlay_TechnicalDescription": {
-    "message": "Sometimes disabling or uninstalling the plugin can leave the job icons missing, or the player name text to remain colored, this is only temporary as when you join a party or the game updates the party interface it will naturally reset everything.",
-    "description": "PartyOverlay..ctor"
-  },
-  "PartyOverlay_DisplayOptions": {
-    "message": "Display Options",
+    "message": "パーティフレームのオーバーレイ設定",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_JobIcons": {
-    "message": "Job Icon",
+    "message": "ジョブアイコン",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_PlayerName": {
-    "message": "Player Name",
+    "message": "プレイヤー名",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_WarningText": {
-    "message": "Warning Text",
+    "message": "警告文",
     "description": "PartyOverlay..ctor"
   },
   "PartyOverlay_FlashingEffects": {
-    "message": "Flashing Effects",
+    "message": "点滅エフェクト",
     "description": "PartyOverlay..ctor"
   },
+  "PartyOverlay_ColorOptions": {
+    "message": "カラーオプション",
+    "description": "PartyOverlay..ctor"
+  },
+  "PartyOverlay_WarningOutlineColor": {
+    "message": "アウトライン名",
+    "description": "PartyOverlay..ctor"
+  },
+  "TippyDisplay_Label": {
+    "message": "Tippy の表示",
+    "description": "TippyDisplay..ctor"
+  },
+  "TippyDisplay_ConfigurationLabel": {
+    "message": "Tippyの表示設定",
+    "description": "TippyDisplay..ctor"
+  },
+  "TippyDisplay_WarningFrequency": {
+    "message": "警告の頻度",
+    "description": "TippyDisplay..ctor"
+  },
+  "TippyDisplay_TippyNotInstalled": {
+    "message": "Tippy Pluginがインストールされていません",
+    "description": "TippyDisplay..ctor"
+  },
+  "TippyDisplay_TippyNotInstalledInstructions": {
+    "message": "これらの機能を有効にするにはTippyをインストールしてください",
+    "description": "TippyDisplay..ctor"
+  },
   "Blacklist_Label": {
-    "message": "Blacklist",
+    "message": "除外リスト",
     "description": "Blacklist..ctor"
   },
   "Blacklist_CurrentStatus": {
-    "message": "Blacklisted Zones",
+    "message": "ブラックリストに登録したゾーン",
     "description": "Blacklist..ctor"
   },
   "Blacklist_Empty": {
-    "message": "Blacklist is empty",
+    "message": "ブラックリストは空です。",
     "description": "Blacklist..ctor"
   },
   "Blacklist_Here": {
-    "message": "Add Here",
+    "message": "ここに追加",
     "description": "Blacklist..ctor"
   },
   "Blacklist_CurrentLocation": {
-    "message": "Currently in {0}",
+    "message": "現在 {0} です",
     "description": "Blacklist..ctor"
   },
   "Blacklist_ID": {
-    "message": "Add by zone ID",
+    "message": "ゾーンIDで追加",
     "description": "Blacklist..ctor"
   },
   "Blacklist_Name": {
-    "message": "Add by zone name",
+    "message": "ゾーン名で追加",
     "description": "Blacklist..ctor"
   },
-  "Attributions_Label": {
-    "message": "Attributions",
-    "description": "Attributions..ctor"
-  },
-  "Attributions_FreeCompanyDescription": {
-    "message": "Free Company Artwork by 'artofawang'",
-    "description": "Attributions..ctor"
-  },
   "Configuration_NoSelection": {
-    "message": "Select an item to configure in the left pane",
+    "message": "左から設定する項目を選択してください",
     "description": "Configuration..ctor"
   },
   "Configuration_Enable": {
-    "message": "Enable",
+    "message": "有効化",
     "description": "Configuration..ctor"
   },
   "Configuration_SoloMode": {
-    "message": "Solo Mode",
+    "message": "ソロモード",
     "description": "Configuration..ctor"
   },
   "Configuration_DutiesOnly": {
-    "message": "Duties Only",
+    "message": "職務のみ",
+    "description": "Configuration..ctor"
+  },
+  "Configuration_HideInSanctuary": {
+    "message": "レストエリアに入る",
     "description": "Configuration..ctor"
   },
   "Configuration_DutiesOnlyHelp": {
-    "message": "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere",
+    "message": "有効にすると職務中のみ警告が表示されます。\n無効にするとどこでも警告が表示されます。",
     "description": "Configuration..ctor"
   },
   "Commands_Add": {
-    "message": "Add",
+    "message": "追加",
     "description": "Commands..ctor"
   },
   "Commands_Remove": {
-    "message": "Remove",
+    "message": "削除",
     "description": "Commands..ctor"
   },
   "Commands_Help": {
-    "message": "NoTankYou Commands:\n/nty blu (on | off) - Toggle Blue Mage Module\n/nty dnc (on | off) - Toggle Dancer Module\n/nty food (on | off) - Toggle Food Module\n/nty fc (on | off) - Toggle Free Company Module\n/nty sge (on | off) - Toggle Sage Module\n/nty sch (on | off) - Toggle Scholar Module\n/nty smn (on | off) - Toggle Summoner Module\n/nty tanks (on | off) - Toggle Tanks Module\n/nty partyoverlay (on | off) - Toggle Party Overlay",
+    "message": "NoTankYouのコマンド：\n/nty blu (on | off) - 青魔道士の有効・無効\n/nty dnc (on | off) - 踊り子の有効・無効\n/nty food (on | off) - 食事の有効・無効\n/nty fc (on | off) - FCアクションの有効・無効\n/nty sge (on | off) - 賢者の有効・無効\n/nty sch (on | off) - 学者の有効・無効\n/nty smn (on | off) - 召喚士の有効・無効\n/nty tanks (on | off) - タンクの有効・無効\n/nty partyoverlay (on | off) - パーティオーバーレイの有効・無効\n/nty banneroverlay (on | off) - バナーの有効・無効\n/nty tippyoverlay (on | off) - Tippyの有効・無効",
     "description": "Commands..ctor"
+  },
+  "TippyMessages_Tank1": {
+    "message": "タンクがスタンスを入れていません。つまり、あなたがモブを釣ることができます！",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Tank2": {
+    "message": "タンクがスタンスを入れ忘れている場合は、律儀に知らせなくてもよいです。その代わり、その罰当たりな行動を通報してTwitterに投稿してください。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Tank3": {
+    "message": "覚えておいてください。スタンスを入れないタンクと複数の雑魚敵に範囲攻撃をしないタンクは大差ありません。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Tank4": {
+    "message": "タンクがスタンスを入れていなくても大丈夫！彼らは実生活でもたくさん殴られているのだから、休ませてあげましょう。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Food1": {
+    "message": "ちょっと痩せたんじゃない？何か食べた方がいいよ。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Food2": {
+    "message": "食事を取っていないようですね…たぶん「賢明な選択」でしょう。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Food3": {
+    "message": "2回に分けて食べてくれたら、こんなに悩むこともないんだけどね。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Summoner1": {
+    "message": "召喚士がどこかにカーバンクルを捨ててきたようです。早急にこの虐待行為を巴術師ギルドに報告してください。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Summoner2": {
+    "message": "レゴで遊ぶのも、カーバンクルが居る方がもっと楽しいよ。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Summoner3": {
+    "message": "召喚士が寂しそうにしているので、お友達を「作って」みてはどうでしょう？",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Dancer1": {
+    "message": "踊り子がダンスパートナーを見つけられなかった理由が気になりますか？きっと彼らが1ヶ月もお風呂に入っていないからです。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Dancer2": {
+    "message": "たしかに、ダンスパートナーと一緒にスクエアダンスはしたくないですね。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Dancer3": {
+    "message": "舞踏会の最中は、誰も仲間はずれにしないように定期的にダンスパートナーを交代してね。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Dancer4": {
+    "message": "ヒーラーをダンスパートナーにすることで、最大限のヒールを得られますよ。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Scholar1": {
+    "message": "あなたのパーティの学者に優しくしてあげてください。先日セラフィムに別れを告げられ、まだ立ち直れていないようです。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Scholar2": {
+    "message": "フェアリー・エオスはパンプキンスパイスラテを買いに行っているので、ヒールはあなたの仕事です。がんばって！",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Scholar3": {
+    "message": "フェアリー・セレネの二次創作絵を描くだけでは召喚することはできません。嫁を呼び出すには、学者は適切な呪文を唱えなければならないのです。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Sage1": {
+    "message": "賢者にWoWをプレイしているのではないことを思い出させてください。このゲームでは、ヒーラーもダメージを出すことが求められます。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Sage2": {
+    "message": "DPSにカルディアを付けると、回復の心配が無くなります！",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Sage3": {
+    "message": "カルディアを付ける価値がある人がいないので、自分に付けてください。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_Sage4": {
+    "message": "誰かがタンクにカルディアを付けるように言ったら、できないと伝えてください。カルディアは自分自身にしか付けられません。他のプレイヤーにはカルディア【被】を付けられます。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_FreeCompany1": {
+    "message": "FCマスターにFCアクションの更新を伝える不安から逃れるためには、FCを抜ければいいだけです！",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_FreeCompany2": {
+    "message": "今週のジャンボクジテンダーに外れたら、代わりにFCアクションで運試ししましょう！",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_FreeCompany3": {
+    "message": "フリーカンパニーアクションなんてP2W以外の何ものでもないよ。そんなものいらないよね。",
+    "description": "TippyMessages..ctor"
+  },
+  "TippyMessages_AetherialMimicry1": {
+    "message": "エーテルコピーをしていない青魔道士は弱くて特徴もありません。リムサロミンサにいるピンク髪のミコッテのようなものです。",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_AetherialMimicry2": {
+    "message": "青魔道士があなたと同じくらい硬くなれるなら、エーテルコピーを使う必要はありません。",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_AetherialMimicry3": {
+    "message": "あれは鳥？飛行機？違う。あれはエーテルコピーをしていない青魔道士です。",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_BasicInstinct1": {
+    "message": "闘争本能を持っていないなら、青魔道士はプレイしないよね。",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_BasicInstinct2": {
+    "message": "みんな死んだか居なくなっちゃったみたい。よい闘争本能を！",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_BasicInstinct3": {
+    "message": "「お友達」を追い払うのは、闘争本能にとって有効だったみたいです。",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_MightyGuard1": {
+    "message": "青魔道士もタンクになれることを知っていますか？彼らはどっちも青色だし、どっちも強力なガードを持っています。",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_MightyGuard2": {
+    "message": "マイティーガードを発動していないのに、青魔道士はどうやって顔面受けするんでしょうか？",
+    "description": "TippyBlueMageMessages..ctor"
+  },
+  "TippyMessages_MightyGuard3": {
+    "message": "無防備な青魔道士がいます。いたずらをしてやろう！",
+    "description": "TippyBlueMageMessages..ctor"
   }
 }
