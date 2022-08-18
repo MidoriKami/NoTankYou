@@ -14,6 +14,7 @@
         FreeCompany,
         BannerOverlay,
         TippyOverlay,
-        Debugging
+        Debugging,
+        Spiritbond,
     }
 }

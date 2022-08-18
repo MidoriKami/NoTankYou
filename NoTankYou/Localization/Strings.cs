@@ -14,6 +14,7 @@ namespace NoTankYou.Localization
         public Summoner Summoner { get; set; } = new();
         public BlueMage BlueMage { get; set; } = new();
         public FreeCompany FreeCompany { get; set; } = new();
+        public Spiritbond Spiritbond { get; set; } = new ();
     }
 
     public class Tank
@@ -59,6 +60,18 @@ namespace NoTankYou.Localization
         public readonly string ZoneFiltersDescription = Loc.Localize("Food_ZoneFiltersDescription", "Only check players for food when in the following zones");
         public readonly string AdditionalOptionsLabel = Loc.Localize("Food_AdditionalOptionsLabel", "Additional Options");
         public readonly string SuppressInCombat = Loc.Localize("Food_SuppressInCombat", "Suppress in Combat");
+    }
+    
+    public class Spiritbond
+    {
+        public readonly string Label = Loc.Localize("Spiritbond_Label", "Spiritbond");
+        public readonly string ConfigurationPanelLabel = Loc.Localize("Spiritbond_ConfigurationPanelLabel", "Spiritbond Configuration");
+        public readonly string WarningText = Loc.Localize("Spiritbond_WarningText", "Spiritbond Missing");
+        public readonly string EarlyWarningLabel = Loc.Localize("Spiritbond_EarlyWarningLabel", "Early Warning Time");
+        public readonly string ZoneFilters = Loc.Localize("Spiritbond_ZoneFilters", "Zone Filters");
+        public readonly string ZoneFiltersDescription = Loc.Localize("Spiritbond_ZoneFiltersDescription", "Only check players for Spiritbond when in the following zones");
+        public readonly string AdditionalOptionsLabel = Loc.Localize("Spiritbond_AdditionalOptionsLabel", "Additional Options");
+        public readonly string SuppressInCombat = Loc.Localize("Spiritbond_SuppressInCombat", "Suppress in Combat");
     }
 
     public class Sage

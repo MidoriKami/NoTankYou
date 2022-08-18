@@ -235,6 +235,38 @@
     "message": "Can not be used with 'Only in Duties'",
     "description": "BlueMage..ctor"
   },
+  "Spiritbond_Label": {
+    "message": "Spiritbond",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_ConfigurationPanelLabel": {
+    "message": "Spiritbond Configuration",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_WarningText": {
+    "message": "Spiritbond Missing",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_Description": {
+    "message": "Consuming a Spiritbond potion grants the player increased Spiritbond gain on their equipment.",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_TechnicalInformation": {
+    "message": "This module will alert you when the remaining duration of the 'Spiritbond Gain' status effect is less than the pre-configured value.",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_EarlyWarningLabel": {
+    "message": "Early Warning Time",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_ZoneFilters": {
+    "message": "Zone Filters",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_ZoneFiltersDescription": {
+    "message": "Only check players for Spiritbond when in the following zones",
+    "description": "Spiritbond..ctor"
+  },
   "Labels_About": {
     "message": "About",
     "description": "Labels..ctor"

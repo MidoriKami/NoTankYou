@@ -18,6 +18,7 @@ namespace NoTankYou.Tabs
             new SummonerConfiguration(),
             new BlueMageConfiguration(),
             new FreeCompanyConfiguration(),
+            new SpiritbondConfiguration(),
         };
 
         public string TabName => Strings.Common.Tabs.Modules;

@@ -12,5 +12,6 @@ namespace NoTankYou.Data
         public TankModuleSettings Tank { get; set; } = new();
         public BlueMageModuleSettings BlueMage { get; set; } = new();
         public FreeCompanyModuleSettings FreeCompany { get; set; } = new();
+        public SpiritbondModuleSettings Spiritbond { get; set; } = new ();
     }
 }

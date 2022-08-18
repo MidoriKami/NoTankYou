@@ -17,6 +17,7 @@ namespace NoTankYou.System
             new FoodModule(),
             new FreeCompanyModule(),
             new BlueMageModule(),
+            new SpiritbondModule(),
         };
 
         public void ProcessCommand(string command, string arguments)
