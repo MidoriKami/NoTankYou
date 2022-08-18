@@ -207,6 +207,38 @@
     "message": "La advertencia solo se mostrará cuando no haya otros jugadores",
     "description": "BlueMage..ctor"
   },
+  "Spiritbond_Label": {
+    "message": "Spiritbond",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_ConfigurationPanelLabel": {
+    "message": "Configuración de Spiritbond",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_WarningText": {
+    "message": "Falta una poción de Spiritbond",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_Description": {
+    "message": "Tomar una poción de Spiritbond otorga al jugador mayor acomulación de Spiritbond en su equipamiento",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_TechnicalInformation": {
+    "message": "Este módulo te alertará cuando la duración restante del efecto de la poción de Spiritbond sea menor al valor pre-configurado.",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_EarlyWarningLabel": {
+    "message": "Tiempo de advertencia temprana",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_ZoneFilters": {
+    "message": "Filtros de zona",
+    "description": "Spiritbond..ctor"
+  },
+  "Spiritbond_ZoneFiltersDescription": {
+    "message": "Solo revisar los buffs de Spiritbond de los jugadores dentro de las siguientes zonas",
+    "description": "Spiritbond..ctor"
+  },
   "Labels_Options": {
     "message": "Opciones",
     "description": "Labels..ctor"
