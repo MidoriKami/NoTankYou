@@ -185,7 +185,7 @@ namespace NoTankYou.System
 
         public Vector2 GetPartyFramePosition()
         {
-            var resourceNode = _partyList->AtkUnitBase.GetNodeById(8);
+            var resourceNode = _partyList->AtkUnitBase.GetNodeById(9);
             var rootNode = _partyList->AtkUnitBase.RootNode;
 
             var xOffset = rootNode->X;
@@ -215,7 +215,7 @@ namespace NoTankYou.System
 
         public Vector2 GetPartyFrameSize()
         {
-            var resourceNode = _partyList->AtkUnitBase.GetNodeById(8);
+            var resourceNode = _partyList->AtkUnitBase.GetNodeById(2);
             var width = resourceNode->Width;
             var height = resourceNode->Height;
 
