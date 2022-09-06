@@ -15,7 +15,7 @@ internal class PartyOverlayConfigurationWindow : Window
     private readonly InfoBox DisplayOptions = new();
     private readonly InfoBox ColorOptions = new();
 
-    public PartyOverlayConfigurationWindow() : base(Strings.TabItems.PartyOverlay.ConfigurationLabel)
+    public PartyOverlayConfigurationWindow() : base($"{Strings.TabItems.PartyOverlay.ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}" )
     {
         SizeConstraints = new WindowSizeConstraints
         {

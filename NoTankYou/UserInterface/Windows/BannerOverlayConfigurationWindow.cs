@@ -18,7 +18,7 @@ internal class BannerOverlayConfigurationWindow : Window
     private readonly InfoBox DisplayOptions = new();
     private readonly InfoBox RepositionMode = new();
 
-    public BannerOverlayConfigurationWindow() : base(Strings.TabItems.BannerOverlay.ConfigurationLabel)
+    public BannerOverlayConfigurationWindow() : base($"{Strings.TabItems.BannerOverlay.ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         SizeConstraints = new WindowSizeConstraints
         {

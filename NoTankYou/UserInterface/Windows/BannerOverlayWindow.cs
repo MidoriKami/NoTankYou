@@ -9,7 +9,6 @@ using ImGuiScene;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Configuration.Overlays;
-using NoTankYou.Localization;
 using NoTankYou.Utilities;
 using Condition = NoTankYou.Utilities.Condition;
 
@@ -28,7 +27,7 @@ internal class BannerOverlayWindow : Window
     [Signature("E8 ?? ?? ?? ?? 84 C0 75 21 48 8B 4F 10")]
     private readonly IsInSanctuary SanctuaryFunction = null!;
 
-    public BannerOverlayWindow() : base(Strings.TabItems.BannerOverlay.ConfigurationLabel + "2")
+    public BannerOverlayWindow() : base($"###BannerOverlay+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         SignatureHelper.Initialise(this);
 

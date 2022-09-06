@@ -25,7 +25,7 @@ internal class PartyListOverlayWindow : Window
     [Signature("E8 ?? ?? ?? ?? 84 C0 75 21 48 8B 4F 10")]
     private readonly IsInSanctuary SanctuaryFunction = null!;
 
-    public PartyListOverlayWindow() : base("NoTankYouPartyFrameOverlay")
+    public PartyListOverlayWindow() : base($"###PartyListOverlay")
     {
         SignatureHelper.Initialise(this);
 

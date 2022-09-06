@@ -33,7 +33,7 @@ internal class BlacklistConfigurationWindow : Window
     private static string _selectedContentTypeString = "";
     private static SearchResult _selectedResult = new(0, "Unknown", "Unknown");
 
-    public BlacklistConfigurationWindow() : base(Strings.TabItems.Blacklist.Label)
+    public BlacklistConfigurationWindow() : base($"{Strings.TabItems.Blacklist.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         SizeConstraints = new WindowSizeConstraints
         {

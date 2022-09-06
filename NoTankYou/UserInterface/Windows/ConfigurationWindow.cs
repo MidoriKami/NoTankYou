@@ -12,7 +12,7 @@ internal class ConfigurationWindow : Window, IDisposable
     private readonly SelectionFrame SelectionFrame;
     private readonly ConfigurationFrame ConfigurationFrame; 
 
-    public ConfigurationWindow() : base($"NoTankYou###NoTankYouMainWindow")
+    public ConfigurationWindow() : base($"No Tank You - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         SizeConstraints = new WindowSizeConstraints
         {
