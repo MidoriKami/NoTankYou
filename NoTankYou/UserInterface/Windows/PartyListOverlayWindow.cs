@@ -45,6 +45,12 @@ internal class PartyListOverlayWindow : Window
 
     public override void PreOpenCheck()
     {
+        if (!PartyListAddon.DataAvailable)
+        {
+            IsOpen = false;
+            return;
+        }
+
         if (Condition.ShouldShowWarnings()) IsOpen = true;
         if (!Condition.ShouldShowWarnings()) IsOpen = false;
         if (Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
