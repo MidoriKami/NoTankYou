@@ -1,4 +1,5 @@
 ﻿using CheapLoc;
+// ReSharper disable MemberCanBeMadeStatic.Global
 
 namespace NoTankYou.Localization;
 
@@ -18,28 +19,19 @@ public class Modules
 public class Tank
 {
     public string Label => Loc.Localize("Tank_Label", "Tanks");
-    public string ConfigurationPanelLabel => Loc.Localize("Tank_ConfigurationPanelLabel", "Tanks Configuration");
     public string WarningText => Loc.Localize("Tank_WarningText", "Tank Stance Missing");
     public string WarningTextShort => Loc.Localize("Tank_WarningTextShort", "Tank Stance");
     public string DisableInAllianceRaid => Loc.Localize("Tank_DisableInAllianceRaid", "Disable in Alliance Raid");
     public string CheckAllianceStances => Loc.Localize("Tank_CheckAllianceStances", "Check Alliance Members");
-    public string CheckAllianceStancesDescription => Loc.Localize("Tank_CheckAllianceStancesDescription", "If Enabled, checks other alliance's tanks for a tank stance to warn if no tanks have their stance on\nIf Disabled, only checks your party for tank stances");
-    public string Paladin => Loc.Localize("Tank_Paladin", "Paladin");
-    public string Warrior => Loc.Localize("Tank_Warrior", "Warrior");
-    public string DarkKnight => Loc.Localize("Tank_DarkKnight", "Dark Knight");
-    public string Gunbreaker => Loc.Localize("Tank_Gunbreaker", "Gunbreaker");
 }
 
 public class FreeCompany
 {
     public string Label => Loc.Localize("FreeCompany_Label", "Free Company");
-    public string ConfigurationPanelLabel => Loc.Localize("FreeCompany_ConfigurationPaneLabel", "Free Company Configuration");
     public string WarningText => Loc.Localize("FreeCompany_WarningText", "FreeCompany Buff Missing");
     public string WarningTextShort => Loc.Localize("FreeCompany_WarningTextShort", "FreeCompany Buff");
     public string Any => Loc.Localize("FreeCompany_Any", "Any");
-    public string AnyDescription => Loc.Localize("FreeCompany_AnyDescription", "Display warning if missing any Free Company buffs");
     public string Specific => Loc.Localize("FreeCompany_Specific", "Specific");
-    public string SpecificDescription => Loc.Localize("FreeCompany_SpecificDescription", "Display warning if missing specific Free Company buffs");
     public string BuffCount => Loc.Localize("FreeCompany_BuffCount", "Buff Count");
     public string BuffSelection => Loc.Localize("FreeCompany_BuffSelection", "Buff Selection");
 }
@@ -47,7 +39,6 @@ public class FreeCompany
 public class Dancer
 {
     public string Label => Loc.Localize("Dancer_Label", "Dancer");
-    public string ConfigurationPanelLabel => Loc.Localize("Dancer_ConfigurationPanelLabel", "Dancer Configuration");
     public string WarningText => Loc.Localize("Dancer_WarningText", "Dance Partner Missing");
     public string WarningTextShort => Loc.Localize("Dancer_WarningTextShort", "Dance Partner");
 }
@@ -55,11 +46,10 @@ public class Dancer
 public class Food
 {
     public string Label => Loc.Localize("Food_Label", "Food");
-    public string ConfigurationPanelLabel => Loc.Localize("Food_ConfigurationPanelLabel", "Food Configuration");
     public string WarningText => Loc.Localize("Food_WarningText", "Food Missing");
     public string EarlyWarningLabel => Loc.Localize("Food_EarlyWarningLabel", "Early Warning Time");
     public string ZoneFilters => Loc.Localize("Food_ZoneFilters", "Zone Filters");
-    public string ZoneFiltersDescription => Loc.Localize("Food_ZoneFiltersDescription", "Only check players for food when in the following zones");
+    public string ZoneFiltersDescription => Loc.Localize("Food_ZoneFiltersDescription", "Display warning only in the following zones");
     public string AdditionalOptionsLabel => Loc.Localize("Food_AdditionalOptionsLabel", "Additional Options");
     public string SuppressInCombat => Loc.Localize("Food_SuppressInCombat", "Suppress in Combat");
 }
@@ -67,7 +57,6 @@ public class Food
 public class Sage
 {
     public string Label => Loc.Localize("Sage_Label", "Sage");
-    public string ConfigurationPanelLabel => Loc.Localize("Sage_ConfigurationPanelLabel", "Sage Configuration");
     public string WarningText => Loc.Localize("Sage_WarningText", "Kardia Partner Missing");
     public string WarningTextShort => Loc.Localize("Sage_WarningTextShort", "Kardia Partner");
 }
@@ -75,7 +64,6 @@ public class Sage
 public class Scholar
 {
     public string Label => Loc.Localize("Scholar_Label", "Scholar");
-    public string ConfigurationPanelLabel => Loc.Localize("Scholar_ConfigurationPanelLabel", "Scholar Configuration");
     public string WarningText => Loc.Localize("Scholar_WarningText", "Faerie Summon Missing");
     public string WarningTextShort => Loc.Localize("Scholar_WarningTextShort", "Faerie Summon");
 }
@@ -83,7 +71,6 @@ public class Scholar
 public class Summoner
 {
     public string Label => Loc.Localize("Summoner_Label", "Summoner");
-    public string ConfigurationPanelLabel => Loc.Localize("Summoner_ConfigurationPanelLabel", "Summoner Configuration");
     public string WarningText => Loc.Localize("Summoner_WarningText", "Pet Summon Missing");
     public string WarningTextShort => Loc.Localize("Summoner_WarningTextShort", "Pet Summon");
 }
@@ -91,16 +78,12 @@ public class Summoner
 public class BlueMage
 {
     public string Label => Loc.Localize("BlueMage_Label", "Blue Mage");
-    public string ConfigurationPanelLabel => Loc.Localize("BlueMage_ConfigurationPanelLabel", "Blue Mage Configuration");
-    public string GenericWarning => Loc.Localize("BlueMage_GenericWarning", "Warning Something is Missing");
     public string Mimicry => Loc.Localize("BlueMage_Mimicry", "Aetherial Mimicry Missing");
     public string MightyGuard => Loc.Localize("BlueMage_MightyGuard", "Mighty Guard Missing");
     public string BasicInstinct => Loc.Localize("BlueMage_BasicInstinct", "Basic Instinct Missing");
     public string MimicryLabel => Loc.Localize("BlueMage_MimicryLabel", "Aetherial Mimicry");
     public string MightyGuardLabel => Loc.Localize("BlueMage_MightyGuardLabel", "Mighty Guard");
     public string BasicInstinctLabel => Loc.Localize("BlueMage_BasicInstinctLabel", "Basic Instinct");
-    public string MimicryWarning => Loc.Localize("BlueMage_MimicryWarning", "Can not be used with 'Duties Only'");
-    public string BasicInstinctInfo => Loc.Localize("BlueMage_BasicInstinctInfo", "Warning will only show when solo with no other players");
 }
 #endregion
 
@@ -140,24 +123,11 @@ public class Labels
     public string Warnings => Loc.Localize("Labels_Warnings", "Warnings");
     public string DisplayOptions => Loc.Localize("Labels_DisplayOptions", "Display Options");
     public string Scale => Loc.Localize("Labels_Scale", "Scale");
-    public string Locked => Loc.Localize("Labels_Locked", "Locked");
-    public string Lock => Loc.Localize("Labels_Lock", "Lock");
-    public string Unlocked => Loc.Localize("Labels_Unlocked", "Unlocked");
-    public string Unlock => Loc.Localize("Labels_Unlock", "Unlock");
-    public string Apply => Loc.Localize("Labels_Apply", "Apply");
-    public string Reset => Loc.Localize("Labels_Reset", "Reset");
 }
 
 public class Tabs
 {
     public string Settings => Loc.Localize("Tabs_Settings", "Settings");
-    public string SettingsDescription => Loc.Localize("Tabs_SettingsDescription", "Basic Settings");
-
-    public string Display => Loc.Localize("Tabs_Display", "Display");
-    public string DisplayDescription => Loc.Localize("Tabs_DisplayDescription", "How warnings display");
-
-    public string Modules => Loc.Localize("Tabs_Modules", "Modules");
-    public string ModulesDescription => Loc.Localize("Tabs_ModulesDescription", "Configure each module");
 }
 
 public class TabItems
@@ -172,18 +142,16 @@ public class BannerOverlay
     public string BorderThickness => Loc.Localize("BannerOverlay_BorderThickness", "Border Thickness");
     public string Label => Loc.Localize("BannerOverlay_Label", "Banner Overlay");
     public string ConfigurationLabel => Loc.Localize("BannerOverlay_ConfigurationLabel", "Banner Overlay Configuration");
-    public string WarningCountDescription => Loc.Localize("BannerOverlay_WarningCountDescription", "Maximum number of players to display");
     public string WarningCount => Loc.Localize("BannerOverlay_WarningCount", "Player Count");
+    public string ListModeDescription => Loc.Localize("BannerOverlay_ListModeDescription", "Displays warnings from multiple party members at the same time");
     public string TopPriorityDescription => Loc.Localize("BannerOverlay_TopPriorityDescription", "Display only one warning at a time");
     public string ListMode => Loc.Localize("BannerOverlay_ListMode", "List");
-    public string ListModeDescription => Loc.Localize("BannerOverlay_ListModeDescription", "Displays warnings from multiple party members at the same time");
     public string TopPriorityMode => Loc.Localize("BannerOverlay_TopPriorityMode", "Single");
     public string ListModeOptions => Loc.Localize("BannerOverlay_ListModeOptions", "List Mode Options");
     public string RepositionMode => Loc.Localize("BannerOverlay_RepositionMode", "Lock Window Position");
     public string ExclamationMark => Loc.Localize("BannerOverlay_ExclamationMark", "Show Exclamation Mark");
     public string WarningText => Loc.Localize("BannerOverlay_WarningText", "Show Text");
     public string Icon => Loc.Localize("BannerOverlay_Icon", "Show Icon");
-    public string UnlockToSave => Loc.Localize("BannerOverlay_UnlockToSave", "Lock to Edit");
     public string PlayerNames => Loc.Localize("BannerOverlay_PlayerNames", "Show Player Names");
     public string IconText => Loc.Localize("BannerOverlay_IconText", "Show Icon Text");
     public string Button => Loc.Localize("BannerOverlay_Button", "Banner");
