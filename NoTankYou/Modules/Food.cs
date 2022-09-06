@@ -68,6 +68,7 @@ internal class Food : IModule
 
             ZoneFilters
                 .AddTitle(Strings.Modules.Food.ZoneFilters)
+                .AddString(Strings.Modules.Food.ZoneFiltersDescription)
                 .AddConfigCheckbox(Strings.Common.Labels.Savage, Settings.SavageDuties)
                 .AddConfigCheckbox(Strings.Common.Labels.Ultimate, Settings.UltimateDuties)
                 .AddConfigCheckbox(Strings.Common.Labels.ExtremeUnreal, Settings.ExtremeUnreal)
