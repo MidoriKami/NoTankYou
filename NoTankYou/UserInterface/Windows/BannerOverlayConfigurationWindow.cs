@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using NoTankYou.Configuration.Overlays;
@@ -59,7 +58,8 @@ internal class BannerOverlayConfigurationWindow : Window
 
         ModeSelect
             .AddTitle(Strings.Common.Labels.ModeSelect)
-            .AddConfigCombo(Enum.GetValues<BannerOverlayDisplayMode>(), Settings.Mode, BannerOverlayDisplayModeExtensions.GetLabel)
+            .AddConfigRadio(Strings.TabItems.BannerOverlay.ListMode, Settings.Mode, BannerOverlayDisplayMode.List, Strings.TabItems.BannerOverlay.ListModeDescription)
+            .AddConfigRadio(Strings.TabItems.BannerOverlay.TopPriorityMode, Settings.Mode, BannerOverlayDisplayMode.TopPriority, Strings.TabItems.BannerOverlay.TopPriorityDescription)
             .Draw();
 
         if (Settings.Mode.Value == BannerOverlayDisplayMode.List)
