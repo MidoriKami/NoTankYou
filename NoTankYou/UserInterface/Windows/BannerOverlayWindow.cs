@@ -6,10 +6,12 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
+using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Configuration.Overlays;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
+using Condition = NoTankYou.Utilities.Condition;
 
 namespace NoTankYou.UserInterface.Windows;
 
@@ -19,6 +21,7 @@ internal class BannerOverlayWindow : Window
     private readonly TextureWrap WarningIcon;
 
     private int WarningsDisplayed;
+    private readonly WarningState DemoWarning;
 
     private delegate bool IsInSanctuary();
 
@@ -41,18 +44,36 @@ internal class BannerOverlayWindow : Window
         Flags |= ImGuiWindowFlags.NoBringToFrontOnFocus;
         Flags |= ImGuiWindowFlags.NoFocusOnAppearing;
         Flags |= ImGuiWindowFlags.NoNavFocus;
+
+        var demoAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(28)!;
+
+        DemoWarning = new WarningState
+        {
+            MessageShort = "Sample Warning",
+            IconID = demoAction.Icon,
+            IconLabel = demoAction.Name.RawString,
+            Priority = 11,
+            MessageLong = "Long Sample Warning"
+        };
     }
 
     public override void PreOpenCheck()
     {
         if (Condition.ShouldShowWarnings()) IsOpen = true;
         if (!Condition.ShouldShowWarnings()) IsOpen = false;
-        if (Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
+
+        if (Settings.LockWindowPosition.Value)
+        {
+            if (Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
+        }
     }
 
     public override void PreDraw()
     {
-        Size = ImGuiHelpers.ScaledVector2(400.0f, 90.0f) * Settings.Scale.Value;
+        Size = ImGuiHelpers.ScaledVector2(475.0f, 90.0f) * Settings.Scale.Value;
+
+        var backgroundColor = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
+        ImGui.PushStyleColor(ImGuiCol.WindowBg, backgroundColor with {W = 0.35f});
     }
 
     public override void Draw()
@@ -91,12 +112,22 @@ internal class BannerOverlayWindow : Window
         }
     }
 
+    public override void PostDraw()
+    {
+        ImGui.PopStyleColor();
+    }
+
     private void LockUnlockWindow()
     {
         if (!Settings.LockWindowPosition.Value)
         {
             Flags &= ~ImGuiWindowFlags.NoInputs;
             Flags &= ~ImGuiWindowFlags.NoBackground;
+
+            if (Service.ClientState.LocalPlayer is { } player)
+            {
+                DrawWarningStatBanner(DemoWarning, player);
+            }
         }
         else
         {
