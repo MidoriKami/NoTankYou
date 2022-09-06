@@ -14,6 +14,8 @@ using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
 
+internal record IconInfo(uint ID, string Name);
+
 internal class Tanks : IModule
 {
     public ModuleName Name => ModuleName.Tanks;
@@ -175,11 +177,7 @@ internal class Tanks : IModule
                 .Where(r => TankStances.Contains(r.StatusGainSelf.Value!.RowId))
                 .First();
 
-            return new IconInfo
-            {
-                ID = action.Icon,
-                Name = action.Name.RawString
-            };
+            return new IconInfo(action.Icon, action.Name.RawString);
         }
 
         private IEnumerable<PlayerCharacter> GetAllianceTanks()
