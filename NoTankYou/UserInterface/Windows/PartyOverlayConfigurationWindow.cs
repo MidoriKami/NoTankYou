@@ -31,6 +31,7 @@ internal class PartyOverlayConfigurationWindow : Window
         Options
             .AddTitle(Strings.Common.Labels.Options)
             .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
+            .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.PreviewMode)
             .Draw();
 
         DisplayOptions

@@ -193,6 +193,7 @@ public class Configuration
     public string HideInSanctuary => Loc.Localize("Configuration_HideInSanctuary", "Hide in Sanctuaries");
     public string DutiesOnlyHelp => Loc.Localize("Configuration_DutiesOnlyHelp", "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere");
     public string SoloModeHelp => Loc.Localize("Configuration_SoloModeHelp", "When enabled will only evaluate warnings for you");
+    public string PreviewMode => Loc.Localize("Configuration_PreviewMode", "Preview Mode");
 }
 #endregion
 

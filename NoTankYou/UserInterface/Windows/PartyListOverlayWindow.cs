@@ -5,10 +5,12 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
+using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Configuration.Overlays;
 using NoTankYou.System;
 using NoTankYou.Utilities;
+using Condition = NoTankYou.Utilities.Condition;
 
 namespace NoTankYou.UserInterface.Windows;
 
@@ -19,6 +21,8 @@ internal class PartyListOverlayWindow : Window
 
     private readonly TextureWrap WarningIcon;
     private Vector2 Scale { get; set; }
+
+    private readonly WarningState DemoWarning;
 
     private delegate bool IsInSanctuary();
 
@@ -41,6 +45,17 @@ internal class PartyListOverlayWindow : Window
         ForceMainWindow = true;
 
         AnimationStopwatch.Start();
+
+        var demoAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(28)!;
+
+        DemoWarning = new WarningState
+        {
+            MessageShort = "Sample Warning",
+            IconID = demoAction.Icon,
+            IconLabel = demoAction.Name.RawString,
+            Priority = 11,
+            MessageLong = "Long Sample Warning"
+        };
     }
 
     public override void PreOpenCheck()
@@ -53,7 +68,11 @@ internal class PartyListOverlayWindow : Window
 
         if (Condition.ShouldShowWarnings()) IsOpen = true;
         if (!Condition.ShouldShowWarnings()) IsOpen = false;
-        if (Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
+
+        if (!Settings.PreviewMode.Value)
+        {
+            if (Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
+        }
 
         if (IsOpen == false) ResetAllAnimation();
     }
@@ -69,52 +88,67 @@ internal class PartyListOverlayWindow : Window
 
     public override void Draw()
     {
-        foreach (var player in Service.PartyListAddon)
+        if (Settings.PreviewMode.Value)
         {
-            if (player.IsTargetable())
+            foreach (var player in Service.PartyListAddon)
             {
-                if (player.PlayerCharacter is { } playerCharacter)
+                DisplayWarning(DemoWarning, player);
+            }
+        }
+        else
+        {
+            foreach (var player in Service.PartyListAddon)
+            {
+                if (player.IsTargetable())
                 {
-                    // Get all Logic Modules for this classjob
-                    var modules = Service.ModuleManager.GetModulesForClassJob(playerCharacter.ClassJob.Id);
-
-                    // Filter to only modules that are enabled for PartyFrame Overlay
-                    var enabledModules = modules
-                        .Where(module => module.ParentModule.GenericSettings.PartyFrameOverlay.Value);
-
-                    // Get Highest Warning for remaining modules
-                    var highestWarning = enabledModules
-                        .Select(module => module.ShouldShowWarning(playerCharacter))
-                        .OfType<WarningState>()
-                        .DefaultIfEmpty(null)
-                        .Aggregate((i1, i2) => i1!.Priority > i2!.Priority ? i1 : i2);
-
-                    // If the warning exists
-                    if (highestWarning is not null)
+                    if (player.PlayerCharacter is { } playerCharacter)
                     {
-                        if(Settings.JobIcon.Value)
-                            AnimateJobIcon(player);
+                        // Get all Logic Modules for this classjob
+                        var modules = Service.ModuleManager.GetModulesForClassJob(playerCharacter.ClassJob.Id);
 
-                        if(Settings.PlayerName.Value)
-                            AnimatePlayerName(player);
+                        // Filter to only modules that are enabled for PartyFrame Overlay
+                        var enabledModules = modules
+                            .Where(module => module.ParentModule.GenericSettings.PartyFrameOverlay.Value);
 
-                        if(Settings.WarningText.Value)
-                            AnimateWarningText(player, highestWarning.MessageLong);
-                    }
-                    else
-                    {
-                        ResetAnimation(player);
+                        // Get Highest Warning for remaining modules
+                        var highestWarning = enabledModules
+                            .Select(module => module.ShouldShowWarning(playerCharacter))
+                            .OfType<WarningState>()
+                            .DefaultIfEmpty(null)
+                            .Aggregate((i1, i2) => i1!.Priority > i2!.Priority ? i1 : i2);
+
+                        // If the warning exists
+                        if (highestWarning is not null)
+                        {
+                            DisplayWarning(highestWarning, player);
+                        }
+                        else
+                        {
+                            ResetAnimation(player);
+                        }
                     }
                 }
-            }
-            else
-            {
-                ResetAnimation(player);
+                else
+                {
+                    ResetAnimation(player);
+                }
             }
         }
 
         if (AnimationStopwatch.ElapsedMilliseconds >= 1300)
             AnimationStopwatch.Restart();
+    }
+
+    private void DisplayWarning(WarningState warning, PartyListAddonData player)
+    {
+        if(Settings.JobIcon.Value)
+            AnimateJobIcon(player);
+
+        if(Settings.PlayerName.Value)
+            AnimatePlayerName(player);
+
+        if(Settings.WarningText.Value)
+            AnimateWarningText(player, warning.MessageLong);
     }
 
     private void AnimateWarningText(PartyListAddonData partyMember, string warningText)

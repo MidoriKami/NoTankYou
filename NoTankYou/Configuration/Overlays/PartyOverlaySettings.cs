@@ -13,4 +13,5 @@ public class PartyOverlaySettings
     public Setting<Vector4> WarningTextColor = new (Colors.SoftRed);
     public Setting<Vector4> WarningOutlineColor = new (Colors.Red);
     public Setting<bool> DisableInSanctuary = new(false);
+    public Setting<bool> PreviewMode = new(true);
 }
