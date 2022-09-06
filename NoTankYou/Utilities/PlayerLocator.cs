@@ -1,17 +1,16 @@
 ﻿using Dalamud.Game.ClientState.Objects.SubKinds;
 
-namespace NoTankYou.Utilities
+namespace NoTankYou.Utilities;
+
+internal static class PlayerLocator
 {
-    internal static class PlayerLocator
+    public static PlayerCharacter? GetPlayer(uint objectId)
     {
-        public static PlayerCharacter? GetPlayer(uint objectId)
-        {
-            var result = Service.ObjectTable.SearchById(objectId);
+        var result = Service.ObjectTable.SearchById(objectId);
 
-            if (result?.GetType() == typeof(PlayerCharacter))
-                return result as PlayerCharacter;
+        if (result?.GetType() == typeof(PlayerCharacter))
+            return result as PlayerCharacter;
 
-            return null;
-        }
+        return null;
     }
 }

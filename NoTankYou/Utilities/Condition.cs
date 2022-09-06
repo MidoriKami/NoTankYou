@@ -1,33 +1,30 @@
 ﻿using Dalamud.Game.ClientState.Conditions;
-using NoTankYou.Data.Components;
+using NoTankYou.Configuration.Components;
 using NoTankYou.System;
 
-namespace NoTankYou.Utilities
+namespace NoTankYou.Utilities;
+
+internal static class Condition
 {
-    internal static class Condition
+    public static bool IsBoundByDuty()
     {
-        public static bool IsBoundByDuty()
-        {
-            var baseBoundByDuty = Service.Condition[ConditionFlag.BoundByDuty];
-            var boundBy56 = Service.Condition[ConditionFlag.BoundByDuty56];
-            var boundBy95 = Service.Condition[ConditionFlag.BoundByDuty95];
+        var baseBoundByDuty = Service.Condition[ConditionFlag.BoundByDuty];
+        var boundBy56 = Service.Condition[ConditionFlag.BoundByDuty56];
+        var boundBy95 = Service.Condition[ConditionFlag.BoundByDuty95];
             
-            return baseBoundByDuty || boundBy56 || boundBy95;
-        }
+        return baseBoundByDuty || boundBy56 || boundBy95;
+    }
 
-        public static bool ShouldShowWarnings()
-        {
-            var hudDataAvailable = HudManager.DataAvailable;
-            var showWarnings = Service.ContextManager.ShowWarnings;
-            var isPvP = Service.ClientState.IsPvP;
+    public static bool ShouldShowWarnings()
+    {
+        var blacklist = Service.ConfigurationManager.CharacterConfiguration.Blacklist;
 
-            var blackListEnabled = Service.Configuration.SystemSettings.Blacklist.Enabled;
-            var blackListedZone = Service.Configuration.SystemSettings.Blacklist.ContainsCurrentZone();
-            var blacklisted = blackListEnabled && blackListedZone;
+        if (!PartyListAddon.DataAvailable) return false;
+        if (!Service.ContextManager.ShowWarnings) return false;
+        if (Service.ClientState.IsPvP) return false;
+        if (Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance]) return false;
+        if (blacklist.Enabled.Value && blacklist.ContainsCurrentZone()) return false;
 
-            var inCrossWorldParty = Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance];
-
-            return hudDataAvailable && showWarnings && !isPvP && !blacklisted && !inCrossWorldParty;
-        }
+        return true;
     }
 }

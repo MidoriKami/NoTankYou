@@ -1,41 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NoTankYou.Interfaces;
-using NoTankYou.Windows.DisplayModules;
-using NoTankYou.Windows.NoTankYouWindow;
+using Dalamud.Interface.Windowing;
+using NoTankYou.UserInterface.Windows;
 
-namespace NoTankYou.System
+namespace NoTankYou.System;
+
+public class WindowManager : IDisposable
 {
-    public class WindowManager : IDisposable
+    private readonly WindowSystem WindowSystem = new("NoTankYou");
+
+    private readonly List<Window> Windows = new()
     {
-        private readonly List<IDisposable> DisplayModule = new()
-        {
-            new NoTankYouWindow(),
-            new PartyFrameOverlayWindow(),
-            new BannerOverlayWindow(),
-            new TippyOverlay()
-        };
+        new ConfigurationWindow(),
+        new PartyListOverlayWindow(),
+        new BannerOverlayWindow(),
+        new PartyOverlayConfigurationWindow(),
+        new BannerOverlayConfigurationWindow(),
+        new BlacklistConfigurationWindow(),
+    };
 
-        public void Dispose()
+    public WindowManager()
+    {
+        foreach (var window in Windows)
         {
-            foreach (var module in DisplayModule)
-            {
-                module.Dispose();
-            }
+            WindowSystem.AddWindow(window);
         }
 
-        public T? GetWindowOfType<T>()
+        Service.PluginInterface.UiBuilder.Draw += DrawUI;
+        Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+    }
+
+    private void DrawUI() => WindowSystem.Draw();
+
+    private void DrawConfigUI() => Windows[0].IsOpen = true;
+
+    public T? GetWindowOfType<T>()
+    {
+        return Windows.OfType<T>().FirstOrDefault();
+    }
+
+    public void Dispose()
+    {
+        Service.PluginInterface.UiBuilder.Draw -= DrawUI;
+        Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
+
+        foreach (var window in Windows.OfType<IDisposable>())
         {
-            return DisplayModule.OfType<T>().FirstOrDefault();
+            window.Dispose();
         }
 
-        public void ExecuteCommand(string command, string arguments)
-        {
-            foreach (var eachCommand in DisplayModule.OfType<ICommand>())
-            {
-                eachCommand.ProcessCommand(command, arguments);
-            }
-        }
+        WindowSystem.RemoveAllWindows();
     }
 }

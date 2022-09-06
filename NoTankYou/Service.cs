@@ -9,33 +9,32 @@ using Dalamud.Game.Gui;
 using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using NoTankYou.Data;
-using NoTankYou.System;
 
-namespace NoTankYou
+namespace NoTankYou;
+
+public class Service
 {
-    public class Service
-    {
-        [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; } = null!;
-        [PluginService] public static ChatGui Chat { get; private set; } = null!;
-        [PluginService] public static ClientState ClientState { get; private set; } = null!;
-        [PluginService] public static PartyList PartyList { get; private set; } = null!;
-        [PluginService] public static CommandManager Commands { get; private set; } = null!;
-        [PluginService] public static Condition Condition { get; private set; } = null!;
-        [PluginService] public static DataManager DataManager { get; private set; } = null!;
-        [PluginService] public static Framework Framework { get; private set; } = null!;
-        [PluginService] public static ObjectTable ObjectTable { get; private set; } = null!;
-        [PluginService] public static GameGui GameGui { get; private set; } = null!;
+    [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; } = null!;
+    [PluginService] public static ChatGui Chat { get; private set; } = null!;
+    [PluginService] public static ClientState ClientState { get; private set; } = null!;
+    [PluginService] public static PartyList PartyList { get; private set; } = null!;
+    [PluginService] public static CommandManager Commands { get; private set; } = null!;
+    [PluginService] public static Condition Condition { get; private set; } = null!;
+    [PluginService] public static DataManager DataManager { get; private set; } = null!;
+    [PluginService] public static Framework Framework { get; private set; } = null!;
+    [PluginService] public static ObjectTable ObjectTable { get; private set; } = null!;
+    [PluginService] public static GameGui GameGui { get; private set; } = null!;
 
-        public static WindowSystem WindowSystem { get; set; } = new("NoTankYou");
-        public static WindowManager WindowManager { get; set; } = null!;
-        public static ModuleManager ModuleManager { get; set; } = null!;
-        public static EventManager EventManager { get; set; } = null!;
-        public static HudManager HudManager { get; set; } = null!;
-        public static Dalamud.Localization Localization { get; set; } = null!;
-        public static IconManager IconManager { get; set; } = null!;
-        public static FontManager FontManager { get; set; } = null!;
-        public static ContextManager ContextManager { get; set; } = null!;
-        public static Configuration Configuration { get; set; } = null!;
-    }
+    public static WindowSystem WindowSystem { get; set; } = new("NoTankYou");
+
+    internal static System.ModuleManager ModuleManager = null!;
+    internal static System.CommandManager CommandSystem = null!;
+    internal static System.WindowManager WindowManager = null!;
+    internal static System.LocalizationManager LocalizationManager = null!;
+    internal static System.ConfigurationManager ConfigurationManager = null!;
+    internal static System.FontManager FontManager = null!;
+    internal static System.DutyEventManager DutyEventManager = null!;
+    internal static System.ContextManager ContextManager = null!;
+    internal static System.IconManager IconManager = null!;
+    internal static System.PartyListAddon PartyListAddon = null!;
 }
