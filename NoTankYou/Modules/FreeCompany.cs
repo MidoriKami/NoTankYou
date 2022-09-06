@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using ImGuiNET;
@@ -57,7 +56,8 @@ internal class FreeCompany : IModule
 
             ExtraOptions
                 .AddTitle(Strings.Common.Labels.ModeSelect)
-                .AddConfigCombo(Enum.GetValues<FreeCompanyBuffScanMode>(), Settings.ScanMode, FreeCompanyBuffScanModeExtensions.GetLabel)
+                .AddConfigRadio(Strings.Modules.FreeCompany.Any, Settings.ScanMode, FreeCompanyBuffScanMode.Any)
+                .AddConfigRadio(Strings.Modules.FreeCompany.Specific, Settings.ScanMode, FreeCompanyBuffScanMode.Specific)
                 .Draw();
 
             BuffCount
