@@ -203,18 +203,21 @@ public class Commands
     public string Label => Loc.Localize("Commands_Label", "Commands");
     public string Add => Loc.Localize("Commands_Add", "Add");
     public string Remove => Loc.Localize("Commands_Remove", "Remove");
-    public string Help => Loc.Localize("Commands_Help", "NoTankYou Commands:\n" +
-                                                        "/nty blu (on | off) - Toggle Blue Mage Module\n" +
-                                                        "/nty dnc (on | off) - Toggle Dancer Module\n" +
-                                                        "/nty food (on | off) - Toggle Food Module\n" +
-                                                        "/nty fc (on | off) - Toggle Free Company Module\n" +
-                                                        "/nty sge (on | off) - Toggle Sage Module\n" +
-                                                        "/nty sch (on | off) - Toggle Scholar Module\n" +
-                                                        "/nty smn (on | off) - Toggle Summoner Module\n" +
-                                                        "/nty tanks (on | off) - Toggle Tanks Module\n" +
-                                                        "/nty partyoverlay (on | off) - Toggle Party Overlay\n" +
-                                                        "/nty banneroverlay (on | off) - Toggle Banner Overlay\n" +
-                                                        "/nty tippyoverlay (on | off) - Toggle Tippy Overlay");
+
+    public string Help => Loc.Localize("Commands_Help", "Commands are not available currently.");
+
+    //public string Help => Loc.Localize("Commands_Help", "NoTankYou Commands:\n" +
+    //                                                    "/nty blu (on | off) - Toggle Blue Mage Module\n" +
+    //                                                    "/nty dnc (on | off) - Toggle Dancer Module\n" +
+    //                                                    "/nty food (on | off) - Toggle Food Module\n" +
+    //                                                    "/nty fc (on | off) - Toggle Free Company Module\n" +
+    //                                                    "/nty sge (on | off) - Toggle Sage Module\n" +
+    //                                                    "/nty sch (on | off) - Toggle Scholar Module\n" +
+    //                                                    "/nty smn (on | off) - Toggle Summoner Module\n" +
+    //                                                    "/nty tanks (on | off) - Toggle Tanks Module\n" +
+    //                                                    "/nty partyoverlay (on | off) - Toggle Party Overlay\n" +
+    //                                                    "/nty banneroverlay (on | off) - Toggle Banner Overlay\n" +
+    //                                                    "/nty tippyoverlay (on | off) - Toggle Tippy Overlay");
 }
 #endregion
 
