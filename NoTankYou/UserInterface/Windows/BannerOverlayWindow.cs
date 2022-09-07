@@ -58,13 +58,9 @@ internal class BannerOverlayWindow : Window
 
     public override void PreOpenCheck()
     {
-        if (Condition.ShouldShowWarnings()) IsOpen = true;
-        if (!Condition.ShouldShowWarnings()) IsOpen = false;
+        IsOpen = Condition.ShouldShowWarnings();
 
-        if (Settings.LockWindowPosition.Value)
-        {
-            if (Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
-        }
+        if (Settings.LockWindowPosition.Value && Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
     }
 
     public override void PreDraw()

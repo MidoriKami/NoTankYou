@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
@@ -59,21 +60,14 @@ internal class PartyListOverlayWindow : Window
     }
 
     public override void PreOpenCheck()
-    {
-        if (!PartyListAddon.DataAvailable)
-        {
-            IsOpen = false;
-            return;
-        }
+    { 
+        if (!PartyListAddon.DataAvailable) IsOpen = false;
+        if (!PartyListAddon.DataAvailable) return;
 
-        if (Condition.ShouldShowWarnings()) IsOpen = true;
-        if (!Condition.ShouldShowWarnings()) IsOpen = false;
+        IsOpen = Condition.ShouldShowWarnings();
 
-        if (!Settings.PreviewMode.Value)
-        {
-            if (Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
-        }
-
+        if (!Settings.PreviewMode.Value && Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
+        
         if (IsOpen == false) ResetAllAnimation();
     }
 
@@ -243,7 +237,7 @@ internal class PartyListOverlayWindow : Window
 
     private void ResetAnimation(PartyListAddonData player)
     {
-        player.UserInterface.SetIconVisibility(player.AgentData.ValidData);
+        player.UserInterface.SetIconVisibility(Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance] || player.AgentData.ValidData);
         player.UserInterface.SetPlayerNameOutlineColor(Vector4.Zero);
     }
 }
