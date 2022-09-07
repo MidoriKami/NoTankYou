@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using ImGuiNET;
 using NoTankYou.Configuration.Overlays;
 
@@ -20,16 +21,19 @@ internal static class DrawUtilities
 
     public static void TextOutlined(Vector2 startingPosition, string text, float scale)
     {
-        var outlineThickness = BannerOverlaySettings.BorderThickness.Value * scale;
+        startingPosition = startingPosition.Ceil();
 
-        DrawText(startingPosition + new Vector2(-outlineThickness, -outlineThickness), text, Colors.Black, scale);
-        DrawText(startingPosition + new Vector2(0.0f, -outlineThickness), text, Colors.Black, scale);
-        DrawText(startingPosition + new Vector2(outlineThickness, -outlineThickness), text, Colors.Black, scale);
-        DrawText(startingPosition + new Vector2(outlineThickness, 0.0f), text, Colors.Black, scale);
-        DrawText(startingPosition + new Vector2(outlineThickness, outlineThickness), text, Colors.Black, scale);
-        DrawText(startingPosition + new Vector2(0.0f, outlineThickness), text, Colors.Black, scale);
-        DrawText(startingPosition + new Vector2(-outlineThickness, outlineThickness), text, Colors.Black, scale);
-        DrawText(startingPosition + new Vector2(-outlineThickness, 0.0f), text, Colors.Black, scale);
+        var outlineThickness =  (int)MathF.Ceiling(BannerOverlaySettings.BorderThickness.Value * scale);
+
+        for (var x = -outlineThickness; x < outlineThickness; ++x)
+        {
+            for (var y = -outlineThickness; y < outlineThickness; ++y)
+            {
+                if(x == 0 && y == 0) continue;
+
+                DrawText(startingPosition + new Vector2(x, y), text, Colors.Black, scale);
+            }
+        }
 
         DrawText(startingPosition, text, Colors.White, scale);
     }
@@ -71,7 +75,7 @@ internal static class DrawUtilities
 
         var fontSize = Service.FontManager.GameFont.ImFont.FontSize;
         var textSize = ImGui.CalcTextSize(text);
-        var fontScalar = 60.0f / textSize.Y;
+        var fontScalar = 62.0f / textSize.Y;
 
         var textHeight = fontSize;
         var textWidth = textSize.X * fontScalar;
@@ -91,5 +95,13 @@ internal static class DrawUtilities
             drawList.AddRect(drawPosition, drawPosition + stringSize, ImGui.GetColorU32(Colors.Green));
 
         drawList.AddText(font, font.FontSize * scale, drawPosition, ImGui.GetColorU32(color), text);
+    }
+}
+
+public static class VectorExtensions
+{
+    public static Vector2 Ceil(this Vector2 data)
+    {
+        return new Vector2(MathF.Ceiling(data.X), MathF.Ceiling(data.Y));
     }
 }

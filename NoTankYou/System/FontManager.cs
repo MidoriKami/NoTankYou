@@ -9,7 +9,7 @@ public class FontManager : IDisposable
 
     public FontManager()
     {
-        GameFont = Service.PluginInterface.UiBuilder.GetGameFontHandle( new GameFontStyle( GameFontFamilyAndSize.Axis36 ) );
+        GameFont = Service.PluginInterface.UiBuilder.GetGameFontHandle( new GameFontStyle( GameFontFamily.Axis, 52.0f ) );
     }
 
     public void Dispose()
