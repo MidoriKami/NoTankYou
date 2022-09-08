@@ -17,7 +17,7 @@ namespace NoTankYou.UserInterface.Windows;
 
 internal class PartyListOverlayWindow : Window
 {
-    private readonly Stopwatch AnimationStopwatch = new();
+    public static Stopwatch AnimationStopwatch { get; } = new();
     private PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
 
     private readonly TextureWrap WarningIcon;

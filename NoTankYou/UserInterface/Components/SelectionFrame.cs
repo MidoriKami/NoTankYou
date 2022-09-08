@@ -121,28 +121,55 @@ internal class SelectionFrame : IDrawable
         var contentRegion = ImGui.GetContentRegionAvail();
         var buttonWidth = contentRegion.X / 3.0f - 2.0f * ImGuiHelpers.GlobalScale;
 
+        DrawPartyOverlayButton(buttonWidth);
+
+        ImGui.SameLine();
+
+        DrawBannerOverlayButton(buttonWidth);
+
+        ImGui.SameLine();
+
+        DrawBlacklistConfigurationButton(buttonWidth);
+
+        ImGui.PopStyleVar();
+    }
+
+    private void DrawBlacklistConfigurationButton(float buttonWidth)
+    {
+        if (ImGui.Button(Strings.TabItems.Blacklist.Label, new Vector2(buttonWidth, 23.0f)))
+        {
+            var window = Service.WindowManager.GetWindowOfType<BlacklistConfigurationWindow>()!;
+            window.IsOpen = !window.IsOpen;
+        }
+    }
+
+    private void DrawBannerOverlayButton(float buttonWidth)
+    {
+        if (ImGui.Button(Strings.TabItems.BannerOverlay.Button, new Vector2(buttonWidth, 23.0f)))
+        {
+            var window = Service.WindowManager.GetWindowOfType<BannerOverlayConfigurationWindow>()!;
+            window.IsOpen = !window.IsOpen;
+        }
+    }
+
+    private void DrawPartyOverlayButton(float buttonWidth)
+    {
+        var partyOverlaySampleModeEnabled = Service.ConfigurationManager.CharacterConfiguration.PartyOverlay.PreviewMode;
+
+        if (PartyListOverlayWindow.AnimationStopwatch.ElapsedMilliseconds > 500 && partyOverlaySampleModeEnabled.Value)
+        {
+            ImGui.PushStyleColor(ImGuiCol.Text, Colors.Orange);
+        }
+
         if (ImGui.Button(Strings.TabItems.PartyOverlay.Button, new Vector2(buttonWidth, 23.0f)))
         {
             var window = Service.WindowManager.GetWindowOfType<PartyOverlayConfigurationWindow>()!;
             window.IsOpen = !window.IsOpen;
         }
 
-        ImGui.SameLine();
-
-        if (ImGui.Button(Strings.TabItems.BannerOverlay.Button, new Vector2(buttonWidth, 23.0f)))
+        if (PartyListOverlayWindow.AnimationStopwatch.ElapsedMilliseconds > 500 && partyOverlaySampleModeEnabled.Value)
         {
-            var window = Service.WindowManager.GetWindowOfType<BannerOverlayConfigurationWindow>()!;
-            window.IsOpen = !window.IsOpen;
+            ImGui.PopStyleColor();
         }
-
-        ImGui.SameLine();
-
-        if (ImGui.Button(Strings.TabItems.Blacklist.Label, new Vector2(buttonWidth, 23.0f)))
-        {
-            var window = Service.WindowManager.GetWindowOfType<BlacklistConfigurationWindow>()!;
-            window.IsOpen = !window.IsOpen;
-        }
-
-        ImGui.PopStyleVar();
     }
 }
