@@ -42,8 +42,8 @@ internal class BannerOverlayConfigurationWindow : Window
             .Draw();
 
         RepositionMode
-            .AddTitle(Strings.TabItems.BannerOverlay.RepositionMode)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.RepositionMode, Settings.LockWindowPosition)
+            .AddTitle(Strings.TabItems.BannerOverlay.WindowOptions)
+            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.RepositionMode, Settings.SampleMode)
             .Draw();
 
         DisplayOptions

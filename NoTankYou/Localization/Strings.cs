@@ -148,13 +148,14 @@ public class BannerOverlay
     public string ListMode => Loc.Localize("BannerOverlay_ListMode", "List");
     public string TopPriorityMode => Loc.Localize("BannerOverlay_TopPriorityMode", "Single");
     public string ListModeOptions => Loc.Localize("BannerOverlay_ListModeOptions", "List Mode Options");
-    public string RepositionMode => Loc.Localize("BannerOverlay_RepositionMode", "Lock Window Position");
+    public string RepositionMode => Loc.Localize("BannerOverlay_RepositionMode", "Enable Sample Mode - Allows repositioning");
     public string ExclamationMark => Loc.Localize("BannerOverlay_ExclamationMark", "Show Exclamation Mark");
     public string WarningText => Loc.Localize("BannerOverlay_WarningText", "Show Text");
     public string Icon => Loc.Localize("BannerOverlay_Icon", "Show Icon");
     public string PlayerNames => Loc.Localize("BannerOverlay_PlayerNames", "Show Player Names");
     public string IconText => Loc.Localize("BannerOverlay_IconText", "Show Icon Text");
     public string Button => Loc.Localize("BannerOverlay_Button", "Banner");
+    public string WindowOptions => Loc.Localize("BannerOverlay_WindowOptions", "Window Options");
 
 }
 
@@ -193,7 +194,7 @@ public class Configuration
     public string HideInSanctuary => Loc.Localize("Configuration_HideInSanctuary", "Hide in Sanctuaries");
     public string DutiesOnlyHelp => Loc.Localize("Configuration_DutiesOnlyHelp", "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere");
     public string SoloModeHelp => Loc.Localize("Configuration_SoloModeHelp", "When enabled will only evaluate warnings for you");
-    public string PreviewMode => Loc.Localize("Configuration_PreviewMode", "Preview Mode");
+    public string PreviewMode => Loc.Localize("Configuration_PreviewMode", "Sample Mode");
 }
 #endregion
 

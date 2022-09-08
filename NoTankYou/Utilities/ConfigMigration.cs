@@ -188,7 +188,7 @@ internal static class ConfigMigration
             WarningText = GetSettingValue<bool>("DisplaySettings.BannerOverlay.WarningText"),
             Icon = GetSettingValue<bool>("DisplaySettings.BannerOverlay.Icon"),
             IconText = GetSettingValue<bool>("DisplaySettings.BannerOverlay.IconText"),
-            LockWindowPosition = GetSettingValue<bool>("DisplaySettings.BannerOverlay.Reposition"),
+            SampleMode = GetSettingValue<bool>("DisplaySettings.BannerOverlay.Reposition"),
             Mode = GetSettingEnum<BannerOverlayDisplayMode>("DisplaySettings.BannerOverlay.Mode"),
             PlayerNames = GetSettingValue<bool>("DisplaySettings.BannerOverlay.PlayerNames"),
             Scale = GetSettingValue<float>("DisplaySettings.BannerOverlay.Scale"),

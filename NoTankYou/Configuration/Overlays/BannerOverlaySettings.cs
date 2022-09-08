@@ -15,7 +15,7 @@ public class BannerOverlaySettings
     public Setting<float> Scale = new (1.0f);
     public Setting<int> WarningCount = new(8);
     public Setting<BannerOverlayDisplayMode> Mode = new(BannerOverlayDisplayMode.List);
-    public Setting<bool> LockWindowPosition = new(true);
+    public Setting<bool> SampleMode = new(true);
     public Setting<bool> WarningShield = new(true);
     public Setting<bool> WarningText = new(true);
     public Setting<bool> Icon = new(true);

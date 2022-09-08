@@ -5,7 +5,7 @@
 		<Authors></Authors>
 		<Company></Company>
 		<Version>1.0</Version>
-		<AssemblyVersion>5.0.0.3</AssemblyVersion>
+		<AssemblyVersion>5.0.0.4</AssemblyVersion>
 		<Description>Dalamud Plugin to show a warning if no tanks have their tank stances on</Description>
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/MidoriKami/NoTankYou.git</PackageProjectUrl>

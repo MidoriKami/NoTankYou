@@ -60,7 +60,7 @@ internal class BannerOverlayWindow : Window
     {
         IsOpen = Condition.ShouldShowWarnings();
 
-        if (Settings.LockWindowPosition.Value && Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
+        if (!Settings.SampleMode.Value && Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
     }
 
     public override void PreDraw()
@@ -114,7 +114,7 @@ internal class BannerOverlayWindow : Window
 
     private void LockUnlockWindow()
     {
-        if (!Settings.LockWindowPosition.Value)
+        if (Settings.SampleMode.Value)
         {
             Flags &= ~ImGuiWindowFlags.NoInputs;
             Flags &= ~ImGuiWindowFlags.NoBackground;
