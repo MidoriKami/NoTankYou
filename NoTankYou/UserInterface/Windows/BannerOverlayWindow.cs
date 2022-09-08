@@ -65,7 +65,7 @@ internal class BannerOverlayWindow : Window
 
     public override void PreDraw()
     {
-        Size = ImGuiHelpers.ScaledVector2(475.0f, 90.0f) * Settings.Scale.Value;
+        Size = ImGuiHelpers.ScaledVector2(500.0f, 90.0f) * Settings.Scale.Value;
 
         var backgroundColor = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
         ImGui.PushStyleColor(ImGuiCol.WindowBg, backgroundColor with {W = 0.35f});
