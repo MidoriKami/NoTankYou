@@ -136,7 +136,7 @@ internal class SelectionFrame : IDrawable
 
     private void DrawBlacklistConfigurationButton(float buttonWidth)
     {
-        if (ImGui.Button(Strings.TabItems.Blacklist.Label, new Vector2(buttonWidth, 23.0f)))
+        if (ImGui.Button(Strings.TabItems.Blacklist.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             var window = Service.WindowManager.GetWindowOfType<BlacklistConfigurationWindow>()!;
             window.IsOpen = !window.IsOpen;
@@ -145,7 +145,7 @@ internal class SelectionFrame : IDrawable
 
     private void DrawBannerOverlayButton(float buttonWidth)
     {
-        if (ImGui.Button(Strings.TabItems.BannerOverlay.Button, new Vector2(buttonWidth, 23.0f)))
+        if (ImGui.Button(Strings.TabItems.BannerOverlay.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             var window = Service.WindowManager.GetWindowOfType<BannerOverlayConfigurationWindow>()!;
             window.IsOpen = !window.IsOpen;
@@ -163,7 +163,7 @@ internal class SelectionFrame : IDrawable
             ImGui.PushStyleColor(ImGuiCol.Text, Colors.Orange);
         }
 
-        if (ImGui.Button(Strings.TabItems.PartyOverlay.Button, new Vector2(buttonWidth, 23.0f)))
+        if (ImGui.Button(Strings.TabItems.PartyOverlay.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             var window = Service.WindowManager.GetWindowOfType<PartyOverlayConfigurationWindow>()!;
             window.IsOpen = !window.IsOpen;
