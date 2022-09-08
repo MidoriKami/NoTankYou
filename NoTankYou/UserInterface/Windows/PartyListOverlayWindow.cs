@@ -55,7 +55,7 @@ internal class PartyListOverlayWindow : Window
             IconID = demoAction.Icon,
             IconLabel = demoAction.Name.RawString,
             Priority = 11,
-            MessageLong = "Long Sample Warning"
+            MessageLong = "NoTankYou Sample Warning"
         };
     }
 
