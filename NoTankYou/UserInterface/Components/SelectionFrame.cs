@@ -156,7 +156,9 @@ internal class SelectionFrame : IDrawable
     {
         var partyOverlaySampleModeEnabled = Service.ConfigurationManager.CharacterConfiguration.PartyOverlay.PreviewMode;
 
-        if (PartyListOverlayWindow.AnimationStopwatch.ElapsedMilliseconds > 500 && partyOverlaySampleModeEnabled.Value)
+        var colorOrange = PartyListOverlayWindow.AnimationStopwatch.ElapsedMilliseconds > 500 && partyOverlaySampleModeEnabled.Value;
+
+        if (colorOrange)
         {
             ImGui.PushStyleColor(ImGuiCol.Text, Colors.Orange);
         }
@@ -167,7 +169,7 @@ internal class SelectionFrame : IDrawable
             window.IsOpen = !window.IsOpen;
         }
 
-        if (PartyListOverlayWindow.AnimationStopwatch.ElapsedMilliseconds > 500 && partyOverlaySampleModeEnabled.Value)
+        if (colorOrange)
         {
             ImGui.PopStyleColor();
         }
