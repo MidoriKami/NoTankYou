@@ -79,7 +79,10 @@ internal class BannerOverlayWindow : Window
 
             if (Service.ClientState.LocalPlayer is { } player)
             {
+                var windowPosition = ImGui.GetWindowPos();
+
                 DrawWarningStateBanner(DemoWarning, player);
+                DrawUtilities.TextOutlined(windowPosition - ImGuiHelpers.ScaledVector2(0.0f, 30.0f), "Open NoTankYou Settings to Configure Warnings", 0.5f, Colors.Orange);
             }
         }
         else
@@ -159,7 +162,7 @@ internal class BannerOverlayWindow : Window
 
         if (Settings.WarningText.Value)
         {
-            DrawUtilities.TextOutlined(startingPosition, warningText, scale);
+            DrawUtilities.TextOutlined(startingPosition, warningText, scale, Colors.White);
 
             var textSize = DrawUtilities.CalculateTextSize(warningText, scale);
             startingPosition = startingPosition with {X = startingPosition.X + textSize.X};
@@ -171,7 +174,7 @@ internal class BannerOverlayWindow : Window
                 {
                     X = startingPosition.X - textSize.X / 2.0f, Y = startingPosition.Y + textSize.Y
                 };
-                DrawUtilities.TextOutlined(startingPosition, source, scale / 2.0f);
+                DrawUtilities.TextOutlined(startingPosition, source, scale / 2.0f, Colors.White);
                 startingPosition = startingPosition with
                 {
                     X = startingPosition.X + textSize.X / 2.0f, Y = startingPosition.Y - textSize.Y
