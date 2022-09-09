@@ -13,6 +13,7 @@ public enum ModuleName
     Sage,
     Scholar,
     Summoner,
+    SpiritBond,
 }
 
 public static class ModuleNameExtensions
@@ -29,6 +30,7 @@ public static class ModuleNameExtensions
             ModuleName.Sage => Strings.Modules.Sage.Label,
             ModuleName.Scholar => Strings.Modules.Scholar.Label,
             ModuleName.Summoner => Strings.Modules.Summoner.Label,
+            ModuleName.SpiritBond => Strings.Modules.SpiritBond.Label,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

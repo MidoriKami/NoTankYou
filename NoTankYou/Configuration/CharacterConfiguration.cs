@@ -25,6 +25,7 @@ public class CharacterConfiguration
     public SageConfiguration Sage = new();
     public ScholarConfiguration Scholar = new();
     public SummonerConfiguration Summoner = new();
+    public SpiritBondConfiguration SpiritBond = new();
 
     public PartyOverlaySettings PartyOverlay = new();
     public BannerOverlaySettings BannerOverlay = new();

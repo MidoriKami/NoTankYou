@@ -14,6 +14,7 @@ public class Modules
     public Summoner Summoner { get; set; } = new();
     public BlueMage BlueMage { get; set; } = new();
     public FreeCompany FreeCompany { get; set; } = new();
+    public SpiritBond SpiritBond { get; set; } = new();
 }
 
 public class Tank
@@ -85,6 +86,15 @@ public class BlueMage
     public string MightyGuardLabel => Loc.Localize("BlueMage_MightyGuardLabel", "Mighty Guard");
     public string BasicInstinctLabel => Loc.Localize("BlueMage_BasicInstinctLabel", "Basic Instinct");
 }
+
+public class SpiritBond {
+    public string Label => Loc.Localize("SpiritBond_Label", "SpiritBond");
+    public string WarningText => Loc.Localize("SpiritBond_WarningText", "SpiritBond Missing");
+    public string EarlyWarningLabel => Loc.Localize("SpiritBond_EarlyWarningLabel", "Early Warning Time");
+    public string ZoneFilters => Loc.Localize("SpiritBond_ZoneFilters", "Zone Filters");
+    public string ZoneFiltersDescription => Loc.Localize("SpiritBond_ZoneFiltersDescription", "Display warning only in the following zones");
+    public string AdditionalOptionsLabel => Loc.Localize("SpiritBond_AdditionalOptionsLabel", "Additional Options");
+    public string SuppressInCombat => Loc.Localize("SpiritBond_SuppressInCombat", "Suppress in Combat");}
 #endregion
 
 #region Common
