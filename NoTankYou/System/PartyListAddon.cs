@@ -45,7 +45,7 @@ internal unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposa
     }
 
     private static AddonPartyList* PartyList => (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList", 1);
-    public static bool DataAvailable => PartyList != null;
+    public static bool DataAvailable => PartyList != null && PartyList->AtkUnitBase.RootNode != null;
 
     private readonly List<PartyListAddonData> AddonData = new();
 

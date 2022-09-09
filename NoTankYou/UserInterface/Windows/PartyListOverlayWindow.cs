@@ -71,11 +71,6 @@ internal class PartyListOverlayWindow : Window
         if (IsOpen == false) ResetAllAnimation();
     }
 
-    public override bool DrawConditions()
-    {
-        return PartyListAddon.DataAvailable;
-    }
-
     public override void PreDraw()
     {
         var positionInfo = PartyListAddon.GetPositionInfo();
