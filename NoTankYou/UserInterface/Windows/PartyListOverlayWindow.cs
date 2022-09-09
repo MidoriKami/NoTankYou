@@ -71,6 +71,11 @@ internal class PartyListOverlayWindow : Window
         if (IsOpen == false) ResetAllAnimation();
     }
 
+    public override bool DrawConditions()
+    {
+        return PartyListAddon.DataAvailable;
+    }
+
     public override void PreDraw()
     {
         var positionInfo = PartyListAddon.GetPositionInfo();
@@ -135,13 +140,13 @@ internal class PartyListOverlayWindow : Window
 
     private void DisplayWarning(WarningState warning, PartyListAddonData player)
     {
-        if(Settings.JobIcon.Value)
+        if(Settings.JobIcon.Value || Settings.PreviewMode.Value)
             AnimateJobIcon(player);
 
-        if(Settings.PlayerName.Value)
+        if(Settings.PlayerName.Value || Settings.PreviewMode.Value)
             AnimatePlayerName(player);
 
-        if(Settings.WarningText.Value)
+        if(Settings.WarningText.Value || Settings.PreviewMode.Value)
             AnimateWarningText(player, warning.MessageLong);
     }
 
