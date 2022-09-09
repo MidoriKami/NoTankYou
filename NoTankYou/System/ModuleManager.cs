@@ -17,6 +17,7 @@ internal class ModuleManager
         new Sage(),
         new Scholar(),
         new Summoner(),
+        new SpiritBond(),
     };
 
     public IEnumerable<ISelectable> GetConfigurationSelectables()
