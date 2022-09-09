@@ -87,9 +87,10 @@ public class BlueMage
     public string BasicInstinctLabel => Loc.Localize("BlueMage_BasicInstinctLabel", "Basic Instinct");
 }
 
-public class SpiritBond {
-    public string Label => Loc.Localize("SpiritBond_Label", "SpiritBond");
-    public string WarningText => Loc.Localize("SpiritBond_WarningText", "SpiritBond Missing");
+public class SpiritBond 
+{
+    public string Label => Loc.Localize("SpiritBond_Label", "Spiritbond");
+    public string WarningText => Loc.Localize("SpiritBond_WarningText", "Spiritbond Missing");
     public string EarlyWarningLabel => Loc.Localize("SpiritBond_EarlyWarningLabel", "Early Warning Time");
     public string ZoneFilters => Loc.Localize("SpiritBond_ZoneFilters", "Zone Filters");
     public string ZoneFiltersDescription => Loc.Localize("SpiritBond_ZoneFiltersDescription", "Display warning only in the following zones");
