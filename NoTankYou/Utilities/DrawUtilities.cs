@@ -19,7 +19,7 @@ internal static class DrawUtilities
         drawList.AddLine(cursor, cursor with {Y = cursor.Y + contentArea.Y}, color, 1.0f);
     }
 
-    public static void TextOutlined(Vector2 startingPosition, string text, float scale)
+    public static void TextOutlined(Vector2 startingPosition, string text, float scale, Vector4 color)
     {
         startingPosition = startingPosition.Ceil();
 
@@ -35,7 +35,7 @@ internal static class DrawUtilities
             }
         }
 
-        DrawText(startingPosition, text, Colors.White, scale);
+        DrawText(startingPosition, text, color, scale);
     }
 
     public static void DrawIconWithName(Vector2 drawPosition, uint iconID, string name, float scale, bool drawText = true)
@@ -64,7 +64,7 @@ internal static class DrawUtilities
 
                 drawPosition.X -= textSize.X / 2.0f;
 
-                TextOutlined(drawPosition + textOffset, name, scale / 2.75f);
+                TextOutlined(drawPosition + textOffset, name, scale / 2.75f, Colors.White);
             }
         }
     }
