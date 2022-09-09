@@ -47,13 +47,13 @@ internal class PartyListOverlayWindow : Window
 
         AnimationStopwatch.Start();
 
-        var demoAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(28)!;
+        var demoAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(67)!;
 
         DemoWarning = new WarningState
         {
             MessageShort = "Sample Warning",
             IconID = demoAction.Icon,
-            IconLabel = demoAction.Name.RawString,
+            IconLabel = "Sample",
             Priority = 11,
             MessageLong = "NoTankYou Sample Warning"
         };
@@ -98,33 +98,30 @@ internal class PartyListOverlayWindow : Window
         {
             foreach (var player in Service.PartyListAddon)
             {
-                if (player.IsTargetable())
+                if (player.IsTargetable() && player.PlayerCharacter is { } playerCharacter)
                 {
-                    if (player.PlayerCharacter is { } playerCharacter)
+                    // Get all Logic Modules for this classjob
+                    var modules = Service.ModuleManager.GetModulesForClassJob(playerCharacter.ClassJob.Id);
+
+                    // Filter to only modules that are enabled for PartyFrame Overlay
+                    var enabledModules = modules
+                        .Where(module => module.ParentModule.GenericSettings.PartyFrameOverlay.Value);
+
+                    // Get Highest Warning for remaining modules
+                    var highestWarning = enabledModules
+                        .Select(module => module.ShouldShowWarning(playerCharacter))
+                        .OfType<WarningState>()
+                        .DefaultIfEmpty(null)
+                        .Aggregate((i1, i2) => i1!.Priority > i2!.Priority ? i1 : i2);
+
+                    // If the warning exists
+                    if (highestWarning is not null)
                     {
-                        // Get all Logic Modules for this classjob
-                        var modules = Service.ModuleManager.GetModulesForClassJob(playerCharacter.ClassJob.Id);
-
-                        // Filter to only modules that are enabled for PartyFrame Overlay
-                        var enabledModules = modules
-                            .Where(module => module.ParentModule.GenericSettings.PartyFrameOverlay.Value);
-
-                        // Get Highest Warning for remaining modules
-                        var highestWarning = enabledModules
-                            .Select(module => module.ShouldShowWarning(playerCharacter))
-                            .OfType<WarningState>()
-                            .DefaultIfEmpty(null)
-                            .Aggregate((i1, i2) => i1!.Priority > i2!.Priority ? i1 : i2);
-
-                        // If the warning exists
-                        if (highestWarning is not null)
-                        {
-                            DisplayWarning(highestWarning, player);
-                        }
-                        else
-                        {
-                            ResetAnimation(player);
-                        }
+                        DisplayWarning(highestWarning, player);
+                    }
+                    else
+                    {
+                        ResetAnimation(player);
                     }
                 }
                 else

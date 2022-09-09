@@ -6,7 +6,6 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
-using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Configuration.Overlays;
 using NoTankYou.Utilities;
@@ -44,13 +43,11 @@ internal class BannerOverlayWindow : Window
         Flags |= ImGuiWindowFlags.NoFocusOnAppearing;
         Flags |= ImGuiWindowFlags.NoNavFocus;
 
-        var demoAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(28)!;
-
         DemoWarning = new WarningState
         {
             MessageShort = "Sample Warning",
-            IconID = demoAction.Icon,
-            IconLabel = demoAction.Name.RawString,
+            IconID = 786,
+            IconLabel = "Sample",
             Priority = 11,
             MessageLong = "Long Sample Warning"
         };
@@ -73,15 +70,26 @@ internal class BannerOverlayWindow : Window
 
     public override void Draw()
     {
-        LockUnlockWindow();
-
         WarningsDisplayed = 0;
 
-        foreach (var player in Service.PartyListAddon)
+        if (Settings.SampleMode.Value)
         {
-            if (player.IsTargetable())
+            Flags &= ~ImGuiWindowFlags.NoInputs;
+            Flags &= ~ImGuiWindowFlags.NoBackground;
+
+            if (Service.ClientState.LocalPlayer is { } player)
             {
-                if (player.PlayerCharacter is { } playerCharacter)
+                DrawWarningStateBanner(DemoWarning, player);
+            }
+        }
+        else
+        {
+            Flags |= ImGuiWindowFlags.NoInputs;
+            Flags |= ImGuiWindowFlags.NoBackground;
+
+            foreach (var player in Service.PartyListAddon)
+            {
+                if (player.IsTargetable() && player.PlayerCharacter is { } playerCharacter)
                 {
                     // Get all Logic Modules for this classjob
                     var modules = Service.ModuleManager.GetModulesForClassJob(playerCharacter.ClassJob.Id);
@@ -100,7 +108,7 @@ internal class BannerOverlayWindow : Window
                     // If the warning exists
                     if (highestWarning is not null)
                     {
-                        DrawWarningStatBanner(highestWarning, playerCharacter);
+                        DrawWarningStateBanner(highestWarning, playerCharacter);
                     }
                 }
             }
@@ -112,28 +120,11 @@ internal class BannerOverlayWindow : Window
         ImGui.PopStyleColor();
     }
 
-    private void LockUnlockWindow()
+    private void DrawWarningStateBanner(WarningState state, PlayerCharacter player)
     {
-        if (Settings.SampleMode.Value)
-        {
-            Flags &= ~ImGuiWindowFlags.NoInputs;
-            Flags &= ~ImGuiWindowFlags.NoBackground;
+        var mode = Settings.SampleMode.Value ? BannerOverlayDisplayMode.TopPriority : Settings.Mode.Value;
 
-            if (Service.ClientState.LocalPlayer is { } player)
-            {
-                DrawWarningStatBanner(DemoWarning, player);
-            }
-        }
-        else
-        {
-            Flags |= ImGuiWindowFlags.NoInputs;
-            Flags |= ImGuiWindowFlags.NoBackground;
-        }
-    }
-
-    private void DrawWarningStatBanner(WarningState state, PlayerCharacter player)
-    {
-        switch (Settings.Mode.Value)
+        switch (mode)
         {
             case BannerOverlayDisplayMode.TopPriority when WarningsDisplayed == 0:
                 DrawBanner(ImGui.GetWindowPos(), state.MessageShort, player.Name.TextValue, Settings.Scale.Value, state.IconID, state.IconLabel);
