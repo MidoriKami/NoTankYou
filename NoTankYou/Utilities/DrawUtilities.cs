@@ -23,13 +23,13 @@ internal static class DrawUtilities
     {
         startingPosition = startingPosition.Ceil();
 
-        var outlineThickness =  (int)MathF.Ceiling(BannerOverlaySettings.BorderThickness.Value * scale);
-
-        for (var x = -outlineThickness; x < outlineThickness; ++x)
+        var outlineThickness = (int)MathF.Ceiling(BannerOverlaySettings.BorderThickness.Value * scale);
+        
+        for (var x = -outlineThickness; x <= outlineThickness; ++x)
         {
-            for (var y = -outlineThickness; y < outlineThickness; ++y)
+            for (var y = -outlineThickness; y <= outlineThickness; ++y)
             {
-                if(x == 0 && y == 0) continue;
+                if (x == 0 && y == 0) continue;
 
                 DrawText(startingPosition + new Vector2(x, y), text, Colors.Black, scale);
             }
