@@ -79,10 +79,10 @@ internal class BannerOverlayWindow : Window
 
             if (Service.ClientState.LocalPlayer is { } player)
             {
-                var windowPosition = ImGui.GetWindowPos();
-
                 DrawWarningStateBanner(DemoWarning, player);
-                DrawUtilities.TextOutlined(windowPosition - ImGuiHelpers.ScaledVector2(0.0f, 30.0f), "Open NoTankYou Settings to Configure Warnings", 0.5f, Colors.Orange);
+
+                var position = ImGui.GetWindowPos() - ImGuiHelpers.ScaledVector2(0.0f, 30.0f * Settings.Scale.Value);
+                DrawUtilities.TextOutlined(position, "Open NoTankYou Settings to Configure Warnings", 0.5f * Settings.Scale.Value, Colors.Orange);
             }
         }
         else
