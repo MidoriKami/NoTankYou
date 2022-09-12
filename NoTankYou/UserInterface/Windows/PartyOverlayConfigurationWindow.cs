@@ -14,6 +14,7 @@ internal class PartyOverlayConfigurationWindow : Window
     private readonly InfoBox Options = new();
     private readonly InfoBox DisplayOptions = new();
     private readonly InfoBox ColorOptions = new();
+    private readonly InfoBox PreviewMode = new();
 
     public PartyOverlayConfigurationWindow() : base($"{Strings.TabItems.PartyOverlay.ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}" )
     {
@@ -28,10 +29,14 @@ internal class PartyOverlayConfigurationWindow : Window
 
     public override void Draw()
     {
+        PreviewMode
+            .AddTitle(Strings.Configuration.PreviewMode)
+            .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.PreviewMode)
+            .Draw();
+
         Options
             .AddTitle(Strings.Common.Labels.Options)
             .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
-            .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.PreviewMode)
             .Draw();
 
         DisplayOptions

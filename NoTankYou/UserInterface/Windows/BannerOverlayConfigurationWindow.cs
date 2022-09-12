@@ -31,6 +31,11 @@ internal class BannerOverlayConfigurationWindow : Window
 
     public override void Draw()
     {
+        RepositionMode
+            .AddTitle(Strings.Configuration.PreviewMode)
+            .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.SampleMode)
+            .Draw();
+
         Options
             .AddTitle(Strings.Common.Labels.Options)
             .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
@@ -40,12 +45,7 @@ internal class BannerOverlayConfigurationWindow : Window
             .AddTitle(Strings.Common.Labels.Scale)
             .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, 200.0f)
             .Draw();
-
-        RepositionMode
-            .AddTitle(Strings.TabItems.BannerOverlay.WindowOptions)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.RepositionMode, Settings.SampleMode)
-            .Draw();
-
+        
         DisplayOptions
             .AddTitle(Strings.Common.Labels.DisplayOptions)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.ExclamationMark, Settings.WarningShield)
@@ -58,8 +58,13 @@ internal class BannerOverlayConfigurationWindow : Window
 
         ModeSelect
             .AddTitle(Strings.Common.Labels.ModeSelect)
-            .AddConfigRadio(Strings.TabItems.BannerOverlay.ListMode, Settings.Mode, BannerOverlayDisplayMode.List, Strings.TabItems.BannerOverlay.ListModeDescription)
-            .AddConfigRadio(Strings.TabItems.BannerOverlay.TopPriorityMode, Settings.Mode, BannerOverlayDisplayMode.TopPriority, Strings.TabItems.BannerOverlay.TopPriorityDescription)
+                .BeginTable()
+                    .BeginRow()
+                    .AddConfigRadio(Strings.TabItems.BannerOverlay.ListMode, Settings.Mode, BannerOverlayDisplayMode.List, Strings.TabItems.BannerOverlay.ListModeDescription)
+                    .AddConfigRadio(Strings.TabItems.BannerOverlay.TopPriorityMode, Settings.Mode, BannerOverlayDisplayMode.TopPriority, Strings.TabItems.BannerOverlay.TopPriorityDescription)
+                    .EndRow()
+                .EndTable()
+            .SameLine()
             .Draw();
 
         if (Settings.Mode.Value == BannerOverlayDisplayMode.List)

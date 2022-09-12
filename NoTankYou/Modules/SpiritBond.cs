@@ -55,7 +55,7 @@ internal class Spiritbond : IModule
 
             ExtraOptions
                 .AddTitle(Strings.Modules.SpiritBond.EarlyWarningLabel)
-                .AddInputInt(Strings.Common.Labels.Seconds, Settings.SpiritBondEarlyWarningTime, 0, 3600, 100.0f)
+                .AddInputInt(Strings.Common.Labels.Seconds, Settings.SpiritBondEarlyWarningTime, 0, 3600, 0, 0, 100.0f)
                 .Draw();
 
             AdditionalOptions

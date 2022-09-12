@@ -58,7 +58,7 @@ internal class Food : IModule
 
             ExtraOptions
                 .AddTitle(Strings.Modules.Food.EarlyWarningLabel)
-                .AddInputInt(Strings.Common.Labels.Seconds, Settings.FoodEarlyWarningTime, 0, 3600, 100.0f)
+                .AddInputInt(Strings.Common.Labels.Seconds, Settings.FoodEarlyWarningTime, 0, 3600, 0, 0, 100.0f)
                 .Draw();
 
             AdditionalOptions

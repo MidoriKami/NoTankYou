@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 using ImGuiNET;
+using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.Components.InfoBox;
 
-internal class InfoBoxTable
+public class InfoBoxTable
 {
     private readonly InfoBox Owner;
     private readonly float Weight;
 
-    private readonly List<Tuple<Action?, Action?>> TableRows = new();
+    private readonly List<InfoBoxTableRow> Rows = new();
+    private readonly string EmptyListString = string.Empty;
 
     public InfoBoxTable(InfoBox owner, float weight = 0.5f)
     {
@@ -18,19 +19,14 @@ internal class InfoBoxTable
         this.Weight = weight;
     }
 
-    public InfoBoxTable AddRow(string label, string contents, Vector4? firstColor = null, Vector4? secondColor = null)
+    public InfoBoxTableRow BeginRow()
     {
-        TableRows.Add(new Tuple<Action?, Action?>(
-            Actions.GetStringAction(label, firstColor), 
-            Actions.GetStringAction(contents, secondColor)
-        ));
-
-        return this;
+        return new InfoBoxTableRow(this);
     }
 
-    public InfoBoxTable AddActions(Action? firstAction, Action? secondAction)
+    public InfoBoxTable AddRow(InfoBoxTableRow row)
     {
-        TableRows.Add(new Tuple<Action?, Action?>(firstAction, secondAction));
+        Rows.Add(row);
 
         return this;
     }
@@ -39,26 +35,37 @@ internal class InfoBoxTable
     {
         Owner.AddAction(() =>
         {
-            if (ImGui.BeginTable($"", 2, ImGuiTableFlags.None, new Vector2(Owner.InnerWidth, 0)))
+            if (Rows.Count == 0)
             {
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 1f * (Weight) );
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 1f * (1 - Weight) );
-
-                foreach (var row in TableRows)
+                if (EmptyListString != string.Empty)
                 {
-                    ImGui.TableNextColumn();
+                    ImGui.TextColored(Colors.Orange, EmptyListString);
+                }
+            }
+            else
+            {
+                if (ImGui.BeginTable($"", 2, ImGuiTableFlags.None, new Vector2(Owner.InnerWidth, 0)))
+                {
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 1f * (Weight));
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 1f * (1 - Weight));
 
-                    ImGui.PushTextWrapPos(GetWrapPosition());
-                    row.Item1?.Invoke();
-                    ImGui.PopTextWrapPos();
+                    foreach (var row in Rows)
+                    {
+                        ImGui.TableNextColumn();
 
-                    ImGui.TableNextColumn();
-                    ImGui.PushTextWrapPos(GetWrapPosition());
-                    row.Item2?.Invoke();
-                    ImGui.PopTextWrapPos();
+                        ImGui.PushTextWrapPos(GetWrapPosition());
+                        row.FirstColumn?.Invoke();
+                        ImGui.PopTextWrapPos();
+
+                        ImGui.TableNextColumn();
+                        ImGui.PushTextWrapPos(GetWrapPosition());
+                        row.SecondColumn?.Invoke();
+                        ImGui.PopTextWrapPos();
+                    }
+
+                    ImGui.EndTable();
                 }
 
-                ImGui.EndTable();
             }
         });
 
@@ -74,15 +81,5 @@ internal class InfoBoxTable
         var wrapPosition = cursor.X + region.X;
 
         return wrapPosition;
-    }
-
-    public InfoBoxTable AddRows(IEnumerable<Tuple<Action?, Action?>> rows)
-    {
-        foreach (var row in rows)
-        {
-            TableRows.Add(row);
-        }
-
-        return this;
     }
 }
