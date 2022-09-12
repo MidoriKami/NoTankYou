@@ -4,8 +4,6 @@ using Dalamud.Game.ClientState.Objects.SubKinds;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.Enums;
-using NoTankYou.Configuration.ModuleSettings;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
@@ -13,6 +11,13 @@ using NoTankYou.UserInterface.Components.InfoBox;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
+
+public class FreeCompanyConfiguration : GenericSettings
+{
+    public Setting<FreeCompanyBuffScanMode> ScanMode = new(FreeCompanyBuffScanMode.Any);
+    public Setting<int> BuffCount = new(1);
+    public uint[] BuffList = new uint[2];
+}
 
 internal class FreeCompany : IModule
 {

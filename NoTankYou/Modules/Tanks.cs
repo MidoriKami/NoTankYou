@@ -3,8 +3,6 @@ using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.Enums;
-using NoTankYou.Configuration.ModuleSettings;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.System;
@@ -15,6 +13,12 @@ using NoTankYou.Utilities;
 namespace NoTankYou.Modules;
 
 internal record IconInfo(uint ID, string Name);
+
+public class TankConfiguration : GenericSettings
+{
+    public Setting<bool> DisableInAllianceRaid = new(true);
+    public Setting<bool> CheckAllianceStances = new(false);
+}
 
 internal class Tanks : IModule
 {

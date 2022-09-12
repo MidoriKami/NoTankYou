@@ -4,8 +4,8 @@ using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.ModuleSettings;
 using NoTankYou.Configuration.Overlays;
+using NoTankYou.Modules;
 
 namespace NoTankYou.Utilities;
 

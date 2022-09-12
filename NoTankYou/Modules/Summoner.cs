@@ -2,8 +2,6 @@
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.Enums;
-using NoTankYou.Configuration.ModuleSettings;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
@@ -11,6 +9,10 @@ using NoTankYou.UserInterface.Components.InfoBox;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
+
+public class SummonerConfiguration : GenericSettings
+{
+}
 
 internal class Summoner : IModule
 {

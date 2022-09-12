@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Reflection;
 using Dalamud.Interface;
 using ImGuiNET;
-using NoTankYou.Configuration.Enums;
+using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Windows;

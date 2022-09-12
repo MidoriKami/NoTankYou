@@ -5,14 +5,21 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.Enums;
-using NoTankYou.Configuration.ModuleSettings;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
 using NoTankYou.UserInterface.Components.InfoBox;
 
 namespace NoTankYou.Modules;
+
+public class SpiritBondConfiguration : GenericSettings 
+{
+    public Setting<int> SpiritBondEarlyWarningTime = new(600);
+    public Setting<bool> SavageDuties = new(false);
+    public Setting<bool> UltimateDuties = new(false);
+    public Setting<bool> ExtremeUnreal = new(false);
+    public Setting<bool> DisableInCombat = new(false);
+}
 
 internal class Spiritbond : IModule
 {

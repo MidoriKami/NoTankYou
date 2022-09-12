@@ -1,20 +1,12 @@
 ﻿using System;
-using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;
 
-namespace NoTankYou.Configuration.ModuleSettings;
+namespace NoTankYou.Configuration.Components;
 
 public enum FreeCompanyBuffScanMode
 {
     Any,
     Specific
-}
-
-public class FreeCompanyConfiguration : GenericSettings
-{
-    public Setting<FreeCompanyBuffScanMode> ScanMode = new(FreeCompanyBuffScanMode.Any);
-    public Setting<int> BuffCount = new(1);
-    public uint[] BuffList = new uint[2];
 }
 
 public static class FreeCompanyBuffScanModeExtensions

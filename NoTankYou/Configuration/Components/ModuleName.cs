@@ -1,7 +1,7 @@
 ﻿using System;
 using NoTankYou.Localization;
 
-namespace NoTankYou.Configuration.Enums;
+namespace NoTankYou.Configuration.Components;
 
 public enum ModuleName
 {

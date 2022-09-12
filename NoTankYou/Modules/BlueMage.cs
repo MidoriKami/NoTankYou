@@ -3,8 +3,6 @@ using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.Enums;
-using NoTankYou.Configuration.ModuleSettings;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
@@ -13,6 +11,13 @@ using NoTankYou.Utilities;
 using Condition = NoTankYou.Utilities.Condition;
 
 namespace NoTankYou.Modules;
+
+public class BlueMageConfiguration : GenericSettings
+{
+    public Setting<bool> Mimicry = new(false);
+    public Setting<bool> TankStance = new(false);
+    public Setting<bool> BasicInstinct = new(false);
+}
 
 internal class BlueMage : IModule
 {

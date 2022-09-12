@@ -1,6 +1,6 @@
 ﻿using System;
 using ImGuiNET;
-using NoTankYou.Configuration.Enums;
+using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;

@@ -1,4 +1,4 @@
-﻿using NoTankYou.Configuration.Enums;
+﻿using NoTankYou.Configuration.Components;
 
 namespace NoTankYou.Interfaces;
 
