@@ -3,35 +3,33 @@ using System.Linq;
 using NoTankYou.Interfaces;
 using NoTankYou.Modules;
 
-namespace NoTankYou.System
+namespace NoTankYou.System;
+
+internal class ModuleManager
 {
-    public class ModuleManager
+    private IEnumerable<IModule> Modules { get; } = new List<IModule>()
     {
-        private List<IModule> Modules { get; } = new()
-        {
-            new TankModule(),
-            new DancerModule(),
-            new ScholarModule(),
-            new SageModule(),
-            new SummonerModule(),
-            new FoodModule(),
-            new FreeCompanyModule(),
-            new BlueMageModule(),
-        };
+        new Tanks(),
+        new BlueMage(),
+        new Dancer(),
+        new Food(),
+        new FreeCompany(),
+        new Sage(),
+        new Scholar(),
+        new Summoner(),
+        new Spiritbond(),
+    };
 
-        public void ProcessCommand(string command, string arguments)
-        {
-            foreach (var module in Modules.OfType<ICommand>())
-            {
-                module.ProcessCommand(command, arguments);
-            }
-        }
+    public IEnumerable<ISelectable> GetConfigurationSelectables()
+    {
+        return Modules
+            .Select(module => module.ConfigurationComponent.Selectable);
+    }
 
-        public List<IModule> GetModulesForClassJob(uint job)
-        {
-            return Modules
-                .Where(module => module.ClassJobs.Contains(job))
-                .ToList();
-        }
+    public IEnumerable<ILogicComponent> GetModulesForClassJob(uint job)
+    {
+        return Modules
+            .Where(module => module.LogicComponent.ClassJobs.Contains(job))
+            .Select(module => module.LogicComponent);
     }
 }

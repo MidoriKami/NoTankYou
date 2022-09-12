@@ -235,6 +235,38 @@
     "message": "Can not be used with 'Only in Duties'",
     "description": "BlueMage..ctor"
   },
+  "SpiritBond_Label": {
+    "message": "SpiritBond",
+    "description": "SpiritBond..ctor"
+  },
+  "SpiritBond_ConfigurationPanelLabel": {
+    "message": "SpiritBond Configuration",
+    "description": "SpiritBond..ctor"
+  },
+  "SpiritBond_WarningText": {
+    "message": "SpiritBond Missing",
+    "description": "SpiritBond..ctor"
+  },
+  "SpiritBond_Description": {
+    "message": "Quaffing a SpiritBond potion will increase the SpiritBond gain of your equipment",
+    "description": "SpiritBond..ctor"
+  },
+  "SpiritBond_TechnicalInformation": {
+    "message": "This module will alert you when the remaining duration of the SpiritBond Potion is less than the pre-configured value.",
+    "description": "SpiritBond..ctor"
+  },
+  "SpiritBond_EarlyWarningLabel": {
+    "message": "Early Warning Time",
+    "description": "SpiritBond..ctor"
+  },
+  "SpiritBond_ZoneFilters": {
+    "message": "Zone Filters",
+    "description": "SpiritBond..ctor"
+  },
+  "SpiritBond_ZoneFiltersDescription": {
+    "message": "Only check players for SpiritBond when in the following zones",
+    "description": "SpiritBond..ctor"
+  },
   "Labels_About": {
     "message": "About",
     "description": "Labels..ctor"
@@ -460,7 +492,7 @@
     "description": "Commands..ctor"
   },
   "Commands_Help": {
-    "message": "NoTankYou Commands:\n/nty blu (on | off) - Toggle Blue Mage Module\n/nty dnc (on | off) - Toggle Dancer Module\n/nty food (on | off) - Toggle Food Module\n/nty fc (on | off) - Toggle Free Company Module\n/nty sge (on | off) - Toggle Sage Module\n/nty sch (on | off) - Toggle Scholar Module\n/nty smn (on | off) - Toggle Summoner Module\n/nty tanks (on | off) - Toggle Tanks Module\n/nty partyoverlay (on | off) - Toggle Party Overlay",
+    "message": "NoTankYou Commands:\n/nty blu (on | off) - Toggle Blue Mage Module\n/nty dnc (on | off) - Toggle Dancer Module\n/nty food (on | off) - Toggle Food Module\n/nty fc (on | off) - Toggle Free Company Module\n/nty sge (on | off) - Toggle Sage Module\n/nty sch (on | off) - Toggle Scholar Module\n/nty spiritbond (on | off) - Toggle SpiritBond Module\n/nty smn (on | off) - Toggle Summoner Module\n/nty tanks (on | off) - Toggle Tanks Module\n/nty partyoverlay (on | off) - Toggle Party Overlay",
     "description": "Commands..ctor"
   }
 }

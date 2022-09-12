@@ -1,20 +1,19 @@
 ﻿using System;
 using Dalamud.Interface.GameFonts;
 
-namespace NoTankYou.System
+namespace NoTankYou.System;
+
+public class FontManager : IDisposable
 {
-    public class FontManager : IDisposable
+    public GameFontHandle GameFont { get; private set; }
+
+    public FontManager()
     {
-        public GameFontHandle GameFont { get; private set; }
+        GameFont = Service.PluginInterface.UiBuilder.GetGameFontHandle( new GameFontStyle( GameFontFamily.Axis, 52.0f ) );
+    }
 
-        public FontManager()
-        {
-            GameFont = Service.PluginInterface.UiBuilder.GetGameFontHandle( new GameFontStyle( GameFontFamilyAndSize.Axis18 ) );
-        }
-
-        public void Dispose()
-        {
-            GameFont.Dispose();
-        }
+    public void Dispose()
+    {
+        GameFont.Dispose();
     }
 }
