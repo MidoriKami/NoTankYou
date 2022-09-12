@@ -56,8 +56,12 @@ internal class FreeCompany : IModule
 
             ExtraOptions
                 .AddTitle(Strings.Common.Labels.ModeSelect)
+                .BeginTable()
+                .BeginRow()
                 .AddConfigRadio(Strings.Modules.FreeCompany.Any, Settings.ScanMode, FreeCompanyBuffScanMode.Any)
                 .AddConfigRadio(Strings.Modules.FreeCompany.Specific, Settings.ScanMode, FreeCompanyBuffScanMode.Specific)
+                .EndRow()
+                .EndTable()
                 .Draw();
 
             BuffCount
