@@ -45,6 +45,7 @@ internal class FreeCompany : IModule
         private readonly InfoBox ExtraOptions = new();
         private readonly InfoBox BuffCount = new();
         private readonly InfoBox BuffSelectionBox = new();
+        private readonly InfoBox Options = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -86,6 +87,11 @@ internal class FreeCompany : IModule
                 .AddTitle(Strings.Common.Labels.DisplayOptions)
                 .AddConfigCheckbox(Strings.TabItems.PartyOverlay.Label, Settings.PartyFrameOverlay)
                 .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Label, Settings.BannerOverlay)
+                .Draw();
+
+            Options
+                .AddTitle(Strings.Common.Labels.Options)
+                .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
                 .Draw();
 
         }

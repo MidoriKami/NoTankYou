@@ -38,6 +38,7 @@ internal class Scholar : IModule
 
         private readonly InfoBox GenericSettings = new();
         private readonly InfoBox OverlaySettings = new();
+        private readonly InfoBox Options = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -60,6 +61,10 @@ internal class Scholar : IModule
                 .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Label, Settings.BannerOverlay)
                 .Draw();
 
+            Options
+                .AddTitle(Strings.Common.Labels.Options)
+                .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
+                .Draw();
         }
     }
 

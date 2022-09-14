@@ -8,7 +8,6 @@ using ImGuiNET;
 using ImGuiScene;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.Overlays;
 using NoTankYou.System;
 using NoTankYou.Utilities;
 using Condition = NoTankYou.Utilities.Condition;
@@ -29,6 +28,8 @@ internal class PartyListOverlayWindow : Window
 
     [Signature("E8 ?? ?? ?? ?? 84 C0 75 21 48 8B 4F 10")]
     private readonly IsInSanctuary SanctuaryFunction = null!;
+
+    private bool InSanctuaryArea;
 
     public PartyListOverlayWindow() : base($"###PartyListOverlay")
     {
@@ -64,10 +65,10 @@ internal class PartyListOverlayWindow : Window
         if (!PartyListAddon.DataAvailable) IsOpen = false;
         if (!PartyListAddon.DataAvailable) return;
 
-        IsOpen = Condition.ShouldShowWarnings();
+        IsOpen = Condition.ShouldShowWarnings() || Settings.PreviewMode.Value;
 
-        if (!Settings.PreviewMode.Value && Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
-        
+        InSanctuaryArea = SanctuaryFunction();
+
         if (IsOpen == false) ResetAllAnimation();
     }
 
@@ -100,7 +101,8 @@ internal class PartyListOverlayWindow : Window
 
                     // Filter to only modules that are enabled for PartyFrame Overlay
                     var enabledModules = modules
-                        .Where(module => module.ParentModule.GenericSettings.PartyFrameOverlay.Value);
+                        .Where(module => module.ParentModule.GenericSettings.PartyFrameOverlay.Value)
+                        .Where(module => !(module.ParentModule.GenericSettings.DisableInSanctuary.Value && InSanctuaryArea) );
 
                     // Get Highest Warning for remaining modules
                     var highestWarning = enabledModules

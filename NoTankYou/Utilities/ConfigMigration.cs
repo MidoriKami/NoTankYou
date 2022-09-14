@@ -4,8 +4,8 @@ using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.Overlays;
 using NoTankYou.Modules;
+using NoTankYou.UserInterface.Windows;
 
 namespace NoTankYou.Utilities;
 
@@ -40,7 +40,6 @@ internal static class ConfigMigration
     {
         return new PartyOverlaySettings
         {
-            DisableInSanctuary = GetSettingValue<bool>("DisplaySettings.PartyOverlay.DisableInSanctuary"),
             FlashingEffects = GetSettingValue<bool>("DisplaySettings.PartyOverlay.FlashingEffects"),
             JobIcon = GetSettingValue<bool>("DisplaySettings.PartyOverlay.JobIcon"),
             PlayerName = GetSettingValue<bool>("DisplaySettings.PartyOverlay.PlayerName"),
@@ -184,7 +183,6 @@ internal static class ConfigMigration
     {
         return new BannerOverlaySettings
         {
-            DisableInSanctuary = GetSettingValue<bool>("DisplaySettings.BannerOverlay.DisableInSanctuary"),
             WarningText = GetSettingValue<bool>("DisplaySettings.BannerOverlay.WarningText"),
             Icon = GetSettingValue<bool>("DisplaySettings.BannerOverlay.Icon"),
             IconText = GetSettingValue<bool>("DisplaySettings.BannerOverlay.IconText"),

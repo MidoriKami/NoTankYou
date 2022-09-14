@@ -1,17 +1,28 @@
 ﻿using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using NoTankYou.Configuration.Overlays;
+using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components.InfoBox;
+using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.Windows;
+
+public class PartyOverlaySettings
+{
+    public Setting<bool> WarningText = new(true);
+    public Setting<bool> PlayerName = new(true);
+    public Setting<bool> JobIcon = new(true);
+    public Setting<bool> FlashingEffects = new(true);
+    public Setting<Vector4> WarningTextColor = new (Colors.SoftRed);
+    public Setting<Vector4> WarningOutlineColor = new (Colors.Red);
+    public Setting<bool> PreviewMode = new(true);
+}
 
 internal class PartyOverlayConfigurationWindow : Window
 {
     private static PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
 
-    private readonly InfoBox Options = new();
     private readonly InfoBox DisplayOptions = new();
     private readonly InfoBox ColorOptions = new();
     private readonly InfoBox PreviewMode = new();
@@ -32,11 +43,6 @@ internal class PartyOverlayConfigurationWindow : Window
         PreviewMode
             .AddTitle(Strings.Configuration.PreviewMode)
             .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.PreviewMode)
-            .Draw();
-
-        Options
-            .AddTitle(Strings.Common.Labels.Options)
-            .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
             .Draw();
 
         DisplayOptions

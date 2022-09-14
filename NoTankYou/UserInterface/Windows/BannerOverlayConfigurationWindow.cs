@@ -1,17 +1,30 @@
 ﻿using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using NoTankYou.Configuration.Overlays;
+using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components.InfoBox;
 
 namespace NoTankYou.UserInterface.Windows;
 
+public class BannerOverlaySettings
+{
+    public Setting<float> Scale = new (1.0f);
+    public Setting<int> WarningCount = new(8);
+    public Setting<BannerOverlayDisplayMode> Mode = new(BannerOverlayDisplayMode.List);
+    public Setting<bool> SampleMode = new(true);
+    public Setting<bool> WarningShield = new(true);
+    public Setting<bool> WarningText = new(true);
+    public Setting<bool> Icon = new(true);
+    public Setting<bool> PlayerNames = new(true);
+    public Setting<bool> IconText = new(true);
+    public Setting<float> BorderThickness = new(1.0f);
+}
+
 internal class BannerOverlayConfigurationWindow : Window
 {
     private static BannerOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
 
-    private readonly InfoBox Options = new();
     private readonly InfoBox ModeSelect = new();
     private readonly InfoBox ListModeOptions = new();
     private readonly InfoBox ScaleOptions = new();
@@ -36,16 +49,6 @@ internal class BannerOverlayConfigurationWindow : Window
             .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.SampleMode)
             .Draw();
 
-        Options
-            .AddTitle(Strings.Common.Labels.Options)
-            .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
-            .Draw();
-
-        ScaleOptions
-            .AddTitle(Strings.Common.Labels.Scale)
-            .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, 200.0f)
-            .Draw();
-        
         DisplayOptions
             .AddTitle(Strings.Common.Labels.DisplayOptions)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.ExclamationMark, Settings.WarningShield)
@@ -54,6 +57,11 @@ internal class BannerOverlayConfigurationWindow : Window
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Icon, Settings.Icon)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.IconText, Settings.IconText)
             .AddDragFloat(Strings.TabItems.BannerOverlay.BorderThickness, Settings.BorderThickness, 0.5f, 3.0f, 200.0f)
+            .Draw();
+
+        ScaleOptions
+            .AddTitle(Strings.Common.Labels.Scale)
+            .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, 200.0f)
             .Draw();
 
         ModeSelect

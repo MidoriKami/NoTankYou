@@ -4,8 +4,8 @@ using Dalamud.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.Overlays;
 using NoTankYou.Modules;
+using NoTankYou.UserInterface.Windows;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Configuration;

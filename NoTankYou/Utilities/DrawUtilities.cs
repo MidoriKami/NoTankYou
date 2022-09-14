@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using ImGuiNET;
-using NoTankYou.Configuration.Overlays;
+using NoTankYou.UserInterface.Windows;
 
 namespace NoTankYou.Utilities;
 

@@ -44,6 +44,7 @@ internal class Spiritbond : IModule
         private readonly InfoBox ExtraOptions = new();
         private readonly InfoBox ZoneFilters = new();
         private readonly InfoBox AdditionalOptions = new();
+        private readonly InfoBox Options = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -82,6 +83,11 @@ internal class Spiritbond : IModule
                 .AddTitle(Strings.Common.Labels.DisplayOptions)
                 .AddConfigCheckbox(Strings.TabItems.PartyOverlay.Label, Settings.PartyFrameOverlay)
                 .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Label, Settings.BannerOverlay)
+                .Draw();
+
+            Options
+                .AddTitle(Strings.Common.Labels.Options)
+                .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
                 .Draw();
         }
     }

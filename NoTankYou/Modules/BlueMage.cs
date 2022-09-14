@@ -43,6 +43,7 @@ internal class BlueMage : IModule
         private readonly InfoBox GenericSettings = new();
         private readonly InfoBox OverlaySettings = new();
         private readonly InfoBox Warnings = new();
+        private readonly InfoBox Options = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -70,6 +71,11 @@ internal class BlueMage : IModule
                 .AddTitle(Strings.Common.Labels.DisplayOptions)
                 .AddConfigCheckbox(Strings.TabItems.PartyOverlay.Label, Settings.PartyFrameOverlay)
                 .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Label, Settings.BannerOverlay)
+                .Draw();
+            
+            Options
+                .AddTitle(Strings.Common.Labels.Options)
+                .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
                 .Draw();
 
         }

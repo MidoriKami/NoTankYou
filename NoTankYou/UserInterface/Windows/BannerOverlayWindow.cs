@@ -7,7 +7,6 @@ using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Configuration.Components;
-using NoTankYou.Configuration.Overlays;
 using NoTankYou.Utilities;
 using Condition = NoTankYou.Utilities.Condition;
 
@@ -25,6 +24,8 @@ internal class BannerOverlayWindow : Window
 
     [Signature("E8 ?? ?? ?? ?? 84 C0 75 21 48 8B 4F 10")]
     private readonly IsInSanctuary SanctuaryFunction = null!;
+
+    private bool InSanctuaryArea;
 
     public BannerOverlayWindow() : base($"###BannerOverlay+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
@@ -55,9 +56,9 @@ internal class BannerOverlayWindow : Window
 
     public override void PreOpenCheck()
     {
-        IsOpen = Condition.ShouldShowWarnings();
+        IsOpen = Condition.ShouldShowWarnings() || Settings.SampleMode.Value;
 
-        if (!Settings.SampleMode.Value && Settings.DisableInSanctuary.Value && SanctuaryFunction()) IsOpen = false;
+        InSanctuaryArea = SanctuaryFunction();
     }
 
     public override void PreDraw()
@@ -99,7 +100,8 @@ internal class BannerOverlayWindow : Window
 
                     // Filter to only modules that are enabled for PartyFrame Overlay
                     var enabledModules = modules
-                        .Where(module => module.ParentModule.GenericSettings.BannerOverlay.Value);
+                        .Where(module => module.ParentModule.GenericSettings.BannerOverlay.Value)
+                        .Where(module => !(module.ParentModule.GenericSettings.DisableInSanctuary.Value && InSanctuaryArea));
 
                     // Get Highest Warning for remaining modules
                     var highestWarning = enabledModules
