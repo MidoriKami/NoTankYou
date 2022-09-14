@@ -14,7 +14,6 @@ public class CommandManager : IDisposable
     private readonly List<IPluginCommand> Commands = new()
     {
         new ConfigurationWindowCommand(),
-        new PrintHelpTextCommand(),
         new LocalizationCommand(),
     };
 
