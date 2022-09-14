@@ -7,6 +7,7 @@ using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.Configuration.Components;
+using NoTankYou.System;
 using NoTankYou.Utilities;
 using Condition = NoTankYou.Utilities.Condition;
 
@@ -56,6 +57,9 @@ internal class BannerOverlayWindow : Window
 
     public override void PreOpenCheck()
     {
+        if (!PartyListAddon.DataAvailable) IsOpen = false;
+        if (!PartyListAddon.DataAvailable) return;
+
         IsOpen = Condition.ShouldShowWarnings() || Settings.SampleMode.Value;
 
         InSanctuaryArea = SanctuaryFunction();
