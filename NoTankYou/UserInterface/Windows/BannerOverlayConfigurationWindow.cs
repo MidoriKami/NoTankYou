@@ -1,6 +1,8 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components.InfoBox;
@@ -19,13 +21,15 @@ public class BannerOverlaySettings
     public Setting<bool> PlayerNames = new(true);
     public Setting<bool> IconText = new(true);
     public Setting<float> BorderThickness = new(1.0f);
+    public Setting<bool> SoloMode = new(false);
 }
 
-internal class BannerOverlayConfigurationWindow : Window
+internal class BannerOverlayConfigurationWindow : Window, IDisposable
 {
     private static BannerOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
 
     private readonly InfoBox ModeSelect = new();
+    private readonly InfoBox SoloMode = new();
     private readonly InfoBox ListModeOptions = new();
     private readonly InfoBox ScaleOptions = new();
     private readonly InfoBox DisplayOptions = new();
@@ -40,6 +44,18 @@ internal class BannerOverlayConfigurationWindow : Window
         };
 
         Flags |= ImGuiWindowFlags.AlwaysVerticalScrollbar;
+
+        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+    }
+    
+    public void Dispose()
+    {
+        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
+    }
+
+    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
+    {
+        WindowName = $"{Strings.TabItems.BannerOverlay.ConfigurationLabel} - {e.CharacterData.Name}";
     }
 
     public override void Draw()
@@ -47,6 +63,11 @@ internal class BannerOverlayConfigurationWindow : Window
         RepositionMode
             .AddTitle(Strings.Configuration.PreviewMode)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.RepositionMode, Settings.SampleMode)
+            .Draw();
+
+        SoloMode
+            .AddTitle(Strings.TabItems.BannerOverlay.SoloMode)
+            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.SoloMode, Settings.SoloMode, Strings.TabItems.BannerOverlay.SoloModeHelp)
             .Draw();
 
         DisplayOptions

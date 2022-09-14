@@ -105,6 +105,9 @@ internal class PartyListOverlayWindow : Window
             {
                 if (player.IsTargetable() && player.PlayerCharacter is { } playerCharacter)
                 {
+                    // If Solo Mode is Enabled and this isn't us.
+                    if (Settings.SoloMode.Value && Service.ClientState.LocalPlayer?.ObjectId != playerCharacter.ObjectId) continue;
+
                     // Get all Logic Modules for this classjob
                     var modules = Service.ModuleManager.GetModulesForClassJob(playerCharacter.ClassJob.Id);
 

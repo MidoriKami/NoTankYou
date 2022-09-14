@@ -3,6 +3,7 @@ using System.Numerics;
 using Dalamud.Interface.Internal.Notifications;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using NoTankYou.Configuration;
 using NoTankYou.UserInterface.Components;
 
 namespace NoTankYou.UserInterface.Windows;
@@ -27,10 +28,18 @@ internal class ConfigurationWindow : Window, IDisposable
 
         SelectionFrame = new SelectionFrame(selectables, 0.35f);
         ConfigurationFrame = new ConfigurationFrame();
-    }
 
+        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+    }
+    
     public void Dispose()
     {
+        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
+    }
+
+    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
+    {
+        WindowName = $"No Tank You - {e.CharacterData.Name}";
     }
 
     public override void PreOpenCheck()

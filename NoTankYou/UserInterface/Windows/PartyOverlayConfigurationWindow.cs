@@ -1,6 +1,8 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components.InfoBox;
@@ -17,15 +19,17 @@ public class PartyOverlaySettings
     public Setting<Vector4> WarningTextColor = new (Colors.SoftRed);
     public Setting<Vector4> WarningOutlineColor = new (Colors.Red);
     public Setting<bool> PreviewMode = new(true);
+    public Setting<bool> SoloMode = new(false);
 }
 
-internal class PartyOverlayConfigurationWindow : Window
+internal class PartyOverlayConfigurationWindow : Window, IDisposable
 {
     private static PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
 
     private readonly InfoBox DisplayOptions = new();
     private readonly InfoBox ColorOptions = new();
     private readonly InfoBox PreviewMode = new();
+    private readonly InfoBox SoloMode = new();
 
     public PartyOverlayConfigurationWindow() : base($"{Strings.TabItems.PartyOverlay.ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}" )
     {
@@ -36,6 +40,18 @@ internal class PartyOverlayConfigurationWindow : Window
         };
 
         Flags |= ImGuiWindowFlags.AlwaysVerticalScrollbar;
+
+        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+    }
+
+    public void Dispose()
+    {
+        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
+    }
+
+    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
+    {
+        WindowName = $"{Strings.TabItems.PartyOverlay.ConfigurationLabel} - {e.CharacterData.Name}";
     }
 
     public override void Draw()
@@ -43,6 +59,11 @@ internal class PartyOverlayConfigurationWindow : Window
         PreviewMode
             .AddTitle(Strings.Configuration.PreviewMode)
             .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.PreviewMode)
+            .Draw();
+
+        SoloMode
+            .AddTitle(Strings.TabItems.BannerOverlay.SoloMode)
+            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.SoloMode, Settings.SoloMode, Strings.TabItems.BannerOverlay.SoloModeHelp)
             .Draw();
 
         DisplayOptions

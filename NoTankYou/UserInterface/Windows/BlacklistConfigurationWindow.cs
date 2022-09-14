@@ -6,6 +6,7 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Utility;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
+using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components.InfoBox;
@@ -54,6 +55,18 @@ internal class BlacklistConfigurationWindow : Window
 
                 CategoryList.Add(searchResult.TerritoryIntendedUse);
             }
+
+        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+    }
+
+    public void Dispose()
+    {
+        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
+    }
+
+    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
+    {
+        WindowName = $"{Strings.TabItems.Blacklist.Label} - {e.CharacterData.Name}";
     }
 
     public override void Draw()
