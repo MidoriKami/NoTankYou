@@ -55,13 +55,24 @@ internal class BannerOverlayWindow : Window
         };
     }
 
+    public bool ShouldOpenWindow()
+    {
+        if (!PartyListAddon.DataAvailable) return false;
+
+        if (!Condition.ShouldShowWarnings()) return false;
+
+        if (Settings.SampleMode.Value) return true;
+
+        return true;
+    }
+
     public override void PreOpenCheck()
     {
-        if (!PartyListAddon.DataAvailable) IsOpen = false;
-        if (!PartyListAddon.DataAvailable) return;
+        IsOpen = ShouldOpenWindow();
+    }
 
-        IsOpen = Condition.ShouldShowWarnings() || Settings.SampleMode.Value;
-
+    public override void Update()
+    {
         InSanctuaryArea = SanctuaryFunction();
     }
 

@@ -46,7 +46,7 @@ internal class BannerOverlayConfigurationWindow : Window
     {
         RepositionMode
             .AddTitle(Strings.Configuration.PreviewMode)
-            .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.SampleMode)
+            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.RepositionMode, Settings.SampleMode)
             .Draw();
 
         DisplayOptions

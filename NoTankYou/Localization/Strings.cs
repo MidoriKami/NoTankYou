@@ -159,7 +159,7 @@ public class BannerOverlay
     public string ListMode => Loc.Localize("BannerOverlay_ListMode", "List");
     public string TopPriorityMode => Loc.Localize("BannerOverlay_TopPriorityMode", "Single");
     public string ListModeOptions => Loc.Localize("BannerOverlay_ListModeOptions", "List Mode Options");
-    public string RepositionMode => Loc.Localize("BannerOverlay_RepositionMode", "Enable Sample Mode - Allows repositioning");
+    public string RepositionMode => Loc.Localize("BannerOverlay_RepositionMode", "Sample Mode - Allows repositioning");
     public string ExclamationMark => Loc.Localize("BannerOverlay_ExclamationMark", "Show Exclamation Mark");
     public string WarningText => Loc.Localize("BannerOverlay_WarningText", "Show Text");
     public string Icon => Loc.Localize("BannerOverlay_Icon", "Show Icon");

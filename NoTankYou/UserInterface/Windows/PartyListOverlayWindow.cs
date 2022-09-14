@@ -60,16 +60,25 @@ internal class PartyListOverlayWindow : Window
         };
     }
 
+    public bool ShouldOpenWindow()
+    {
+        if (!PartyListAddon.DataAvailable) return false;
+
+        if (!Condition.ShouldShowWarnings()) return false;
+
+        if (Settings.PreviewMode.Value) return true;
+
+        return true;
+    }
+
     public override void PreOpenCheck()
-    { 
-        if (!PartyListAddon.DataAvailable) IsOpen = false;
-        if (!PartyListAddon.DataAvailable) return;
+    {
+        IsOpen = ShouldOpenWindow();
+    }
 
-        IsOpen = Condition.ShouldShowWarnings() || Settings.PreviewMode.Value;
-
+    public override void Update()
+    {
         InSanctuaryArea = SanctuaryFunction();
-
-        if (IsOpen == false) ResetAllAnimation();
     }
 
     public override void PreDraw()
@@ -130,6 +139,11 @@ internal class PartyListOverlayWindow : Window
 
         if (AnimationStopwatch.ElapsedMilliseconds >= 1300)
             AnimationStopwatch.Restart();
+    }
+
+    public override void OnClose()
+    {
+        ResetAllAnimation();
     }
 
     private void DisplayWarning(WarningState warning, PartyListAddonData player)
