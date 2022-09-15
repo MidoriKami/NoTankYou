@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface;
@@ -6,6 +7,7 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
+using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.System;
 using NoTankYou.Utilities;
@@ -13,7 +15,7 @@ using Condition = NoTankYou.Utilities.Condition;
 
 namespace NoTankYou.UserInterface.Windows;
 
-internal class BannerOverlayWindow : Window
+internal class BannerOverlayWindow : Window, IDisposable
 {
     private static BannerOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
     private readonly TextureWrap WarningIcon;
@@ -53,6 +55,18 @@ internal class BannerOverlayWindow : Window
             Priority = 11,
             MessageLong = "Long Sample Warning"
         };
+
+        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+    }
+
+    public void Dispose()
+    {
+        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
+    }
+
+    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
+    {
+        WindowName = $"###BannerOverlay+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}";
     }
 
     public bool ShouldOpenWindow()
