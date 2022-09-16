@@ -88,6 +88,7 @@ internal class Tanks : IModule
 
         private readonly List<uint> TankStances;
         private readonly HashSet<uint> AllianceRaidTerritories;
+        private readonly Dictionary<uint, IconInfo> TankIcons = new();
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -111,6 +112,12 @@ internal class Tanks : IModule
                 .Select(r => r.RowId)
                 .ToHashSet();
 
+            foreach (var job in ClassJobs)
+            {
+                var icon = GetTankIcon(job);
+
+                TankIcons.Add(job, icon);
+            }
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -167,22 +174,22 @@ internal class Tanks : IModule
             return null;
         }
         
-        private IconInfo GetTankIcon(PlayerCharacter character)
+        private IconInfo GetTankIcon(uint classjob)
         {
             // Convert certain jobs to base class,
             // because Paladin and Warrior don't actually have a tank stance
-            uint classJob = character.ClassJob.Id switch
+            uint translatedClassJob = classjob switch
             {
                 // Paladin => Gladiator
                 19 => 1,
 
                 // Warrior => Marauder
                 21 => 3,
-                _ => character.ClassJob.Id
+                _ => classjob
             };
 
             var action = Service.DataManager.GetExcelSheet<Action>()!
-                .Where(r => r.ClassJob.Row == classJob)
+                .Where(r => r.ClassJob.Row == translatedClassJob)
                 .Where(r => TankStances.Contains(r.StatusGainSelf.Value!.RowId))
                 .First();
 
@@ -209,7 +216,7 @@ internal class Tanks : IModule
 
         private WarningState TankWarning(PlayerCharacter character)
         {
-            var iconInfo = GetTankIcon(character);
+            var iconInfo = TankIcons[character.ClassJob.Id];
 
             return new WarningState
             {

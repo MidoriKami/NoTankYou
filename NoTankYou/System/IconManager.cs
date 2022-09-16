@@ -24,8 +24,10 @@ public class IconManager : IDisposable
         
     private void LoadIconTexture(uint iconId) 
     {
-        Task.Run(() => {
-            try {
+        Task.Run(() => 
+        {
+            try 
+            {
                 var iconTex = Service.DataManager.GetIcon(iconId);
                 if (iconTex == null) return;
                 
@@ -34,7 +36,9 @@ public class IconManager : IDisposable
                 if (tex.ImGuiHandle != IntPtr.Zero) 
                 {
                     IconTextures[iconId] = tex;
-                } else {
+                } 
+                else 
+                {
                     tex.Dispose();
                 }
             } 
