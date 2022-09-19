@@ -1,670 +1,474 @@
 {
   "Tank_Label": {
     "message": "Tanks",
-    "description": "Tank..ctor"
-  },
-  "Tank_ConfigurationPanelLabel": {
-    "message": "Configuration Tanks",
-    "description": "Tank..ctor"
+    "description": "Tank.get_Label"
   },
   "Tank_WarningText": {
     "message": "Stance de Tank manquante",
-    "description": "Tank..ctor"
+    "description": "Tank.get_WarningText"
   },
   "Tank_WarningTextShort": {
     "message": "Posture de Tank",
-    "description": "Tank..ctor"
+    "description": "Tank.get_WarningTextShort"
   },
   "Tank_DisableInAllianceRaid": {
     "message": "Désactiver en Raid Alliance",
-    "description": "Tank..ctor"
+    "description": "Tank.get_DisableInAllianceRaid"
   },
   "Tank_CheckAllianceStances": {
     "message": "Vérifier les membres de l'Alliance",
-    "description": "Tank..ctor"
-  },
-  "Tank_CheckAllianceStancesDescription": {
-    "message": "Si activé, vérifie si les tanks des autres alliances pour une stance de tank afin d'avertir si aucun tank n'a sa stance d'activée\nSi désactivé, vérifie uniquement dans l'équipe pour une stance de tank",
-    "description": "Tank..ctor"
+    "description": "Tank.get_CheckAllianceStances"
   },
   "FreeCompany_Label": {
     "message": "Compagnie Libre",
-    "description": "FreeCompany..ctor"
-  },
-  "FreeCompany_ConfigurationPaneLabel": {
-    "message": "Configuration Compagnie Libre",
-    "description": "FreeCompany..ctor"
+    "description": "FreeCompany.get_Label"
   },
   "FreeCompany_WarningText": {
     "message": "Bienfaits de Compagnie Libre manquant",
-    "description": "FreeCompany..ctor"
+    "description": "FreeCompany.get_WarningText"
   },
   "FreeCompany_WarningTextShort": {
     "message": "Bienfaits de Compagnie Libre",
-    "description": "FreeCompany..ctor"
+    "description": "FreeCompany.get_WarningTextShort"
   },
   "FreeCompany_Any": {
     "message": "Tous",
-    "description": "FreeCompany..ctor"
-  },
-  "FreeCompany_AnyDescription": {
-    "message": "Afficher un avertissement s'il manque un buff de Compagnie Libre",
-    "description": "FreeCompany..ctor"
+    "description": "FreeCompany.get_Any"
   },
   "FreeCompany_Specific": {
     "message": "Spécifique",
-    "description": "FreeCompany..ctor"
-  },
-  "FreeCompany_SpecificDescription": {
-    "message": "Afficher un avertissement s'il manque un buff spécifique de Compagnie Libre",
-    "description": "FreeCompany..ctor"
+    "description": "FreeCompany.get_Specific"
   },
   "FreeCompany_BuffCount": {
     "message": "Nombre de buffs",
-    "description": "FreeCompany..ctor"
+    "description": "FreeCompany.get_BuffCount"
   },
   "FreeCompany_BuffSelection": {
     "message": "Sélection de Buffs",
-    "description": "FreeCompany..ctor"
+    "description": "FreeCompany.get_BuffSelection"
   },
   "Dancer_Label": {
     "message": "Danseur",
-    "description": "Dancer..ctor"
-  },
-  "Dancer_ConfigurationPanelLabel": {
-    "message": "Configuration Danseur\n",
-    "description": "Dancer..ctor"
+    "description": "Dancer.get_Label"
   },
   "Dancer_WarningText": {
     "message": "Partenaire de Danse Manquant",
-    "description": "Dancer..ctor"
+    "description": "Dancer.get_WarningText"
   },
   "Dancer_WarningTextShort": {
     "message": "Partenaire de danse",
-    "description": "Dancer..ctor"
+    "description": "Dancer.get_WarningTextShort"
   },
   "Food_Label": {
     "message": "Plat ou boisson",
-    "description": "Food..ctor"
-  },
-  "Food_ConfigurationPanelLabel": {
-    "message": "Configuration des plats ou boissons",
-    "description": "Food..ctor"
+    "description": "Food.get_Label"
   },
   "Food_WarningText": {
     "message": "Nourriture manquante",
-    "description": "Food..ctor"
+    "description": "Food.get_WarningText"
   },
   "Food_EarlyWarningLabel": {
-    "message": "Early Warning Time",
-    "description": "Food..ctor"
+    "message": "Délai d’avertissement précoce",
+    "description": "Food.get_EarlyWarningLabel"
   },
   "Food_ZoneFilters": {
-    "message": "Zone Filters",
-    "description": "Food..ctor"
+    "message": "Filtre de zone",
+    "description": "Food.get_ZoneFilters"
   },
   "Food_ZoneFiltersDescription": {
-    "message": "Only check players for food when in the following zones",
-    "description": "Food..ctor"
+    "message": "Afficher l'avertissement uniquement dans les zones suivantes",
+    "description": "Food.get_ZoneFiltersDescription"
   },
   "Food_AdditionalOptionsLabel": {
-    "message": "Additional Options",
-    "description": "Food..ctor"
+    "message": "Autres options",
+    "description": "Food.get_AdditionalOptionsLabel"
   },
   "Food_SuppressInCombat": {
-    "message": "Suppress in Combat",
-    "description": "Food..ctor"
+    "message": "Retirer en combat",
+    "description": "Food.get_SuppressInCombat"
   },
   "Sage_Label": {
     "message": "Sage",
-    "description": "Sage..ctor"
-  },
-  "Sage_ConfigurationPanelLabel": {
-    "message": "Configuration du Sage",
-    "description": "Sage..ctor"
+    "description": "Sage.get_Label"
   },
   "Sage_WarningText": {
     "message": "Partenaire de Kardia manquant",
-    "description": "Sage..ctor"
+    "description": "Sage.get_WarningText"
   },
   "Sage_WarningTextShort": {
     "message": "Partenaire de Kardia",
-    "description": "Sage..ctor"
+    "description": "Sage.get_WarningTextShort"
   },
   "Scholar_Label": {
     "message": "Érudit",
-    "description": "Scholar..ctor"
-  },
-  "Scholar_ConfigurationPanelLabel": {
-    "message": "Configuration de l'Érudit",
-    "description": "Scholar..ctor"
+    "description": "Scholar.get_Label"
   },
   "Scholar_WarningText": {
-    "message": "Faerie Summon Missing",
-    "description": "Scholar..ctor"
+    "message": "Invocation de fées manquante",
+    "description": "Scholar.get_WarningText"
   },
   "Scholar_WarningTextShort": {
     "message": "Invocation de fées",
-    "description": "Scholar..ctor"
+    "description": "Scholar.get_WarningTextShort"
   },
   "Summoner_Label": {
     "message": "Invocateur",
-    "description": "Summoner..ctor"
-  },
-  "Summoner_ConfigurationPanelLabel": {
-    "message": "Configuration de l'Invocateur",
-    "description": "Summoner..ctor"
+    "description": "Summoner.get_Label"
   },
   "Summoner_WarningText": {
-    "message": "Pet Summon Missing",
-    "description": "Summoner..ctor"
+    "message": "Invocation de familier manquante",
+    "description": "Summoner.get_WarningText"
   },
   "Summoner_WarningTextShort": {
     "message": "Invocation de familier",
-    "description": "Summoner..ctor"
+    "description": "Summoner.get_WarningTextShort"
   },
   "BlueMage_Label": {
-    "message": "Mage bleu",
-    "description": "BlueMage..ctor"
-  },
-  "BlueMage_ConfigurationPanelLabel": {
-    "message": "Configuration Mage Bleu",
-    "description": "BlueMage..ctor"
-  },
-  "BlueMage_GenericWarning": {
-    "message": "Warning Something is Missing",
-    "description": "BlueMage..ctor"
+    "message": "Mage Bleu",
+    "description": "BlueMage.get_Label"
   },
   "BlueMage_Mimicry": {
     "message": "Imitation éthéréenne manquant",
-    "description": "BlueMage..ctor"
+    "description": "BlueMage.get_Mimicry"
   },
   "BlueMage_MightyGuard": {
-    "message": "Garde puissante manquant",
-    "description": "BlueMage..ctor"
+    "message": "Garde Puissante manquant",
+    "description": "BlueMage.get_MightyGuard"
   },
   "BlueMage_BasicInstinct": {
-    "message": "Instinct profond manquant",
-    "description": "BlueMage..ctor"
+    "message": "Instinct Profond manquant",
+    "description": "BlueMage.get_BasicInstinct"
   },
   "BlueMage_MimicryLabel": {
     "message": "Imitation éthéréenne",
-    "description": "BlueMage..ctor"
+    "description": "BlueMage.get_MimicryLabel"
   },
   "BlueMage_MightyGuardLabel": {
-    "message": "Garde puissante",
-    "description": "BlueMage..ctor"
+    "message": "Garde Puissante",
+    "description": "BlueMage.get_MightyGuardLabel"
   },
   "BlueMage_BasicInstinctLabel": {
-    "message": "Instinct profond",
-    "description": "BlueMage..ctor"
+    "message": "Instinct Profond",
+    "description": "BlueMage.get_BasicInstinctLabel"
   },
-  "BlueMage_MimicryWarning": {
-    "message": "Can not be used with 'Duties Only'",
-    "description": "BlueMage..ctor"
+  "SpiritBond_Label": {
+    "message": "Lien spirituel",
+    "description": "SpiritBond.get_Label"
   },
-  "BlueMage_BasicInstinctInfo": {
-    "message": "Warning will only show when solo with no other players",
-    "description": "BlueMage..ctor"
+  "SpiritBond_WarningText": {
+    "message": "Lien spirituel manquant",
+    "description": "SpiritBond.get_WarningText"
+  },
+  "SpiritBond_EarlyWarningLabel": {
+    "message": "Délai d’avertissement précoce",
+    "description": "SpiritBond.get_EarlyWarningLabel"
+  },
+  "SpiritBond_ZoneFilters": {
+    "message": "Filtre de zone",
+    "description": "SpiritBond.get_ZoneFilters"
+  },
+  "SpiritBond_ZoneFiltersDescription": {
+    "message": "Afficher l'avertissement uniquement dans les zones suivantes",
+    "description": "SpiritBond.get_ZoneFiltersDescription"
+  },
+  "SpiritBond_AdditionalOptionsLabel": {
+    "message": "Autres options",
+    "description": "SpiritBond.get_AdditionalOptionsLabel"
+  },
+  "SpiritBond_SuppressInCombat": {
+    "message": "Retirer en combat",
+    "description": "SpiritBond.get_SuppressInCombat"
+  },
+  "Labels_Enabled": {
+    "message": "Activé",
+    "description": "Labels.get_Enabled"
+  },
+  "Labels_Disabled": {
+    "message": "Désactivé",
+    "description": "Labels.get_Disabled"
   },
   "Labels_Options": {
     "message": "Paramètres",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Options"
   },
   "Labels_Priority": {
     "message": "Priorité",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Priority"
   },
   "Labels_Seconds": {
     "message": "Secondes",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Seconds"
   },
   "Labels_City": {
-    "message": "City",
-    "description": "Labels..ctor"
+    "message": "Ville",
+    "description": "Labels.get_City"
   },
   "Labels_OpenWorld": {
-    "message": "Open World",
-    "description": "Labels..ctor"
+    "message": "Monde Ouvert",
+    "description": "Labels.get_OpenWorld"
   },
   "Labels_Inn": {
     "message": "Auberge",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Inn"
   },
   "Labels_Dungeon": {
     "message": "Donjon",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Dungeon"
   },
   "Labels_AllianceRaid": {
     "message": "Raid en alliance",
-    "description": "Labels..ctor"
+    "description": "Labels.get_AllianceRaid"
   },
   "Labels_Trial": {
     "message": "Défi",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Trial"
   },
   "Labels_Housing": {
     "message": "Logement",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Housing"
   },
   "Labels_Raid": {
     "message": "Raid",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Raid"
   },
   "Labels_GrandCompany": {
     "message": "Grande Compagnie",
-    "description": "Labels..ctor"
+    "description": "Labels.get_GrandCompany"
   },
   "Labels_DeepDiveDungeon": {
     "message": "PotD/HoH",
-    "description": "Labels..ctor"
+    "description": "Labels.get_DeepDiveDungeon"
   },
   "Labels_Eureka": {
     "message": "Eurêka",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Eureka"
   },
   "Labels_Bozja": {
     "message": "Bozja",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Bozja"
   },
   "Labels_Unknown": {
     "message": "Inconnu",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Unknown"
   },
   "Labels_AdditionalOptions": {
-    "message": "Additional Options",
-    "description": "Labels..ctor"
+    "message": "Autres options",
+    "description": "Labels.get_AdditionalOptions"
   },
   "Labels_Savage": {
-    "message": "Savage",
-    "description": "Labels..ctor"
+    "message": "Sauvage",
+    "description": "Labels.get_Savage"
   },
   "Labels_Ultimate": {
-    "message": "Ultimate",
-    "description": "Labels..ctor"
+    "message": "Ultime",
+    "description": "Labels.get_Ultimate"
   },
   "Labels_ExtremeUnreal": {
-    "message": "Extreme & Unreal",
-    "description": "Labels..ctor"
+    "message": "Extrême & Irréel",
+    "description": "Labels.get_ExtremeUnreal"
   },
   "Labels_ModeSelect": {
-    "message": "Mode Select",
-    "description": "Labels..ctor"
+    "message": "Sélection de mode",
+    "description": "Labels.get_ModeSelect"
   },
   "Labels_Unset": {
-    "message": "Unset",
-    "description": "Labels..ctor"
+    "message": "Désactivé",
+    "description": "Labels.get_Unset"
   },
   "Labels_Warnings": {
     "message": "Avertissements",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Warnings"
   },
   "Labels_DisplayOptions": {
     "message": "Options d’affichage",
-    "description": "Labels..ctor"
+    "description": "Labels.get_DisplayOptions"
   },
   "Labels_Scale": {
     "message": "Dimensionner",
-    "description": "Labels..ctor"
-  },
-  "Labels_Locked": {
-    "message": "Verrouillé",
-    "description": "Labels..ctor"
-  },
-  "Labels_Lock": {
-    "message": "Verrouiller",
-    "description": "Labels..ctor"
-  },
-  "Labels_Unlocked": {
-    "message": "Unlocked",
-    "description": "Labels..ctor"
-  },
-  "Labels_Unlock": {
-    "message": "Débloquer",
-    "description": "Labels..ctor"
-  },
-  "Labels_Apply": {
-    "message": "Appliquer",
-    "description": "Labels..ctor"
-  },
-  "Labels_Reset": {
-    "message": "Reset",
-    "description": "Labels..ctor"
+    "description": "Labels.get_Scale"
   },
   "Tabs_Settings": {
     "message": "Réglages",
-    "description": "Tabs..ctor"
+    "description": "Tabs.get_Settings"
   },
-  "Tabs_SettingsDescription": {
-    "message": "Basic settings options",
-    "description": "Tabs..ctor"
-  },
-  "Tabs_Display": {
-    "message": "Display",
-    "description": "Tabs..ctor"
-  },
-  "Tabs_DisplayDescription": {
-    "message": "How warnings display",
-    "description": "Tabs..ctor"
-  },
-  "Tabs_Modules": {
-    "message": "Modules",
-    "description": "Tabs..ctor"
-  },
-  "Tabs_ModulesDescription": {
-    "message": "Configure each module",
-    "description": "Tabs..ctor"
+  "BannerOverlay_BorderThickness": {
+    "message": "Épaisseur de bordure",
+    "description": "BannerOverlay.get_BorderThickness"
   },
   "BannerOverlay_Label": {
-    "message": "Banner Overlay",
-    "description": "BannerOverlay..ctor"
+    "message": "Overlay de la bannière",
+    "description": "BannerOverlay.get_Label"
   },
   "BannerOverlay_ConfigurationLabel": {
-    "message": "Warning Banner Overlay Configuration",
-    "description": "BannerOverlay..ctor"
-  },
-  "BannerOverlay_WarningCountDescription": {
-    "message": "Maximum number of players to display",
-    "description": "BannerOverlay..ctor"
+    "message": "Configuration de l’overlay de la bannière",
+    "description": "BannerOverlay.get_ConfigurationLabel"
   },
   "BannerOverlay_WarningCount": {
-    "message": "Player Count",
-    "description": "BannerOverlay..ctor"
-  },
-  "BannerOverlay_TopPriorityDescription": {
-    "message": "Display only one warning at a time",
-    "description": "BannerOverlay..ctor"
-  },
-  "BannerOverlay_ListMode": {
-    "message": "List",
-    "description": "BannerOverlay..ctor"
+    "message": "Nombre de joueurs",
+    "description": "BannerOverlay.get_WarningCount"
   },
   "BannerOverlay_ListModeDescription": {
-    "message": "Displays warnings from multiple party members at the same time",
-    "description": "BannerOverlay..ctor"
+    "message": "Affiche les avertissements de plusieurs membres du groupe en même temps",
+    "description": "BannerOverlay.get_ListModeDescription"
+  },
+  "BannerOverlay_TopPriorityDescription": {
+    "message": "Afficher un seul avertissement à la fois",
+    "description": "BannerOverlay.get_TopPriorityDescription"
+  },
+  "BannerOverlay_ListMode": {
+    "message": "Liste",
+    "description": "BannerOverlay.get_ListMode"
   },
   "BannerOverlay_TopPriorityMode": {
-    "message": "Single",
-    "description": "BannerOverlay..ctor"
+    "message": "Seul",
+    "description": "BannerOverlay.get_TopPriorityMode"
   },
   "BannerOverlay_ListModeOptions": {
-    "message": "List Mode Options",
-    "description": "BannerOverlay..ctor"
+    "message": "Options de la liste",
+    "description": "BannerOverlay.get_ListModeOptions"
   },
   "BannerOverlay_RepositionMode": {
-    "message": "Repositioning",
-    "description": "BannerOverlay..ctor"
+    "message": "Mode d'échantillonnage - Permet le repositionnement",
+    "description": "BannerOverlay.get_RepositionMode"
   },
   "BannerOverlay_ExclamationMark": {
-    "message": "Show Exclamation Mark",
-    "description": "BannerOverlay..ctor"
+    "message": "Afficher le point d'exclamation",
+    "description": "BannerOverlay.get_ExclamationMark"
   },
   "BannerOverlay_WarningText": {
-    "message": "Show Text",
-    "description": "BannerOverlay..ctor"
+    "message": "Afficher le texte",
+    "description": "BannerOverlay.get_WarningText"
   },
   "BannerOverlay_Icon": {
-    "message": "Show Icon",
-    "description": "BannerOverlay..ctor"
-  },
-  "BannerOverlay_UnlockToSave": {
-    "message": "Lock to Apply",
-    "description": "BannerOverlay..ctor"
+    "message": "Afficher l'icône",
+    "description": "BannerOverlay.get_Icon"
   },
   "BannerOverlay_PlayerNames": {
-    "message": "Show Player Names",
-    "description": "BannerOverlay..ctor"
+    "message": "Afficher le nom des joueurs",
+    "description": "BannerOverlay.get_PlayerNames"
   },
   "BannerOverlay_IconText": {
-    "message": "Show Icon Text",
-    "description": "BannerOverlay..ctor"
+    "message": "Afficher le texte de l'icône",
+    "description": "BannerOverlay.get_IconText"
+  },
+  "BannerOverlay_Button": {
+    "message": "Overlay de la bannière",
+    "description": "BannerOverlay.get_Button"
+  },
+  "BannerOverlay_SoloMode": {
+    "message": "Mode Solo",
+    "description": "BannerOverlay.get_SoloMode"
+  },
+  "BannerOverlay_SoloModeHelp": {
+    "message": "N'afficher que les avertissements que vous avez générés",
+    "description": "BannerOverlay.get_SoloModeHelp"
   },
   "PartyOverlay_Label": {
-    "message": "Party Frame Overlay",
-    "description": "PartyOverlay..ctor"
+    "message": "Overlay du cadre de groupe",
+    "description": "PartyOverlay.get_Label"
   },
   "PartyOverlay_ConfigurationLabel": {
-    "message": "Party Frame Overlay Configuration",
-    "description": "PartyOverlay..ctor"
+    "message": "Configuration de l’overlay du cadre de groupe",
+    "description": "PartyOverlay.get_ConfigurationLabel"
   },
   "PartyOverlay_JobIcons": {
-    "message": "Job Icon",
-    "description": "PartyOverlay..ctor"
+    "message": "Icône du Job",
+    "description": "PartyOverlay.get_JobIcon"
   },
   "PartyOverlay_PlayerName": {
-    "message": "Player Name",
-    "description": "PartyOverlay..ctor"
+    "message": "Nom du Joueur",
+    "description": "PartyOverlay.get_PlayerName"
   },
   "PartyOverlay_WarningText": {
-    "message": "Warning Text",
-    "description": "PartyOverlay..ctor"
+    "message": "Texte d’avertissement",
+    "description": "PartyOverlay.get_WarningText"
   },
   "PartyOverlay_FlashingEffects": {
-    "message": "Flashing Effects",
-    "description": "PartyOverlay..ctor"
+    "message": "Effets clignotants",
+    "description": "PartyOverlay.get_FlashingEffects"
   },
   "PartyOverlay_ColorOptions": {
-    "message": "Color Options",
-    "description": "PartyOverlay..ctor"
+    "message": "Options de couleurs",
+    "description": "PartyOverlay.get_ColorOptions"
   },
   "PartyOverlay_WarningOutlineColor": {
-    "message": "Name Outline",
-    "description": "PartyOverlay..ctor"
+    "message": "Contour du nom",
+    "description": "PartyOverlay.get_WarningOutlineColor"
   },
-  "TippyDisplay_Label": {
-    "message": "Tippy Display",
-    "description": "TippyDisplay..ctor"
-  },
-  "TippyDisplay_ConfigurationLabel": {
-    "message": "Tippy Display Configuration",
-    "description": "TippyDisplay..ctor"
-  },
-  "TippyDisplay_WarningFrequency": {
-    "message": "Warning Frequency",
-    "description": "TippyDisplay..ctor"
-  },
-  "TippyDisplay_TippyNotInstalled": {
-    "message": "Tippy Plugin is Not Installed",
-    "description": "TippyDisplay..ctor"
-  },
-  "TippyDisplay_TippyNotInstalledInstructions": {
-    "message": "Install Tippy to access these features",
-    "description": "TippyDisplay..ctor"
+  "PartyOverlay_Button": {
+    "message": "Overlay du cadre de groupe",
+    "description": "PartyOverlay.get_Button"
   },
   "Blacklist_Label": {
-    "message": "Blacklist",
-    "description": "Blacklist..ctor"
+    "message": "Liste noire",
+    "description": "Blacklist.get_Label"
+  },
+  "Blacklist_Button": {
+    "message": "Paramètres de la liste noire",
+    "description": "Blacklist.get_Button"
   },
   "Blacklist_CurrentStatus": {
-    "message": "Blacklisted Zones",
-    "description": "Blacklist..ctor"
+    "message": "Zones sur liste noire",
+    "description": "Blacklist.get_CurrentStatus"
   },
   "Blacklist_Empty": {
-    "message": "Blacklist is empty",
-    "description": "Blacklist..ctor"
+    "message": "Liste noire vide",
+    "description": "Blacklist.get_Empty"
   },
   "Blacklist_Here": {
-    "message": "Add Here",
-    "description": "Blacklist..ctor"
+    "message": "Ajouter ici",
+    "description": "Blacklist.get_Here"
   },
   "Blacklist_CurrentLocation": {
-    "message": "Currently in {0}",
-    "description": "Blacklist..ctor"
+    "message": "Présent dans {0}",
+    "description": "Blacklist.get_CurrentLocation"
   },
   "Blacklist_ID": {
-    "message": "Add by zone ID",
-    "description": "Blacklist..ctor"
+    "message": "Ajouter par ID de zone",
+    "description": "Blacklist.get_ID"
   },
   "Blacklist_Name": {
-    "message": "Add by zone name",
-    "description": "Blacklist..ctor"
+    "message": "Ajouter par nom de zone",
+    "description": "Blacklist.get_Name"
   },
   "Configuration_NoSelection": {
-    "message": "Select an item to configure in the left pane",
-    "description": "Configuration..ctor"
+    "message": "Sélectionner un élément à configurer dans le panneau de gauche",
+    "description": "Configuration.get_NoSelection"
   },
   "Configuration_Enable": {
-    "message": "Enable",
-    "description": "Configuration..ctor"
+    "message": "Activer",
+    "description": "Configuration.get_Enable"
   },
   "Configuration_SoloMode": {
-    "message": "Solo Mode",
-    "description": "Configuration..ctor"
+    "message": "Mode Solo",
+    "description": "Configuration.get_SoloMode"
   },
   "Configuration_DutiesOnly": {
-    "message": "Duties Only",
-    "description": "Configuration..ctor"
+    "message": "Seulement dans les donjons",
+    "description": "Configuration.get_DutiesOnly"
   },
   "Configuration_HideInSanctuary": {
-    "message": "Hide in Sanctuaries",
-    "description": "Configuration..ctor"
+    "message": "Masquer dans les sanctuaires",
+    "description": "Configuration.get_HideInSanctuary"
   },
   "Configuration_DutiesOnlyHelp": {
-    "message": "When enabled will only show warnings while you are in a duty\nWhen disabled will show warnings everywhere",
-    "description": "Configuration..ctor"
+    "message": "Lorsque cette option est activée, les avertissements ne s'afficheront que lorsque vous êtes dans un donjon\nLorsque cette option est désactivée, les avertissement s'afficheront tout le temps",
+    "description": "Configuration.get_DutiesOnlyHelp"
+  },
+  "Configuration_SoloModeHelp": {
+    "message": "Lorsque cette option est activée, seuls les avertissements personnels seront évalués",
+    "description": "Configuration.get_SoloModeHelp"
+  },
+  "Configuration_PreviewMode": {
+    "message": "Mode de prélèvement",
+    "description": "Configuration.get_PreviewMode"
   },
   "Commands_Add": {
-    "message": "Add",
-    "description": "Commands..ctor"
+    "message": "Ajouter",
+    "description": "Commands.get_Add"
   },
   "Commands_Remove": {
-    "message": "Remove",
-    "description": "Commands..ctor"
-  },
-  "Commands_Help": {
-    "message": "NoTankYou Commands:\n/nty blu (on | off) - Toggle Blue Mage Module\n/nty dnc (on | off) - Toggle Dancer Module\n/nty food (on | off) - Toggle Food Module\n/nty fc (on | off) - Toggle Free Company Module\n/nty sge (on | off) - Toggle Sage Module\n/nty sch (on | off) - Toggle Scholar Module\n/nty smn (on | off) - Toggle Summoner Module\n/nty tanks (on | off) - Toggle Tanks Module\n/nty partyoverlay (on | off) - Toggle Party Overlay\n/nty banneroverlay (on | off) - Toggle Banner Overlay\n/nty tippyoverlay (on | off) - Toggle Tippy Overlay",
-    "description": "Commands..ctor"
-  },
-  "TippyMessages_Tank1": {
-    "message": "I noticed your tank doesn't have their stance on. This means it's your job to pull mobs!",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Tank2": {
-    "message": "If your tank forgot to turn on stance, do not politely let them know. Instead, report them and post it to /r/TalesFromDF for karma.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Tank3": {
-    "message": "Remember, there is no difference between a tank without stance on and a tank that doesn't use their AOEs during trash pulls.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Tank4": {
-    "message": "It's okay if your tank doesn't have stance on. They get beaten up enough in real life. Let them have a break.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Food1": {
-    "message": "You're looking a little thin there, you should probably eat something.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Food2": {
-    "message": "I see you don't have a food buff... Probably a wise choice.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Food3": {
-    "message": "If you ate two portions I wouldn't have to bug you as often.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Summoner1": {
-    "message": "Your summoner abandoned their Carbuncle somewhere. Please report this abuse to the Arcanist's Guild as soon as possible.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Summoner2": {
-    "message": "Playing with legos is more fun with a Carbuncle!",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Summoner3": {
-    "message": "Your summoner is looking a bit lonely, maybe they should try to 'make' a friend.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Dancer1": {
-    "message": "If you're wondering why your Dancer couldn't find a partner, it's because they haven't showered in a month.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Dancer2": {
-    "message": "I certainly don't want to do a square dance with my Dance Partner.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Dancer3": {
-    "message": "Remember to regularly rotate your Dance Partner so nobody feels left out during prom!",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Dancer4": {
-    "message": "Remember to add Dance Partner to the healer so you get maximum healing.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Scholar1": {
-    "message": "Be very gentle to your party's Scholar. Seraph broke up with them last week and they have yet to get over it.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Scholar2": {
-    "message": "Eos is out for a Pumpkin Spice Latte, it's your job to heal now, good luck.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Scholar3": {
-    "message": "Just writing fanfics about Selene is not enough to summon them. A Scholar must cast the appropriate spells to make their waifu real.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Sage1": {
-    "message": "Please remind your Sage that they are not playing WoW. Healers are required to do DPS to be effective in this game.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Sage2": {
-    "message": "Apply Kardion to the DPS so you don't have to worry about healing them!",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Sage3": {
-    "message": "Apply Kardion to yourself because nobody else is as deserving.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_Sage4": {
-    "message": "If anyone begs for you to apply Kardia to the tank tell them you can't - you can only give yourself Kardia. Other players receive Kardion.",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_FreeCompany1": {
-    "message": "Avoid the social anxiety of telling your FC lead to renew buffs by simply leaving your FC!",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_FreeCompany2": {
-    "message": "No luck with the spinner during Jumbo Cactpot? Spin your FC buffs instead!",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_FreeCompany3": {
-    "message": "Free Company buffs are pay to win anyways, who needs them?",
-    "description": "TippyMessages..ctor"
-  },
-  "TippyMessages_AetherialMimicry1": {
-    "message": "Without Aetherial Mimicry, a Blue Mage is weak and unspecialized. Like your average pink-haired catgirl in Limsa Lominsa.",
-    "description": "TippyBlueMageMessages..ctor"
-  },
-  "TippyMessages_AetherialMimicry2": {
-    "message": "If only blue mage could pretend as hard as you, they wouldn't need to use Aetherial Mimicry.",
-    "description": "TippyBlueMageMessages..ctor"
-  },
-  "TippyMessages_AetherialMimicry3": {
-    "message": "Is that a bird? a plane? no? That's a blue mage without Aetherial Mimicry.",
-    "description": "TippyBlueMageMessages..ctor"
-  },
-  "TippyMessages_BasicInstinct1": {
-    "message": "If you had any Basic Instinct you'd know to not play Blue Mage.",
-    "description": "TippyBlueMageMessages..ctor"
-  },
-  "TippyMessages_BasicInstinct2": {
-    "message": "It looks like everyone else is dead or gone, hope you have good Basic Instincts.",
-    "description": "TippyBlueMageMessages..ctor"
-  },
-  "TippyMessages_BasicInstinct3": {
-    "message": "That was good Basic Instinct to get rid of all your 'friends'.",
-    "description": "TippyBlueMageMessages..ctor"
-  },
-  "TippyMessages_MightyGuard1": {
-    "message": "Did you know a Blue Mage can also function as a tank? They're both blue, and they both have a Mighty Guard!",
-    "description": "TippyBlueMageMessages..ctor"
-  },
-  "TippyMessages_MightyGuard2": {
-    "message": "How do you expect a Blue Mage to block attacks with their face, if they don't have their Mighty Guard up?",
-    "description": "TippyBlueMageMessages..ctor"
-  },
-  "TippyMessages_MightyGuard3": {
-    "message": "The Blue Mage is looking rather un guarded, time to pull some pranks!",
-    "description": "TippyBlueMageMessages..ctor"
+    "message": "Enlever",
+    "description": "Commands.get_Remove"
   }
 }
