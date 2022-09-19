@@ -35,7 +35,7 @@ internal class SelectionFrame : IDrawable
     public void Draw()
     {
         var regionAvailable = ImGui.GetContentRegionAvail();
-        var bottomPadding =  50.0f * ImGuiHelpers.GlobalScale;
+        var bottomPadding =  100.0f * ImGuiHelpers.GlobalScale;
 
         if (ImGui.BeginChild("###SelectionFrame", new Vector2(regionAvailable.X * Weight, 0), false))
         {
@@ -116,27 +116,20 @@ internal class SelectionFrame : IDrawable
 
     public void DrawExtras()
     {
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(2.0f, 0.0f));
+        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0.0f, 3.0f));
+        
+        DrawPartyOverlayButton(ImGui.GetContentRegionAvail().X);
 
-        var contentRegion = ImGui.GetContentRegionAvail();
-        var buttonWidth = contentRegion.X / 3.0f - 2.0f * ImGuiHelpers.GlobalScale;
+        DrawBannerOverlayButton(ImGui.GetContentRegionAvail().X);
 
-        DrawPartyOverlayButton(buttonWidth);
-
-        ImGui.SameLine();
-
-        DrawBannerOverlayButton(buttonWidth);
-
-        ImGui.SameLine();
-
-        DrawBlacklistConfigurationButton(buttonWidth);
+        DrawBlacklistConfigurationButton(ImGui.GetContentRegionAvail().X);
 
         ImGui.PopStyleVar();
     }
 
     private void DrawBlacklistConfigurationButton(float buttonWidth)
     {
-        if (ImGui.Button(Strings.TabItems.Blacklist.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        if (ImGui.Button(Strings.TabItems.Blacklist.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             var window = Service.WindowManager.GetWindowOfType<BlacklistConfigurationWindow>()!;
             window.IsOpen = !window.IsOpen;
