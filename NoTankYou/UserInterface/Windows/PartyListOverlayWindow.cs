@@ -74,6 +74,8 @@ internal class PartyListOverlayWindow : Window
     public override void PreOpenCheck()
     {
         IsOpen = ShouldOpenWindow();
+
+        if (!IsOpen) ResetAllAnimation();
     }
 
     public override void Update()
@@ -142,11 +144,6 @@ internal class PartyListOverlayWindow : Window
 
         if (AnimationStopwatch.ElapsedMilliseconds >= 1300)
             AnimationStopwatch.Restart();
-    }
-
-    public override void OnClose()
-    {
-        ResetAllAnimation();
     }
 
     private void DisplayWarning(WarningState warning, PartyListAddonData player)
