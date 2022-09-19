@@ -23,11 +23,6 @@ internal class BannerOverlayWindow : Window, IDisposable
     private int WarningsDisplayed;
     private readonly WarningState DemoWarning;
 
-    private delegate bool IsInSanctuary();
-
-    [Signature("E8 ?? ?? ?? ?? 84 C0 75 21 48 8B 4F 10")]
-    private readonly IsInSanctuary SanctuaryFunction = null!;
-
     private bool InSanctuaryArea;
 
     public BannerOverlayWindow() : base($"###BannerOverlay+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
@@ -87,7 +82,7 @@ internal class BannerOverlayWindow : Window, IDisposable
 
     public override void Update()
     {
-        InSanctuaryArea = SanctuaryFunction();
+        InSanctuaryArea = FFXIVClientStructs.FFXIV.Client.Game.GameMain.IsInSanctuary();
     }
 
     public override void PreDraw()
