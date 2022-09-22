@@ -300,7 +300,7 @@
     "description": "BannerOverlay.get_Label"
   },
   "BannerOverlay_ConfigurationLabel": {
-    "message": "Configuración de los rótulos",
+    "message": "Configuración del Banner",
     "description": "BannerOverlay.get_ConfigurationLabel"
   },
   "BannerOverlay_WarningCount": {
@@ -352,7 +352,7 @@
     "description": "BannerOverlay.get_IconText"
   },
   "BannerOverlay_Button": {
-    "message": "Banner Overlay",
+    "message": "Overlay tipo Banner",
     "description": "BannerOverlay.get_Button"
   },
   "BannerOverlay_SoloMode": {
@@ -396,7 +396,7 @@
     "description": "PartyOverlay.get_WarningOutlineColor"
   },
   "PartyOverlay_Button": {
-    "message": "Party Frame Overlay",
+    "message": "Overlay de la lista de party",
     "description": "PartyOverlay.get_Button"
   },
   "Blacklist_Label": {
@@ -404,7 +404,7 @@
     "description": "Blacklist.get_Label"
   },
   "Blacklist_Button": {
-    "message": "Blacklist Settings",
+    "message": "Ajustes de Lista Negra",
     "description": "Blacklist.get_Button"
   },
   "Blacklist_CurrentStatus": {
