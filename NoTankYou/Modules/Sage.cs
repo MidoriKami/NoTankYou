@@ -87,6 +87,8 @@ internal class Sage : IModule
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
+            if (character.Level < 4) return null;
+
             if (!character.HasStatus(KardiaStatusID))
             {
                 return new WarningState
