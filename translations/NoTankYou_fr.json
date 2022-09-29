@@ -4,7 +4,7 @@
     "description": "Tank.get_Label"
   },
   "Tank_WarningText": {
-    "message": "Stance de Tank manquante",
+    "message": "Posture de Tank manquante",
     "description": "Tank.get_WarningText"
   },
   "Tank_WarningTextShort": {
@@ -24,7 +24,7 @@
     "description": "FreeCompany.get_Label"
   },
   "FreeCompany_WarningText": {
-    "message": "Bienfaits de Compagnie Libre manquant",
+    "message": "Bienfaits de Compagnie Libre manquants",
     "description": "FreeCompany.get_WarningText"
   },
   "FreeCompany_WarningTextShort": {
@@ -32,7 +32,7 @@
     "description": "FreeCompany.get_WarningTextShort"
   },
   "FreeCompany_Any": {
-    "message": "Tous",
+    "message": "N'importe lequel",
     "description": "FreeCompany.get_Any"
   },
   "FreeCompany_Specific": {
@@ -44,7 +44,7 @@
     "description": "FreeCompany.get_BuffCount"
   },
   "FreeCompany_BuffSelection": {
-    "message": "Sélection de Buffs",
+    "message": "Sélection de buffs",
     "description": "FreeCompany.get_BuffSelection"
   },
   "Dancer_Label": {
@@ -52,7 +52,7 @@
     "description": "Dancer.get_Label"
   },
   "Dancer_WarningText": {
-    "message": "Partenaire de Danse Manquant",
+    "message": "Partenaire de Danse manquant",
     "description": "Dancer.get_WarningText"
   },
   "Dancer_WarningTextShort": {
@@ -60,7 +60,7 @@
     "description": "Dancer.get_WarningTextShort"
   },
   "Food_Label": {
-    "message": "Plat ou boisson",
+    "message": "Nourriture",
     "description": "Food.get_Label"
   },
   "Food_WarningText": {
@@ -68,23 +68,23 @@
     "description": "Food.get_WarningText"
   },
   "Food_EarlyWarningLabel": {
-    "message": "Délai d’avertissement précoce",
+    "message": "Timer d'avertissement anticipé",
     "description": "Food.get_EarlyWarningLabel"
   },
   "Food_ZoneFilters": {
-    "message": "Filtre de zone",
+    "message": "Filtres par zone",
     "description": "Food.get_ZoneFilters"
   },
   "Food_ZoneFiltersDescription": {
-    "message": "Afficher l'avertissement uniquement dans les zones suivantes",
+    "message": "N'afficher l'avertissement que dans ces zones",
     "description": "Food.get_ZoneFiltersDescription"
   },
   "Food_AdditionalOptionsLabel": {
-    "message": "Autres options",
+    "message": "Options additionnelles",
     "description": "Food.get_AdditionalOptionsLabel"
   },
   "Food_SuppressInCombat": {
-    "message": "Retirer en combat",
+    "message": "Masquer en combat",
     "description": "Food.get_SuppressInCombat"
   },
   "Sage_Label": {
@@ -104,11 +104,11 @@
     "description": "Scholar.get_Label"
   },
   "Scholar_WarningText": {
-    "message": "Invocation de fées manquante",
+    "message": "Fée non-invoquée",
     "description": "Scholar.get_WarningText"
   },
   "Scholar_WarningTextShort": {
-    "message": "Invocation de fées",
+    "message": "Invocation de Fée",
     "description": "Scholar.get_WarningTextShort"
   },
   "Summoner_Label": {
@@ -116,7 +116,7 @@
     "description": "Summoner.get_Label"
   },
   "Summoner_WarningText": {
-    "message": "Invocation de familier manquante",
+    "message": "Familier non-invoqué",
     "description": "Summoner.get_WarningText"
   },
   "Summoner_WarningTextShort": {
@@ -124,19 +124,19 @@
     "description": "Summoner.get_WarningTextShort"
   },
   "BlueMage_Label": {
-    "message": "Mage Bleu",
+    "message": "Mage bleu",
     "description": "BlueMage.get_Label"
   },
   "BlueMage_Mimicry": {
-    "message": "Imitation éthéréenne manquant",
+    "message": "Imitation éthéréenne manquante",
     "description": "BlueMage.get_Mimicry"
   },
   "BlueMage_MightyGuard": {
-    "message": "Garde Puissante manquant",
+    "message": "Garde puissante manquante",
     "description": "BlueMage.get_MightyGuard"
   },
   "BlueMage_BasicInstinct": {
-    "message": "Instinct Profond manquant",
+    "message": "Instinct profond manquant",
     "description": "BlueMage.get_BasicInstinct"
   },
   "BlueMage_MimicryLabel": {
@@ -144,7 +144,7 @@
     "description": "BlueMage.get_MimicryLabel"
   },
   "BlueMage_MightyGuardLabel": {
-    "message": "Garde Puissante",
+    "message": "Garde puissante",
     "description": "BlueMage.get_MightyGuardLabel"
   },
   "BlueMage_BasicInstinctLabel": {
@@ -152,15 +152,15 @@
     "description": "BlueMage.get_BasicInstinctLabel"
   },
   "SpiritBond_Label": {
-    "message": "Lien spirituel",
+    "message": "Essence de symbiose",
     "description": "SpiritBond.get_Label"
   },
   "SpiritBond_WarningText": {
-    "message": "Lien spirituel manquant",
+    "message": "Essence de symbiose manquante",
     "description": "SpiritBond.get_WarningText"
   },
   "SpiritBond_EarlyWarningLabel": {
-    "message": "Délai d’avertissement précoce",
+    "message": "Timer d'avertissement anticipé",
     "description": "SpiritBond.get_EarlyWarningLabel"
   },
   "SpiritBond_ZoneFilters": {
@@ -172,11 +172,11 @@
     "description": "SpiritBond.get_ZoneFiltersDescription"
   },
   "SpiritBond_AdditionalOptionsLabel": {
-    "message": "Autres options",
+    "message": "Options additionnelles",
     "description": "SpiritBond.get_AdditionalOptionsLabel"
   },
   "SpiritBond_SuppressInCombat": {
-    "message": "Retirer en combat",
+    "message": "Masquer en combat",
     "description": "SpiritBond.get_SuppressInCombat"
   },
   "Labels_Enabled": {
@@ -236,7 +236,7 @@
     "description": "Labels.get_GrandCompany"
   },
   "Labels_DeepDiveDungeon": {
-    "message": "PotD/HoH",
+    "message": "PdM/PdC",
     "description": "Labels.get_DeepDiveDungeon"
   },
   "Labels_Eureka": {
@@ -252,15 +252,15 @@
     "description": "Labels.get_Unknown"
   },
   "Labels_AdditionalOptions": {
-    "message": "Autres options",
+    "message": "Options additionnelles",
     "description": "Labels.get_AdditionalOptions"
   },
   "Labels_Savage": {
-    "message": "Sauvage",
+    "message": "Sadique",
     "description": "Labels.get_Savage"
   },
   "Labels_Ultimate": {
-    "message": "Ultime",
+    "message": "Fatal",
     "description": "Labels.get_Ultimate"
   },
   "Labels_ExtremeUnreal": {
@@ -284,7 +284,7 @@
     "description": "Labels.get_DisplayOptions"
   },
   "Labels_Scale": {
-    "message": "Dimensionner",
+    "message": "Redimensionner",
     "description": "Labels.get_Scale"
   },
   "Tabs_Settings": {
@@ -296,23 +296,23 @@
     "description": "BannerOverlay.get_BorderThickness"
   },
   "BannerOverlay_Label": {
-    "message": "Overlay de la bannière",
+    "message": "Overlay de bannière",
     "description": "BannerOverlay.get_Label"
   },
   "BannerOverlay_ConfigurationLabel": {
-    "message": "Configuration de l’overlay de la bannière",
+    "message": "Configuration de l’overlay de bannière",
     "description": "BannerOverlay.get_ConfigurationLabel"
   },
   "BannerOverlay_WarningCount": {
-    "message": "Nombre de joueurs",
+    "message": "Nombre de personnages",
     "description": "BannerOverlay.get_WarningCount"
   },
   "BannerOverlay_ListModeDescription": {
-    "message": "Affiche les avertissements de plusieurs membres du groupe en même temps",
+    "message": "Affiche simultanément les avertissements pour chacun des membres de l'équipe",
     "description": "BannerOverlay.get_ListModeDescription"
   },
   "BannerOverlay_TopPriorityDescription": {
-    "message": "Afficher un seul avertissement à la fois",
+    "message": "N'affiche qu'un seul avertissement à la fois",
     "description": "BannerOverlay.get_TopPriorityDescription"
   },
   "BannerOverlay_ListMode": {
@@ -320,15 +320,15 @@
     "description": "BannerOverlay.get_ListMode"
   },
   "BannerOverlay_TopPriorityMode": {
-    "message": "Seul",
+    "message": "Unique",
     "description": "BannerOverlay.get_TopPriorityMode"
   },
   "BannerOverlay_ListModeOptions": {
-    "message": "Options de la liste",
+    "message": "Options du mode Liste",
     "description": "BannerOverlay.get_ListModeOptions"
   },
   "BannerOverlay_RepositionMode": {
-    "message": "Mode d'échantillonnage - Permet le repositionnement",
+    "message": "Mode prévisualisation - Permet le repositionnement",
     "description": "BannerOverlay.get_RepositionMode"
   },
   "BannerOverlay_ExclamationMark": {
@@ -344,7 +344,7 @@
     "description": "BannerOverlay.get_Icon"
   },
   "BannerOverlay_PlayerNames": {
-    "message": "Afficher le nom des joueurs",
+    "message": "Afficher le nom des personnages concernés",
     "description": "BannerOverlay.get_PlayerNames"
   },
   "BannerOverlay_IconText": {
@@ -352,7 +352,7 @@
     "description": "BannerOverlay.get_IconText"
   },
   "BannerOverlay_Button": {
-    "message": "Overlay de la bannière",
+    "message": "Overlay de bannière",
     "description": "BannerOverlay.get_Button"
   },
   "BannerOverlay_SoloMode": {
@@ -360,15 +360,15 @@
     "description": "BannerOverlay.get_SoloMode"
   },
   "BannerOverlay_SoloModeHelp": {
-    "message": "N'afficher que les avertissements que vous avez générés",
+    "message": "N'afficher que les avertissements vous concernant",
     "description": "BannerOverlay.get_SoloModeHelp"
   },
   "PartyOverlay_Label": {
-    "message": "Overlay du cadre de groupe",
+    "message": "Overlay de liste d'équipe",
     "description": "PartyOverlay.get_Label"
   },
   "PartyOverlay_ConfigurationLabel": {
-    "message": "Configuration de l’overlay du cadre de groupe",
+    "message": "Configuration de l’overlay de liste d'équipe",
     "description": "PartyOverlay.get_ConfigurationLabel"
   },
   "PartyOverlay_JobIcons": {
@@ -396,7 +396,7 @@
     "description": "PartyOverlay.get_WarningOutlineColor"
   },
   "PartyOverlay_Button": {
-    "message": "Overlay du cadre de groupe",
+    "message": "Overlay de liste d'équipe",
     "description": "PartyOverlay.get_Button"
   },
   "Blacklist_Label": {
@@ -416,11 +416,11 @@
     "description": "Blacklist.get_Empty"
   },
   "Blacklist_Here": {
-    "message": "Ajouter ici",
+    "message": "Ajouter votre localisation actuelle",
     "description": "Blacklist.get_Here"
   },
   "Blacklist_CurrentLocation": {
-    "message": "Présent dans {0}",
+    "message": "Vous vous trouvez actuellement dans {0}",
     "description": "Blacklist.get_CurrentLocation"
   },
   "Blacklist_ID": {
@@ -436,7 +436,7 @@
     "description": "Configuration.get_NoSelection"
   },
   "Configuration_Enable": {
-    "message": "Activer",
+    "message": "Activé",
     "description": "Configuration.get_Enable"
   },
   "Configuration_SoloMode": {
@@ -444,7 +444,7 @@
     "description": "Configuration.get_SoloMode"
   },
   "Configuration_DutiesOnly": {
-    "message": "Seulement dans les donjons",
+    "message": "Seulement durant les missions",
     "description": "Configuration.get_DutiesOnly"
   },
   "Configuration_HideInSanctuary": {
@@ -452,15 +452,15 @@
     "description": "Configuration.get_HideInSanctuary"
   },
   "Configuration_DutiesOnlyHelp": {
-    "message": "Lorsque cette option est activée, les avertissements ne s'afficheront que lorsque vous êtes dans un donjon\nLorsque cette option est désactivée, les avertissement s'afficheront tout le temps",
+    "message": "Lorsque cette option est activée, les avertissements ne s'afficheront que lorsque vous êtes en mission\nSi elle est désactivée, ils s'afficheront en permanence",
     "description": "Configuration.get_DutiesOnlyHelp"
   },
   "Configuration_SoloModeHelp": {
-    "message": "Lorsque cette option est activée, seuls les avertissements personnels seront évalués",
+    "message": "Lorsque cette option est activée, les avertissements ne vous concernant pas seront ignorés",
     "description": "Configuration.get_SoloModeHelp"
   },
   "Configuration_PreviewMode": {
-    "message": "Mode de prélèvement",
+    "message": "Mode prévisualisation",
     "description": "Configuration.get_PreviewMode"
   },
   "Commands_Add": {
@@ -468,7 +468,7 @@
     "description": "Commands.get_Add"
   },
   "Commands_Remove": {
-    "message": "Enlever",
+    "message": "Retirer",
     "description": "Commands.get_Remove"
   }
 }
