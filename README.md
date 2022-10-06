@@ -61,6 +61,7 @@ Configuration Window             |  Warning Appearance
 NoTankYou includes a zone blacklist that allows you to explicity state which zones you do not want **Any** warnings to appear. This is particularly useful for areas such as Bozja/Zadnor/Eureka
 
 Note: NoTankYou is entirely disabled while you are in PvP automatically
+
 ![image](https://user-images.githubusercontent.com/9083275/194430817-9ec4aaad-01fa-46d1-80fa-00a3b7073b5c.png)
 
 
