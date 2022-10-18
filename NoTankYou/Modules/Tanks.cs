@@ -122,6 +122,8 @@ internal class Tanks : IModule
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
+            if (character.Level < 10) return null;
+
             if (Settings.DisableInAllianceRaid.Value && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType)) return null;
 
             if (Settings.CheckAllianceStances.Value && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType))
