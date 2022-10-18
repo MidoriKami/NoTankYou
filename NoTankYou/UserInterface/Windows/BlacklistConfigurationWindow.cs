@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Interface;
@@ -16,7 +17,7 @@ namespace NoTankYou.UserInterface.Windows;
 
 internal record SearchResult(uint TerritoryID, string TerritoryName, string TerritoryIntendedUse);
 
-internal class BlacklistConfigurationWindow : Window
+internal class BlacklistConfigurationWindow : Window, IDisposable
 {
     private static BlacklistSettings Settings => Service.ConfigurationManager.CharacterConfiguration.Blacklist;
 
@@ -38,7 +39,7 @@ internal class BlacklistConfigurationWindow : Window
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(350 * (4.0f / 3.0f), 350),
+            MinimumSize = new Vector2(275 * (4.0f / 3.0f), 350),
             MaximumSize = new Vector2(9999, 9999)
         };
 

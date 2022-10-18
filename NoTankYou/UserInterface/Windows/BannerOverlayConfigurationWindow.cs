@@ -39,7 +39,7 @@ internal class BannerOverlayConfigurationWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(350 * (4.0f / 3.0f), 350),
+            MinimumSize = new Vector2(275 * (4.0f / 3.0f), 350),
             MaximumSize = new Vector2(9999,9999)
         };
 
@@ -77,12 +77,13 @@ internal class BannerOverlayConfigurationWindow : Window, IDisposable
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.PlayerNames, Settings.PlayerNames)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Icon, Settings.Icon)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.IconText, Settings.IconText)
-            .AddDragFloat(Strings.TabItems.BannerOverlay.BorderThickness, Settings.BorderThickness, 0.5f, 3.0f, 200.0f)
+            .AddString(Strings.TabItems.BannerOverlay.BorderThickness + ":")
+            .AddDragFloat("##BorderThickness", Settings.BorderThickness, 0.5f, 3.0f, DisplayOptions.InnerWidth)
             .Draw();
 
         ScaleOptions
             .AddTitle(Strings.Common.Labels.Scale)
-            .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, 200.0f)
+            .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, ScaleOptions.InnerWidth)
             .Draw();
 
         ModeSelect
@@ -100,7 +101,8 @@ internal class BannerOverlayConfigurationWindow : Window, IDisposable
         {
             ListModeOptions
                 .AddTitle(Strings.TabItems.BannerOverlay.ListModeOptions)
-                .AddSliderInt(Strings.TabItems.BannerOverlay.WarningCount, Settings.WarningCount, 1, 8)
+                .AddString(Strings.TabItems.BannerOverlay.WarningCount + ":")
+                .AddSliderInt("##PlayerWarningCount", Settings.WarningCount, 1, 8, DisplayOptions.InnerWidth)
                 .Draw();
         }
     }
