@@ -28,27 +28,19 @@ Configuration is split into three categories, Display, Modules, Settings.
 
 You can use the command `/nty help` to view a list of all available commands.
 
-![image](https://user-images.githubusercontent.com/9083275/177445912-c3b3bd08-91ce-4681-b1c5-177ee0ae0e7a.png)
-
-# Display
-
-The display tab is how you will enable and configure how NoTankYou will show you the warnings for your party members
-
-Currently there are three display options available, **Banner**, **Party Frame**, and **Tippy**
+![image](https://user-images.githubusercontent.com/9083275/194430187-f60ae9d5-04d0-43dd-be18-7ab2c30dacbf.png)
 
 ## Banner Overlay
 
 The Banner Overlay displays a warning banner with the warning info, player name of the player triggering the warning, and an icon indicating what the warning is regarding.
 
-The hide in sanctuaries option will prevent the warning banner for showing while you are in any area the game considers to be a sanctuary.
-
 This overlay can be configured to be anywhere on your screen with configurable scale, and display options. You can hide individual parts of the warning banner.
 
 The Banner Overlay will by default show up to 8 warnings at once, one for each party member, you can configure it to display fewer warnings.
 
-![image](https://user-images.githubusercontent.com/9083275/177445370-b9237ca6-25f7-4e6c-b301-e8ce161e0e07.png)
-
-![image](https://user-images.githubusercontent.com/9083275/177447625-465c87ff-e41c-42c5-9e28-5c0de41c22c6.png)
+Configuration Window             |  Warning Appearance
+:-------------------------:|:-------------------------:
+![image](https://user-images.githubusercontent.com/9083275/194428607-7b3db649-aec7-4acd-adf1-af1d2d26d03a.png) | ![image](https://user-images.githubusercontent.com/9083275/194427783-45b4d2f2-3778-4dfd-8f90-5e8b5cf53b03.png)
 
 ## Party Frame Overlay
 
@@ -60,77 +52,9 @@ You can configure individual parts to show or hide, and you can enable or disabl
 
 For accessability options for changing the color are provided.
 
-![YoloMouse_JVgwSjNQUg](https://user-images.githubusercontent.com/9083275/177447974-c2bfc46d-ac92-4bfe-a1bf-42f413074d02.gif)
-
-![image](https://user-images.githubusercontent.com/9083275/177448164-26836c51-5088-4980-9070-fe706fabf44d.png)
-
-## Tippy Display
-
-The Tippy Display requires the `Tippy` plugin to also be installed, if it is not installed you will see the following warning:
-
-![image](https://user-images.githubusercontent.com/9083275/177448338-fc48120a-df3d-4cc1-9c97-6224fdf28da9.png)
-
-With the Tippy Plugin installed NoTankYou will send warnings to be displayed via Tippy, the little semi-helpful rascal!
-
-![image](https://user-images.githubusercontent.com/9083275/177448484-1d380e28-87c6-4ef2-b4f1-eef3bbbc91b3.png)
-
-![image](https://user-images.githubusercontent.com/9083275/177448853-b6ed4eae-8a06-490c-b879-7d052befe775.png)
-
-# Modules
-
-The Modules tab lets you enable and disable warnings for specific classes or categories.
-
-![image](https://user-images.githubusercontent.com/9083275/177449217-c5c04ea2-a8ad-4bb4-bf6c-65c304d7de08.png)
-
-## Dancer, Sage, Scholar, Summoner
-
-Dancer, Sage, Scholar, and Summoner only have basic configuration options.
-
-Enable - Turn the warning on or off
-Solo Mode - Evaluate warnings for the player only, or evaluate the entire party
-Duties Only - Only trigger warnings for this module if you are in a duty
-Priority - Warning Priority, only the highest priority warning will be displayed per player
-
-Higher priority number is a higher priority, a warning with value 5 will be displayed before a warning with value 3
-
-![image](https://user-images.githubusercontent.com/9083275/177450914-e75ab16c-c0d0-4e1a-af90-8688b25358a9.png)
-
-
-## Blue Mage
-
-Blue Mage has the same basic settings as Dancer, Sage, Scholar, and Summoner.
-
-Blue Mage also has options to enable specific warnings for Aetherial Mimicry, Mighty Guard, and Basic Instinct.
-
-Aetherial Mimicry can not be used with the Duties Only option, as this warning is only valid while not in a duty.
-
-Basic Instinct will only display if you are alone and not in a party.
-
-![image](https://user-images.githubusercontent.com/9083275/177450924-45fef447-8784-4a20-9a6a-7180056302f3.png)
-
-## Tank
-
-Tank has the same basic settings as Dancer, Sage, Scholar, and Summoner.
-
-Tank also has options to disable warnings while in an Alliance raid, and an option to check other alliance members for tank stance.
-
-![image](https://user-images.githubusercontent.com/9083275/177450943-32e6dd40-af50-4c6d-a669-1efd4ee82f30.png)
-
-## Food
-
-The food module will evaluate yourself or partymembers for the "Well Fed" status effect, this feature is intended to be used by statics or consistent groups in difficult content.
-
-Options are provided to only show food warnings in specific types of duties, suppress warnings once combat has started, and a configurable early warning time to consider food "about to expire"
-
-![image](https://user-images.githubusercontent.com/9083275/177450681-c24d2a7d-1e0f-437a-a378-6f5fba68abe4.png)
-
-## Free Company
-
-The Free Company module can be configured to warn you when one or more free company buffs are missing. This feature is intended specifically for people running free companies to help they use their buffs before doing coordinated play.
-
-This module can be configured to warn when a specific number of any buffs are missing, or can be configured to warn when specific buffs are missing.
-
-![image](https://user-images.githubusercontent.com/9083275/177450868-2bf03c8c-566d-480a-89f6-eb94f33f55b0.png)
+Configuration Window             |  Warning Appearance
+:-------------------------:|:-------------------------:
+![image](https://user-images.githubusercontent.com/9083275/194430654-166fd1c5-8029-4da2-82ae-da9febddd832.png) |  ![YoloMouse_JVgwSjNQUg](https://user-images.githubusercontent.com/9083275/177447974-c2bfc46d-ac92-4bfe-a1bf-42f413074d02.gif)
 
 # Blacklist
 
@@ -138,6 +62,6 @@ NoTankYou includes a zone blacklist that allows you to explicity state which zon
 
 Note: NoTankYou is entirely disabled while you are in PvP automatically
 
-![image](https://user-images.githubusercontent.com/9083275/177451100-fcc41b28-1f69-40fb-9e1d-0e8194afdb37.png)
+![image](https://user-images.githubusercontent.com/9083275/194430817-9ec4aaad-01fa-46d1-80fa-00a3b7073b5c.png)
 
 
