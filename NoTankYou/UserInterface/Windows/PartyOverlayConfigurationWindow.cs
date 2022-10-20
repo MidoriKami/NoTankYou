@@ -26,11 +26,6 @@ internal class PartyOverlayConfigurationWindow : Window, IDisposable
 {
     private static PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
 
-    private readonly InfoBox DisplayOptions = new();
-    private readonly InfoBox ColorOptions = new();
-    private readonly InfoBox PreviewMode = new();
-    private readonly InfoBox SoloMode = new();
-
     public PartyOverlayConfigurationWindow() : base($"{Strings.TabItems.PartyOverlay.ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}" )
     {
         SizeConstraints = new WindowSizeConstraints
@@ -56,17 +51,17 @@ internal class PartyOverlayConfigurationWindow : Window, IDisposable
 
     public override void Draw()
     {
-        PreviewMode
+        InfoBox.Instance
             .AddTitle(Strings.Configuration.PreviewMode)
             .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.PreviewMode)
             .Draw();
 
-        SoloMode
+        InfoBox.Instance
             .AddTitle(Strings.TabItems.BannerOverlay.SoloMode)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.SoloMode, Settings.SoloMode, Strings.TabItems.BannerOverlay.SoloModeHelp)
             .Draw();
 
-        DisplayOptions
+        InfoBox.Instance
             .AddTitle(Strings.Common.Labels.DisplayOptions)
             .AddConfigCheckbox(Strings.TabItems.PartyOverlay.JobIcon, Settings.JobIcon)
             .AddConfigCheckbox(Strings.TabItems.PartyOverlay.PlayerName, Settings.PlayerName)
@@ -74,7 +69,7 @@ internal class PartyOverlayConfigurationWindow : Window, IDisposable
             .AddConfigCheckbox(Strings.TabItems.PartyOverlay.FlashingEffects, Settings.FlashingEffects)
             .Draw();
 
-        ColorOptions
+        InfoBox.Instance
             .AddTitle(Strings.TabItems.PartyOverlay.ColorOptions)
             .AddConfigColor(Strings.TabItems.PartyOverlay.WarningText, Settings.WarningTextColor)
             .AddConfigColor(Strings.TabItems.PartyOverlay.WarningOutlineColor, Settings.WarningOutlineColor)

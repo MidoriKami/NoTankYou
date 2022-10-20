@@ -37,4 +37,5 @@ public class Service
     internal static System.ContextManager ContextManager = null!;
     internal static System.IconManager IconManager = null!;
     internal static System.PartyListAddon PartyListAddon = null!;
+    internal static System.DutyLists DutyLists = null!;
 }

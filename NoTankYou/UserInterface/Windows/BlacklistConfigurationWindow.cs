@@ -21,12 +21,6 @@ internal class BlacklistConfigurationWindow : Window, IDisposable
 {
     private static BlacklistSettings Settings => Service.ConfigurationManager.CharacterConfiguration.Blacklist;
 
-    private readonly InfoBox Options = new();
-    private readonly InfoBox BlacklistStatus = new();
-    private readonly InfoBox AddHere = new();
-    private readonly InfoBox AddByID = new();
-    private readonly InfoBox AddByName = new();
-
     private static int _modifyBlacklistValue;
 
     private static readonly HashSet<SearchResult> AllTerritories = new();
@@ -72,29 +66,29 @@ internal class BlacklistConfigurationWindow : Window, IDisposable
 
     public override void Draw()
     {
-        Options
+        InfoBox.Instance
             .AddTitle(Strings.Common.Labels.Options)
             .AddConfigCheckbox(Strings.Configuration.Enable, Settings.Enabled)
             .Draw();
 
         if (Settings.Enabled.Value)
         {
-            BlacklistStatus
+            InfoBox.Instance
                 .AddTitle(Strings.TabItems.Blacklist.CurrentStatus)
                 .AddAction(DisplayBlacklistedAreas)
                 .Draw();
 
-            AddHere
+            InfoBox.Instance
                 .AddTitle(Strings.TabItems.Blacklist.Here)
                 .AddAction(AddRemoveHere)
                 .Draw();
 
-            AddByID
+            InfoBox.Instance
                 .AddTitle(Strings.TabItems.Blacklist.ID)
                 .AddAction(AddRemoveByID)
                 .Draw();
 
-            AddByName
+            InfoBox.Instance
                 .AddTitle(Strings.TabItems.Blacklist.Name)
                 .AddAction(AddRemoveByName)
                 .Draw();

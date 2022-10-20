@@ -40,13 +40,6 @@ internal class FreeCompany : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox GenericSettings = new();
-        private readonly InfoBox OverlaySettings = new();
-        private readonly InfoBox ExtraOptions = new();
-        private readonly InfoBox BuffCount = new();
-        private readonly InfoBox BuffSelectionBox = new();
-        private readonly InfoBox Options = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -54,13 +47,9 @@ internal class FreeCompany : IModule
 
         public void Draw()
         {
-            GenericSettings
-                .AddTitle(Strings.Common.Tabs.Settings)
-                .AddConfigCheckbox(Strings.Common.Labels.Enabled, Settings.Enabled)
-                .AddInputInt(Strings.Common.Labels.Priority, Settings.Priority, 0, 10)
-                .Draw();
-
-            ExtraOptions
+            InfoBox.DrawGenericSettings(Settings);
+            
+            InfoBox.Instance
                 .AddTitle(Strings.Common.Labels.ModeSelect)
                 .BeginTable()
                 .BeginRow()
@@ -70,30 +59,22 @@ internal class FreeCompany : IModule
                 .EndTable()
                 .Draw();
 
-            BuffCount
+            InfoBox.Instance
                 .AddTitle(Strings.Modules.FreeCompany.BuffCount)
                 .AddAction(DrawBuffCount)
                 .Draw();
 
             if (Settings.ScanMode.Value == FreeCompanyBuffScanMode.Specific)
             {
-                BuffSelectionBox
+                InfoBox.Instance
                     .AddTitle(Strings.Modules.FreeCompany.BuffSelection)
                     .AddAction(BuffSelection)
                     .Draw();
             }
 
-            OverlaySettings
-                .AddTitle(Strings.Common.Labels.DisplayOptions)
-                .AddConfigCheckbox(Strings.TabItems.PartyOverlay.Label, Settings.PartyFrameOverlay)
-                .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Label, Settings.BannerOverlay)
-                .Draw();
-
-            Options
-                .AddTitle(Strings.Common.Labels.Options)
-                .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, Settings.DisableInSanctuary)
-                .Draw();
-
+            InfoBox.DrawOverlaySettings(Settings);
+            
+            InfoBox.DrawOptions(Settings);
         }
 
         private void BuffSelection()

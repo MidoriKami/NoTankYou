@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Dalamud.Interface;
 using ImGuiNET;
+using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
+using NoTankYou.Localization;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.Components.InfoBox;
@@ -23,11 +26,41 @@ public class InfoBox : DrawList<InfoBox>, IDrawable
     public float ActualWidth { get; private set; }
     public float InnerWidth { get; private set; }
 
-    public InfoBox()
+    private InfoBox()
     {
         DrawListOwner = this;
     }
 
+    public static readonly InfoBox Instance = new();
+
+    public static void DrawGenericSettings(GenericSettings settings)
+    {
+        Instance
+            .AddTitle(Strings.Common.Tabs.Settings)
+            .AddConfigCheckbox(Strings.Common.Labels.Enabled, settings.Enabled)
+            .AddConfigCheckbox(Strings.Configuration.SoloMode, settings.SoloMode, Strings.Configuration.SoloModeHelp)
+            .AddConfigCheckbox(Strings.Configuration.DutiesOnly, settings.DutiesOnly, Strings.Configuration.DutiesOnlyHelp)
+            .AddInputInt(Strings.Common.Labels.Priority, settings.Priority, 0, 10)
+            .Draw();
+    }
+
+    public static void DrawOverlaySettings(GenericSettings settings)
+    {
+        Instance
+            .AddTitle(Strings.Common.Labels.DisplayOptions)
+            .AddConfigCheckbox(Strings.TabItems.PartyOverlay.Label, settings.PartyFrameOverlay)
+            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Label, settings.BannerOverlay)
+            .Draw();
+    }
+
+    public static void DrawOptions(GenericSettings settings)
+    {
+        Instance
+            .AddTitle(Strings.Common.Labels.Options)
+            .AddConfigCheckbox(Strings.Configuration.HideInSanctuary, settings.DisableInSanctuary)
+            .Draw();
+    }
+    
     public void Draw()
     {
         ImGuiHelpers.ScaledDummy(10.0f);

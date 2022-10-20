@@ -27,14 +27,7 @@ public class BannerOverlaySettings
 internal class BannerOverlayConfigurationWindow : Window, IDisposable
 {
     private static BannerOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
-
-    private readonly InfoBox ModeSelect = new();
-    private readonly InfoBox SoloMode = new();
-    private readonly InfoBox ListModeOptions = new();
-    private readonly InfoBox ScaleOptions = new();
-    private readonly InfoBox DisplayOptions = new();
-    private readonly InfoBox RepositionMode = new();
-
+    
     public BannerOverlayConfigurationWindow() : base($"{Strings.TabItems.BannerOverlay.ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         SizeConstraints = new WindowSizeConstraints
@@ -60,17 +53,17 @@ internal class BannerOverlayConfigurationWindow : Window, IDisposable
 
     public override void Draw()
     {
-        RepositionMode
+        InfoBox.Instance
             .AddTitle(Strings.Configuration.PreviewMode)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.RepositionMode, Settings.SampleMode)
             .Draw();
 
-        SoloMode
+        InfoBox.Instance
             .AddTitle(Strings.TabItems.BannerOverlay.SoloMode)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.SoloMode, Settings.SoloMode, Strings.TabItems.BannerOverlay.SoloModeHelp)
             .Draw();
 
-        DisplayOptions
+        InfoBox.Instance
             .AddTitle(Strings.Common.Labels.DisplayOptions)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.ExclamationMark, Settings.WarningShield)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.WarningText, Settings.WarningText)
@@ -78,15 +71,15 @@ internal class BannerOverlayConfigurationWindow : Window, IDisposable
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Icon, Settings.Icon)
             .AddConfigCheckbox(Strings.TabItems.BannerOverlay.IconText, Settings.IconText)
             .AddString(Strings.TabItems.BannerOverlay.BorderThickness + ":")
-            .AddDragFloat("##BorderThickness", Settings.BorderThickness, 0.5f, 3.0f, DisplayOptions.InnerWidth)
+            .AddDragFloat("##BorderThickness", Settings.BorderThickness, 0.5f, 3.0f, InfoBox.Instance.InnerWidth)
             .Draw();
 
-        ScaleOptions
+        InfoBox.Instance
             .AddTitle(Strings.Common.Labels.Scale)
-            .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, ScaleOptions.InnerWidth)
+            .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, InfoBox.Instance.InnerWidth)
             .Draw();
 
-        ModeSelect
+        InfoBox.Instance
             .AddTitle(Strings.Common.Labels.ModeSelect)
                 .BeginTable()
                     .BeginRow()
@@ -99,10 +92,10 @@ internal class BannerOverlayConfigurationWindow : Window, IDisposable
 
         if (Settings.Mode.Value == BannerOverlayDisplayMode.List)
         {
-            ListModeOptions
+            InfoBox.Instance
                 .AddTitle(Strings.TabItems.BannerOverlay.ListModeOptions)
                 .AddString(Strings.TabItems.BannerOverlay.WarningCount + ":")
-                .AddSliderInt("##PlayerWarningCount", Settings.WarningCount, 1, 8, DisplayOptions.InnerWidth)
+                .AddSliderInt("##PlayerWarningCount", Settings.WarningCount, 1, 8, InfoBox.Instance.InnerWidth)
                 .Draw();
         }
     }

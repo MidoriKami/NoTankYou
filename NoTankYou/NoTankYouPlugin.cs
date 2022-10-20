@@ -19,6 +19,7 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.DutyEventManager = new DutyEventManager();
         Service.ContextManager = new ContextManager();
         Service.IconManager = new IconManager();
+        Service.DutyLists = new DutyLists();
 
         // Dependent systems below
         Service.ConfigurationManager = new ConfigurationManager();
@@ -35,6 +36,7 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.DutyEventManager.Dispose();
         Service.ContextManager.Dispose();
         Service.IconManager.Dispose();
+        Service.DutyLists.Dispose();
 
         Service.ConfigurationManager.Dispose();
         Service.WindowManager.Dispose();

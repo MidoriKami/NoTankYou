@@ -129,6 +129,7 @@ public class Labels
     public string Savage => Loc.Localize("Labels_Savage", "Savage");
     public string Ultimate => Loc.Localize("Labels_Ultimate", "Ultimate");
     public string ExtremeUnreal => Loc.Localize("Labels_ExtremeUnreal", "Extreme & Unreal");
+    public string Criterion => Loc.Localize("Labels_Criterion", "Criterion");
     public string ModeSelect => Loc.Localize("Labels_ModeSelect", "Mode Select");
     public string Unset => Loc.Localize("Labels_Unset", "Unset");
     public string Warnings => Loc.Localize("Labels_Warnings", "Warnings");
