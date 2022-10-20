@@ -101,14 +101,17 @@ internal class Food : IModule
         {
             if (Settings.DisableInCombat.Value && Service.Condition[ConditionFlag.InCombat]) return null;
 
-            var currentDutyType = Service.DutyLists.GetDutyType(Service.ClientState.TerritoryType);
-
-            switch (currentDutyType)
+            switch (Service.DutyLists.GetDutyType(Service.ClientState.TerritoryType))
             {
                 case DutyType.Savage when !Settings.SavageDuties.Value:
                 case DutyType.Ultimate when !Settings.UltimateDuties.Value:
                 case DutyType.ExtremeUnreal when !Settings.ExtremeUnreal.Value:
                 case DutyType.Criterion when !Settings.CriterionDuties.Value:
+                    
+                case DutyType.None when Settings.SavageDuties.Value:
+                case DutyType.None when Settings.UltimateDuties.Value:
+                case DutyType.None when Settings.ExtremeUnreal.Value:
+                case DutyType.None when Settings.CriterionDuties.Value:
                     return null;
             }
             
