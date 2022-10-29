@@ -21,6 +21,13 @@ public abstract class DrawList<T>
         }
     }
 
+    public T Indent(int amount)
+    {
+        DrawActions.Add(() => ImGui.Indent(amount));
+
+        return DrawListOwner;
+    }
+
     public T AddString(string message, Vector4? color = null)
     {
         if (color == null)
@@ -44,7 +51,7 @@ public abstract class DrawList<T>
                 Service.ConfigurationManager.Save();
             }
 
-            ImGui.SameLine(27.0f * ImGuiHelpers.GlobalScale);
+            ImGui.SameLine();
 
             ImGui.TextUnformatted(label);
 
