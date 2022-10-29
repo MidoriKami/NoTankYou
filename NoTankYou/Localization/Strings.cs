@@ -46,6 +46,7 @@ public class Dancer
 
 public class Food
 {
+    public string EnableFilter => Loc.Localize("Food_EnableFilter", "Enable Filter");
     public string Label => Loc.Localize("Food_Label", "Food");
     public string WarningText => Loc.Localize("Food_WarningText", "Food Missing");
     public string EarlyWarningLabel => Loc.Localize("Food_EarlyWarningLabel", "Early Warning Time");
@@ -87,8 +88,9 @@ public class BlueMage
     public string BasicInstinctLabel => Loc.Localize("BlueMage_BasicInstinctLabel", "Basic Instinct");
 }
 
-public class SpiritBond 
+public class SpiritBond
 {
+    public string EnableFilter => Loc.Localize("SpiritBond_EnableFilter", "Enable Filter");
     public string Label => Loc.Localize("SpiritBond_Label", "Spiritbond");
     public string WarningText => Loc.Localize("SpiritBond_WarningText", "Spiritbond Missing");
     public string EarlyWarningLabel => Loc.Localize("SpiritBond_EarlyWarningLabel", "Early Warning Time");

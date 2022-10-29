@@ -17,10 +17,10 @@ public enum DutyType
 
 internal class DutyLists : IDisposable
 {
-    public List<uint> Savage { get; init; }
-    public List<uint> Ultimate { get; init; }
-    public List<uint> ExtremeUnreal { get; init; }
-    public List<uint> Criterion { get; init; }
+    private List<uint> Savage { get; init; }
+    private List<uint> Ultimate { get; init; }
+    private List<uint> ExtremeUnreal { get; init; }
+    private List<uint> Criterion { get; init; }
     
     public DutyLists()
     {
