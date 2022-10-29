@@ -20,6 +20,7 @@ public class SpiritBondConfiguration : GenericSettings
     public Setting<bool> ExtremeUnreal = new(false);
     public Setting<bool> DisableInCombat = new(false);
     public Setting<bool> CriterionDuties = new(false);
+    public Setting<bool> EnableZoneFilter = new(false);
 }
 
 internal class Spiritbond : IModule
@@ -60,14 +61,28 @@ internal class Spiritbond : IModule
                 .AddConfigCheckbox(Strings.Modules.SpiritBond.SuppressInCombat, Settings.DisableInCombat)
                 .Draw();
 
-            InfoBox.Instance
-                .AddTitle(Strings.Modules.SpiritBond.ZoneFilters)
-                .AddString(Strings.Modules.SpiritBond.ZoneFiltersDescription)
-                .AddConfigCheckbox(Strings.Common.Labels.Savage, Settings.SavageDuties)
-                .AddConfigCheckbox(Strings.Common.Labels.Ultimate, Settings.UltimateDuties)
-                .AddConfigCheckbox(Strings.Common.Labels.ExtremeUnreal, Settings.ExtremeUnreal)
-                .AddConfigCheckbox(Strings.Common.Labels.Criterion, Settings.CriterionDuties)
-                .Draw();
+            if (!Settings.EnableZoneFilter.Value)
+            {
+                InfoBox.Instance
+                    .AddTitle(Strings.Modules.SpiritBond.ZoneFilters)
+                    .AddString(Strings.Modules.SpiritBond.ZoneFiltersDescription)
+                    .AddConfigCheckbox(Strings.Modules.SpiritBond.EnableFilter, Settings.EnableZoneFilter)
+                    .Draw();
+            }
+            else
+            {
+                InfoBox.Instance
+                    .AddTitle(Strings.Modules.SpiritBond.ZoneFilters)
+                    .AddString(Strings.Modules.SpiritBond.ZoneFiltersDescription)
+                    .AddConfigCheckbox(Strings.Modules.SpiritBond.EnableFilter, Settings.EnableZoneFilter)
+                    .Indent(15)
+                    .AddConfigCheckbox(Strings.Common.Labels.Savage, Settings.SavageDuties)
+                    .AddConfigCheckbox(Strings.Common.Labels.Ultimate, Settings.UltimateDuties)
+                    .AddConfigCheckbox(Strings.Common.Labels.ExtremeUnreal, Settings.ExtremeUnreal)
+                    .AddConfigCheckbox(Strings.Common.Labels.Criterion, Settings.CriterionDuties)
+                    .Indent(-15)
+                    .Draw();
+            }
             
             InfoBox.DrawOverlaySettings(Settings);
             
@@ -96,18 +111,16 @@ internal class Spiritbond : IModule
         {
             if (Settings.DisableInCombat.Value && Service.Condition[ConditionFlag.InCombat]) return null;
 
-            switch (Service.DutyLists.GetDutyType(Service.ClientState.TerritoryType))
+            if (Settings.EnableZoneFilter.Value)
             {
-                case DutyType.Savage when !Settings.SavageDuties.Value:
-                case DutyType.Ultimate when !Settings.UltimateDuties.Value:
-                case DutyType.ExtremeUnreal when !Settings.ExtremeUnreal.Value:
-                case DutyType.Criterion when !Settings.CriterionDuties.Value:
-                    
-                case DutyType.None when Settings.SavageDuties.Value:
-                case DutyType.None when Settings.UltimateDuties.Value:
-                case DutyType.None when Settings.ExtremeUnreal.Value:
-                case DutyType.None when Settings.CriterionDuties.Value:
-                    return null;
+                switch (Service.DutyLists.GetDutyType(Service.ClientState.TerritoryType))
+                {
+                    case DutyType.Savage when !Settings.SavageDuties.Value:
+                    case DutyType.Ultimate when !Settings.UltimateDuties.Value:
+                    case DutyType.ExtremeUnreal when !Settings.ExtremeUnreal.Value:
+                    case DutyType.Criterion when !Settings.CriterionDuties.Value:
+                        return null;
+                }
             }
 
             var statusEffect = character.StatusList.FirstOrDefault(status => status.StatusId == SpiritBondStatusID);

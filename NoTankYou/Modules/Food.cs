@@ -2,6 +2,7 @@
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
@@ -20,6 +21,7 @@ public class FoodConfiguration : GenericSettings
     public Setting<bool> ExtremeUnreal = new(false);
     public Setting<bool> DisableInCombat = new(true);
     public Setting<bool> CriterionDuties = new(false);
+    public Setting<bool> EnableZoneFilter = new(false);
 }
 
 internal class Food : IModule
@@ -62,14 +64,28 @@ internal class Food : IModule
                 .AddConfigCheckbox(Strings.Modules.Food.SuppressInCombat, Settings.DisableInCombat)
                 .Draw();
 
-            InfoBox.Instance
-                .AddTitle(Strings.Modules.Food.ZoneFilters)
-                .AddString(Strings.Modules.Food.ZoneFiltersDescription)
-                .AddConfigCheckbox(Strings.Common.Labels.Savage, Settings.SavageDuties)
-                .AddConfigCheckbox(Strings.Common.Labels.Ultimate, Settings.UltimateDuties)
-                .AddConfigCheckbox(Strings.Common.Labels.ExtremeUnreal, Settings.ExtremeUnreal)
-                .AddConfigCheckbox(Strings.Common.Labels.Criterion, Settings.CriterionDuties)
-                .Draw();
+            if (!Settings.EnableZoneFilter.Value)
+            {
+                InfoBox.Instance
+                    .AddTitle(Strings.Modules.Food.ZoneFilters)
+                    .AddString(Strings.Modules.Food.ZoneFiltersDescription)
+                    .AddConfigCheckbox(Strings.Modules.Food.EnableFilter, Settings.EnableZoneFilter)
+                    .Draw();
+            }
+            else
+            {
+                InfoBox.Instance
+                    .AddTitle(Strings.Modules.Food.ZoneFilters)
+                    .AddString(Strings.Modules.Food.ZoneFiltersDescription)
+                    .AddConfigCheckbox(Strings.Modules.Food.EnableFilter, Settings.EnableZoneFilter)
+                    .Indent(15)
+                    .AddConfigCheckbox(Strings.Common.Labels.Savage, Settings.SavageDuties)
+                    .AddConfigCheckbox(Strings.Common.Labels.Ultimate, Settings.UltimateDuties)
+                    .AddConfigCheckbox(Strings.Common.Labels.ExtremeUnreal, Settings.ExtremeUnreal)
+                    .AddConfigCheckbox(Strings.Common.Labels.Criterion, Settings.CriterionDuties)
+                    .Indent(-15)
+                    .Draw();
+            }
 
             InfoBox.DrawOverlaySettings(Settings);
             
@@ -101,18 +117,16 @@ internal class Food : IModule
         {
             if (Settings.DisableInCombat.Value && Service.Condition[ConditionFlag.InCombat]) return null;
 
-            switch (Service.DutyLists.GetDutyType(Service.ClientState.TerritoryType))
+            if (Settings.EnableZoneFilter.Value)
             {
-                case DutyType.Savage when !Settings.SavageDuties.Value:
-                case DutyType.Ultimate when !Settings.UltimateDuties.Value:
-                case DutyType.ExtremeUnreal when !Settings.ExtremeUnreal.Value:
-                case DutyType.Criterion when !Settings.CriterionDuties.Value:
-                    
-                case DutyType.None when Settings.SavageDuties.Value:
-                case DutyType.None when Settings.UltimateDuties.Value:
-                case DutyType.None when Settings.ExtremeUnreal.Value:
-                case DutyType.None when Settings.CriterionDuties.Value:
-                    return null;
+                switch (Service.DutyLists.GetDutyType(Service.ClientState.TerritoryType))
+                {
+                    case DutyType.Savage when !Settings.SavageDuties.Value:
+                    case DutyType.Ultimate when !Settings.UltimateDuties.Value:
+                    case DutyType.ExtremeUnreal when !Settings.ExtremeUnreal.Value:
+                    case DutyType.Criterion when !Settings.CriterionDuties.Value:
+                        return null;
+                }
             }
             
             var statusEffect = character.StatusList.FirstOrDefault(status => status.StatusId == WellFedStatusID);
