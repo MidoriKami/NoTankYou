@@ -18,6 +18,7 @@ internal class ModuleManager
         new Scholar(),
         new Summoner(),
         new Spiritbond(),
+        new Cutscene(),
     };
 
     public IEnumerable<ISelectable> GetConfigurationSelectables()

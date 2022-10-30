@@ -14,6 +14,7 @@ public enum ModuleName
     Scholar,
     Summoner,
     Spiritbond,
+    Cutscene,
 }
 
 public static class ModuleNameExtensions
@@ -31,6 +32,7 @@ public static class ModuleNameExtensions
             ModuleName.Scholar => Strings.Modules.Scholar.Label,
             ModuleName.Summoner => Strings.Modules.Summoner.Label,
             ModuleName.Spiritbond => Strings.Modules.SpiritBond.Label,
+            ModuleName.Cutscene => Strings.Modules.Cutscene.Label,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

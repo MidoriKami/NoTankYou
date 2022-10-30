@@ -26,6 +26,7 @@ public class CharacterConfiguration
     public ScholarConfiguration Scholar = new();
     public SummonerConfiguration Summoner = new();
     public SpiritBondConfiguration SpiritBond = new();
+    public CutsceneConfiguration Cutscene = new();
 
     public PartyOverlaySettings PartyOverlay = new();
     public BannerOverlaySettings BannerOverlay = new();

@@ -15,6 +15,7 @@ public class Modules
     public BlueMage BlueMage { get; set; } = new();
     public FreeCompany FreeCompany { get; set; } = new();
     public SpiritBond SpiritBond { get; set; } = new();
+    public Cutscene Cutscene { get; set; } = new();
 }
 
 public class Tank
@@ -97,7 +98,16 @@ public class SpiritBond
     public string ZoneFilters => Loc.Localize("SpiritBond_ZoneFilters", "Zone Filters");
     public string ZoneFiltersDescription => Loc.Localize("SpiritBond_ZoneFiltersDescription", "Display warning only in the following zones");
     public string AdditionalOptionsLabel => Loc.Localize("SpiritBond_AdditionalOptionsLabel", "Additional Options");
-    public string SuppressInCombat => Loc.Localize("SpiritBond_SuppressInCombat", "Suppress in Combat");}
+    public string SuppressInCombat => Loc.Localize("SpiritBond_SuppressInCombat", "Suppress in Combat");
+}
+
+public class Cutscene
+{
+    public string Label => Loc.Localize("Cutscene_Label", "Cutscene");
+    public string CheckAlliance => Loc.Localize("Cutscene_CheckAlliance", "Check Alliance Members");
+    public string WarningText => Loc.Localize("Cutscene_WarningText", "In Cutscene");
+    public string WarningTextShort => Loc.Localize("Cutscene_WarningText", "In Cutscene");
+}
 #endregion
 
 #region Common
