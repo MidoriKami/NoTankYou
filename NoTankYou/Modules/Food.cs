@@ -125,6 +125,11 @@ internal class Food : IModule
                     case DutyType.Ultimate when !Settings.UltimateDuties.Value:
                     case DutyType.ExtremeUnreal when !Settings.ExtremeUnreal.Value:
                     case DutyType.Criterion when !Settings.CriterionDuties.Value:
+                        
+                    case DutyType.None when Settings.SavageDuties.Value:
+                    case DutyType.None when Settings.UltimateDuties.Value:
+                    case DutyType.None when Settings.ExtremeUnreal.Value:
+                    case DutyType.None when Settings.CriterionDuties.Value:
                         return null;
                 }
             }
