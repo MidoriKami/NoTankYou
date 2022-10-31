@@ -81,9 +81,7 @@ internal class Cutscene : IModule
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            var partyMembers = GetPartyMembers();
-
-            if (partyMembers.Any(member => member.OnlineStatus.Id == CutsceneStatus.RowId ))
+            if (character.OnlineStatus.Id == CutsceneStatus.RowId)
             {
                 return new WarningState
                 {
@@ -95,7 +93,7 @@ internal class Cutscene : IModule
                 };
             }
 
-            if (Settings.CheckAlliance.Value)
+            if (Settings.CheckAlliance.Value && Service.ClientState.LocalPlayer?.ObjectId == character.ObjectId)
             {
                 var allianceMembers = GetAllianceMembers();
                 
@@ -114,22 +112,7 @@ internal class Cutscene : IModule
 
             return null;
         }
-
-        private IEnumerable<PlayerCharacter> GetPartyMembers()
-        {
-            var players = new List<PlayerCharacter>();
-
-            for (var i = 0; i < 8; ++i)
-            {
-                var player = HudAgent.GetPlayerCharacter(i);
-                if(player == null) continue;
-                
-                players.Add(player);
-            }
-            
-            return players;
-        }
-
+        
         private IEnumerable<PlayerCharacter> GetAllianceMembers()
         {
             var players = new List<PlayerCharacter>();
