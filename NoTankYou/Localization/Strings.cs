@@ -104,7 +104,6 @@ public class SpiritBond
 public class Cutscene
 {
     public string Label => Loc.Localize("Cutscene_Label", "Cutscene");
-    public string CheckAlliance => Loc.Localize("Cutscene_CheckAlliance", "Check Alliance Members");
     public string WarningText => Loc.Localize("Cutscene_WarningText", "In Cutscene");
     public string WarningTextShort => Loc.Localize("Cutscene_WarningText", "In Cutscene");
 }

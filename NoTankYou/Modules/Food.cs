@@ -2,7 +2,6 @@
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;

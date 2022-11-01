@@ -5,7 +5,6 @@ using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.System;
 using NoTankYou.UserInterface.Components;
 using NoTankYou.UserInterface.Components.InfoBox;
 
@@ -13,7 +12,6 @@ namespace NoTankYou.Modules;
 
 public class CutsceneConfiguration : GenericSettings
 {
-    public Setting<bool> CheckAlliance = new(true);
 }
 
 internal class Cutscene : IModule
@@ -47,11 +45,6 @@ internal class Cutscene : IModule
                 .AddTitle(Strings.Common.Tabs.Settings)
                 .AddConfigCheckbox(Strings.Common.Labels.Enabled, Settings.Enabled)
                 .AddInputInt(Strings.Common.Labels.Priority, Settings.Priority, 0, 10)
-                .Draw();
-            
-            InfoBox.Instance
-                .AddTitle(Strings.Common.Labels.AdditionalOptions)
-                .AddConfigCheckbox(Strings.Modules.Cutscene.CheckAlliance, Settings.CheckAlliance)
                 .Draw();
             
             InfoBox.DrawOverlaySettings(Settings);
@@ -93,39 +86,7 @@ internal class Cutscene : IModule
                 };
             }
 
-            if (Settings.CheckAlliance.Value && Service.ClientState.LocalPlayer?.ObjectId == character.ObjectId)
-            {
-                var allianceMembers = GetAllianceMembers();
-                
-                if (allianceMembers.Any(member => member.OnlineStatus.Id == CutsceneStatus.RowId ))
-                {
-                    return new WarningState
-                    {
-                        MessageLong = Strings.Modules.Cutscene.WarningText,
-                        MessageShort = Strings.Modules.Cutscene.WarningTextShort,
-                        IconID = CutsceneStatus.Icon,
-                        IconLabel = CutsceneStatus.Name.RawString,
-                        Priority = Settings.Priority.Value,
-                    };
-                }
-            }
-
             return null;
-        }
-        
-        private IEnumerable<PlayerCharacter> GetAllianceMembers()
-        {
-            var players = new List<PlayerCharacter>();
-
-            for (var i = 0; i < 16; ++i)
-            {
-                var player = HudAgent.GetAllianceMember(i);
-                if(player == null) continue;
-
-                players.Add(player);
-            }
-
-            return players;
         }
     }
 }
