@@ -8,7 +8,7 @@ internal static class PartyListExtensions
 {
     public static IEnumerable<PartyMember> Alive(this IEnumerable<PartyMember> list)
     {
-        return list.Where(member => !member.GameObject!.IsDead);
+        return list.Where(member => member.GameObject != null && !member.GameObject.IsDead);
     }
 
     public static IEnumerable<PartyMember> WithRole(this IEnumerable<PartyMember> list, uint roleID)
