@@ -47,7 +47,11 @@ internal class BlueMage : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(Settings);
+            InfoBox.Instance
+                .AddTitle(Strings.Common.Tabs.Settings)
+                .AddConfigCheckbox(Strings.Common.Labels.Enabled, Settings.Enabled)
+                .AddInputInt(Strings.Common.Labels.Priority, Settings.Priority, 0, 10)
+                .Draw();
             
             InfoBox.Instance
                 .AddTitle(Strings.Common.Labels.Warnings)

@@ -60,18 +60,7 @@ public class CharacterConfiguration
         // If a configuration for this character already exists
         if (configFileInfo.Exists)
         {
-            var reader = new StreamReader(configFileInfo.FullName);
-            var fileText = reader.ReadToEnd();
-            reader.Dispose();
-
-            var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
-
-            if (loadedCharacterConfiguration == null)
-            {
-                throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
-            }
-
-            return loadedCharacterConfiguration;
+            return LoadExistingCharacterConfiguration(contentID, configFileInfo);
         }
 
         // If a configuration for this character doesn't exist
@@ -82,32 +71,60 @@ public class CharacterConfiguration
             // If a base-plugin config exists
             if (basePluginConfigInfo.Exists)
             {
-                var reader = new StreamReader(basePluginConfigInfo.FullName);
-                var fileText = reader.ReadToEnd();
-                reader.Dispose();
-
-                CharacterConfiguration migratedConfiguration;
-
-                try
-                {
-                    migratedConfiguration = ConfigMigration.Convert(fileText);
-                    migratedConfiguration.Save();
-                }
-                catch (Exception e)
-                {
-                    PluginLog.Warning(e, "Unable to Migrate Configuration, generating new configuration instead.");
-                    migratedConfiguration = CreateNewCharacterConfiguration();
-                }
-
-                return migratedConfiguration;
+                return GenerateMigratedCharacterConfiguration(basePluginConfigInfo);
             }
-
             // If it doesn't make a new config for this character
             else
             {
                 return CreateNewCharacterConfiguration();
             }
         }
+    }
+
+    private static CharacterConfiguration GenerateMigratedCharacterConfiguration(FileInfo basePluginConfigInfo)
+    {
+        var reader = new StreamReader(basePluginConfigInfo.FullName);
+        var fileText = reader.ReadToEnd();
+        reader.Dispose();
+
+        CharacterConfiguration migratedConfiguration;
+
+        try
+        {
+            migratedConfiguration = ConfigMigration.Convert(fileText);
+            migratedConfiguration.Save();
+        }
+        catch (Exception e)
+        {
+            PluginLog.Warning(e, "Unable to Migrate Configuration, generating new configuration instead.");
+            migratedConfiguration = CreateNewCharacterConfiguration();
+        }
+
+        // The user may have saved values here that we want to ignore
+        migratedConfiguration.BlueMage.DutiesOnly.Value = false;
+        migratedConfiguration.BlueMage.SoloMode.Value = false;
+        
+        return migratedConfiguration;
+    }
+
+    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, FileInfo configFileInfo)
+    {
+        var reader = new StreamReader(configFileInfo.FullName);
+        var fileText = reader.ReadToEnd();
+        reader.Dispose();
+
+        var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
+
+        if (loadedCharacterConfiguration == null)
+        {
+            throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
+        }
+
+        // The user may have saved values here that we want to ignore
+        loadedCharacterConfiguration.BlueMage.DutiesOnly.Value = false;
+        loadedCharacterConfiguration.BlueMage.SoloMode.Value = false;
+        
+        return loadedCharacterConfiguration;
     }
 
     private static CharacterConfiguration CreateNewCharacterConfiguration()
