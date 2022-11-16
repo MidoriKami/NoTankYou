@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Dalamud.Game;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
@@ -9,13 +8,12 @@ namespace NoTankYou.System;
 public unsafe class ContextManager : IDisposable
 {
     public bool ShowWarnings { get; private set; }
-    private readonly Stopwatch DelayStopwatch = new();
-    
+
     public ContextManager()
     {
         Service.Framework.Update += FrameworkUpdate;
     }
-    
+        
     public void Dispose()
     {
         Service.Framework.Update -= FrameworkUpdate;
@@ -34,15 +32,10 @@ public unsafe class ContextManager : IDisposable
         if (!partyListVisible && !todoListVisible && !enemyListVisible)
         {
             ShowWarnings = false;
-            DelayStopwatch.Restart();
         }
         else
         {
-            if (DelayStopwatch.Elapsed.Seconds >= 1 || !DelayStopwatch.IsRunning)
-            {
-                ShowWarnings = true;
-                DelayStopwatch.Stop();
-            }
+            ShowWarnings = true;
         }
     }
 }
