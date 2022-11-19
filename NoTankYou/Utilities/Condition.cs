@@ -23,8 +23,15 @@ internal static class Condition
         if (!Service.ContextManager.ShowWarnings) return false;
         if (Service.ClientState.IsPvP) return false;
         if (Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance]) return false;
+        if (SpecialConditions()) return false;
         if (blacklist.Enabled.Value && blacklist.ContainsCurrentZone()) return false;
 
         return true;
+    }
+
+    private static bool SpecialConditions()
+    {
+        return Service.Condition[ConditionFlag.Jumping] ||
+               Service.Condition[ConditionFlag.Jumping61];
     }
 }

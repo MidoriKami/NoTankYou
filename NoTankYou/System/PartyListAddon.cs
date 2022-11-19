@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Numerics;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Objects.SubKinds;
@@ -10,16 +12,32 @@ namespace NoTankYou.System;
 
 public readonly unsafe struct PartyListAddonData
 {
+    private static readonly Dictionary<uint, Stopwatch> TimeSinceLastTargetable = new();
+
     public AddonPartyList.PartyListMemberStruct UserInterface { get; init; }
     public PartyMemberData AgentData { get; init; }
     public PlayerCharacter? PlayerCharacter { get; init; }
 
+    private bool Targetable => UserInterface.PartyMemberComponent->OwnerNode->AtkResNode.Color.A != 0x99;
+    
     public bool IsTargetable()
     {
         if (!AgentData.ValidData) return false;
 
-        var resourceNode = UserInterface.PartyMemberComponent->OwnerNode->AtkResNode;
-        return resourceNode.Color.A != 0x99;
+        TimeSinceLastTargetable.TryAdd(AgentData.ObjectID, new Stopwatch());
+        var stopwatch = TimeSinceLastTargetable[AgentData.ObjectID];
+            
+        if (Targetable)
+        {
+            // Returns true if the party member has been targetable for 2second or more
+            return stopwatch.Elapsed.Seconds >= 2;
+        }
+        else
+        {
+            // Returns false, and continually resets the stopwatch
+            stopwatch.Restart();
+            return false;
+        }
     }
 }
 
@@ -64,11 +82,11 @@ internal unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposa
         AddonData.Clear();
         if (!DataAvailable) return;
 
-        for (var i = 0; i < PartyList->MemberCount; ++i)
+        foreach (var index in Enumerable.Range(0, PartyList->MemberCount))
         {
-            var agentData = HudAgent.GetPartyMember(i);
-            var playerCharacter = HudAgent.GetPlayerCharacter(i);
-            var userInterface = PartyList->PartyMember[i];
+            var agentData = HudAgent.GetPartyMember(index);
+            var playerCharacter = HudAgent.GetPlayerCharacter(index);
+            var userInterface = PartyList->PartyMember[index];
 
             AddonData.Add(new PartyListAddonData
             {
