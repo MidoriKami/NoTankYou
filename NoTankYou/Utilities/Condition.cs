@@ -1,4 +1,7 @@
-﻿using Dalamud.Game.ClientState.Conditions;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Dalamud.Game.ClientState.Conditions;
 using NoTankYou.Configuration.Components;
 using NoTankYou.System;
 
@@ -6,6 +9,14 @@ namespace NoTankYou.Utilities;
 
 internal static class Condition
 {
+    private static readonly Stopwatch ConditionLockout = new();
+
+    private static readonly List<ConditionFlag> LockoutFlags = new()
+    {
+        ConditionFlag.Jumping,
+        ConditionFlag.Jumping61
+    };
+    
     public static bool IsBoundByDuty()
     {
         var baseBoundByDuty = Service.Condition[ConditionFlag.BoundByDuty];
@@ -31,7 +42,17 @@ internal static class Condition
 
     private static bool SpecialConditions()
     {
-        return Service.Condition[ConditionFlag.Jumping] ||
-               Service.Condition[ConditionFlag.Jumping61];
+        // If any lockout flags are triggered
+        if (LockoutFlags.Any(flag => Service.Condition[flag]))
+        {
+            ConditionLockout.Restart();
+            return false;
+        }
+        
+        // Else, if we have not been locked out for 2 or more seconds
+        else
+        {
+            return ConditionLockout.Elapsed.Seconds >= 2 || !ConditionLockout.IsRunning;
+        }
     }
 }
