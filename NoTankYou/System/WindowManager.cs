@@ -18,6 +18,7 @@ public class WindowManager : IDisposable
         new PartyOverlayConfigurationWindow(),
         new BannerOverlayConfigurationWindow(),
         new BlacklistConfigurationWindow(),
+        new DebugWindow(),
     };
 
     public WindowManager()

@@ -15,6 +15,7 @@ public class CommandManager : IDisposable
     {
         new ConfigurationWindowCommand(),
         new LocalizationCommand(),
+        new DebugWindowCommand(),
     };
 
     public CommandManager()
@@ -50,7 +51,7 @@ public class CommandManager : IDisposable
             case "help":
                 Commands[1].Execute(subCommandArguments);
                 break;
-
+            
             default:
                 foreach (var cmd in Commands)
                 {
