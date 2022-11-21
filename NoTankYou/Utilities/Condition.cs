@@ -9,12 +9,14 @@ namespace NoTankYou.Utilities;
 
 internal static class Condition
 {
-    private static readonly Stopwatch ConditionLockout = new();
+    public static readonly Stopwatch ConditionLockout = new();
 
     private static readonly List<ConditionFlag> LockoutFlags = new()
     {
         ConditionFlag.Jumping,
-        ConditionFlag.Jumping61
+        ConditionFlag.Jumping61,
+        ConditionFlag.BetweenAreas,
+        ConditionFlag.BetweenAreas51
     };
     
     public static bool IsBoundByDuty()
@@ -34,13 +36,13 @@ internal static class Condition
         if (!Service.ContextManager.ShowWarnings) return false;
         if (Service.ClientState.IsPvP) return false;
         if (Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance]) return false;
-        if (SpecialConditions()) return false;
+        if (!SpecialConditions()) return false;
         if (blacklist.Enabled.Value && blacklist.ContainsCurrentZone()) return false;
 
         return true;
     }
 
-    private static bool SpecialConditions()
+    public static bool SpecialConditions()
     {
         // If any lockout flags are triggered
         if (LockoutFlags.Any(flag => Service.Condition[flag]))

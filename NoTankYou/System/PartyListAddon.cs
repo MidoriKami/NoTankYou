@@ -12,7 +12,7 @@ namespace NoTankYou.System;
 
 public readonly unsafe struct PartyListAddonData
 {
-    private static readonly Dictionary<uint, Stopwatch> TimeSinceLastTargetable = new();
+    public static readonly Dictionary<uint, Stopwatch> TimeSinceLastTargetable = new();
 
     public AddonPartyList.PartyListMemberStruct UserInterface { get; init; }
     public PartyMemberData AgentData { get; init; }
