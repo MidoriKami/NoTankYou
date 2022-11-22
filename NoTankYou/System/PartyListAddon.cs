@@ -81,7 +81,7 @@ internal unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposa
     {
         AddonData.Clear();
         if (!DataAvailable) return;
-        if (PartyList->MemberCount == 0) return;
+        if (PartyList->MemberCount <= 0) return;
         
         foreach (var index in Enumerable.Range(0, PartyList->MemberCount))
         {
