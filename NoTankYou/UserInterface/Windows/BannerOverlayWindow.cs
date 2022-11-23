@@ -125,7 +125,7 @@ internal class BannerOverlayWindow : Window, IDisposable
                     // Get all Logic Modules for this classjob
                     var modules = Service.ModuleManager.GetModulesForClassJob(playerCharacter.ClassJob.Id);
 
-                    // Filter to only modules that are enabled for PartyFrame Overlay
+                    // Filter to only modules that are enabled for Banner Overlay
                     var enabledModules = modules
                         .Where(module => module.ParentModule.GenericSettings.BannerOverlay.Value)
                         .Where(module => !(module.ParentModule.GenericSettings.DisableInSanctuary.Value && InSanctuaryArea));
