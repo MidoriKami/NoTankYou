@@ -16,7 +16,7 @@ internal interface ILogicComponent
         if (!ParentModule.GenericSettings.Enabled.Value) return null;
         if (ParentModule.GenericSettings.DutiesOnly.Value && !Service.DutyEventManager.DutyStarted) return null;
         if (ParentModule.GenericSettings.SoloMode.Value && character.ObjectId != Service.ClientState.LocalPlayer?.ObjectId) return null;
-        if (character.CurrentHp == 0) return null;
+        if (character.IsDead) return null;
 
         return EvaluateWarning(character);
     }
