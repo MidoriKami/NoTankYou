@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
@@ -54,7 +55,7 @@ internal static class Condition
         // Else, if we have not been locked out for 2 or more seconds
         else
         {
-            return ConditionLockout.Elapsed.Seconds >= 2 || !ConditionLockout.IsRunning;
+            return ConditionLockout.Elapsed >= TimeSpan.FromSeconds(2) || !ConditionLockout.IsRunning;
         }
     }
 }

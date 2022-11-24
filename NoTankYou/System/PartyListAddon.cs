@@ -30,7 +30,7 @@ public readonly unsafe struct PartyListAddonData
         if (Targetable)
         {
             // Returns true if the party member has been targetable for 2second or more
-            return stopwatch.Elapsed.Seconds >= 2 || !stopwatch.IsRunning;
+            return stopwatch.Elapsed >= TimeSpan.FromSeconds(2) || !stopwatch.IsRunning;
         }
         else
         {
