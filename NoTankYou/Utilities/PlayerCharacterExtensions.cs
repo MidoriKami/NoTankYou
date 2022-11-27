@@ -18,6 +18,11 @@ internal static class PlayerCharacterExtensions
         return character.StatusList.Any(status => statusList.Contains(status.StatusId));
     }
 
+    public static bool HasOnlineStatus(this PlayerCharacter character, uint statusId)
+    {
+        return character.OnlineStatus.Id == statusId;
+    }
+
     public static int StatusCount(this PlayerCharacter character, List<uint> statusList)
     {
         return character.StatusList.Count(status => statusList.Contains(status.StatusId));
