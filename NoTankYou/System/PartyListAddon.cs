@@ -24,13 +24,13 @@ public readonly unsafe struct PartyListAddonData
     {
         if (!AgentData.ValidData) return false;
 
-        TimeSinceLastTargetable.TryAdd(AgentData.ObjectID, new Stopwatch());
+        TimeSinceLastTargetable.TryAdd(AgentData.ObjectID, Stopwatch.StartNew());
         var stopwatch = TimeSinceLastTargetable[AgentData.ObjectID];
             
         if (Targetable)
         {
             // Returns true if the party member has been targetable for 2second or more
-            return stopwatch.Elapsed >= TimeSpan.FromSeconds(2) || !stopwatch.IsRunning;
+            return stopwatch.Elapsed >= TimeSpan.FromSeconds(2);
         }
         else
         {

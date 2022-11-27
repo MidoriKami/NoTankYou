@@ -10,7 +10,7 @@ namespace NoTankYou.Utilities;
 
 internal static class Condition
 {
-    public static readonly Stopwatch ConditionLockout = new();
+    public static readonly Stopwatch ConditionLockout = Stopwatch.StartNew();
 
     private static readonly List<ConditionFlag> LockoutFlags = new()
     {
@@ -55,7 +55,7 @@ internal static class Condition
         // Else, if we have not been locked out for 2 or more seconds
         else
         {
-            return ConditionLockout.Elapsed >= TimeSpan.FromSeconds(2) || !ConditionLockout.IsRunning;
+            return ConditionLockout.Elapsed >= TimeSpan.FromSeconds(2);
         }
     }
 }
