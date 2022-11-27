@@ -121,7 +121,7 @@ internal class BlueMage : IModule
                 }
             }
 
-            if (Settings.BasicInstinct.Value && !character.HasStatus(BasicInstinct))
+            if (Settings.BasicInstinct.Value && !character.HasStatus(BasicInstinct) && Condition.IsBoundByDuty())
             {
                 if (Service.PartyList.Length == 0)
                 {
