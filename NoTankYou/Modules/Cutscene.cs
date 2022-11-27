@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Lumina.Excel.GeneratedSheets;
@@ -7,6 +9,7 @@ using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
 using NoTankYou.UserInterface.Components.InfoBox;
+using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
 
@@ -60,6 +63,8 @@ internal class Cutscene : IModule
 
         private readonly OnlineStatus CutsceneStatus;
         
+        public static readonly Dictionary<uint, Stopwatch> TimeSinceInCutscene = new();
+        
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -74,7 +79,10 @@ internal class Cutscene : IModule
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (character.OnlineStatus.Id == CutsceneStatus.RowId)
+            TimeSinceInCutscene.TryAdd(character.ObjectId, Stopwatch.StartNew());
+            var stopwatch = TimeSinceInCutscene[character.ObjectId];
+
+            if (stopwatch.Elapsed >= TimeSpan.FromSeconds(1) && character.HasOnlineStatus(CutsceneStatus.RowId))
             {
                 return new WarningState
                 {
@@ -84,6 +92,10 @@ internal class Cutscene : IModule
                     IconLabel = CutsceneStatus.Name.RawString,
                     Priority = Settings.Priority.Value,
                 };
+            }
+            else if (!character.HasOnlineStatus(CutsceneStatus.RowId))
+            {
+                stopwatch.Restart();
             }
 
             return null;
