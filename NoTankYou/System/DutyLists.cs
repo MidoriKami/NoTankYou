@@ -40,7 +40,7 @@ internal class DutyLists : IDisposable
         // ContentType.Row 4 == Trials
         ExtremeUnreal = Service.DataManager.GetExcelSheet<ContentFinderCondition>(ClientLanguage.English)!
             .Where(t => t.ContentType.Row == 4)
-            .Where(t => t.Name.RawString.Contains("Extreme") || t.Name.RawString.Contains("Unreal"))
+            .Where(t => t.Name.RawString.Contains("Extreme") || t.Name.RawString.Contains("Unreal") || t.Name.RawString.Contains("The Minstrel"))
             .Select(t => t.TerritoryType.Row)
             .ToList();
 
