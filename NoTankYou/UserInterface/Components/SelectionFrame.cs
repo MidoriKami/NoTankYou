@@ -8,7 +8,7 @@ using KamiLib.Utilities;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.UserInterface.Windows;
+using NoTankYou.Windows;
 
 namespace NoTankYou.UserInterface.Components;
 

@@ -3,7 +3,7 @@ using KamiLib.ConfigMigration;
 using KamiLib.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Modules;
-using NoTankYou.UserInterface.Windows;
+using NoTankYou.Windows;
 
 namespace NoTankYou.Configuration;
 

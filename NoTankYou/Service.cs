@@ -28,7 +28,6 @@ public class Service
     public static WindowSystem WindowSystem { get; set; } = new("NoTankYou");
 
     internal static System.ModuleManager ModuleManager = null!;
-    internal static System.CommandManager CommandSystem = null!;
     internal static System.LocalizationManager LocalizationManager = null!;
     internal static System.ConfigurationManager ConfigurationManager = null!;
     internal static System.FontManager FontManager = null!;

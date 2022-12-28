@@ -1,12 +1,13 @@
 ﻿using Dalamud.Plugin;
 using NoTankYou.System;
-using NoTankYou.UserInterface.Windows;
+using NoTankYou.Windows;
 
 namespace NoTankYou;
 
 public sealed class NoTankYouPlugin : IDalamudPlugin
 {
     public string Name => "NoTankYou";
+    private const string ShorthandCommand = "/nty";
 
     public NoTankYouPlugin(DalamudPluginInterface pluginInterface)
     {
@@ -24,6 +25,8 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.IconManager = new IconManager();
         Service.DutyLists = new DutyLists();
 
+        KamiLib.KamiLib.CommandManager.AddHandler(ShorthandCommand, "shorthand command to open configuration window");
+        
         KamiLib.KamiLib.WindowManager.AddWindow(new ConfigurationWindow());
         KamiLib.KamiLib.WindowManager.AddWindow(new PartyListOverlayWindow());
         KamiLib.KamiLib.WindowManager.AddWindow(new BannerOverlayWindow());
@@ -35,7 +38,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         // Dependent systems below
         Service.ConfigurationManager = new ConfigurationManager();
         Service.ModuleManager = new ModuleManager();
-        Service.CommandSystem = new CommandManager();
     }
         
     public void Dispose()
@@ -51,6 +53,5 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.DutyLists.Dispose();
 
         Service.ConfigurationManager.Dispose();
-        Service.CommandSystem.Dispose();
     }
 }

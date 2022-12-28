@@ -2,7 +2,7 @@
 using System.Numerics;
 using ImGuiNET;
 using KamiLib.Utilities;
-using NoTankYou.UserInterface.Windows;
+using NoTankYou.Windows;
 
 namespace NoTankYou.Utilities;
 

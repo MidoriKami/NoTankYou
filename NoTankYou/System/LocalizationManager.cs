@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Dalamud.Logging;
+using NoTankYou.Commands;
 
 namespace NoTankYou.System;
 
@@ -10,6 +11,8 @@ public class LocalizationManager : IDisposable
 
     public LocalizationManager()
     {
+        KamiLib.KamiLib.CommandManager.AddCommand(new LocalizationCommand());
+        
         var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
         var filePath = Path.Combine(assemblyLocation, @"translations");
 
