@@ -138,7 +138,7 @@ internal class Spiritbond : IModule
                     MessageShort = Strings.Modules.SpiritBond.WarningText,
                     IconID = SpiritBond.Icon,
                     IconLabel = Strings.Modules.SpiritBond.Label,
-                    Priority = Settings.Priority.Value
+                    Priority = Settings.Priority.Value,
                 };
 
             return null;

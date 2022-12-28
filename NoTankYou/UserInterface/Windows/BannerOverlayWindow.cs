@@ -49,7 +49,7 @@ internal class BannerOverlayWindow : Window, IDisposable
             IconID = 786,
             IconLabel = "Sample",
             Priority = 11,
-            MessageLong = "Long Sample Warning"
+            MessageLong = "Long Sample Warning",
         };
 
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
@@ -186,7 +186,7 @@ internal class BannerOverlayWindow : Window, IDisposable
             drawList.AddImage(WarningIcon.ImGuiHandle, startingPosition, startingPosition + imageSize);
             startingPosition = startingPosition with
             {
-                X = startingPosition.X + imageSize.X + 10.0f * scale, Y = startingPosition.Y + 4.0f
+                X = startingPosition.X + imageSize.X + 10.0f * scale, Y = startingPosition.Y + 4.0f,
             };
         }
 
@@ -202,12 +202,12 @@ internal class BannerOverlayWindow : Window, IDisposable
                 textSize = DrawUtilities.CalculateTextSize(source, scale);
                 startingPosition = startingPosition with
                 {
-                    X = startingPosition.X - textSize.X / 2.0f, Y = startingPosition.Y + textSize.Y
+                    X = startingPosition.X - textSize.X / 2.0f, Y = startingPosition.Y + textSize.Y,
                 };
                 DrawUtilities.TextOutlined(startingPosition, source, scale / 2.0f, Colors.White);
                 startingPosition = startingPosition with
                 {
-                    X = startingPosition.X + textSize.X / 2.0f, Y = startingPosition.Y - textSize.Y
+                    X = startingPosition.X + textSize.X / 2.0f, Y = startingPosition.Y - textSize.Y,
                 };
             }
         }

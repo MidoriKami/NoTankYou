@@ -41,7 +41,6 @@
 
 	<ItemGroup>
 		<Content Include="..\images\**" Link="images\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-		<Content Remove="..\images\**" />
 	</ItemGroup>
 	
 	<ItemGroup>

@@ -33,7 +33,7 @@ public static class ModuleNameExtensions
             ModuleName.Summoner => Strings.Modules.Summoner.Label,
             ModuleName.Spiritbond => Strings.Modules.SpiritBond.Label,
             ModuleName.Cutscene => Strings.Modules.Cutscene.Label,
-            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
         };
     }
 }

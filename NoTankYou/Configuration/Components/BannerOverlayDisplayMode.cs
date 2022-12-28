@@ -6,7 +6,7 @@ namespace NoTankYou.Configuration.Components;
 public enum BannerOverlayDisplayMode
 {
     TopPriority,
-    List
+    List,
 }
 
 internal static class BannerOverlayDisplayModeExtensions
@@ -17,7 +17,7 @@ internal static class BannerOverlayDisplayModeExtensions
         {
             BannerOverlayDisplayMode.TopPriority => Strings.TabItems.BannerOverlay.TopPriorityMode,
             BannerOverlayDisplayMode.List => Strings.TabItems.BannerOverlay.ListMode,
-            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
     }
 }

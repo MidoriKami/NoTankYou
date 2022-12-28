@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using Dalamud.Interface.Windowing;
-using ImGuiNET;
 using KamiLib.BlacklistSystem;
 using KamiLib.InfoBoxSystem;
 using NoTankYou.Configuration;
@@ -18,11 +17,9 @@ internal class BlacklistConfigurationWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(275 * (4.0f / 3.0f), 350),
-            MaximumSize = new Vector2(9999, 9999)
+            MinimumSize = new Vector2(350, 500),
+            MaximumSize = new Vector2(9999, 9999),
         };
-
-        Flags |= ImGuiWindowFlags.AlwaysVerticalScrollbar;
 
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
     }
@@ -40,7 +37,7 @@ internal class BlacklistConfigurationWindow : Window, IDisposable
     public override void Draw()
     {
         InfoBox.Instance
-            .AddTitle(Strings.Common.Labels.Options)
+            .AddTitle(Strings.Common.Labels.Options, 1.0f)
             .AddConfigCheckbox(Strings.Configuration.Enable, Settings.Enabled)
             .Draw();
 

@@ -18,7 +18,7 @@ internal class ConfigurationWindow : Window, IDisposable
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(400 * (16.0f / 9.0f), 400),
-            MaximumSize = new Vector2(9999,9999)
+            MaximumSize = new Vector2(9999,9999),
         };
 
         Flags |= ImGuiWindowFlags.NoScrollbar;

@@ -171,7 +171,7 @@ internal class Tanks : IModule
 
                 // Warrior => Marauder
                 21 => 3,
-                _ => classjob
+                _ => classjob,
             };
 
             var action = Service.DataManager.GetExcelSheet<Action>()!

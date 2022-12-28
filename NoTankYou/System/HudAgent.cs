@@ -41,7 +41,7 @@ internal readonly struct PartyListData
             5 => PartyMember_5,
             6 => PartyMember_6,
             7 => PartyMember_7,
-            _ => throw new ArgumentOutOfRangeException(nameof(index), index, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(index), index, null),
         };
 }
 

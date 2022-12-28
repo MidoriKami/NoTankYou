@@ -31,7 +31,7 @@ internal class PartyOverlayConfigurationWindow : Window, IDisposable
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(275 * (4.0f / 3.0f), 350),
-            MaximumSize = new Vector2(9999,9999)
+            MaximumSize = new Vector2(9999,9999),
         };
 
         Flags |= ImGuiWindowFlags.AlwaysVerticalScrollbar;

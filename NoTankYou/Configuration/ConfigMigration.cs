@@ -187,7 +187,7 @@ internal static class ConfigMigration
             Scale = Migrate.GetSettingValue<float>("DisplaySettings.BannerOverlay.Scale"),
             WarningCount = Migrate.GetSettingValue<int>("DisplaySettings.BannerOverlay.WarningCount"),
             WarningShield = Migrate.GetSettingValue<bool>("DisplaySettings.BannerOverlay.WarningShield"),
-            BorderThickness = new Setting<float>(1.0f)
+            BorderThickness = new Setting<float>(1.0f),
         };
     }
 
