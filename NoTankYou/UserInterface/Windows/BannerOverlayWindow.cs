@@ -7,6 +7,7 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
+using KamiLib.Image;
 using KamiLib.Utilities;
 using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
