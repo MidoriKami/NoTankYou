@@ -50,6 +50,10 @@ public unsafe class DutyEventManager : IDisposable
                 DutyStarted = true;
             }
         }
+        else if (!Condition.IsBoundByDuty())
+        {
+            DutyStarted = false;
+        }
     }
 
     private void TerritoryChanged(object? sender, ushort e)
