@@ -12,6 +12,8 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         // Create Static Services for use everywhere
         pluginInterface.Create<Service>();
 
+        KamiLib.KamiLib.Initialize(pluginInterface, Name, () => Service.ConfigurationManager.Save());
+        
         // Systems that have no dependencies
         Service.FontManager = new FontManager();
         Service.LocalizationManager = new LocalizationManager();
@@ -30,6 +32,8 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         
     public void Dispose()
     {
+        KamiLib.KamiLib.Dispose();
+        
         Service.FontManager.Dispose();
         Service.LocalizationManager.Dispose();
         Service.PartyListAddon.Dispose();

@@ -1,6 +1,6 @@
-﻿using NoTankYou.Interfaces;
+﻿using KamiLib.Utilities;
+using NoTankYou.Interfaces;
 using NoTankYou.UserInterface.Windows;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.System.Commands;
 
