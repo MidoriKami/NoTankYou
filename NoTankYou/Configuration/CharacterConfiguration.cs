@@ -82,15 +82,11 @@ public class CharacterConfiguration
 
     private static CharacterConfiguration GenerateMigratedCharacterConfiguration(FileInfo basePluginConfigInfo)
     {
-        var reader = new StreamReader(basePluginConfigInfo.FullName);
-        var fileText = reader.ReadToEnd();
-        reader.Dispose();
-
         CharacterConfiguration migratedConfiguration;
 
         try
         {
-            migratedConfiguration = ConfigMigration.Convert(fileText);
+            migratedConfiguration = ConfigMigration.Convert(basePluginConfigInfo);
             migratedConfiguration.Save();
         }
         catch (Exception e)

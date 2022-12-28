@@ -10,6 +10,7 @@ using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.System;
+using NoTankYou.Utilities;
 using Condition = NoTankYou.Utilities.Condition;
 
 namespace NoTankYou.UserInterface.Windows;

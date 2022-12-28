@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.IO;
+using KamiLib.ConfigMigration;
 using KamiLib.Configuration;
-using Newtonsoft.Json.Linq;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Modules;
 using NoTankYou.UserInterface.Windows;
@@ -11,12 +9,10 @@ namespace NoTankYou.Configuration;
 
 internal static class ConfigMigration
 {
-    private static JObject? _parsedJson;
-
-    public static CharacterConfiguration Convert(string fileText)
+    public static CharacterConfiguration Convert(FileInfo filePath)
     {
-        _parsedJson = JObject.Parse(fileText);
-
+        Migrate.LoadFile(filePath);
+        
         return new CharacterConfiguration
         {
             Version = 5,
@@ -40,12 +36,12 @@ internal static class ConfigMigration
     {
         return new PartyOverlaySettings
         {
-            FlashingEffects = GetSettingValue<bool>("DisplaySettings.PartyOverlay.FlashingEffects"),
-            JobIcon = GetSettingValue<bool>("DisplaySettings.PartyOverlay.JobIcon"),
-            PlayerName = GetSettingValue<bool>("DisplaySettings.PartyOverlay.PlayerName"),
-            WarningText = GetSettingValue<bool>("DisplaySettings.PartyOverlay.WarningText"),
-            WarningOutlineColor = GetVector4("DisplaySettings.PartyOverlay.WarningOutlineColor"),
-            WarningTextColor = GetVector4("DisplaySettings.PartyOverlay.WarningTextColor")
+            FlashingEffects = Migrate.GetSettingValue<bool>("DisplaySettings.PartyOverlay.FlashingEffects"),
+            JobIcon = Migrate.GetSettingValue<bool>("DisplaySettings.PartyOverlay.JobIcon"),
+            PlayerName = Migrate.GetSettingValue<bool>("DisplaySettings.PartyOverlay.PlayerName"),
+            WarningText = Migrate.GetSettingValue<bool>("DisplaySettings.PartyOverlay.WarningText"),
+            WarningOutlineColor = Migrate.GetVector4("DisplaySettings.PartyOverlay.WarningOutlineColor"),
+            WarningTextColor = Migrate.GetVector4("DisplaySettings.PartyOverlay.WarningTextColor"),
         };
     }
 
@@ -53,7 +49,7 @@ internal static class ConfigMigration
     {
         return new BlacklistSettings
         {
-            Enabled = GetSettingValue<bool>("SystemSettings.Blacklist.Enabled"),
+            Enabled = Migrate.GetSettingValue<bool>("SystemSettings.Blacklist.Enabled"),
             //BlacklistedZoneSettings = GetArray<uint>("SystemSettings.Blacklist.BlacklistedZones"),
         };
     }
@@ -62,15 +58,15 @@ internal static class ConfigMigration
     {
         return new TankConfiguration
         {
-            Enabled = GetSettingValue<bool>("ModuleSettings.Tank.Enabled"),
-            SoloMode = GetSettingValue<bool>("ModuleSettings.Tank.SoloMode"),
-            Priority = GetSettingValue<int>("ModuleSettings.Tank.Priority"),
-            DutiesOnly = GetSettingValue<bool>("ModuleSettings.Tank.DutiesOnly"),
+            Enabled = Migrate.GetSettingValue<bool>("ModuleSettings.Tank.Enabled"),
+            SoloMode = Migrate.GetSettingValue<bool>("ModuleSettings.Tank.SoloMode"),
+            Priority = Migrate.GetSettingValue<int>("ModuleSettings.Tank.Priority"),
+            DutiesOnly = Migrate.GetSettingValue<bool>("ModuleSettings.Tank.DutiesOnly"),
             PartyFrameOverlay = new Setting<bool>(true),
             BannerOverlay = new Setting<bool>(true),
 
-            CheckAllianceStances = GetSettingValue<bool>("ModuleSettings.Tank.CheckAllianceStances"),
-            DisableInAllianceRaid = GetSettingValue<bool>("ModuleSettings.Tank.DisableInAllianceRaid"),
+            CheckAllianceStances = Migrate.GetSettingValue<bool>("ModuleSettings.Tank.CheckAllianceStances"),
+            DisableInAllianceRaid = Migrate.GetSettingValue<bool>("ModuleSettings.Tank.DisableInAllianceRaid"),
         };
     }
 
@@ -78,18 +74,18 @@ internal static class ConfigMigration
     {
         return new FoodConfiguration
         {
-            Enabled = GetSettingValue<bool>("ModuleSettings.Food.Enabled"),
-            SoloMode = GetSettingValue<bool>("ModuleSettings.Food.SoloMode"),
-            Priority = GetSettingValue<int>("ModuleSettings.Food.Priority"),
-            DutiesOnly = GetSettingValue<bool>("ModuleSettings.Food.DutiesOnly"),
+            Enabled = Migrate.GetSettingValue<bool>("ModuleSettings.Food.Enabled"),
+            SoloMode = Migrate.GetSettingValue<bool>("ModuleSettings.Food.SoloMode"),
+            Priority = Migrate.GetSettingValue<int>("ModuleSettings.Food.Priority"),
+            DutiesOnly = Migrate.GetSettingValue<bool>("ModuleSettings.Food.DutiesOnly"),
             PartyFrameOverlay = new Setting<bool>(true),
             BannerOverlay = new Setting<bool>(true),
 
-            DisableInCombat = GetSettingValue<bool>("ModuleSettings.Food.DisableInCombat"),
-            ExtremeUnreal = GetSettingValue<bool>("ModuleSettings.Food.ExtremeUnreal"),
-            FoodEarlyWarningTime = GetSettingValue<int>("ModuleSettings.Food.FoodEarlyWarningTime"),
-            SavageDuties = GetSettingValue<bool>("ModuleSettings.Food.SavageDuties"),
-            UltimateDuties = GetSettingValue<bool>("ModuleSettings.Food.UltimateDuties"),
+            DisableInCombat = Migrate.GetSettingValue<bool>("ModuleSettings.Food.DisableInCombat"),
+            ExtremeUnreal = Migrate.GetSettingValue<bool>("ModuleSettings.Food.ExtremeUnreal"),
+            FoodEarlyWarningTime = Migrate.GetSettingValue<int>("ModuleSettings.Food.FoodEarlyWarningTime"),
+            SavageDuties = Migrate.GetSettingValue<bool>("ModuleSettings.Food.SavageDuties"),
+            UltimateDuties = Migrate.GetSettingValue<bool>("ModuleSettings.Food.UltimateDuties"),
         };
     }
 
@@ -97,15 +93,15 @@ internal static class ConfigMigration
     {
         return new FreeCompanyConfiguration
         {
-            Enabled = GetSettingValue<bool>("ModuleSettings.FreeCompany.Enabled"),
-            SoloMode = GetSettingValue<bool>("ModuleSettings.FreeCompany.SoloMode"),
-            Priority = GetSettingValue<int>("ModuleSettings.FreeCompany.Priority"),
-            DutiesOnly = GetSettingValue<bool>("ModuleSettings.FreeCompany.DutiesOnly"),
+            Enabled = Migrate.GetSettingValue<bool>("ModuleSettings.FreeCompany.Enabled"),
+            SoloMode = Migrate.GetSettingValue<bool>("ModuleSettings.FreeCompany.SoloMode"),
+            Priority = Migrate.GetSettingValue<int>("ModuleSettings.FreeCompany.Priority"),
+            DutiesOnly = Migrate.GetSettingValue<bool>("ModuleSettings.FreeCompany.DutiesOnly"),
             PartyFrameOverlay = new Setting<bool>(true),
             BannerOverlay = new Setting<bool>(true),
 
-            BuffCount = GetSettingValue<int>("ModuleSettings.FreeCompany.BuffCount"),
-            ScanMode = GetSettingEnum<FreeCompanyBuffScanMode>("ModuleSettings.FreeCompany.ScanMode"),
+            BuffCount = Migrate.GetSettingValue<int>("ModuleSettings.FreeCompany.BuffCount"),
+            ScanMode = Migrate.GetSettingEnum<FreeCompanyBuffScanMode>("ModuleSettings.FreeCompany.ScanMode"),
             BuffList = GetBuffList("ModuleSettings.FreeCompany.BuffList"),
         };
     }
@@ -114,16 +110,16 @@ internal static class ConfigMigration
     {
         return new BlueMageConfiguration
         {
-            Enabled = GetSettingValue<bool>("ModuleSettings.BlueMage.Enabled"),
-            SoloMode = GetSettingValue<bool>("ModuleSettings.BlueMage.SoloMode"),
-            Priority = GetSettingValue<int>("ModuleSettings.BlueMage.Priority"),
-            DutiesOnly = GetSettingValue<bool>("ModuleSettings.BlueMage.DutiesOnly"),
+            Enabled = Migrate.GetSettingValue<bool>("ModuleSettings.BlueMage.Enabled"),
+            SoloMode = Migrate.GetSettingValue<bool>("ModuleSettings.BlueMage.SoloMode"),
+            Priority = Migrate.GetSettingValue<int>("ModuleSettings.BlueMage.Priority"),
+            DutiesOnly = Migrate.GetSettingValue<bool>("ModuleSettings.BlueMage.DutiesOnly"),
             PartyFrameOverlay = new Setting<bool>(true),
             BannerOverlay = new Setting<bool>(true),
 
-            TankStance = GetSettingValue<bool>("ModuleSettings.BlueMage.TankStance"),
-            BasicInstinct = GetSettingValue<bool>("ModuleSettings.BlueMage.BasicInstinct"),
-            Mimicry = GetSettingValue<bool>("ModuleSettings.BlueMage.Mimicry"),
+            TankStance = Migrate.GetSettingValue<bool>("ModuleSettings.BlueMage.TankStance"),
+            BasicInstinct = Migrate.GetSettingValue<bool>("ModuleSettings.BlueMage.BasicInstinct"),
+            Mimicry = Migrate.GetSettingValue<bool>("ModuleSettings.BlueMage.Mimicry"),
         };
     }
 
@@ -131,10 +127,10 @@ internal static class ConfigMigration
     {
         return new DancerConfiguration
         {
-            Enabled = GetSettingValue<bool>("ModuleSettings.Dancer.Enabled"),
-            SoloMode = GetSettingValue<bool>("ModuleSettings.Dancer.SoloMode"),
-            Priority = GetSettingValue<int>("ModuleSettings.Dancer.Priority"),
-            DutiesOnly = GetSettingValue<bool>("ModuleSettings.Dancer.DutiesOnly"),
+            Enabled = Migrate.GetSettingValue<bool>("ModuleSettings.Dancer.Enabled"),
+            SoloMode = Migrate.GetSettingValue<bool>("ModuleSettings.Dancer.SoloMode"),
+            Priority = Migrate.GetSettingValue<int>("ModuleSettings.Dancer.Priority"),
+            DutiesOnly = Migrate.GetSettingValue<bool>("ModuleSettings.Dancer.DutiesOnly"),
             PartyFrameOverlay = new Setting<bool>(true),
             BannerOverlay = new Setting<bool>(true),
         };
@@ -144,10 +140,10 @@ internal static class ConfigMigration
     {
         return new SageConfiguration
         {
-            Enabled = GetSettingValue<bool>("ModuleSettings.Sage.Enabled"),
-            SoloMode = GetSettingValue<bool>("ModuleSettings.Sage.SoloMode"),
-            Priority = GetSettingValue<int>("ModuleSettings.Sage.Priority"),
-            DutiesOnly = GetSettingValue<bool>("ModuleSettings.Sage.DutiesOnly"),
+            Enabled = Migrate.GetSettingValue<bool>("ModuleSettings.Sage.Enabled"),
+            SoloMode = Migrate.GetSettingValue<bool>("ModuleSettings.Sage.SoloMode"),
+            Priority = Migrate.GetSettingValue<int>("ModuleSettings.Sage.Priority"),
+            DutiesOnly = Migrate.GetSettingValue<bool>("ModuleSettings.Sage.DutiesOnly"),
             PartyFrameOverlay = new Setting<bool>(true),
             BannerOverlay = new Setting<bool>(true),
         };
@@ -157,10 +153,10 @@ internal static class ConfigMigration
     {
         return new ScholarConfiguration
         {
-            Enabled = GetSettingValue<bool>("ModuleSettings.Scholar.Enabled"),
-            SoloMode = GetSettingValue<bool>("ModuleSettings.Scholar.SoloMode"),
-            Priority = GetSettingValue<int>("ModuleSettings.Scholar.Priority"),
-            DutiesOnly = GetSettingValue<bool>("ModuleSettings.Scholar.DutiesOnly"),
+            Enabled = Migrate.GetSettingValue<bool>("ModuleSettings.Scholar.Enabled"),
+            SoloMode = Migrate.GetSettingValue<bool>("ModuleSettings.Scholar.SoloMode"),
+            Priority = Migrate.GetSettingValue<int>("ModuleSettings.Scholar.Priority"),
+            DutiesOnly = Migrate.GetSettingValue<bool>("ModuleSettings.Scholar.DutiesOnly"),
             PartyFrameOverlay = new Setting<bool>(true),
             BannerOverlay = new Setting<bool>(true),
         };
@@ -170,10 +166,10 @@ internal static class ConfigMigration
     {
         return new SummonerConfiguration
         {
-            Enabled = GetSettingValue<bool>("ModuleSettings.Summoner.Enabled"),
-            SoloMode = GetSettingValue<bool>("ModuleSettings.Summoner.SoloMode"),
-            Priority = GetSettingValue<int>("ModuleSettings.Summoner.Priority"),
-            DutiesOnly = GetSettingValue<bool>("ModuleSettings.Summoner.DutiesOnly"),
+            Enabled = Migrate.GetSettingValue<bool>("ModuleSettings.Summoner.Enabled"),
+            SoloMode = Migrate.GetSettingValue<bool>("ModuleSettings.Summoner.SoloMode"),
+            Priority = Migrate.GetSettingValue<int>("ModuleSettings.Summoner.Priority"),
+            DutiesOnly = Migrate.GetSettingValue<bool>("ModuleSettings.Summoner.DutiesOnly"),
             PartyFrameOverlay = new Setting<bool>(true),
             BannerOverlay = new Setting<bool>(true),
         };
@@ -183,14 +179,14 @@ internal static class ConfigMigration
     {
         return new BannerOverlaySettings
         {
-            WarningText = GetSettingValue<bool>("DisplaySettings.BannerOverlay.WarningText"),
-            Icon = GetSettingValue<bool>("DisplaySettings.BannerOverlay.Icon"),
-            IconText = GetSettingValue<bool>("DisplaySettings.BannerOverlay.IconText"),
-            Mode = GetSettingEnum<BannerOverlayDisplayMode>("DisplaySettings.BannerOverlay.Mode"),
-            PlayerNames = GetSettingValue<bool>("DisplaySettings.BannerOverlay.PlayerNames"),
-            Scale = GetSettingValue<float>("DisplaySettings.BannerOverlay.Scale"),
-            WarningCount = GetSettingValue<int>("DisplaySettings.BannerOverlay.WarningCount"),
-            WarningShield = GetSettingValue<bool>("DisplaySettings.BannerOverlay.WarningShield"),
+            WarningText = Migrate.GetSettingValue<bool>("DisplaySettings.BannerOverlay.WarningText"),
+            Icon = Migrate.GetSettingValue<bool>("DisplaySettings.BannerOverlay.Icon"),
+            IconText = Migrate.GetSettingValue<bool>("DisplaySettings.BannerOverlay.IconText"),
+            Mode = Migrate.GetSettingEnum<BannerOverlayDisplayMode>("DisplaySettings.BannerOverlay.Mode"),
+            PlayerNames = Migrate.GetSettingValue<bool>("DisplaySettings.BannerOverlay.PlayerNames"),
+            Scale = Migrate.GetSettingValue<float>("DisplaySettings.BannerOverlay.Scale"),
+            WarningCount = Migrate.GetSettingValue<int>("DisplaySettings.BannerOverlay.WarningCount"),
+            WarningShield = Migrate.GetSettingValue<bool>("DisplaySettings.BannerOverlay.WarningShield"),
             BorderThickness = new Setting<float>(1.0f)
         };
     }
@@ -210,51 +206,11 @@ internal static class ConfigMigration
             World = playerWorld,
         };
     }
-
-    private static Setting<T> GetSettingValue<T>(string key) where T : struct
-    {
-        return new Setting<T>(_parsedJson!.SelectToken(key)!.Value<T>());
-    }
-
-    private static Setting<T> GetSettingEnum<T>(string key) where T : struct
-    {
-        var readValue = _parsedJson!.SelectToken(key)!.Value<int>();
-
-        return new Setting<T>((T) Enum.ToObject(typeof(T), readValue));
-    }
-
-    private static T GetValue<T>(string key)
-    {
-        return _parsedJson!.SelectToken(key)!.Value<T>()!;
-    }
-
-    private static JArray GetArray(string key)
-    {
-        return (JArray) _parsedJson!.SelectToken(key)!;
-    }
-
-    private static List<T> GetArray<T>(string key)
-    {
-        var array = GetArray(key);
-
-        return array.ToObject<List<T>>()!;
-    }
-
+    
     private static uint[] GetBuffList(string key)
     {
-        var array = GetArray(key);
+        var array = Migrate.GetArray(key);
 
         return array.ToObject<uint[]>()!;
-    }
-
-    private static Setting<Vector4> GetVector4(string key)
-    {
-        return new Setting<Vector4>(new Vector4
-        {
-            X = GetValue<float>($"{key}.X"),
-            Y = GetValue<float>($"{key}.Y"),
-            Z = GetValue<float>($"{key}.Z"),
-            W = GetValue<float>($"{key}.W"),
-        });
     }
 }
