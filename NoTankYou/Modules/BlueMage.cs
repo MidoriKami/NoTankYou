@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using Lumina.Excel.GeneratedSheets;
+using KamiLib.Extensions;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
 using NoTankYou.UserInterface.Components.InfoBox;
-using NoTankYou.Utilities;
-using Condition = NoTankYou.Utilities.Condition;
+using Lumina.Excel.GeneratedSheets;
+using Condition = KamiLib.Utilities.Condition;
 
 namespace NoTankYou.Modules;
 

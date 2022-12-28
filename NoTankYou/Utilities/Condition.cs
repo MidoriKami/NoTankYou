@@ -20,15 +20,6 @@ internal static class Condition
         ConditionFlag.BetweenAreas51
     };
     
-    public static bool IsBoundByDuty()
-    {
-        var baseBoundByDuty = Service.Condition[ConditionFlag.BoundByDuty];
-        var boundBy56 = Service.Condition[ConditionFlag.BoundByDuty56];
-        var boundBy95 = Service.Condition[ConditionFlag.BoundByDuty95];
-            
-        return baseBoundByDuty || boundBy56 || boundBy95;
-    }
-
     public static bool ShouldShowWarnings()
     {
         var blacklist = Service.ConfigurationManager.CharacterConfiguration.Blacklist;

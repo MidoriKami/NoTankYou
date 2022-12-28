@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using KamiLib.Extensions;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;

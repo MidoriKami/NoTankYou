@@ -2,6 +2,7 @@
 using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using KamiLib.Utilities;
 using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;

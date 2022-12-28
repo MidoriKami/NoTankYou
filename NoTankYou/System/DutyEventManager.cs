@@ -1,10 +1,9 @@
 ﻿using System;
 using Dalamud.Game;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
-using Condition = NoTankYou.Utilities.Condition;
+using KamiLib.Utilities;
 
 namespace NoTankYou.System;
 
@@ -45,7 +44,7 @@ public unsafe class DutyEventManager : IDisposable
     {
         if (!DutyStarted && !CompletedThisTerritory)
         {
-            if (Condition.IsBoundByDuty() && Service.Condition[ConditionFlag.InCombat])
+            if (Condition.IsBoundByDuty() && Condition.IsInCombat())
             {
                 DutyStarted = true;
             }

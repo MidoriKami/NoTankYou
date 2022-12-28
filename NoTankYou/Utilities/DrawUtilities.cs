@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using ImGuiNET;
+using KamiLib.Utilities;
 using NoTankYou.UserInterface.Windows;
 
 namespace NoTankYou.Utilities;
@@ -8,17 +9,7 @@ namespace NoTankYou.Utilities;
 internal static class DrawUtilities
 {
     private static BannerOverlaySettings BannerOverlaySettings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
-
-    public static void VerticalLine()
-    {
-        var contentArea = ImGui.GetContentRegionAvail();
-        var cursor = ImGui.GetCursorScreenPos();
-        var drawList = ImGui.GetWindowDrawList();
-        var color = ImGui.GetColorU32(Colors.White);
-
-        drawList.AddLine(cursor, cursor with {Y = cursor.Y + contentArea.Y}, color, 1.0f);
-    }
-
+    
     public static void TextOutlined(Vector2 startingPosition, string text, float scale, Vector4 color)
     {
         startingPosition = startingPosition.Ceil();

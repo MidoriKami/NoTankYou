@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using ImGuiNET;
+using KamiLib.Utilities;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.Components.InfoBox;
