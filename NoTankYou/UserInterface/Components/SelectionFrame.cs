@@ -131,8 +131,10 @@ internal class SelectionFrame : IDrawable
     {
         if (ImGui.Button(Strings.TabItems.Blacklist.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
-            var window = Service.WindowManager.GetWindowOfType<BlacklistConfigurationWindow>()!;
-            window.IsOpen = !window.IsOpen;
+            if (KamiLib.KamiLib.WindowManager.GetWindowOfType<BlacklistConfigurationWindow>() is { } window)
+            {
+                window.IsOpen = !window.IsOpen;
+            }
         }
     }
 
@@ -140,8 +142,10 @@ internal class SelectionFrame : IDrawable
     {
         if (ImGui.Button(Strings.TabItems.BannerOverlay.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
-            var window = Service.WindowManager.GetWindowOfType<BannerOverlayConfigurationWindow>()!;
-            window.IsOpen = !window.IsOpen;
+            if (KamiLib.KamiLib.WindowManager.GetWindowOfType<BannerOverlayConfigurationWindow>() is { } window)
+            {
+                window.IsOpen = !window.IsOpen;
+            }
         }
     }
 
@@ -158,8 +162,10 @@ internal class SelectionFrame : IDrawable
 
         if (ImGui.Button(Strings.TabItems.PartyOverlay.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
-            var window = Service.WindowManager.GetWindowOfType<PartyOverlayConfigurationWindow>()!;
-            window.IsOpen = !window.IsOpen;
+            if (KamiLib.KamiLib.WindowManager.GetWindowOfType<PartyOverlayConfigurationWindow>() is { } window)
+            {
+                window.IsOpen = !window.IsOpen;
+            }
         }
 
         if (colorOrange)

@@ -1,5 +1,6 @@
 ﻿using Dalamud.Plugin;
 using NoTankYou.System;
+using NoTankYou.UserInterface.Windows;
 
 namespace NoTankYou;
 
@@ -23,10 +24,17 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.IconManager = new IconManager();
         Service.DutyLists = new DutyLists();
 
+        KamiLib.KamiLib.WindowManager.AddWindow(new ConfigurationWindow());
+        KamiLib.KamiLib.WindowManager.AddWindow(new PartyListOverlayWindow());
+        KamiLib.KamiLib.WindowManager.AddWindow(new BannerOverlayWindow());
+        KamiLib.KamiLib.WindowManager.AddWindow(new PartyOverlayConfigurationWindow());
+        KamiLib.KamiLib.WindowManager.AddWindow(new BannerOverlayConfigurationWindow());
+        KamiLib.KamiLib.WindowManager.AddWindow(new BlacklistConfigurationWindow());
+        KamiLib.KamiLib.WindowManager.AddWindow(new DebugWindow());
+        
         // Dependent systems below
         Service.ConfigurationManager = new ConfigurationManager();
         Service.ModuleManager = new ModuleManager();
-        Service.WindowManager = new WindowManager();
         Service.CommandSystem = new CommandManager();
     }
         
@@ -43,7 +51,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.DutyLists.Dispose();
 
         Service.ConfigurationManager.Dispose();
-        Service.WindowManager.Dispose();
         Service.CommandSystem.Dispose();
     }
 }

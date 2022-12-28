@@ -29,7 +29,6 @@ public class Service
 
     internal static System.ModuleManager ModuleManager = null!;
     internal static System.CommandManager CommandSystem = null!;
-    internal static System.WindowManager WindowManager = null!;
     internal static System.LocalizationManager LocalizationManager = null!;
     internal static System.ConfigurationManager ConfigurationManager = null!;
     internal static System.FontManager FontManager = null!;
