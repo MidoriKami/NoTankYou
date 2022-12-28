@@ -6,7 +6,6 @@ using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Utilities;
 using NoTankYou.Configuration;
-using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;
 
 namespace NoTankYou.UserInterface.Windows;

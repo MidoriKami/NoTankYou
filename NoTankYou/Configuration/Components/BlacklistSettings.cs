@@ -7,7 +7,7 @@ public class BlacklistSettings
 {
     public Setting<bool> Enabled = new(false);
 
-    public List<uint> BlacklistedZones = new();
+    public Setting<List<uint>> BlacklistedZoneSettings = new(new List<uint>());
 }
 
 public static class BlacklistSettingsExtensions
@@ -16,6 +16,6 @@ public static class BlacklistSettingsExtensions
     {
         var currentTerritory = Service.ClientState.TerritoryType;
 
-        return settings.BlacklistedZones.Contains(currentTerritory);
+        return settings.BlacklistedZoneSettings.Value.Contains(currentTerritory);
     }
 }

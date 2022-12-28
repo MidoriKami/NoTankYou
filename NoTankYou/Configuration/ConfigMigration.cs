@@ -54,7 +54,7 @@ internal static class ConfigMigration
         return new BlacklistSettings
         {
             Enabled = GetSettingValue<bool>("SystemSettings.Blacklist.Enabled"),
-            BlacklistedZones = GetArray<uint>("SystemSettings.Blacklist.BlacklistedZones"),
+            //BlacklistedZoneSettings = GetArray<uint>("SystemSettings.Blacklist.BlacklistedZones"),
         };
     }
 
