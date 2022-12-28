@@ -4,7 +4,6 @@ using KamiLib.Utilities;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.Components;
 

@@ -2,13 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.System;
 using NoTankYou.UserInterface.Components;
-using NoTankYou.UserInterface.Components.InfoBox;
+using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
 
@@ -49,7 +51,7 @@ internal class Spiritbond : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(Settings);
+            InfoBox.Instance.DrawGenericSettings(Settings);
             
             InfoBox.Instance
                 .AddTitle(Strings.Modules.SpiritBond.EarlyWarningLabel)
@@ -80,13 +82,13 @@ internal class Spiritbond : IModule
                     .AddConfigCheckbox(Strings.Common.Labels.Ultimate, Settings.UltimateDuties)
                     .AddConfigCheckbox(Strings.Common.Labels.ExtremeUnreal, Settings.ExtremeUnreal)
                     .AddConfigCheckbox(Strings.Common.Labels.Criterion, Settings.CriterionDuties)
-                    .Indent(-15)
+                    .UnIndent(15)
                     .Draw();
             }
             
-            InfoBox.DrawOverlaySettings(Settings);
+            InfoBox.Instance.DrawOverlaySettings(Settings);
             
-            InfoBox.DrawOptions(Settings);
+            InfoBox.Instance.DrawOptions(Settings);
         }
     }
 

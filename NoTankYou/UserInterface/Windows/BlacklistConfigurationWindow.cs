@@ -6,12 +6,12 @@ using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using Dalamud.Utility;
 using ImGuiNET;
+using KamiLib.InfoBoxSystem;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;
-using NoTankYou.UserInterface.Components.InfoBox;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.Windows;

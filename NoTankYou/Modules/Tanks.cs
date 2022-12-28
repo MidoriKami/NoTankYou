@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using KamiLib.Configuration;
 using KamiLib.Extensions;
+using KamiLib.InfoBoxSystem;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.System;
 using NoTankYou.UserInterface.Components;
-using NoTankYou.UserInterface.Components.InfoBox;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
@@ -49,7 +50,7 @@ internal class Tanks : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(Settings);
+            InfoBox.Instance.DrawGenericSettings(Settings);
             
             InfoBox.Instance
                 .AddTitle(Strings.Common.Labels.AdditionalOptions)
@@ -57,9 +58,9 @@ internal class Tanks : IModule
                 .AddConfigCheckbox(Strings.Modules.Tank.CheckAllianceStances, Settings.CheckAllianceStances)
                 .Draw();
             
-            InfoBox.DrawOverlaySettings(Settings);
+            InfoBox.Instance.DrawOverlaySettings(Settings);
             
-            InfoBox.DrawOptions(Settings);
+            InfoBox.Instance.DrawOptions(Settings);
         }
     }
 

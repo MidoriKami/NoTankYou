@@ -1,8 +1,8 @@
 ﻿using System;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using KamiLib.InfoBoxSystem;
 using NoTankYou.System;
-using NoTankYou.UserInterface.Components.InfoBox;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.Windows;

@@ -4,7 +4,6 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using System.Runtime.InteropServices;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.System;
 

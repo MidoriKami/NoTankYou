@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using KamiLib.Extensions;
+using KamiLib.InfoBoxSystem;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
-using NoTankYou.UserInterface.Components.InfoBox;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
@@ -51,9 +51,9 @@ internal class Cutscene : IModule
                 .AddInputInt(Strings.Common.Labels.Priority, Settings.Priority, 0, 10)
                 .Draw();
             
-            InfoBox.DrawOverlaySettings(Settings);
+            InfoBox.Instance.DrawOverlaySettings(Settings);
             
-            InfoBox.DrawOptions(Settings);
+            InfoBox.Instance.DrawOptions(Settings);
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using KamiLib.Configuration;
 using Newtonsoft.Json.Linq;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Modules;

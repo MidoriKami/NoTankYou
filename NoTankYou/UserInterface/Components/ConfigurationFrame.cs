@@ -4,7 +4,6 @@ using ImGuiNET;
 using KamiLib.Utilities;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.Components;
 

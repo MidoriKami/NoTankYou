@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using KamiLib.Extensions;
+using KamiLib.InfoBoxSystem;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
-using NoTankYou.UserInterface.Components.InfoBox;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
@@ -43,11 +43,11 @@ internal class Summoner : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(Settings);
+            InfoBox.Instance.DrawGenericSettings(Settings);
             
-            InfoBox.DrawOverlaySettings(Settings);
+            InfoBox.Instance.DrawOverlaySettings(Settings);
             
-            InfoBox.DrawOptions(Settings);
+            InfoBox.Instance.DrawOptions(Settings);
         }
     }
 

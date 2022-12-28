@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using KamiLib.Configuration;
 using KamiLib.Extensions;
+using KamiLib.InfoBoxSystem;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
-using NoTankYou.UserInterface.Components.InfoBox;
 using Lumina.Excel.GeneratedSheets;
+using NoTankYou.Utilities;
 using Condition = KamiLib.Utilities.Condition;
 
 namespace NoTankYou.Modules;
@@ -60,9 +62,9 @@ internal class BlueMage : IModule
                 .AddConfigCheckbox(Strings.Modules.BlueMage.BasicInstinctLabel, Settings.BasicInstinct)
                 .Draw();
 
-            InfoBox.DrawOverlaySettings(Settings);
+            InfoBox.Instance.DrawOverlaySettings(Settings);
             
-            InfoBox.DrawOptions(Settings);
+            InfoBox.Instance.DrawOptions(Settings);
         }
     }
 

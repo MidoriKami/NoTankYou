@@ -1,4 +1,6 @@
-﻿namespace NoTankYou.Configuration.Components;
+﻿using KamiLib.Configuration;
+
+namespace NoTankYou.Configuration.Components;
 
 public class GenericSettings
 {

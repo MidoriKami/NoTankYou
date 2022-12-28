@@ -2,12 +2,12 @@
 using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 using KamiLib.Utilities;
 using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Localization;
-using NoTankYou.UserInterface.Components.InfoBox;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.Windows;
 
