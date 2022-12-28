@@ -56,3 +56,16 @@ internal static unsafe class HudAgent
     public static PlayerCharacter? GetPlayerCharacter(int index) => PlayerLocator.GetPlayer(GetPartyMember(index).ObjectID);
     public static PlayerCharacter? GetAllianceMember(int index) => PlayerLocator.GetPlayer(AllianceMemberObjectID[index]);
 }
+
+internal static class PlayerLocator
+{
+    public static PlayerCharacter? GetPlayer(uint objectId)
+    {
+        var result = Service.ObjectTable.SearchById(objectId);
+
+        if (result?.GetType() == typeof(PlayerCharacter))
+            return result as PlayerCharacter;
+
+        return null;
+    }
+}
