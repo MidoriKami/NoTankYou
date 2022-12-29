@@ -3,7 +3,7 @@ using System.IO;
 using Dalamud.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Modules;
 using NoTankYou.Windows;
 
