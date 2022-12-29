@@ -4,16 +4,14 @@ using System.Numerics;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
-using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
 using KamiLib.Utilities;
 using NoTankYou.Configuration;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.System;
 using NoTankYou.Utilities;
 using NoTankYou.Windows;
-using Condition = NoTankYou.Utilities.Condition;
 
 namespace NoTankYou.Overlays;
 
@@ -29,10 +27,6 @@ internal class BannerOverlayWindow : Window, IDisposable
 
     public BannerOverlayWindow() : base($"###BannerOverlay+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
-        SignatureHelper.Initialise(this);
-
-        Service.WindowSystem.AddWindow(this);
-
         WarningIcon = Image.LoadImage("BigWarning");
 
         ForceMainWindow = true;
@@ -70,7 +64,7 @@ internal class BannerOverlayWindow : Window, IDisposable
     {
         if (!PartyListAddon.DataAvailable) return false;
 
-        if (!Condition.ShouldShowWarnings()) return false;
+        if (!WarningCondition.ShouldShowWarnings()) return false;
 
         if (Settings.SampleMode.Value) return true;
 

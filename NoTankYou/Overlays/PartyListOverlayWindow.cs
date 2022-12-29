@@ -1,19 +1,19 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
-using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using ImGuiScene;
+using KamiLib.Caching;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.System;
 using NoTankYou.Utilities;
-using Condition = NoTankYou.Utilities.Condition;
+using NoTankYou.Windows;
+using Condition = KamiLib.Utilities.Condition;
 
-namespace NoTankYou.Windows;
+namespace NoTankYou.Overlays;
 
 internal class PartyListOverlayWindow : Window
 {
@@ -29,8 +29,6 @@ internal class PartyListOverlayWindow : Window
 
     public PartyListOverlayWindow() : base($"###PartyListOverlay")
     {
-        SignatureHelper.Initialise(this);
-
         WarningIcon = Image.LoadImage("Warning");
 
         Flags |= ImGuiWindowFlags.NoDecoration;
@@ -44,7 +42,7 @@ internal class PartyListOverlayWindow : Window
 
         AnimationStopwatch.Start();
 
-        var demoAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(67)!;
+        var demoAction = LuminaCache<Action>.Instance.GetRow(67)!;
 
         DemoWarning = new WarningState
         {
@@ -60,7 +58,7 @@ internal class PartyListOverlayWindow : Window
     {
         if (!PartyListAddon.DataAvailable) return false;
 
-        if (!Condition.ShouldShowWarnings()) return false;
+        if (!WarningCondition.ShouldShowWarnings()) return false;
 
         if (Settings.PreviewMode.Value) return true;
 
@@ -246,7 +244,7 @@ internal class PartyListOverlayWindow : Window
 
     private void ResetAnimation(PartyListAddonData player)
     {
-        player.UserInterface.SetIconVisibility(Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance] || player.AgentData.ValidData);
+        player.UserInterface.SetIconVisibility(Condition.IsCrossWorld() || player.AgentData.ValidData);
         player.UserInterface.SetPlayerNameOutlineColor(Vector4.Zero);
     }
 }
