@@ -5,7 +5,7 @@ namespace NoTankYou.System;
 
 public class FontManager : IDisposable
 {
-    public GameFontHandle GameFont { get; private set; }
+    public GameFontHandle GameFont { get; }
 
     public FontManager()
     {

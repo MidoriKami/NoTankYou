@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using KamiLib.Interfaces;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Modules;
 

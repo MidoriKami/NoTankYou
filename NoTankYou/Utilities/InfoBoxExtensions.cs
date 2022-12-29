@@ -1,5 +1,5 @@
 ﻿using KamiLib.InfoBoxSystem;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Localization;
 
 namespace NoTankYou.Utilities;
