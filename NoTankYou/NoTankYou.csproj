@@ -90,9 +90,5 @@
 	  <ProjectReference Include="..\KamiLib\KamiLib.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="UserInterface\Components" />
-	</ItemGroup>
-
 
 </Project>
