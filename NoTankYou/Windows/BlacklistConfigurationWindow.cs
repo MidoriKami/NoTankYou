@@ -4,7 +4,7 @@ using Dalamud.Interface.Windowing;
 using KamiLib.BlacklistSystem;
 using KamiLib.InfoBoxSystem;
 using NoTankYou.Configuration;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Localization;
 
 namespace NoTankYou.Windows;
@@ -46,7 +46,6 @@ internal class BlacklistConfigurationWindow : Window, IDisposable
             if (Service.ClientState.TerritoryType != 0)
             {
                 BlacklistDraw.DrawAddRemoveHere(Settings.BlacklistedZoneSettings);
-
             }
         
             BlacklistDraw.DrawTerritorySearch(Settings.BlacklistedZoneSettings);

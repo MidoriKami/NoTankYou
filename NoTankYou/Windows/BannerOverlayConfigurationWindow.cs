@@ -5,7 +5,7 @@ using ImGuiNET;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using NoTankYou.Configuration;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Localization;
 
 namespace NoTankYou.Windows;

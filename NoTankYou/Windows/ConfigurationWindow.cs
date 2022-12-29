@@ -5,12 +5,14 @@ using System.Reflection;
 using Dalamud.Interface;
 using Dalamud.Interface.Internal.Notifications;
 using ImGuiNET;
+using KamiLib;
 using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using KamiLib.Windows;
 using NoTankYou.Configuration;
 using NoTankYou.Localization;
+using NoTankYou.Overlays;
 
 namespace NoTankYou.Windows;
 
@@ -20,7 +22,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
     
     public ConfigurationWindow() : base($"NoTankYou - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}", 0.40f, 100.0f )
     {
-        KamiLib.KamiLib.CommandManager.AddCommand(new ConfigurationWindowCommands<ConfigurationWindow>());
+        KamiCommon.CommandManager.AddCommand(new ConfigurationWindowCommands<ConfigurationWindow>());
         
         SizeConstraints = new WindowSizeConstraints
         {
@@ -99,7 +101,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
     {
         if (ImGui.Button(Strings.TabItems.Blacklist.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
-            if (KamiLib.KamiLib.WindowManager.GetWindowOfType<BlacklistConfigurationWindow>() is { } window)
+            if (KamiCommon.WindowManager.GetWindowOfType<BlacklistConfigurationWindow>() is { } window)
             {
                 window.IsOpen = !window.IsOpen;
             }
@@ -110,7 +112,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
     {
         if (ImGui.Button(Strings.TabItems.BannerOverlay.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
-            if (KamiLib.KamiLib.WindowManager.GetWindowOfType<BannerOverlayConfigurationWindow>() is { } window)
+            if (KamiCommon.WindowManager.GetWindowOfType<BannerOverlayConfigurationWindow>() is { } window)
             {
                 window.IsOpen = !window.IsOpen;
             }
@@ -130,7 +132,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
 
         if (ImGui.Button(Strings.TabItems.PartyOverlay.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
-            if (KamiLib.KamiLib.WindowManager.GetWindowOfType<PartyOverlayConfigurationWindow>() is { } window)
+            if (KamiCommon.WindowManager.GetWindowOfType<PartyOverlayConfigurationWindow>() is { } window)
             {
                 window.IsOpen = !window.IsOpen;
             }
