@@ -1,4 +1,4 @@
-﻿using NoTankYou.Configuration.Components;
+﻿using NoTankYou.DataModels;
 
 namespace NoTankYou.Interfaces;
 

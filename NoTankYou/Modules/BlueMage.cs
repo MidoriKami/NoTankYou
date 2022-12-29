@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
-using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration;
+using NoTankYou.DataModels;
 using NoTankYou.Utilities;
 using Condition = KamiLib.Utilities.Condition;
 
@@ -86,9 +87,9 @@ internal class BlueMage : IModule
             ClassJobs = new List<uint> { 36 };
 
             MimicryStatusEffects = new List<uint>{ 2124, 2125, 2126 };
-
-            MimicryAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(18322)!;
-            MightyGuardAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(11417)!;
+            
+            MimicryAction = LuminaCache<Action>.Instance.GetRow(18322)!;
+            MightyGuardAction = LuminaCache<Action>.Instance.GetRow(11417)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)

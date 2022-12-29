@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using KamiLib.Caching;
 using KamiLib.Extensions;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
@@ -71,12 +72,11 @@ internal class Cutscene : IModule
         {
             ParentModule = parentModule;
             
-            ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
+            ClassJobs = LuminaCache<ClassJob>.Instance.GetAll()
                 .Select(r => r.RowId)
                 .ToList();
 
-            CutsceneStatus = Service.DataManager.GetExcelSheet<OnlineStatus>()!
-                .GetRow(15)!;
+            CutsceneStatus = LuminaCache<OnlineStatus>.Instance.GetRow(15)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)

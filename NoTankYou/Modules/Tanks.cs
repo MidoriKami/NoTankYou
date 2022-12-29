@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.System;
@@ -72,31 +74,24 @@ internal class Tanks : IModule
         public List<uint> ClassJobs { get; }
 
         private readonly List<uint> TankStances;
-        private readonly HashSet<uint> AllianceRaidTerritories;
         private readonly Dictionary<uint, IconInfo> TankIcons = new();
 
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
 
-            ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
+            ClassJobs = LuminaCache<ClassJob>.Instance.GetAll()
                 .Where(job => job.Role is 1)
                 .Select(r => r.RowId)
                 .ToList();
 
-            TankStances = Service.DataManager.GetExcelSheet<Action>()
-                !.Where(r => r.ClassJob.Value?.Role == 1)
+            TankStances = LuminaCache<Action>.Instance.GetAll()
+                .Where(r => r.ClassJob.Value?.Role == 1)
                 .Select(r => r.StatusGainSelf.Value!)
                 .Where(r => r.IsPermanent)
                 .Select(s => s.RowId)
                 .ToList();
-
-            // Territory Intended Use 8 = Alliance Raid
-            AllianceRaidTerritories = Service.DataManager.GetExcelSheet<TerritoryType>()
-                !.Where(r => r.TerritoryIntendedUse is 8)
-                .Select(r => r.RowId)
-                .ToHashSet();
-
+            
             foreach (var job in ClassJobs)
             {
                 var icon = GetTankIcon(job);
@@ -109,9 +104,9 @@ internal class Tanks : IModule
         {
             if (character.Level < 10) return null;
 
-            if (Settings.DisableInAllianceRaid.Value && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType)) return null;
+            if (Settings.DisableInAllianceRaid.Value && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance)) return null;
 
-            if (Settings.CheckAllianceStances.Value && AllianceRaidTerritories.Contains(Service.ClientState.TerritoryType))
+            if (Settings.CheckAllianceStances.Value && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance))
             {
                 return EvaluateAllianceStances(character);
             }
@@ -175,7 +170,7 @@ internal class Tanks : IModule
                 _ => classjob,
             };
 
-            var action = Service.DataManager.GetExcelSheet<Action>()!
+            var action = LuminaCache<Action>.Instance.GetAll()
                 .Where(r => r.ClassJob.Row == translatedClassJob)
                 .Where(r => TankStances.Contains(r.StatusGainSelf.Value!.RowId))
                 .First();

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using KamiLib.Caching;
 using KamiLib.Extensions;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
@@ -67,7 +68,7 @@ internal class Dancer : IModule
 
             ClassJobs = new List<uint> { 38 };
 
-            ClosedPositionAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(16006)!;
+            ClosedPositionAction = LuminaCache<Action>.Instance.GetRow(16006)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)

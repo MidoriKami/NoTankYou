@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.System;
 using NoTankYou.Utilities;
+using Condition = KamiLib.Utilities.Condition;
 
 namespace NoTankYou.Modules;
 
@@ -104,16 +104,16 @@ internal class Spiritbond : IModule
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
-            ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
+            ClassJobs = LuminaCache<ClassJob>.Instance.GetAll()
                 .Select(r => r.RowId)
                 .ToList();
 
-            SpiritBond = Service.DataManager.GetExcelSheet<Item>()!.GetRow(27960)!;
+            SpiritBond = LuminaCache<Item>.Instance.GetRow(27960)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (Settings.DisableInCombat.Value && Service.Condition[ConditionFlag.InCombat]) return null;
+            if (Settings.DisableInCombat.Value && Condition.IsInCombat()) return null;
 
             if (Settings.EnableZoneFilter.Value)
             {

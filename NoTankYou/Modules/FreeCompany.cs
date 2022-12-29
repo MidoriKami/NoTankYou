@@ -2,13 +2,15 @@
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using ImGuiNET;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration;
-using NoTankYou.Configuration.Components;
+using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.Utilities;
@@ -87,7 +89,7 @@ internal class FreeCompany : IModule
                 var displayValue = Strings.Common.Labels.Unset;
                 if (Settings.BuffList[i] != 0)
                 {
-                    var status = Service.DataManager.GetExcelSheet<Status>()!.GetRow(Settings.BuffList[i]);
+                    var status = LuminaCache<Status>.Instance.GetRow(Settings.BuffList[i]);
 
                     if (status != null)
                     {
@@ -98,7 +100,7 @@ internal class FreeCompany : IModule
                 ImGui.PushItemWidth(InfoBox.Instance.InnerWidth);
                 if (ImGui.BeginCombo($"###BuffSelection{i}", displayValue))
                 {
-                    foreach (var status in Service.DataManager.GetExcelSheet<Status>()!.Where(status => status.IsFcBuff).OrderBy(s => s.Name.RawString))
+                    foreach (var status in LuminaCache<Status>.Instance.GetAll().Where(status => status.IsFcBuff).OrderBy(s => s.Name.RawString))
                     {
                         if (ImGui.Selectable(status.Name.RawString, status.RowId == Settings.BuffList[i]))
                         {
@@ -149,21 +151,21 @@ internal class FreeCompany : IModule
             Settings.SoloMode.Value = true;
             Settings.DutiesOnly.Value = false;
 
-            ClassJobs = Service.DataManager.GetExcelSheet<ClassJob>()!
+            ClassJobs = LuminaCache<ClassJob>.Instance.GetAll()
                 .Select(r => r.RowId)
                 .ToList();
 
-            FreeCompanyStatusIDList = Service.DataManager.GetExcelSheet<Status>()!
+            FreeCompanyStatusIDList = LuminaCache<Status>.Instance.GetAll()
                 .Where(status => status.IsFcBuff)
                 .Select(status => status.RowId)
                 .ToList();
 
-            FreeCompanyStatus = Service.DataManager.GetExcelSheet<CompanyAction>()!.GetRow(43)!;
+            FreeCompanyStatus = LuminaCache<CompanyAction>.Instance.GetRow(43)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (Service.DutyEventManager.DutyStarted) return null;
+            if (DutyState.Instance.IsDutyStarted) return null;
             if (!CurrentlyInHomeworld(character)) return null;
 
             switch (Settings.ScanMode.Value)
@@ -186,7 +188,7 @@ internal class FreeCompany : IModule
                 case FreeCompanyBuffScanMode.Specific:
                     for (var i = 0; i < Settings.BuffCount.Value; ++i)
                     {
-                        var targetStatus = Service.DataManager.GetExcelSheet<Status>()!.GetRow(Settings.BuffList[i])!;
+                        var targetStatus = LuminaCache<Status>.Instance.GetRow(Settings.BuffList[i])!;
 
                         if (!character.HasStatus(targetStatus.RowId))
                         {
