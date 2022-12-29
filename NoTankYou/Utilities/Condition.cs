@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
+using KamiLib.Utilities;
 using NoTankYou.Configuration.Components;
 using NoTankYou.System;
 
@@ -25,7 +26,7 @@ internal static class Condition
         var blacklist = Service.ConfigurationManager.CharacterConfiguration.Blacklist;
 
         if (!PartyListAddon.DataAvailable) return false;
-        if (!Service.ContextManager.ShowWarnings) return false;
+        if (!GameUserInterface.Instance.IsVisible) return false;
         if (Service.ClientState.IsPvP) return false;
         if (Service.Condition[ConditionFlag.ParticipatingInCrossWorldPartyOrAlliance]) return false;
         if (!SpecialConditions()) return false;

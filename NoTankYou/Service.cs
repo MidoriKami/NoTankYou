@@ -1,13 +1,13 @@
 ﻿using Dalamud.Data;
 using Dalamud.Game;
 using Dalamud.Game.ClientState;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.Gui;
 using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
 using Dalamud.Plugin;
+using Condition = Dalamud.Game.ClientState.Conditions.Condition;
 
 namespace NoTankYou;
 
@@ -29,6 +29,5 @@ public class Service
     internal static System.ConfigurationManager ConfigurationManager = null!;
     internal static System.FontManager FontManager = null!;
     internal static System.DutyEventManager DutyEventManager = null!;
-    internal static System.ContextManager ContextManager = null!;
     internal static System.PartyListAddon PartyListAddon = null!;
 }

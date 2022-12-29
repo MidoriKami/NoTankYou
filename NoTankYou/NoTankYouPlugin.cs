@@ -1,4 +1,5 @@
 ﻿using Dalamud.Plugin;
+using KamiLib.Utilities;
 using NoTankYou.Overlays;
 using NoTankYou.System;
 using NoTankYou.Windows;
@@ -22,7 +23,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.LocalizationManager = new LocalizationManager();
         Service.PartyListAddon = new PartyListAddon();
         Service.DutyEventManager = new DutyEventManager();
-        Service.ContextManager = new ContextManager();
         
         // Dependent systems below
         Service.ConfigurationManager = new ConfigurationManager();
@@ -46,7 +46,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.LocalizationManager.Dispose();
         Service.PartyListAddon.Dispose();
         Service.DutyEventManager.Dispose();
-        Service.ContextManager.Dispose();
 
         Service.ConfigurationManager.Dispose();
     }

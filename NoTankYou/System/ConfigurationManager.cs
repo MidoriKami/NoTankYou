@@ -49,7 +49,6 @@ public class ConfigurationManager : IDisposable
 
     private void LoginLogic(Framework framework)
     {
-
         if (!LoggedIn) return;
 
         Service.Framework.RunOnTick(LoadCharacterConfiguration, TimeSpan.FromSeconds(1));
