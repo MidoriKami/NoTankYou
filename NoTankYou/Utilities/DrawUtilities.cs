@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using ImGuiNET;
+using KamiLib.Caching;
 using KamiLib.Utilities;
 using NoTankYou.Windows;
 
@@ -33,7 +34,7 @@ internal static class DrawUtilities
     {
         if (!Service.FontManager.GameFont.Available) return;
 
-        var icon = Service.IconManager.GetIconTexture(iconID);
+        var icon = IconCache.Instance.GetIcon(iconID);
         if (icon != null)
         {
             var drawList = ImGui.GetBackgroundDrawList();

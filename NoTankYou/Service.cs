@@ -4,7 +4,6 @@ using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Party;
-using Dalamud.Game.Command;
 using Dalamud.Game.Gui;
 using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
@@ -15,10 +14,8 @@ namespace NoTankYou;
 public class Service
 {
     [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; } = null!;
-    [PluginService] public static ChatGui Chat { get; private set; } = null!;
     [PluginService] public static ClientState ClientState { get; private set; } = null!;
     [PluginService] public static PartyList PartyList { get; private set; } = null!;
-    [PluginService] public static CommandManager Commands { get; private set; } = null!;
     [PluginService] public static Condition Condition { get; private set; } = null!;
     [PluginService] public static DataManager DataManager { get; private set; } = null!;
     [PluginService] public static Framework Framework { get; private set; } = null!;
@@ -33,7 +30,6 @@ public class Service
     internal static System.FontManager FontManager = null!;
     internal static System.DutyEventManager DutyEventManager = null!;
     internal static System.ContextManager ContextManager = null!;
-    internal static System.IconManager IconManager = null!;
     internal static System.PartyListAddon PartyListAddon = null!;
     internal static System.DutyLists DutyLists = null!;
 }

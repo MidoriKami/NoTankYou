@@ -14,7 +14,7 @@ internal class ConfigurationWindow : Window, IDisposable
     private readonly SelectionFrame SelectionFrame;
     private readonly ConfigurationFrame ConfigurationFrame; 
 
-    public ConfigurationWindow() : base($"No Tank You - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
+    public ConfigurationWindow() : base($"NoTankYou - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         KamiLib.KamiLib.CommandManager.AddCommand(new ConfigurationWindowCommands<ConfigurationWindow>());
         

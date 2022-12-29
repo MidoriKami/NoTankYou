@@ -22,9 +22,12 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.PartyListAddon = new PartyListAddon();
         Service.DutyEventManager = new DutyEventManager();
         Service.ContextManager = new ContextManager();
-        Service.IconManager = new IconManager();
         Service.DutyLists = new DutyLists();
-
+        
+        // Dependent systems below
+        Service.ConfigurationManager = new ConfigurationManager();
+        Service.ModuleManager = new ModuleManager();
+        
         KamiLib.KamiLib.CommandManager.AddHandler(ShorthandCommand, "shorthand command to open configuration window");
         
         KamiLib.KamiLib.WindowManager.AddWindow(new ConfigurationWindow());
@@ -34,10 +37,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         KamiLib.KamiLib.WindowManager.AddWindow(new BannerOverlayConfigurationWindow());
         KamiLib.KamiLib.WindowManager.AddWindow(new BlacklistConfigurationWindow());
         KamiLib.KamiLib.WindowManager.AddWindow(new DebugWindow());
-        
-        // Dependent systems below
-        Service.ConfigurationManager = new ConfigurationManager();
-        Service.ModuleManager = new ModuleManager();
     }
         
     public void Dispose()
@@ -49,7 +48,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         Service.PartyListAddon.Dispose();
         Service.DutyEventManager.Dispose();
         Service.ContextManager.Dispose();
-        Service.IconManager.Dispose();
         Service.DutyLists.Dispose();
 
         Service.ConfigurationManager.Dispose();

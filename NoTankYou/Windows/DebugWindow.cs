@@ -1,5 +1,4 @@
-﻿using System;
-using Dalamud.Interface.Windowing;
+﻿using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib.InfoBoxSystem;
 using NoTankYou.Commands;
