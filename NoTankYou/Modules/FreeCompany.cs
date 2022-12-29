@@ -95,6 +95,7 @@ internal class FreeCompany : IModule
                     }
                 }
                 
+                ImGui.PushItemWidth(InfoBox.Instance.InnerWidth);
                 if (ImGui.BeginCombo($"###BuffSelection{i}", displayValue))
                 {
                     foreach (var status in Service.DataManager.GetExcelSheet<Status>()!.Where(status => status.IsFcBuff).OrderBy(s => s.Name.RawString))
@@ -113,7 +114,7 @@ internal class FreeCompany : IModule
 
         private void DrawBuffCount()
         {
-            ImGui.PushItemWidth(200.0f);
+            ImGui.PushItemWidth(InfoBox.Instance.InnerWidth);
             if (ImGui.BeginCombo("###BuffCountCombo", Settings.BuffCount.ToString()))
             {
                 if (ImGui.Selectable("1", Settings.BuffCount.Value == 1))

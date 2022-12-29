@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using Dalamud.Interface;
@@ -19,7 +18,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
 {
     private static readonly string PluginVersion = GetVersionText();
     
-    public ConfigurationWindow() : base($"NoTankYou - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}", 0.40f, 0.725f )
+    public ConfigurationWindow() : base($"NoTankYou - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}", 0.40f, 100.0f )
     {
         KamiLib.KamiLib.CommandManager.AddCommand(new ConfigurationWindowCommands<ConfigurationWindow>());
         
@@ -51,12 +50,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
         if (Service.ClientState.IsPvP) IsOpen = false;
     }
 
-    protected override IEnumerable<ISelectable> GetSelectables()
-    {
-        return Service.ModuleManager
-            .GetConfigurationSelectables()
-            .ToList();
-    }
+    protected override IEnumerable<ISelectable> GetSelectables() => Service.ModuleManager.GetConfigurationSelectables();
 
     public override void OnClose()
     {

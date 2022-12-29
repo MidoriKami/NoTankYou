@@ -5,6 +5,7 @@ using Dalamud.Game.ClientState.Objects.SubKinds;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
@@ -55,8 +56,8 @@ internal class Spiritbond : IModule
             InfoBox.Instance.DrawGenericSettings(Settings);
             
             InfoBox.Instance
-                .AddTitle(Strings.Modules.SpiritBond.EarlyWarningLabel)
-                .AddInputInt(Strings.Common.Labels.Seconds, Settings.SpiritBondEarlyWarningTime, 0, 3600, 0, 0, 100.0f)
+                .AddTitle(Strings.Modules.SpiritBond.EarlyWarningLabel, out var innerWidth)
+                .AddInputInt(Strings.Common.Labels.Seconds, Settings.SpiritBondEarlyWarningTime, 0, 3600, 0, 0, innerWidth / 4.0f)
                 .Draw();
 
             InfoBox.Instance
@@ -116,7 +117,7 @@ internal class Spiritbond : IModule
 
             if (Settings.EnableZoneFilter.Value)
             {
-                switch (Service.DutyLists.GetDutyType(Service.ClientState.TerritoryType))
+                switch (DutyLists.Instance.GetDutyType(Service.ClientState.TerritoryType))
                 {
                     case DutyType.Savage when !Settings.SavageDuties.Value:
                     case DutyType.Ultimate when !Settings.UltimateDuties.Value:

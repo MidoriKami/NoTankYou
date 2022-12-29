@@ -5,12 +5,12 @@ using Dalamud.Game.ClientState.Objects.SubKinds;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.System;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
@@ -57,8 +57,8 @@ internal class Food : IModule
             InfoBox.Instance.DrawGenericSettings(Settings);
             
             InfoBox.Instance
-                .AddTitle(Strings.Modules.Food.EarlyWarningLabel)
-                .AddInputInt(Strings.Common.Labels.Seconds, Settings.FoodEarlyWarningTime, 0, 3600, 0, 0, 100.0f)
+                .AddTitle(Strings.Modules.Food.EarlyWarningLabel, out var innerWidth)
+                .AddInputInt(Strings.Common.Labels.Seconds, Settings.FoodEarlyWarningTime, 0, 3600, 0, 0, innerWidth / 4.0f)
                 .Draw();
 
             InfoBox.Instance
@@ -121,7 +121,7 @@ internal class Food : IModule
 
             if (Settings.EnableZoneFilter.Value)
             {
-                switch (Service.DutyLists.GetDutyType(Service.ClientState.TerritoryType))
+                switch (DutyLists.Instance.GetDutyType(Service.ClientState.TerritoryType))
                 {
                     case DutyType.Savage when !Settings.SavageDuties.Value:
                     case DutyType.Ultimate when !Settings.UltimateDuties.Value:

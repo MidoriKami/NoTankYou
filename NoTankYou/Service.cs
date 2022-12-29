@@ -31,5 +31,4 @@ public class Service
     internal static System.DutyEventManager DutyEventManager = null!;
     internal static System.ContextManager ContextManager = null!;
     internal static System.PartyListAddon PartyListAddon = null!;
-    internal static System.DutyLists DutyLists = null!;
 }

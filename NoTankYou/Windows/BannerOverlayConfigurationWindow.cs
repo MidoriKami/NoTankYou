@@ -33,8 +33,8 @@ internal class BannerOverlayConfigurationWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(325, 590),
-            MaximumSize = new Vector2(325,590),
+            MinimumSize = new Vector2(320,590),
+            MaximumSize = new Vector2(320,590),
         };
 
         Flags |= ImGuiWindowFlags.NoResize;

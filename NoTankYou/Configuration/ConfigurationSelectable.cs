@@ -13,6 +13,7 @@ internal class ConfigurationSelectable : ISelectable
     public ModuleName OwnerModuleName { get; }
     public IDrawable Contents { get; }
     public IModule ParentModule { get; }
+    public string ID => ParentModule.Name.GetTranslatedString();
 
     public ConfigurationSelectable(IModule parentModule, IDrawable contents)
     {
