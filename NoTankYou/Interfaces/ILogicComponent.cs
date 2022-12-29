@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using NoTankYou.Configuration.Components;
+using KamiLib.Utilities;
+using NoTankYou.DataModels;
 
 namespace NoTankYou.Interfaces;
 
@@ -14,7 +15,7 @@ internal interface ILogicComponent
     WarningState? ShouldShowWarning(PlayerCharacter character)
     {
         if (!ParentModule.GenericSettings.Enabled.Value) return null;
-        if (ParentModule.GenericSettings.DutiesOnly.Value && !Service.DutyEventManager.DutyStarted) return null;
+        if (ParentModule.GenericSettings.DutiesOnly.Value && !DutyState.Instance.IsDutyStarted) return null;
         if (ParentModule.GenericSettings.SoloMode.Value && character.ObjectId != Service.ClientState.LocalPlayer?.ObjectId) return null;
         if (character.IsDead) return null;
 
