@@ -5,11 +5,12 @@ using ImGuiNET;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
+using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;

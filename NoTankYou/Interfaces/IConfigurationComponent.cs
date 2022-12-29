@@ -1,4 +1,6 @@
 ﻿
+using KamiLib.Interfaces;
+
 namespace NoTankYou.Interfaces;
 
 internal interface IConfigurationComponent : IDrawable

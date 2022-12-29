@@ -118,7 +118,6 @@ internal static class ConfigMigration
             BannerOverlay = new Setting<bool>(true),
 
             TankStance = Migrate.GetSettingValue<bool>("ModuleSettings.BlueMage.TankStance"),
-            BasicInstinct = Migrate.GetSettingValue<bool>("ModuleSettings.BlueMage.BasicInstinct"),
             Mimicry = Migrate.GetSettingValue<bool>("ModuleSettings.BlueMage.Mimicry"),
         };
     }

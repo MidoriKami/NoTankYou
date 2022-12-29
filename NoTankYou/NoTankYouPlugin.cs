@@ -1,4 +1,5 @@
 ﻿using Dalamud.Plugin;
+using NoTankYou.Overlays;
 using NoTankYou.System;
 using NoTankYou.Windows;
 
@@ -36,7 +37,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         KamiLib.KamiLib.WindowManager.AddWindow(new PartyOverlayConfigurationWindow());
         KamiLib.KamiLib.WindowManager.AddWindow(new BannerOverlayConfigurationWindow());
         KamiLib.KamiLib.WindowManager.AddWindow(new BlacklistConfigurationWindow());
-        KamiLib.KamiLib.WindowManager.AddWindow(new DebugWindow());
     }
         
     public void Dispose()

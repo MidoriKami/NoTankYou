@@ -18,7 +18,7 @@ internal class BlacklistConfigurationWindow : Window, IDisposable
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(350, 500),
-            MaximumSize = new Vector2(9999, 9999),
+            MaximumSize = new Vector2(350, 9999),
         };
 
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;

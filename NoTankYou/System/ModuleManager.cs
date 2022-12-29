@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KamiLib.Interfaces;
+using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Modules;
 
@@ -24,6 +26,7 @@ internal class ModuleManager
     public IEnumerable<ISelectable> GetConfigurationSelectables()
     {
         return Modules
+            .OrderBy(item => item.Name.GetTranslatedString())
             .Select(module => module.ConfigurationComponent.Selectable);
     }
 

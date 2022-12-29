@@ -4,11 +4,12 @@ using Dalamud.Game.ClientState.Objects.SubKinds;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 using NoTankYou.Configuration.Components;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.UserInterface.Components;
 using Lumina.Excel.GeneratedSheets;
+using NoTankYou.Configuration;
 using NoTankYou.Utilities;
 using Condition = KamiLib.Utilities.Condition;
 
@@ -18,7 +19,6 @@ public class BlueMageConfiguration : GenericSettings
 {
     public Setting<bool> Mimicry = new(false);
     public Setting<bool> TankStance = new(false);
-    public Setting<bool> BasicInstinct = new(false);
 }
 
 internal class BlueMage : IModule
@@ -59,7 +59,6 @@ internal class BlueMage : IModule
                 .AddTitle(Strings.Common.Labels.Warnings)
                 .AddConfigCheckbox(Strings.Modules.BlueMage.MimicryLabel, Settings.Mimicry)
                 .AddConfigCheckbox(Strings.Modules.BlueMage.MightyGuardLabel, Settings.TankStance)
-                .AddConfigCheckbox(Strings.Modules.BlueMage.BasicInstinctLabel, Settings.BasicInstinct)
                 .Draw();
 
             InfoBox.Instance.DrawOverlaySettings(Settings);
@@ -75,12 +74,10 @@ internal class BlueMage : IModule
         
         private readonly List<uint> MimicryStatusEffects;
         private readonly uint MightyGuardStatusEffect = 1719;
-        private readonly uint BasicInstinct = 2498;
         private readonly uint AethericMimicryTank = 2124;
 
         private readonly Action MimicryAction;
         private readonly Action MightyGuardAction;
-        private readonly Action BasicInstinctAction;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -92,7 +89,6 @@ internal class BlueMage : IModule
 
             MimicryAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(18322)!;
             MightyGuardAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(11417)!;
-            BasicInstinctAction = Service.DataManager.GetExcelSheet<Action>()!.GetRow(23276)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -122,15 +118,7 @@ internal class BlueMage : IModule
                     }
                 }
             }
-
-            if (Settings.BasicInstinct.Value && !character.HasStatus(BasicInstinct) && Condition.IsBoundByDuty())
-            {
-                if (Service.PartyList.Length == 0)
-                {
-                    return BasicInstinctWarning();
-                }
-            }
-
+            
             return null;
         }
 
@@ -145,19 +133,7 @@ internal class BlueMage : IModule
                 Priority = Settings.Priority.Value,
             };
         }
-
-        private WarningState BasicInstinctWarning()
-        {
-            return new WarningState
-            {
-                MessageShort = Strings.Modules.BlueMage.BasicInstinctLabel,
-                MessageLong = Strings.Modules.BlueMage.BasicInstinct,
-                IconID = BasicInstinctAction.Icon,
-                IconLabel = BasicInstinctAction.Name.ToString(),
-                Priority = Settings.Priority.Value,
-            };
-        }
-
+        
         private WarningState TankWarning()
         {
             return new WarningState

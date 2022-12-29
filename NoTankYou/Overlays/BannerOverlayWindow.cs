@@ -12,9 +12,10 @@ using NoTankYou.Configuration;
 using NoTankYou.Configuration.Components;
 using NoTankYou.System;
 using NoTankYou.Utilities;
+using NoTankYou.Windows;
 using Condition = NoTankYou.Utilities.Condition;
 
-namespace NoTankYou.Windows;
+namespace NoTankYou.Overlays;
 
 internal class BannerOverlayWindow : Window, IDisposable
 {

@@ -33,11 +33,11 @@ internal class BannerOverlayConfigurationWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(275 * (4.0f / 3.0f), 350),
-            MaximumSize = new Vector2(9999,9999),
+            MinimumSize = new Vector2(325, 590),
+            MaximumSize = new Vector2(325,590),
         };
 
-        Flags |= ImGuiWindowFlags.AlwaysVerticalScrollbar;
+        Flags |= ImGuiWindowFlags.NoResize;
 
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
     }
