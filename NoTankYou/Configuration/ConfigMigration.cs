@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using KamiLib.ConfigMigration;
 using KamiLib.Configuration;
 using NoTankYou.DataModels;
 using NoTankYou.Modules;
