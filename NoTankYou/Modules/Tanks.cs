@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
 using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
@@ -25,7 +26,7 @@ public class TankConfiguration : GenericSettings
     public Setting<bool> CheckAllianceStances = new(false);
 }
 
-internal class Tanks : IModule
+public class Tanks : IModule
 {
     public ModuleName Name => ModuleName.Tanks;
 
@@ -41,7 +42,7 @@ internal class Tanks : IModule
         LogicComponent = new ModuleLogicComponent(this);
     }
 
-    internal class ModuleConfigurationComponent : IConfigurationComponent
+    private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
@@ -67,7 +68,7 @@ internal class Tanks : IModule
         }
     }
 
-    internal class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         
@@ -121,7 +122,7 @@ internal class Tanks : IModule
             }
         }
 
-        private WarningState? EvaluateParty(PlayerCharacter character)
+        private WarningState? EvaluateParty(Character character)
         {
             var tanks = Service.PartyList
                 .WithJob(ClassJobs)
@@ -196,7 +197,7 @@ internal class Tanks : IModule
             return players;
         }
 
-        private WarningState TankWarning(PlayerCharacter character)
+        private WarningState TankWarning(Character character)
         {
             var iconInfo = TankIcons[character.ClassJob.Id];
 

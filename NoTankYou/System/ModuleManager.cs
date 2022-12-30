@@ -7,7 +7,7 @@ using NoTankYou.Modules;
 
 namespace NoTankYou.System;
 
-internal class ModuleManager
+public class ModuleManager
 {
     private IEnumerable<IModule> Modules { get; } = new List<IModule>()
     {

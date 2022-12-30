@@ -2,7 +2,6 @@
 using System.IO;
 using Dalamud.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NoTankYou.DataModels;
 using NoTankYou.Modules;
 using NoTankYou.Windows;
@@ -54,10 +53,8 @@ public class CharacterConfiguration
     
     public static CharacterConfiguration Load(ulong contentID)
     {
-        var configFileInfo = GetConfigFileInfo(contentID);
-
         // If a configuration for this character already exists
-        if (configFileInfo.Exists)
+        if ( GetConfigFileInfo(contentID) is { Exists: true } configFileInfo )
         {
             return LoadExistingCharacterConfiguration(contentID, configFileInfo);
         }
@@ -130,23 +127,14 @@ public class CharacterConfiguration
         var contentId = Service.ClientState.LocalContentId;
 
         var playerName = playerData?.Name.TextValue ?? "Unknown";
-        var playerWorld = playerData?.HomeWorld.GameData?.Name.ToString() ?? "UnknownWorld";
 
         newCharacterConfiguration.CharacterData = new CharacterData()
         {
             Name = playerName,
             LocalContentID = contentId,
-            World = playerWorld,
         };
 
         newCharacterConfiguration.Save();
         return newCharacterConfiguration;
-    }
-
-    private static int GetConfigFileVersion(string fileText)
-    {
-        var json = JObject.Parse(fileText);
-
-        return json.GetValue("Version")?.Value<int>() ?? 0;
     }
 }

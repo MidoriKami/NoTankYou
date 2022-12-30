@@ -22,7 +22,7 @@ public class BlueMageConfiguration : GenericSettings
     public Setting<bool> TankStance = new(false);
 }
 
-internal class BlueMage : IModule
+public class BlueMage : IModule
 {
     public ModuleName Name => ModuleName.BlueMage;
 
@@ -38,7 +38,7 @@ internal class BlueMage : IModule
         LogicComponent = new ModuleLogicComponent(this);
     }
 
-    internal class ModuleConfigurationComponent : IConfigurationComponent
+    private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
@@ -68,14 +68,14 @@ internal class BlueMage : IModule
         }
     }
 
-    internal class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }
         
         private readonly List<uint> MimicryStatusEffects;
-        private readonly uint MightyGuardStatusEffect = 1719;
-        private readonly uint AethericMimicryTank = 2124;
+        private const uint MightyGuardStatusEffect = 1719;
+        private const uint AethericMimicryTank = 2124;
 
         private readonly Action MimicryAction;
         private readonly Action MightyGuardAction;

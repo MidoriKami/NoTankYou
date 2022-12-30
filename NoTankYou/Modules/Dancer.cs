@@ -17,7 +17,7 @@ public class DancerConfiguration : GenericSettings
 {
 }
 
-internal class Dancer : IModule
+public class Dancer : IModule
 {
     public ModuleName Name => ModuleName.Dancer;
 

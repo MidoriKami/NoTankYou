@@ -27,14 +27,14 @@ public class FoodConfiguration : GenericSettings
     public Setting<bool> EnableZoneFilter = new(false);
 }
 
-internal class Food : IModule
+public class Food : IModule
 {
     public ModuleName Name => ModuleName.Food;
 
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
 
-    internal static FoodConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Food;
+    private static FoodConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Food;
     public GenericSettings GenericSettings => Settings;
 
     public Food()
@@ -43,7 +43,7 @@ internal class Food : IModule
         LogicComponent = new ModuleLogicComponent(this);
     }
 
-    internal class ModuleConfigurationComponent : IConfigurationComponent
+    private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
@@ -96,7 +96,7 @@ internal class Food : IModule
         }
     }
 
-    internal class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }

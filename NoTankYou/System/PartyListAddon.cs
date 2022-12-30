@@ -12,7 +12,7 @@ namespace NoTankYou.System;
 
 public readonly unsafe struct PartyListAddonData
 {
-    public static readonly Dictionary<uint, Stopwatch> TimeSinceLastTargetable = new();
+    private static readonly Dictionary<uint, Stopwatch> TimeSinceLastTargetable = new();
 
     public AddonPartyList.PartyListMemberStruct UserInterface { get; init; }
     public PartyMemberData AgentData { get; init; }
@@ -41,7 +41,7 @@ public readonly unsafe struct PartyListAddonData
     }
 }
 
-internal readonly struct PartyFramePositionInfo
+public readonly struct PartyFramePositionInfo
 {
     public Vector2 Position { get; init; }
     public Vector2 Size { get; init; }
@@ -50,7 +50,7 @@ internal readonly struct PartyFramePositionInfo
     public override string ToString() => $"{{Position: {Position}, Size: {Size}, Scale: {Scale}}}";
 }
 
-internal unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposable
+public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposable
 {
     public IEnumerator<PartyListAddonData> GetEnumerator()
     {

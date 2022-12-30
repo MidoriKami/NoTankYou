@@ -17,14 +17,14 @@ public class SageConfiguration : GenericSettings
 {
 }
 
-internal class Sage : IModule
+public class Sage : IModule
 {
     public ModuleName Name => ModuleName.Sage;
 
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
 
-    internal static SageConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Sage;
+    private static SageConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Sage;
     public GenericSettings GenericSettings => Settings;
 
     public Sage()
@@ -33,7 +33,7 @@ internal class Sage : IModule
         LogicComponent = new ModuleLogicComponent(this);
     }
 
-    internal class ModuleConfigurationComponent : IConfigurationComponent
+    private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
@@ -53,7 +53,7 @@ internal class Sage : IModule
         }
     }
 
-    internal class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }

@@ -24,14 +24,14 @@ public class FreeCompanyConfiguration : GenericSettings
     public uint[] BuffList = new uint[2];
 }
 
-internal class FreeCompany : IModule
+public class FreeCompany : IModule
 {
     public ModuleName Name => ModuleName.FreeCompany;
 
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
 
-    internal static FreeCompanyConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.FreeCompany;
+    private static FreeCompanyConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.FreeCompany;
     public GenericSettings GenericSettings => Settings;
 
     public FreeCompany()
@@ -40,7 +40,7 @@ internal class FreeCompany : IModule
         LogicComponent = new ModuleLogicComponent(this);
     }
 
-    internal class ModuleConfigurationComponent : IConfigurationComponent
+    private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
@@ -136,7 +136,7 @@ internal class FreeCompany : IModule
         }
     }
 
-    internal class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }
@@ -208,7 +208,7 @@ internal class FreeCompany : IModule
             return null;
         }
 
-        private bool CurrentlyInHomeworld(PlayerCharacter character)
+        private static bool CurrentlyInHomeworld(PlayerCharacter character)
         {
             var homeworld = character.HomeWorld.Id;
             var currentWorld = character.CurrentWorld.Id;

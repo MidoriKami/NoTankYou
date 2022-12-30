@@ -15,7 +15,7 @@ using NoTankYou.Windows;
 
 namespace NoTankYou.Overlays;
 
-internal class BannerOverlayWindow : Window, IDisposable
+public class BannerOverlayWindow : Window, IDisposable
 {
     private static BannerOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
     private readonly TextureWrap WarningIcon;
@@ -60,7 +60,7 @@ internal class BannerOverlayWindow : Window, IDisposable
         WindowName = $"###BannerOverlay+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}";
     }
 
-    public bool ShouldOpenWindow()
+    private static bool ShouldOpenWindow()
     {
         if (!PartyListAddon.DataAvailable) return false;
 

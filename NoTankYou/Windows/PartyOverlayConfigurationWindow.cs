@@ -22,7 +22,7 @@ public class PartyOverlaySettings
     public Setting<bool> SoloMode = new(false);
 }
 
-internal class PartyOverlayConfigurationWindow : Window, IDisposable
+public class PartyOverlayConfigurationWindow : Window, IDisposable
 {
     private static PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
 

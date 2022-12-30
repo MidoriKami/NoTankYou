@@ -69,10 +69,9 @@ internal static class DrawUtilities
         var textSize = ImGui.CalcTextSize(text);
         var fontScalar = 62.0f / textSize.Y;
 
-        var textHeight = fontSize;
         var textWidth = textSize.X * fontScalar;
 
-        return new Vector2(textWidth, textHeight) * scale;
+        return new Vector2(textWidth, fontSize) * scale;
     }
 
     private static void DrawText(Vector2 drawPosition, string text, Vector4 color, float scale, bool debug = false)

@@ -18,14 +18,14 @@ public class ScholarConfiguration :GenericSettings
 {
 }
 
-internal class Scholar : IModule
+public class Scholar : IModule
 {
     public ModuleName Name => ModuleName.Scholar;
 
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
 
-    internal static ScholarConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Scholar;
+    private static ScholarConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Scholar;
     public GenericSettings GenericSettings => Settings;
 
     public Scholar()
@@ -34,7 +34,7 @@ internal class Scholar : IModule
         LogicComponent = new ModuleLogicComponent(this);
     }
 
-    internal class ModuleConfigurationComponent : IConfigurationComponent
+    private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
@@ -54,7 +54,7 @@ internal class Scholar : IModule
         }
     }
 
-    internal class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }

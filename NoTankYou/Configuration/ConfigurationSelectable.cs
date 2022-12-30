@@ -8,7 +8,7 @@ using NoTankYou.Localization;
 
 namespace NoTankYou.Configuration;
 
-internal class ConfigurationSelectable : ISelectable
+public class ConfigurationSelectable : ISelectable
 {
     public ModuleName OwnerModuleName { get; }
     public IDrawable Contents { get; }

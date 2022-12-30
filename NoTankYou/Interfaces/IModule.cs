@@ -2,7 +2,7 @@
 
 namespace NoTankYou.Interfaces;
 
-internal interface IModule
+public interface IModule
 {
     GenericSettings GenericSettings { get; }
 

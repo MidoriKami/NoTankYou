@@ -12,7 +12,7 @@ namespace NoTankYou.Utilities;
 
 internal static class WarningCondition
 {
-    public static readonly Stopwatch ConditionLockout = Stopwatch.StartNew();
+    private static readonly Stopwatch ConditionLockout = Stopwatch.StartNew();
 
     private static readonly List<ConditionFlag> LockoutFlags = new()
     {

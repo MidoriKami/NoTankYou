@@ -20,13 +20,13 @@ public class CutsceneConfiguration : GenericSettings
 {
 }
 
-internal class Cutscene : IModule
+public class Cutscene : IModule
 {
     public ModuleName Name => ModuleName.Cutscene;
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
 
-    internal static CutsceneConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Cutscene;
+    private static CutsceneConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Cutscene;
     public GenericSettings GenericSettings => Settings;
 
     public Cutscene()
@@ -35,7 +35,7 @@ internal class Cutscene : IModule
         LogicComponent = new ModuleLogicComponent(this);
     }
 
-    internal class ModuleConfigurationComponent : IConfigurationComponent
+    private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
@@ -59,14 +59,14 @@ internal class Cutscene : IModule
         }
     }
 
-    internal class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }
 
         private readonly OnlineStatus CutsceneStatus;
-        
-        public static readonly Dictionary<uint, Stopwatch> TimeSinceInCutscene = new();
+
+        private static readonly Dictionary<uint, Stopwatch> TimeSinceInCutscene = new();
         
         public ModuleLogicComponent(IModule parentModule)
         {

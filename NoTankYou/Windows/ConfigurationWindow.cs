@@ -16,7 +16,7 @@ using NoTankYou.Overlays;
 
 namespace NoTankYou.Windows;
 
-internal class ConfigurationWindow : SelectionWindow, IDisposable
+public class ConfigurationWindow : SelectionWindow, IDisposable
 {
     private static readonly string PluginVersion = GetVersionText();
     

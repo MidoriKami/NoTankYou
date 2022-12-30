@@ -17,14 +17,14 @@ public class SummonerConfiguration : GenericSettings
 {
 }
 
-internal class Summoner : IModule
+public class Summoner : IModule
 {
     public ModuleName Name => ModuleName.Summoner;
 
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
 
-    internal static SummonerConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Summoner;
+    private static SummonerConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Summoner;
     public GenericSettings GenericSettings => Settings;
 
     public Summoner()
@@ -33,7 +33,7 @@ internal class Summoner : IModule
         LogicComponent = new ModuleLogicComponent(this);
     }
 
-    internal class ModuleConfigurationComponent : IConfigurationComponent
+    private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
@@ -53,7 +53,7 @@ internal class Summoner : IModule
         }
     }
 
-    internal class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }

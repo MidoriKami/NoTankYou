@@ -27,12 +27,12 @@ public class SpiritBondConfiguration : GenericSettings
     public Setting<bool> EnableZoneFilter = new(false);
 }
 
-internal class Spiritbond : IModule
+public class Spiritbond : IModule
 {
     public ModuleName Name => ModuleName.Spiritbond;
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-    internal static SpiritBondConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.SpiritBond;
+    private static SpiritBondConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.SpiritBond;
     public GenericSettings GenericSettings => Settings;
 
     public Spiritbond()
@@ -41,7 +41,7 @@ internal class Spiritbond : IModule
         LogicComponent = new ModuleLogicComponent(this);
     }
 
-    internal class ModuleConfigurationComponent : IConfigurationComponent
+    private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
@@ -94,7 +94,7 @@ internal class Spiritbond : IModule
         }
     }
 
-    internal class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }

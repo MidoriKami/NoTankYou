@@ -15,10 +15,10 @@ using Condition = KamiLib.Utilities.Condition;
 
 namespace NoTankYou.Overlays;
 
-internal class PartyListOverlayWindow : Window
+public class PartyListOverlayWindow : Window
 {
     public static Stopwatch AnimationStopwatch { get; } = new();
-    private PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
+    private static PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
 
     private readonly TextureWrap WarningIcon;
     private Vector2 Scale { get; set; }
@@ -54,7 +54,7 @@ internal class PartyListOverlayWindow : Window
         };
     }
 
-    public bool ShouldOpenWindow()
+    private bool ShouldOpenWindow()
     {
         if (!PartyListAddon.DataAvailable) return false;
 
@@ -160,14 +160,15 @@ internal class PartyListOverlayWindow : Window
         }
         else
         {
-            if (AnimationStopwatch.ElapsedMilliseconds < 500)
+            switch (AnimationStopwatch.ElapsedMilliseconds)
             {
-                DrawText(partyMember, warningText, Colors.White);
+                case < 500:
+                    DrawText(partyMember, warningText, Colors.White);
+                    break;
 
-            }
-            else if (AnimationStopwatch.ElapsedMilliseconds > 500)
-            {
-                DrawText(partyMember, warningText, Settings.WarningTextColor.Value);
+                case >= 500:
+                    DrawText(partyMember, warningText, Settings.WarningTextColor.Value);
+                    break;
             }
         }
     }
@@ -193,14 +194,16 @@ internal class PartyListOverlayWindow : Window
         }
         else
         {
-            if (AnimationStopwatch.ElapsedMilliseconds < 500)
+            switch (AnimationStopwatch.ElapsedMilliseconds)
             {
-                partyMember.UserInterface.SetIconVisibility(true);
-            }
-            else if (AnimationStopwatch.ElapsedMilliseconds > 500)
-            {
-                partyMember.UserInterface.SetIconVisibility(false);
-                DrawWarningShield(partyMember);
+                case < 500:
+                    partyMember.UserInterface.SetIconVisibility(true);
+                    break;
+
+                case >= 500:
+                    partyMember.UserInterface.SetIconVisibility(false);
+                    DrawWarningShield(partyMember);
+                    break;
             }
         }
     }
@@ -213,14 +216,15 @@ internal class PartyListOverlayWindow : Window
         }
         else
         {
-            if (AnimationStopwatch.ElapsedMilliseconds < 500)
+            switch (AnimationStopwatch.ElapsedMilliseconds)
             {
-                partyMember.UserInterface.SetPlayerNameOutlineColor(Vector4.Zero);
+                case < 500:
+                    partyMember.UserInterface.SetPlayerNameOutlineColor(Vector4.Zero);
+                    break;
 
-            }
-            else if (AnimationStopwatch.ElapsedMilliseconds > 500)
-            {
-                partyMember.UserInterface.SetPlayerNameOutlineColor(Settings.WarningOutlineColor.Value);
+                case >= 500:
+                    partyMember.UserInterface.SetPlayerNameOutlineColor(Settings.WarningOutlineColor.Value);
+                    break;
             }
         }
     }

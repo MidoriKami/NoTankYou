@@ -5,7 +5,7 @@ using NoTankYou.DataModels;
 
 namespace NoTankYou.Interfaces;
 
-internal interface ILogicComponent
+public interface ILogicComponent
 {
     IModule ParentModule { get; }
     List<uint> ClassJobs { get; }

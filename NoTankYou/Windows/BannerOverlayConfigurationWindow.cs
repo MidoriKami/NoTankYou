@@ -25,7 +25,7 @@ public class BannerOverlaySettings
     public Setting<bool> SoloMode = new(false);
 }
 
-internal class BannerOverlayConfigurationWindow : Window, IDisposable
+public class BannerOverlayConfigurationWindow : Window, IDisposable
 {
     private static BannerOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
     

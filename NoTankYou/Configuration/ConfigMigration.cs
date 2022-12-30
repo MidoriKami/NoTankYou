@@ -195,13 +195,11 @@ internal static class ConfigMigration
         var contentId = Service.ClientState.LocalContentId;
 
         var playerName = playerData?.Name.TextValue ?? "Unknown";
-        var playerWorld = playerData?.HomeWorld.GameData?.Name.ToString() ?? "UnknownWorld";
 
         return new CharacterData
         {
             Name = playerName,
             LocalContentID = contentId,
-            World = playerWorld,
         };
     }
     

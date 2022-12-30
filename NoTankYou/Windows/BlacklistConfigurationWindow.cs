@@ -9,7 +9,7 @@ using NoTankYou.Localization;
 
 namespace NoTankYou.Windows;
 
-internal class BlacklistConfigurationWindow : Window, IDisposable
+public class BlacklistConfigurationWindow : Window, IDisposable
 {
     private static BlacklistSettings Settings => Service.ConfigurationManager.CharacterConfiguration.Blacklist;
     
