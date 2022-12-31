@@ -71,8 +71,8 @@ public class PartyOverlayConfigurationWindow : Window, IDisposable
 
         InfoBox.Instance
             .AddTitle(Strings.TabItems.PartyOverlay.ColorOptions)
-            .AddConfigColor(Strings.TabItems.PartyOverlay.WarningText, Settings.WarningTextColor)
-            .AddConfigColor(Strings.TabItems.PartyOverlay.WarningOutlineColor, Settings.WarningOutlineColor)
+            .AddConfigColor(Strings.TabItems.PartyOverlay.WarningText, Strings.Common.Labels.Default, Settings.WarningTextColor, Colors.SoftRed)
+            .AddConfigColor(Strings.TabItems.PartyOverlay.WarningOutlineColor, Strings.Common.Labels.Default, Settings.WarningOutlineColor, Colors.Red)
             .Draw();
     }
 }

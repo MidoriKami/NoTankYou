@@ -146,6 +146,7 @@ public class Labels
     public string Warnings => Loc.Localize("Labels_Warnings", "Warnings");
     public string DisplayOptions => Loc.Localize("Labels_DisplayOptions", "Display Options");
     public string Scale => Loc.Localize("Labels_Scale", "Scale");
+    public string Default => Loc.Localize("Labels_Default", "Default");
 }
 
 public class Tabs
