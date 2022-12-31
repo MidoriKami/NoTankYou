@@ -91,7 +91,7 @@ public class BannerOverlayConfigurationWindow : Window, IDisposable
             .SameLine()
             .Draw();
 
-        if (Settings.Mode.Value == BannerOverlayDisplayMode.List)
+        if (Settings.Mode == BannerOverlayDisplayMode.List)
         {
             InfoBox.Instance
                 .AddTitle(Strings.TabItems.BannerOverlay.ListModeOptions)

@@ -22,8 +22,6 @@ public class ConfigurationWindow : SelectionWindow, IDisposable
     
     public ConfigurationWindow() : base($"NoTankYou - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}", 0.40f, 100.0f )
     {
-        KamiCommon.CommandManager.AddCommand(new ConfigurationWindowCommands<ConfigurationWindow>());
-        
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(550, 400),

@@ -60,7 +60,7 @@ public class PartyListOverlayWindow : Window
 
         if (!WarningCondition.ShouldShowWarnings()) return false;
 
-        if (Settings.PreviewMode.Value) return true;
+        if (Settings.PreviewMode) return true;
 
         return true;
     }
@@ -88,7 +88,7 @@ public class PartyListOverlayWindow : Window
 
     public override void Draw()
     {
-        if (Settings.PreviewMode.Value)
+        if (Settings.PreviewMode)
         {
             foreach (var player in Service.PartyListAddon)
             {
@@ -102,7 +102,7 @@ public class PartyListOverlayWindow : Window
                 if (player.IsTargetable() && player.PlayerCharacter is { } playerCharacter)
                 {
                     // If Solo Mode is Enabled and this isn't us.
-                    if (Settings.SoloMode.Value && Service.ClientState.LocalPlayer?.ObjectId != playerCharacter.ObjectId) continue;
+                    if (Settings.SoloMode && Service.ClientState.LocalPlayer?.ObjectId != playerCharacter.ObjectId) continue;
 
                     // Get all Logic Modules for this classjob
                     var modules = Service.ModuleManager.GetModulesForClassJob(playerCharacter.ClassJob.Id);
@@ -142,19 +142,19 @@ public class PartyListOverlayWindow : Window
 
     private void DisplayWarning(WarningState warning, PartyListAddonData player)
     {
-        if(Settings.JobIcon.Value || Settings.PreviewMode.Value)
+        if(Settings.JobIcon || Settings.PreviewMode)
             AnimateJobIcon(player);
 
-        if(Settings.PlayerName.Value || Settings.PreviewMode.Value)
+        if(Settings.PlayerName || Settings.PreviewMode)
             AnimatePlayerName(player);
 
-        if(Settings.WarningText.Value || Settings.PreviewMode.Value)
+        if(Settings.WarningText || Settings.PreviewMode)
             AnimateWarningText(player, warning.MessageLong);
     }
 
     private void AnimateWarningText(PartyListAddonData partyMember, string warningText)
     {
-        if (!Settings.FlashingEffects.Value)
+        if (!Settings.FlashingEffects)
         {
             DrawText(partyMember, warningText, Settings.WarningTextColor.Value);
         }
@@ -187,7 +187,7 @@ public class PartyListOverlayWindow : Window
 
     private void AnimateJobIcon(PartyListAddonData partyMember)
     {
-        if (!Settings.FlashingEffects.Value)
+        if (!Settings.FlashingEffects)
         {
             partyMember.UserInterface.SetIconVisibility(false);
             DrawWarningShield(partyMember);
@@ -210,7 +210,7 @@ public class PartyListOverlayWindow : Window
 
     private void AnimatePlayerName(PartyListAddonData partyMember)
     {
-        if (!Settings.FlashingEffects.Value)
+        if (!Settings.FlashingEffects)
         {
             partyMember.UserInterface.SetPlayerNameOutlineColor(Settings.WarningOutlineColor.Value);
         }

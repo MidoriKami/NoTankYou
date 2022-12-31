@@ -31,12 +31,12 @@ internal static class WarningCondition
         if (Service.ClientState.IsPvP) return false;
         if (Condition.IsCrossWorld()) return false;
         if (!SpecialConditions()) return false;
-        if (blacklist.Enabled.Value && blacklist.ContainsCurrentZone()) return false;
+        if (blacklist.Enabled && blacklist.ContainsCurrentZone()) return false;
 
         return true;
     }
 
-    public static bool SpecialConditions()
+    private static bool SpecialConditions()
     {
         // If any lockout flags are triggered
         if (LockoutFlags.Any(Condition.CheckFlag))

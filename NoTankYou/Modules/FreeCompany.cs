@@ -69,7 +69,7 @@ public class FreeCompany : IModule
                 .AddAction(DrawBuffCount)
                 .Draw();
 
-            if (Settings.ScanMode.Value == FreeCompanyBuffScanMode.Specific)
+            if (Settings.ScanMode == FreeCompanyBuffScanMode.Specific)
             {
                 InfoBox.Instance
                     .AddTitle(Strings.Modules.FreeCompany.BuffSelection)
@@ -119,13 +119,13 @@ public class FreeCompany : IModule
             ImGui.PushItemWidth(InfoBox.Instance.InnerWidth);
             if (ImGui.BeginCombo("###BuffCountCombo", Settings.BuffCount.ToString()))
             {
-                if (ImGui.Selectable("1", Settings.BuffCount.Value == 1))
+                if (ImGui.Selectable("1", Settings.BuffCount == 1))
                 {
                     Settings.BuffCount.Value = 1;
                     Service.ConfigurationManager.Save();
                 }
 
-                if (ImGui.Selectable("2", Settings.BuffCount.Value == 2))
+                if (ImGui.Selectable("2", Settings.BuffCount == 2))
                 {
                     Settings.BuffCount.Value = 2;
                     Service.ConfigurationManager.Save();

@@ -29,7 +29,7 @@ public class BlueMage : IModule
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
 
-    internal static BlueMageConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.BlueMage;
+    private static BlueMageConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.BlueMage;
     public GenericSettings GenericSettings => Settings;
 
     public BlueMage()
@@ -94,12 +94,12 @@ public class BlueMage : IModule
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (Settings.Mimicry.Value && !Condition.IsBoundByDuty() && !character.HasStatus(MimicryStatusEffects))
+            if (Settings.Mimicry && !Condition.IsBoundByDuty() && !character.HasStatus(MimicryStatusEffects))
             {
                 return MimicryWarning();
             }
 
-            if (Settings.TankStance.Value)
+            if (Settings.TankStance)
             {
                 if (Service.PartyList.Length == 0 && character.HasStatus(AethericMimicryTank) && !character.HasStatus(MightyGuardStatusEffect))
                 {

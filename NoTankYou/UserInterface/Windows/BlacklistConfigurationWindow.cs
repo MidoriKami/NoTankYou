@@ -41,7 +41,7 @@ public class BlacklistConfigurationWindow : Window, IDisposable
             .AddConfigCheckbox(Strings.Configuration.Enable, Settings.Enabled)
             .Draw();
 
-        if (Settings.Enabled.Value)
+        if (Settings.Enabled)
         {
             if (Service.ClientState.TerritoryType != 0)
             {

@@ -65,7 +65,7 @@ public class Spiritbond : IModule
                 .AddConfigCheckbox(Strings.Modules.SpiritBond.SuppressInCombat, Settings.DisableInCombat)
                 .Draw();
 
-            if (!Settings.EnableZoneFilter.Value)
+            if (!Settings.EnableZoneFilter)
             {
                 InfoBox.Instance
                     .AddTitle(Strings.Modules.SpiritBond.ZoneFilters)
@@ -113,16 +113,16 @@ public class Spiritbond : IModule
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (Settings.DisableInCombat.Value && Condition.IsInCombat()) return null;
+            if (Settings.DisableInCombat && Condition.IsInCombat()) return null;
 
-            if (Settings.EnableZoneFilter.Value)
+            if (Settings.EnableZoneFilter)
             {
                 var allowedTypes = new List<DutyType>();
                 
-                if(Settings.SavageDuties.Value) allowedTypes.Add(DutyType.Savage);
-                if(Settings.UltimateDuties.Value) allowedTypes.Add(DutyType.Ultimate);
-                if(Settings.ExtremeUnreal.Value) allowedTypes.Add(DutyType.ExtremeUnreal);
-                if(Settings.CriterionDuties.Value) allowedTypes.Add(DutyType.Savage);
+                if(Settings.SavageDuties) allowedTypes.Add(DutyType.Savage);
+                if(Settings.UltimateDuties) allowedTypes.Add(DutyType.Ultimate);
+                if(Settings.ExtremeUnreal) allowedTypes.Add(DutyType.ExtremeUnreal);
+                if(Settings.CriterionDuties) allowedTypes.Add(DutyType.Savage);
 
                 if (!DutyLists.Instance.IsType(Service.ClientState.TerritoryType, allowedTypes))
                 {

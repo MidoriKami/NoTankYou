@@ -66,7 +66,7 @@ public class BannerOverlayWindow : Window, IDisposable
 
         if (!WarningCondition.ShouldShowWarnings()) return false;
 
-        if (Settings.SampleMode.Value) return true;
+        if (Settings.SampleMode) return true;
 
         return true;
     }
@@ -93,7 +93,7 @@ public class BannerOverlayWindow : Window, IDisposable
     {
         WarningsDisplayed = 0;
 
-        if (Settings.SampleMode.Value)
+        if (Settings.SampleMode)
         {
             Flags &= ~ImGuiWindowFlags.NoInputs;
             Flags &= ~ImGuiWindowFlags.NoBackground;
@@ -116,7 +116,7 @@ public class BannerOverlayWindow : Window, IDisposable
                 if (player.IsTargetable() && player.PlayerCharacter is { } playerCharacter)
                 {
                     // If Solo Mode is Enabled and this isn't us.
-                    if (Settings.SoloMode.Value && Service.ClientState.LocalPlayer?.ObjectId != playerCharacter.ObjectId) continue;
+                    if (Settings.SoloMode && Service.ClientState.LocalPlayer?.ObjectId != playerCharacter.ObjectId) continue;
 
                     // Get all Logic Modules for this classjob
                     var modules = Service.ModuleManager.GetModulesForClassJob(playerCharacter.ClassJob.Id);
@@ -150,7 +150,7 @@ public class BannerOverlayWindow : Window, IDisposable
 
     private void DrawWarningStateBanner(WarningState state, PlayerCharacter player)
     {
-        var mode = Settings.SampleMode.Value ? BannerOverlayDisplayMode.TopPriority : Settings.Mode.Value;
+        var mode = Settings.SampleMode ? BannerOverlayDisplayMode.TopPriority : Settings.Mode.Value;
 
         switch (mode)
         {
@@ -174,7 +174,7 @@ public class BannerOverlayWindow : Window, IDisposable
 
         var startingPosition = startPosition;
 
-        if (Settings.WarningShield.Value)
+        if (Settings.WarningShield)
         {
             var imageSize = new Vector2(WarningIcon.Width, WarningIcon.Height) * scale;
 
@@ -185,14 +185,14 @@ public class BannerOverlayWindow : Window, IDisposable
             };
         }
 
-        if (Settings.WarningText.Value)
+        if (Settings.WarningText)
         {
             DrawUtilities.TextOutlined(startingPosition, warningText, scale, Colors.White);
 
             var textSize = DrawUtilities.CalculateTextSize(warningText, scale);
             startingPosition = startingPosition with {X = startingPosition.X + textSize.X};
 
-            if (Settings.PlayerNames.Value)
+            if (Settings.PlayerNames)
             {
                 textSize = DrawUtilities.CalculateTextSize(source, scale);
                 startingPosition = startingPosition with
@@ -207,7 +207,7 @@ public class BannerOverlayWindow : Window, IDisposable
             }
         }
 
-        if (Settings.Icon.Value)
+        if (Settings.Icon)
             DrawUtilities.DrawIconWithName(startingPosition, iconId, skillName, scale, Settings.IconText.Value);
     }
 }

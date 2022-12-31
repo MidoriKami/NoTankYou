@@ -105,9 +105,9 @@ public class Tanks : IModule
         {
             if (character.Level < 10) return null;
 
-            if (Settings.DisableInAllianceRaid.Value && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance)) return null;
+            if (Settings.DisableInAllianceRaid && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance)) return null;
 
-            if (Settings.CheckAllianceStances.Value && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance))
+            if (Settings.CheckAllianceStances && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance))
             {
                 return EvaluateAllianceStances(character);
             }

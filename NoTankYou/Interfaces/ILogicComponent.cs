@@ -14,9 +14,9 @@ public interface ILogicComponent
 
     WarningState? ShouldShowWarning(PlayerCharacter character)
     {
-        if (!ParentModule.GenericSettings.Enabled.Value) return null;
-        if (ParentModule.GenericSettings.DutiesOnly.Value && !DutyState.Instance.IsDutyStarted) return null;
-        if (ParentModule.GenericSettings.SoloMode.Value && character.ObjectId != Service.ClientState.LocalPlayer?.ObjectId) return null;
+        if (!ParentModule.GenericSettings.Enabled) return null;
+        if (ParentModule.GenericSettings.DutiesOnly && !DutyState.Instance.IsDutyStarted) return null;
+        if (ParentModule.GenericSettings.SoloMode && character.ObjectId != Service.ClientState.LocalPlayer?.ObjectId) return null;
         if (character.IsDead) return null;
 
         return EvaluateWarning(character);
