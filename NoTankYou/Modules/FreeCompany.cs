@@ -100,7 +100,7 @@ public class FreeCompany : IModule
                 ImGui.PushItemWidth(InfoBox.Instance.InnerWidth);
                 if (ImGui.BeginCombo($"###BuffSelection{i}", displayValue))
                 {
-                    foreach (var status in LuminaCache<Status>.Instance.GetAll().Where(status => status.IsFcBuff).OrderBy(s => s.Name.RawString))
+                    foreach (var status in LuminaCache<Status>.Instance.Where(status => status.IsFcBuff).OrderBy(s => s.Name.RawString))
                     {
                         if (ImGui.Selectable(status.Name.RawString, status.RowId == Settings.BuffList[i]))
                         {
@@ -151,11 +151,11 @@ public class FreeCompany : IModule
             Settings.SoloMode.Value = true;
             Settings.DutiesOnly.Value = false;
 
-            ClassJobs = LuminaCache<ClassJob>.Instance.GetAll()
+            ClassJobs = LuminaCache<ClassJob>.Instance
                 .Select(r => r.RowId)
                 .ToList();
 
-            FreeCompanyStatusIDList = LuminaCache<Status>.Instance.GetAll()
+            FreeCompanyStatusIDList = LuminaCache<Status>.Instance
                 .Where(status => status.IsFcBuff)
                 .Select(status => status.RowId)
                 .ToList();

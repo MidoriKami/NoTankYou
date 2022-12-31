@@ -109,7 +109,7 @@ public class Food : IModule
         {
             ParentModule = parentModule;
 
-            ClassJobs = LuminaCache<ClassJob>.Instance.GetAll()
+            ClassJobs = LuminaCache<ClassJob>.Instance
                 .Select(r => r.RowId)
                 .ToList();
             

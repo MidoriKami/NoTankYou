@@ -81,12 +81,12 @@ public class Tanks : IModule
         {
             ParentModule = parentModule;
 
-            ClassJobs = LuminaCache<ClassJob>.Instance.GetAll()
+            ClassJobs = LuminaCache<ClassJob>.Instance
                 .Where(job => job.Role is 1)
                 .Select(r => r.RowId)
                 .ToList();
 
-            TankStances = LuminaCache<Action>.Instance.GetAll()
+            TankStances = LuminaCache<Action>.Instance
                 .Where(r => r.ClassJob.Value?.Role == 1)
                 .Select(r => r.StatusGainSelf.Value!)
                 .Where(r => r.IsPermanent)
@@ -171,7 +171,7 @@ public class Tanks : IModule
                 _ => classjob,
             };
 
-            var action = LuminaCache<Action>.Instance.GetAll()
+            var action = LuminaCache<Action>.Instance
                 .Where(r => r.ClassJob.Row == translatedClassJob)
                 .Where(r => TankStances.Contains(r.StatusGainSelf.Value!.RowId))
                 .First();

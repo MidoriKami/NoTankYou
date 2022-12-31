@@ -104,7 +104,7 @@ public class Spiritbond : IModule
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
-            ClassJobs = LuminaCache<ClassJob>.Instance.GetAll()
+            ClassJobs = LuminaCache<ClassJob>.Instance
                 .Select(r => r.RowId)
                 .ToList();
 
