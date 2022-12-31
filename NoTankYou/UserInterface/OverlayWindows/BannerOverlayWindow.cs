@@ -10,10 +10,10 @@ using KamiLib.Utilities;
 using NoTankYou.Configuration;
 using NoTankYou.DataModels;
 using NoTankYou.System;
+using NoTankYou.UserInterface.Windows;
 using NoTankYou.Utilities;
-using NoTankYou.Windows;
 
-namespace NoTankYou.Overlays;
+namespace NoTankYou.UserInterface.OverlayWindows;
 
 public class BannerOverlayWindow : Window, IDisposable
 {

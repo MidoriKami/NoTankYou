@@ -12,9 +12,9 @@ using KamiLib.Utilities;
 using KamiLib.Windows;
 using NoTankYou.Configuration;
 using NoTankYou.Localization;
-using NoTankYou.Overlays;
+using NoTankYou.UserInterface.OverlayWindows;
 
-namespace NoTankYou.Windows;
+namespace NoTankYou.UserInterface.Windows;
 
 public class ConfigurationWindow : SelectionWindow, IDisposable
 {

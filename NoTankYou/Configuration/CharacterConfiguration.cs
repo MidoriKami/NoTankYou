@@ -4,7 +4,7 @@ using Dalamud.Logging;
 using Newtonsoft.Json;
 using NoTankYou.DataModels;
 using NoTankYou.Modules;
-using NoTankYou.Windows;
+using NoTankYou.UserInterface.Windows;
 
 namespace NoTankYou.Configuration;
 

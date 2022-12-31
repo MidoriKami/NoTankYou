@@ -2,7 +2,7 @@
 using KamiLib.Configuration;
 using NoTankYou.DataModels;
 using NoTankYou.Modules;
-using NoTankYou.Windows;
+using NoTankYou.UserInterface.Windows;
 
 namespace NoTankYou.Configuration;
 

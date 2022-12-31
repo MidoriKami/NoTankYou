@@ -8,7 +8,7 @@ using KamiLib.Utilities;
 using NoTankYou.Configuration;
 using NoTankYou.Localization;
 
-namespace NoTankYou.Windows;
+namespace NoTankYou.UserInterface.Windows;
 
 public class PartyOverlaySettings
 {

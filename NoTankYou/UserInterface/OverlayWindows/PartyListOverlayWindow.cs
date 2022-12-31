@@ -9,11 +9,11 @@ using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.System;
+using NoTankYou.UserInterface.Windows;
 using NoTankYou.Utilities;
-using NoTankYou.Windows;
 using Condition = KamiLib.Utilities.Condition;
 
-namespace NoTankYou.Overlays;
+namespace NoTankYou.UserInterface.OverlayWindows;
 
 public class PartyListOverlayWindow : Window
 {

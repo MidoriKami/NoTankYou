@@ -8,7 +8,7 @@ using NoTankYou.Configuration;
 using NoTankYou.DataModels;
 using NoTankYou.Localization;
 
-namespace NoTankYou.Windows;
+namespace NoTankYou.UserInterface.Windows;
 
 public class BannerOverlaySettings
 {

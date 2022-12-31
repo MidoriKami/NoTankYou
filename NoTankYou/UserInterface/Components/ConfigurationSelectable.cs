@@ -6,7 +6,7 @@ using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 
-namespace NoTankYou.Configuration;
+namespace NoTankYou.UserInterface.Components;
 
 public class ConfigurationSelectable : ISelectable
 {

@@ -9,8 +9,8 @@ using KamiLib.Interfaces;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using Lumina.Excel.GeneratedSheets;
-using NoTankYou.Configuration;
 using NoTankYou.DataModels;
+using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
 using Condition = KamiLib.Utilities.Condition;
 

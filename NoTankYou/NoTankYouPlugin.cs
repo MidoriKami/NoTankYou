@@ -1,8 +1,8 @@
 ﻿using Dalamud.Plugin;
 using KamiLib;
-using NoTankYou.Overlays;
 using NoTankYou.System;
-using NoTankYou.Windows;
+using NoTankYou.UserInterface.OverlayWindows;
+using NoTankYou.UserInterface.Windows;
 
 namespace NoTankYou;
 

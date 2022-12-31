@@ -9,11 +9,11 @@ using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
-using NoTankYou.Configuration;
 using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.System;
+using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
