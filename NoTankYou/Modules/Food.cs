@@ -122,18 +122,16 @@ public class Food : IModule
 
             if (Settings.EnableZoneFilter.Value)
             {
-                switch (DutyLists.Instance.GetDutyType(Service.ClientState.TerritoryType))
+                var allowedTypes = new List<DutyType>();
+                
+                if(Settings.SavageDuties.Value) allowedTypes.Add(DutyType.Savage);
+                if(Settings.UltimateDuties.Value) allowedTypes.Add(DutyType.Ultimate);
+                if(Settings.ExtremeUnreal.Value) allowedTypes.Add(DutyType.ExtremeUnreal);
+                if(Settings.CriterionDuties.Value) allowedTypes.Add(DutyType.Savage);
+
+                if (!DutyLists.Instance.IsType(Service.ClientState.TerritoryType, allowedTypes))
                 {
-                    case DutyType.Savage when !Settings.SavageDuties.Value:
-                    case DutyType.Ultimate when !Settings.UltimateDuties.Value:
-                    case DutyType.ExtremeUnreal when !Settings.ExtremeUnreal.Value:
-                    case DutyType.Criterion when !Settings.CriterionDuties.Value:
-                        
-                    case DutyType.None when Settings.SavageDuties.Value:
-                    case DutyType.None when Settings.UltimateDuties.Value:
-                    case DutyType.None when Settings.ExtremeUnreal.Value:
-                    case DutyType.None when Settings.CriterionDuties.Value:
-                        return null;
+                    return null;
                 }
             }
             
