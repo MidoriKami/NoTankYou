@@ -35,12 +35,10 @@ public class Summoner : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-        
+        public ISelectable Selectable { get; }
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
@@ -76,8 +74,8 @@ public class Summoner : IModule
             {
                 return new WarningState
                 {
-                    MessageLong = Strings.Modules.Summoner.WarningText,
-                    MessageShort = Strings.Modules.Summoner.WarningTextShort,
+                    MessageLong = Strings.Summoner_WarningText,
+                    MessageShort = Strings.Summoner_WarningTextShort,
                     IconID = SummonCarbuncle.Icon,
                     IconLabel = SummonCarbuncle.Name.RawString,
                     Priority = Settings.Priority.Value,

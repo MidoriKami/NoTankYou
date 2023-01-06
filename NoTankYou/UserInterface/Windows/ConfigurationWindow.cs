@@ -6,7 +6,6 @@ using Dalamud.Interface;
 using Dalamud.Interface.Internal.Notifications;
 using ImGuiNET;
 using KamiLib;
-using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using KamiLib.Windows;
@@ -97,7 +96,7 @@ public class ConfigurationWindow : SelectionWindow, IDisposable
 
     private static void DrawBlacklistConfigurationButton(float buttonWidth)
     {
-        if (ImGui.Button(Strings.TabItems.Blacklist.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        if (ImGui.Button(Strings.Blacklist_Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             if (KamiCommon.WindowManager.GetWindowOfType<BlacklistConfigurationWindow>() is { } window)
             {
@@ -108,7 +107,7 @@ public class ConfigurationWindow : SelectionWindow, IDisposable
 
     private static void DrawBannerOverlayButton(float buttonWidth)
     {
-        if (ImGui.Button(Strings.TabItems.BannerOverlay.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        if (ImGui.Button(Strings.BannerOverlay_Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             if (KamiCommon.WindowManager.GetWindowOfType<BannerOverlayConfigurationWindow>() is { } window)
             {
@@ -128,7 +127,7 @@ public class ConfigurationWindow : SelectionWindow, IDisposable
             ImGui.PushStyleColor(ImGuiCol.Text, Colors.Orange);
         }
 
-        if (ImGui.Button(Strings.TabItems.PartyOverlay.Button, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        if (ImGui.Button(Strings.PartyOverlay_Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             if (KamiCommon.WindowManager.GetWindowOfType<PartyOverlayConfigurationWindow>() is { } window)
             {

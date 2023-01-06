@@ -35,12 +35,10 @@ public class Sage : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-
+        public ISelectable Selectable { get; }
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
@@ -78,8 +76,8 @@ public class Sage : IModule
             {
                 return new WarningState
                 {
-                    MessageLong = Strings.Modules.Sage.WarningText,
-                    MessageShort = Strings.Modules.Sage.WarningTextShort,
+                    MessageLong = Strings.Sage_WarningText,
+                    MessageShort = Strings.Sage_WarningTextShort,
                     IconID = KardiaAction.Icon,
                     IconLabel = KardiaAction.Name.RawString,
                     Priority = Settings.Priority.Value,

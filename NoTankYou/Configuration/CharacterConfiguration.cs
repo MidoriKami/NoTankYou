@@ -128,7 +128,7 @@ public class CharacterConfiguration
 
         var playerName = playerData?.Name.TextValue ?? "Unknown";
 
-        newCharacterConfiguration.CharacterData = new CharacterData()
+        newCharacterConfiguration.CharacterData = new CharacterData
         {
             Name = playerName,
             LocalContentID = contentId,

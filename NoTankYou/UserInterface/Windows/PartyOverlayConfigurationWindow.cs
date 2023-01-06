@@ -26,7 +26,7 @@ public class PartyOverlayConfigurationWindow : Window, IDisposable
 {
     private static PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
 
-    public PartyOverlayConfigurationWindow() : base($"{Strings.TabItems.PartyOverlay.ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}" )
+    public PartyOverlayConfigurationWindow() : base($"{Strings.PartyOverlay_ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}" )
     {
         SizeConstraints = new WindowSizeConstraints
         {
@@ -46,33 +46,33 @@ public class PartyOverlayConfigurationWindow : Window, IDisposable
 
     private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
     {
-        WindowName = $"{Strings.TabItems.PartyOverlay.ConfigurationLabel} - {e.CharacterData.Name}";
+        WindowName = $"{Strings.PartyOverlay_ConfigurationLabel} - {e.CharacterData.Name}";
     }
 
     public override void Draw()
     {
         InfoBox.Instance
-            .AddTitle(Strings.Configuration.PreviewMode)
-            .AddConfigCheckbox(Strings.Configuration.PreviewMode, Settings.PreviewMode)
+            .AddTitle(Strings.Configuration_PreviewMode)
+            .AddConfigCheckbox(Strings.Configuration_PreviewMode, Settings.PreviewMode)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.TabItems.BannerOverlay.SoloMode)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.SoloMode, Settings.SoloMode, Strings.TabItems.BannerOverlay.SoloModeHelp)
+            .AddTitle(Strings.BannerOverlay_SoloMode)
+            .AddConfigCheckbox(Strings.BannerOverlay_SoloMode, Settings.SoloMode, Strings.BannerOverlay_SoloModeHelp)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.Common.Labels.DisplayOptions)
-            .AddConfigCheckbox(Strings.TabItems.PartyOverlay.JobIcon, Settings.JobIcon)
-            .AddConfigCheckbox(Strings.TabItems.PartyOverlay.PlayerName, Settings.PlayerName)
-            .AddConfigCheckbox(Strings.TabItems.PartyOverlay.WarningText, Settings.WarningText)
-            .AddConfigCheckbox(Strings.TabItems.PartyOverlay.FlashingEffects, Settings.FlashingEffects)
+            .AddTitle(Strings.Labels_DisplayOptions)
+            .AddConfigCheckbox(Strings.PartyOverlay_JobIcon, Settings.JobIcon)
+            .AddConfigCheckbox(Strings.PartyOverlay_PlayerName, Settings.PlayerName)
+            .AddConfigCheckbox(Strings.PartyOverlay_WarningText, Settings.WarningText)
+            .AddConfigCheckbox(Strings.PartyOverlay_FlashingEffects, Settings.FlashingEffects)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.TabItems.PartyOverlay.ColorOptions)
-            .AddConfigColor(Strings.TabItems.PartyOverlay.WarningText, Strings.Common.Labels.Default, Settings.WarningTextColor, Colors.SoftRed)
-            .AddConfigColor(Strings.TabItems.PartyOverlay.WarningOutlineColor, Strings.Common.Labels.Default, Settings.WarningOutlineColor, Colors.Red)
+            .AddTitle(Strings.PartyOverlay_ColorOptions)
+            .AddConfigColor(Strings.PartyOverlay_WarningText, Strings.Labels_Default, Settings.WarningTextColor, Colors.SoftRed)
+            .AddConfigColor(Strings.PartyOverlay_WarningOutlineColor, Strings.Labels_Default, Settings.WarningOutlineColor, Colors.Red)
             .Draw();
     }
 }

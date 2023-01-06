@@ -37,20 +37,19 @@ public class Cutscene : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
+        public ISelectable Selectable { get; }
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
         {
             InfoBox.Instance
-                .AddTitle(Strings.Common.Tabs.Settings)
-                .AddConfigCheckbox(Strings.Common.Labels.Enabled, Settings.Enabled)
-                .AddInputInt(Strings.Common.Labels.Priority, Settings.Priority, 0, 10)
+                .AddTitle(Strings.Tabs_Settings)
+                .AddConfigCheckbox(Strings.Labels_Enabled, Settings.Enabled)
+                .AddInputInt(Strings.Labels_Priority, Settings.Priority, 0, 10)
                 .Draw();
             
             InfoBox.Instance.DrawOverlaySettings(Settings);
@@ -88,8 +87,8 @@ public class Cutscene : IModule
             {
                 return new WarningState
                 {
-                    MessageLong = Strings.Modules.Cutscene.WarningText,
-                    MessageShort = Strings.Modules.Cutscene.WarningTextShort,
+                    MessageLong = Strings.Cutscene_WarningText,
+                    MessageShort = Strings.Cutscene_WarningText,
                     IconID = CutsceneStatus.Icon,
                     IconLabel = CutsceneStatus.Name.RawString,
                     Priority = Settings.Priority.Value,

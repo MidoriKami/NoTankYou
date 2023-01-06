@@ -36,12 +36,10 @@ public class Scholar : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-        
+        public ISelectable Selectable { get; }
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
@@ -99,8 +97,8 @@ public class Scholar : IModule
             {
                 return new WarningState
                 {
-                    MessageLong = Strings.Modules.Scholar.WarningText,
-                    MessageShort = Strings.Modules.Scholar.WarningTextShort,
+                    MessageLong = Strings.Scholar_WarningText,
+                    MessageShort = Strings.Scholar_WarningTextShort,
                     IconID = SeleneAction.Icon,
                     IconLabel = SeleneAction.Name.RawString,
                     Priority = Settings.Priority.Value,

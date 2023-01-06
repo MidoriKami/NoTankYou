@@ -49,6 +49,7 @@ internal static class ConfigMigration
         return new BlacklistSettings
         {
             Enabled = Migrate.GetSettingValue<bool>("SystemSettings.Blacklist.Enabled"),
+            // The Blacklist system isn't stored this way anymore, so this conversion will cause crashes
             //BlacklistedZoneSettings = GetArray<uint>("SystemSettings.Blacklist.BlacklistedZones"),
         };
     }

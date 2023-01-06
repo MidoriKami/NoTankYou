@@ -43,12 +43,10 @@ public class Spiritbond : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-
+        public ISelectable Selectable { get; }
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
@@ -56,34 +54,34 @@ public class Spiritbond : IModule
             InfoBox.Instance.DrawGenericSettings(Settings);
             
             InfoBox.Instance
-                .AddTitle(Strings.Modules.SpiritBond.EarlyWarningLabel, out var innerWidth)
-                .AddInputInt(Strings.Common.Labels.Seconds, Settings.SpiritBondEarlyWarningTime, 0, 3600, 0, 0, innerWidth / 4.0f)
+                .AddTitle(Strings.Food_EarlyWarningLabel, out var innerWidth)
+                .AddInputInt(Strings.Labels_Seconds, Settings.SpiritBondEarlyWarningTime, 0, 3600, 0, 0, innerWidth / 4.0f)
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Modules.SpiritBond.AdditionalOptionsLabel)
-                .AddConfigCheckbox(Strings.Modules.SpiritBond.SuppressInCombat, Settings.DisableInCombat)
+                .AddTitle(Strings.Common_AdditionalOptions)
+                .AddConfigCheckbox(Strings.Food_SuppressInCombat, Settings.DisableInCombat)
                 .Draw();
 
             if (!Settings.EnableZoneFilter)
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Modules.SpiritBond.ZoneFilters)
-                    .AddString(Strings.Modules.SpiritBond.ZoneFiltersDescription)
-                    .AddConfigCheckbox(Strings.Modules.SpiritBond.EnableFilter, Settings.EnableZoneFilter)
+                    .AddTitle(Strings.Food_ZoneFilters)
+                    .AddString(Strings.Food_ZoneFiltersDescription)
+                    .AddConfigCheckbox(Strings.Food_EnableFilter, Settings.EnableZoneFilter)
                     .Draw();
             }
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Modules.SpiritBond.ZoneFilters)
-                    .AddString(Strings.Modules.SpiritBond.ZoneFiltersDescription)
-                    .AddConfigCheckbox(Strings.Modules.SpiritBond.EnableFilter, Settings.EnableZoneFilter)
+                    .AddTitle(Strings.Food_ZoneFilters)
+                    .AddString(Strings.Food_ZoneFiltersDescription)
+                    .AddConfigCheckbox(Strings.Food_EnableFilter, Settings.EnableZoneFilter)
                     .Indent(15)
-                    .AddConfigCheckbox(Strings.Common.Labels.Savage, Settings.SavageDuties)
-                    .AddConfigCheckbox(Strings.Common.Labels.Ultimate, Settings.UltimateDuties)
-                    .AddConfigCheckbox(Strings.Common.Labels.ExtremeUnreal, Settings.ExtremeUnreal)
-                    .AddConfigCheckbox(Strings.Common.Labels.Criterion, Settings.CriterionDuties)
+                    .AddConfigCheckbox(Strings.Labels_Savage, Settings.SavageDuties)
+                    .AddConfigCheckbox(Strings.Labels_Ultimate, Settings.UltimateDuties)
+                    .AddConfigCheckbox(Strings.Labels_ExtremeUnreal, Settings.ExtremeUnreal)
+                    .AddConfigCheckbox(Strings.Labels_Criterion, Settings.CriterionDuties)
                     .UnIndent(15)
                     .Draw();
             }
@@ -134,10 +132,10 @@ public class Spiritbond : IModule
             if (statusEffect == null || statusEffect.RemainingTime < Settings.SpiritBondEarlyWarningTime.Value)
                 return new WarningState
                 {
-                    MessageLong = Strings.Modules.SpiritBond.WarningText,
-                    MessageShort = Strings.Modules.SpiritBond.WarningText,
+                    MessageLong = Strings.SpiritBond_WarningText,
+                    MessageShort = Strings.SpiritBond_WarningText,
                     IconID = SpiritBond.Icon,
-                    IconLabel = Strings.Modules.SpiritBond.Label,
+                    IconLabel = Strings.SpiritBond_Label,
                     Priority = Settings.Priority.Value,
                 };
 

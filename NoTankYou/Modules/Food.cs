@@ -45,12 +45,11 @@ public class Food : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
+        public ISelectable Selectable { get; }
         
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
@@ -58,34 +57,34 @@ public class Food : IModule
             InfoBox.Instance.DrawGenericSettings(Settings);
             
             InfoBox.Instance
-                .AddTitle(Strings.Modules.Food.EarlyWarningLabel, out var innerWidth)
-                .AddInputInt(Strings.Common.Labels.Seconds, Settings.FoodEarlyWarningTime, 0, 3600, 0, 0, innerWidth / 4.0f)
+                .AddTitle(Strings.Food_EarlyWarningLabel, out var innerWidth)
+                .AddInputInt(Strings.Labels_Seconds, Settings.FoodEarlyWarningTime, 0, 3600, 0, 0, innerWidth / 4.0f)
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Modules.Food.AdditionalOptionsLabel)
-                .AddConfigCheckbox(Strings.Modules.Food.SuppressInCombat, Settings.DisableInCombat)
+                .AddTitle(Strings.Common_AdditionalOptions)
+                .AddConfigCheckbox(Strings.Food_SuppressInCombat, Settings.DisableInCombat)
                 .Draw();
 
             if (!Settings.EnableZoneFilter)
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Modules.Food.ZoneFilters)
-                    .AddString(Strings.Modules.Food.ZoneFiltersDescription)
-                    .AddConfigCheckbox(Strings.Modules.Food.EnableFilter, Settings.EnableZoneFilter)
+                    .AddTitle(Strings.Food_ZoneFilters)
+                    .AddString(Strings.Food_ZoneFiltersDescription)
+                    .AddConfigCheckbox(Strings.Food_EnableFilter, Settings.EnableZoneFilter)
                     .Draw();
             }
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Modules.Food.ZoneFilters)
-                    .AddString(Strings.Modules.Food.ZoneFiltersDescription)
-                    .AddConfigCheckbox(Strings.Modules.Food.EnableFilter, Settings.EnableZoneFilter)
+                    .AddTitle(Strings.Food_ZoneFilters)
+                    .AddString(Strings.Food_ZoneFiltersDescription)
+                    .AddConfigCheckbox(Strings.Food_EnableFilter, Settings.EnableZoneFilter)
                     .Indent(15)
-                    .AddConfigCheckbox(Strings.Common.Labels.Savage, Settings.SavageDuties)
-                    .AddConfigCheckbox(Strings.Common.Labels.Ultimate, Settings.UltimateDuties)
-                    .AddConfigCheckbox(Strings.Common.Labels.ExtremeUnreal, Settings.ExtremeUnreal)
-                    .AddConfigCheckbox(Strings.Common.Labels.Criterion, Settings.CriterionDuties)
+                    .AddConfigCheckbox(Strings.Labels_Savage, Settings.SavageDuties)
+                    .AddConfigCheckbox(Strings.Labels_Ultimate, Settings.UltimateDuties)
+                    .AddConfigCheckbox(Strings.Labels_ExtremeUnreal, Settings.ExtremeUnreal)
+                    .AddConfigCheckbox(Strings.Labels_Criterion, Settings.CriterionDuties)
                     .UnIndent(15)
                     .Draw();
             }
@@ -140,10 +139,10 @@ public class Food : IModule
             {
                 return new WarningState
                 {
-                    MessageLong = Strings.Modules.Food.WarningText,
-                    MessageShort = Strings.Modules.Food.WarningText,
+                    MessageLong = Strings.Food_WarningText,
+                    MessageShort = Strings.Food_WarningText,
                     IconID = Food.Icon,
-                    IconLabel = Strings.Modules.Food.Label,
+                    IconLabel = Strings.Food_Label,
                     Priority = Settings.Priority.Value,
                 };
             }

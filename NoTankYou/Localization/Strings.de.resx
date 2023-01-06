@@ -16,272 +16,272 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Tank_Label" xml:space="preserve">
+    <data name="Tank_Label" xml:space="preserve">
         <value>Verteidiger</value>
     </data>
-  <data name="Tank_WarningText" xml:space="preserve">
+    <data name="Tank_WarningText" xml:space="preserve">
         <value>Verteidiger-Haltung fehlt</value>
     </data>
-  <data name="Tank_WarningTextShort" xml:space="preserve">
+    <data name="Tank_WarningTextShort" xml:space="preserve">
         <value>Verteidiger-Haltung</value>
     </data>
-  <data name="Tank_DisableInAllianceRaid" xml:space="preserve">
+    <data name="Tank_DisableInAllianceRaid" xml:space="preserve">
         <value>Deaktiviert in Allianz-Raid</value>
     </data>
-  <data name="Tank_CheckAllianceStances" xml:space="preserve">
+    <data name="Tank_CheckAllianceStances" xml:space="preserve">
         <value>Überprüfe Allianz-Mitglieder</value>
     </data>
-  <data name="FreeCompany_Label" xml:space="preserve">
+    <data name="FreeCompany_Label" xml:space="preserve">
         <value>Freie Gesellschaft</value>
     </data>
-  <data name="FreeCompany_WarningText" xml:space="preserve">
+    <data name="FreeCompany_WarningText" xml:space="preserve">
         <value>Freie Gesellschaft Buff fehlt</value>
     </data>
-  <data name="FreeCompany_WarningTextShort" xml:space="preserve">
+    <data name="FreeCompany_WarningTextShort" xml:space="preserve">
         <value>Freie Gesellschaft Buff</value>
     </data>
-  <data name="FreeCompany_Any" xml:space="preserve">
+    <data name="FreeCompany_Any" xml:space="preserve">
         <value>Beliebig</value>
     </data>
-  <data name="FreeCompany_Specific" xml:space="preserve">
+    <data name="FreeCompany_Specific" xml:space="preserve">
         <value>Spezifisch</value>
     </data>
-  <data name="FreeCompany_BuffCount" xml:space="preserve">
+    <data name="FreeCompany_BuffCount" xml:space="preserve">
         <value>Buff-Anzahl</value>
     </data>
-  <data name="FreeCompany_BuffSelection" xml:space="preserve">
+    <data name="FreeCompany_BuffSelection" xml:space="preserve">
         <value>Buff-Auswahl</value>
     </data>
-  <data name="Dancer_Label" xml:space="preserve">
+    <data name="Dancer_Label" xml:space="preserve">
         <value>Tänzer</value>
     </data>
-  <data name="Dancer_WarningText" xml:space="preserve">
+    <data name="Dancer_WarningText" xml:space="preserve">
         <value>Tanzpartner fehlt</value>
     </data>
-  <data name="Dancer_WarningTextShort" xml:space="preserve">
+    <data name="Dancer_WarningTextShort" xml:space="preserve">
         <value>Tanzpartner</value>
     </data>
-  <data name="Food_EnableFilter" xml:space="preserve">
+    <data name="Food_EnableFilter" xml:space="preserve">
         <value>Filter aktivieren</value>
     </data>
-  <data name="Food_Label" xml:space="preserve">
+    <data name="Food_Label" xml:space="preserve">
         <value>Nahrung</value>
     </data>
-  <data name="Food_WarningText" xml:space="preserve">
+    <data name="Food_WarningText" xml:space="preserve">
         <value>Nahrung fehlt</value>
     </data>
-  <data name="Food_EarlyWarningLabel" xml:space="preserve">
+    <data name="Food_EarlyWarningLabel" xml:space="preserve">
         <value>Frühzeitige Warnung</value>
     </data>
-  <data name="Food_ZoneFilters" xml:space="preserve">
+    <data name="Food_ZoneFilters" xml:space="preserve">
         <value>Zonen-Filter</value>
     </data>
-  <data name="Food_ZoneFiltersDescription" xml:space="preserve">
+    <data name="Food_ZoneFiltersDescription" xml:space="preserve">
         <value>Warnung nur in den folgenden Zonen anzeigen</value>
     </data>
-  <data name="Common_AdditionalOptions" xml:space="preserve">
+    <data name="Common_AdditionalOptions" xml:space="preserve">
         <value>Weitere Optionen</value>
     </data>
-  <data name="Food_SuppressInCombat" xml:space="preserve">
+    <data name="Food_SuppressInCombat" xml:space="preserve">
         <value>Im Kampf unterdrücken</value>
     </data>
-  <data name="Sage_Label" xml:space="preserve">
+    <data name="Sage_Label" xml:space="preserve">
         <value>Weiser</value>
     </data>
-  <data name="Sage_WarningText" xml:space="preserve">
+    <data name="Sage_WarningText" xml:space="preserve">
         <value>Kardia Partner fehlt</value>
     </data>
-  <data name="Sage_WarningTextShort" xml:space="preserve">
+    <data name="Sage_WarningTextShort" xml:space="preserve">
         <value>Kardia Partner</value>
     </data>
-  <data name="Scholar_Label" xml:space="preserve">
+    <data name="Scholar_Label" xml:space="preserve">
         <value>Gelehrter</value>
     </data>
-  <data name="Scholar_WarningText" xml:space="preserve">
+    <data name="Scholar_WarningText" xml:space="preserve">
         <value>Feen-Beschwörung fehlt</value>
     </data>
-  <data name="Scholar_WarningTextShort" xml:space="preserve">
+    <data name="Scholar_WarningTextShort" xml:space="preserve">
         <value>Feen-Beschwörung</value>
     </data>
-  <data name="Summoner_Label" xml:space="preserve">
+    <data name="Summoner_Label" xml:space="preserve">
         <value>Beschwörer</value>
     </data>
-  <data name="Summoner_WarningText" xml:space="preserve">
+    <data name="Summoner_WarningText" xml:space="preserve">
         <value>Haustierbeschwörung fehlt</value>
     </data>
-  <data name="Summoner_WarningTextShort" xml:space="preserve">
+    <data name="Summoner_WarningTextShort" xml:space="preserve">
         <value>Haustierbeschwörung</value>
     </data>
-  <data name="BlueMage_Label" xml:space="preserve">
+    <data name="BlueMage_Label" xml:space="preserve">
         <value>Blaumagier</value>
     </data>
-  <data name="BlueMage_Mimicry" xml:space="preserve">
+    <data name="BlueMage_Mimicry" xml:space="preserve">
         <value>Äther-Mimikry fehlt</value>
     </data>
-  <data name="BlueMage_MightyGuard" xml:space="preserve">
+    <data name="BlueMage_MightyGuard" xml:space="preserve">
         <value>Totalabwehr fehlt</value>
     </data>
-  <data name="BlueMage_MimicryLabel" xml:space="preserve">
+    <data name="BlueMage_MimicryLabel" xml:space="preserve">
         <value>Äther-Mimikry</value>
     </data>
-  <data name="BlueMage_MightyGuardLabel" xml:space="preserve">
+    <data name="BlueMage_MightyGuardLabel" xml:space="preserve">
         <value>Totalabwehr</value>
     </data>
-  <data name="SpiritBond_Label" xml:space="preserve">
+    <data name="SpiritBond_Label" xml:space="preserve">
         <value>Bindung</value>
     </data>
-  <data name="SpiritBond_WarningText" xml:space="preserve">
+    <data name="SpiritBond_WarningText" xml:space="preserve">
         <value>Bindung fehlt</value>
     </data>
-  <data name="Cutscene_Label" xml:space="preserve">
+    <data name="Cutscene_Label" xml:space="preserve">
         <value>Zwischensequenz</value>
     </data>
-  <data name="Cutscene_WarningText" xml:space="preserve">
+    <data name="Cutscene_WarningText" xml:space="preserve">
         <value>In Zwischensequenz</value>
     </data>
-  <data name="Labels_Enabled" xml:space="preserve">
+    <data name="Labels_Enabled" xml:space="preserve">
         <value>Aktiviert</value>
     </data>
-  <data name="Labels_Disabled" xml:space="preserve">
+    <data name="Labels_Disabled" xml:space="preserve">
         <value>Deaktiviert</value>
     </data>
-  <data name="Labels_Options" xml:space="preserve">
+    <data name="Labels_Options" xml:space="preserve">
         <value>Optionen</value>
     </data>
-  <data name="Labels_Priority" xml:space="preserve">
+    <data name="Labels_Priority" xml:space="preserve">
         <value>Priorität</value>
     </data>
-  <data name="Labels_Seconds" xml:space="preserve">
+    <data name="Labels_Seconds" xml:space="preserve">
         <value>Sekunden</value>
     </data>
-  <data name="Labels_Savage" xml:space="preserve">
+    <data name="Labels_Savage" xml:space="preserve">
         <value>Episch</value>
     </data>
-  <data name="Labels_Ultimate" xml:space="preserve">
+    <data name="Labels_Ultimate" xml:space="preserve">
         <value>Fatal</value>
     </data>
-  <data name="Labels_ExtremeUnreal" xml:space="preserve">
+    <data name="Labels_ExtremeUnreal" xml:space="preserve">
         <value>Extrem &amp; Traumprüfungen</value>
     </data>
-  <data name="Labels_Criterion" xml:space="preserve">
+    <data name="Labels_Criterion" xml:space="preserve">
         <value>Kriterium</value>
     </data>
-  <data name="Labels_ModeSelect" xml:space="preserve">
+    <data name="Labels_ModeSelect" xml:space="preserve">
         <value>Modusauswahl</value>
     </data>
-  <data name="Labels_Unset" xml:space="preserve">
+    <data name="Labels_Unset" xml:space="preserve">
         <value>Abwählen</value>
     </data>
-  <data name="Labels_Warnings" xml:space="preserve">
+    <data name="Labels_Warnings" xml:space="preserve">
         <value>Warnungen</value>
     </data>
-  <data name="Labels_DisplayOptions" xml:space="preserve">
+    <data name="Labels_DisplayOptions" xml:space="preserve">
         <value>Anzeigeoptionen</value>
     </data>
-  <data name="Labels_Scale" xml:space="preserve">
+    <data name="Labels_Scale" xml:space="preserve">
         <value>Skalierung</value>
     </data>
-  <data name="Labels_Default" xml:space="preserve">
+    <data name="Labels_Default" xml:space="preserve">
         <value>Standard</value>
     </data>
-  <data name="Tabs_Settings" xml:space="preserve">
+    <data name="Tabs_Settings" xml:space="preserve">
         <value>Einstellungen</value>
     </data>
-  <data name="BannerOverlay_BorderThickness" xml:space="preserve">
+    <data name="BannerOverlay_BorderThickness" xml:space="preserve">
         <value>Rahmendicke</value>
     </data>
-  <data name="BannerOverlay_Label" xml:space="preserve">
+    <data name="BannerOverlay_Label" xml:space="preserve">
         <value>Banner-Overlay</value>
     </data>
-  <data name="BannerOverlay_ConfigurationLabel" xml:space="preserve">
+    <data name="BannerOverlay_ConfigurationLabel" xml:space="preserve">
         <value>Banner-Overlay Konfiguration</value>
     </data>
-  <data name="BannerOverlay_WarningCount" xml:space="preserve">
+    <data name="BannerOverlay_WarningCount" xml:space="preserve">
         <value>Spieleranzahl</value>
     </data>
-  <data name="BannerOverlay_ListModeDescription" xml:space="preserve">
+    <data name="BannerOverlay_ListModeDescription" xml:space="preserve">
         <value>Zeigt Warnungen von mehreren Gruppenmitgliedern gleichzeitig an</value>
     </data>
-  <data name="BannerOverlay_TopPriorityDescription" xml:space="preserve">
+    <data name="BannerOverlay_TopPriorityDescription" xml:space="preserve">
         <value>Zeigt nur eine Warnung gleichzeitig an</value>
     </data>
-  <data name="BannerOverlay_ListMode" xml:space="preserve">
+    <data name="BannerOverlay_ListMode" xml:space="preserve">
         <value>Liste</value>
     </data>
-  <data name="BannerOverlay_TopPriorityMode" xml:space="preserve">
+    <data name="BannerOverlay_TopPriorityMode" xml:space="preserve">
         <value>Einzel</value>
     </data>
-  <data name="BannerOverlay_ListModeOptions" xml:space="preserve">
+    <data name="BannerOverlay_ListModeOptions" xml:space="preserve">
         <value>Listen-Modus Optionen</value>
     </data>
-  <data name="BannerOverlay_RepositionMode" xml:space="preserve">
+    <data name="BannerOverlay_RepositionMode" xml:space="preserve">
         <value>Beispiel-Modus - Erlaubt Neupositionierung</value>
     </data>
-  <data name="BannerOverlay_ExclamationMark" xml:space="preserve">
+    <data name="BannerOverlay_ExclamationMark" xml:space="preserve">
         <value>Ausrufezeichen anzeigen</value>
     </data>
-  <data name="BannerOverlay_WarningText" xml:space="preserve">
+    <data name="BannerOverlay_WarningText" xml:space="preserve">
         <value>Text anzeigen</value>
     </data>
-  <data name="BannerOverlay_Icon" xml:space="preserve">
+    <data name="BannerOverlay_Icon" xml:space="preserve">
         <value>Symbol anzeigen</value>
     </data>
-  <data name="BannerOverlay_PlayerNames" xml:space="preserve">
+    <data name="BannerOverlay_PlayerNames" xml:space="preserve">
         <value>Spielernamen anzeigen</value>
     </data>
-  <data name="BannerOverlay_IconText" xml:space="preserve">
+    <data name="BannerOverlay_IconText" xml:space="preserve">
         <value>Symboltext anzeigen</value>
     </data>
-  <data name="BannerOverlay_SoloMode" xml:space="preserve">
+    <data name="BannerOverlay_SoloMode" xml:space="preserve">
         <value>Solo-Modus</value>
     </data>
-  <data name="BannerOverlay_SoloModeHelp" xml:space="preserve">
+    <data name="BannerOverlay_SoloModeHelp" xml:space="preserve">
         <value>Nur Warnungen anzeigen, welche selbst generiert wurden</value>
     </data>
-  <data name="PartyOverlay_Label" xml:space="preserve">
+    <data name="PartyOverlay_Label" xml:space="preserve">
         <value>Gruppenrahmen-Overlay</value>
     </data>
-  <data name="PartyOverlay_ConfigurationLabel" xml:space="preserve">
+    <data name="PartyOverlay_ConfigurationLabel" xml:space="preserve">
         <value>Gruppenrahmen-Overlay Konfiguration</value>
     </data>
-  <data name="PartyOverlay_JobIcon" xml:space="preserve">
+    <data name="PartyOverlay_JobIcon" xml:space="preserve">
         <value>Job-Symbol</value>
     </data>
-  <data name="PartyOverlay_PlayerName" xml:space="preserve">
+    <data name="PartyOverlay_PlayerName" xml:space="preserve">
         <value>Spielername</value>
     </data>
-  <data name="PartyOverlay_WarningText" xml:space="preserve">
+    <data name="PartyOverlay_WarningText" xml:space="preserve">
         <value>Warntext</value>
     </data>
-  <data name="PartyOverlay_FlashingEffects" xml:space="preserve">
+    <data name="PartyOverlay_FlashingEffects" xml:space="preserve">
         <value>Blinkende Effekte</value>
     </data>
-  <data name="PartyOverlay_ColorOptions" xml:space="preserve">
+    <data name="PartyOverlay_ColorOptions" xml:space="preserve">
         <value>Farboptionen</value>
     </data>
-  <data name="PartyOverlay_WarningOutlineColor" xml:space="preserve">
+    <data name="PartyOverlay_WarningOutlineColor" xml:space="preserve">
         <value>Namensumriss</value>
     </data>
-  <data name="Blacklist_Label" xml:space="preserve">
+    <data name="Blacklist_Label" xml:space="preserve">
         <value>Schwarze Liste</value>
     </data>
-  <data name="Blacklist_Button" xml:space="preserve">
+    <data name="Blacklist_Button" xml:space="preserve">
         <value>Schwarze-Liste Einstellungen</value>
     </data>
     <data name="Configuration_DutiesOnly" xml:space="preserve">
         <value>Nur in Inhalten</value>
     </data>
-  <data name="Configuration_HideInSanctuary" xml:space="preserve">
+    <data name="Configuration_HideInSanctuary" xml:space="preserve">
         <value>In Ruhebereichen ausblenden</value>
     </data>
-  <data name="Configuration_DutiesOnlyHelp" xml:space="preserve">
+    <data name="Configuration_DutiesOnlyHelp" xml:space="preserve">
         <value>Wenn aktiviert, werden nur Warnungen angezeigt, wenn Sie sich in Inhalten befinden
 Wenn deaktiviert werden Warnungen überall angezeigt</value>
     </data>
-  <data name="Configuration_SoloModeHelp" xml:space="preserve">
+    <data name="Configuration_SoloModeHelp" xml:space="preserve">
         <value>Wenn aktiviert, werden nur Warnungen für dich ausgewertet</value>
     </data>
-  <data name="Configuration_PreviewMode" xml:space="preserve">
+    <data name="Configuration_PreviewMode" xml:space="preserve">
         <value>Beispiel-Modus</value>
     </data>
 </root>

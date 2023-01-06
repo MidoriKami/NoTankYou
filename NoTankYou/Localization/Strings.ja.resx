@@ -16,272 +16,272 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Tank_Label" xml:space="preserve">
+    <data name="Tank_Label" xml:space="preserve">
         <value>タンク</value>
     </data>
-  <data name="Tank_WarningText" xml:space="preserve">
+    <data name="Tank_WarningText" xml:space="preserve">
         <value>タンクスタンスなし</value>
     </data>
-  <data name="Tank_WarningTextShort" xml:space="preserve">
+    <data name="Tank_WarningTextShort" xml:space="preserve">
         <value>タンクスタンス</value>
     </data>
-  <data name="Tank_DisableInAllianceRaid" xml:space="preserve">
+    <data name="Tank_DisableInAllianceRaid" xml:space="preserve">
         <value>アライアンスレイドで無効にする</value>
     </data>
-  <data name="Tank_CheckAllianceStances" xml:space="preserve">
+    <data name="Tank_CheckAllianceStances" xml:space="preserve">
         <value>アライアンスPTメンバーを確認する</value>
     </data>
-  <data name="FreeCompany_Label" xml:space="preserve">
+    <data name="FreeCompany_Label" xml:space="preserve">
         <value>フリーカンパニー</value>
     </data>
-  <data name="FreeCompany_WarningText" xml:space="preserve">
+    <data name="FreeCompany_WarningText" xml:space="preserve">
         <value>カンパニーアクションがありません</value>
     </data>
-  <data name="FreeCompany_WarningTextShort" xml:space="preserve">
+    <data name="FreeCompany_WarningTextShort" xml:space="preserve">
         <value>カンパニーアクション</value>
     </data>
-  <data name="FreeCompany_Any" xml:space="preserve">
+    <data name="FreeCompany_Any" xml:space="preserve">
         <value>すべて</value>
     </data>
-  <data name="FreeCompany_Specific" xml:space="preserve">
+    <data name="FreeCompany_Specific" xml:space="preserve">
         <value>特定の</value>
     </data>
-  <data name="FreeCompany_BuffCount" xml:space="preserve">
+    <data name="FreeCompany_BuffCount" xml:space="preserve">
         <value>バフの数</value>
     </data>
-  <data name="FreeCompany_BuffSelection" xml:space="preserve">
+    <data name="FreeCompany_BuffSelection" xml:space="preserve">
         <value>バフの選択</value>
     </data>
-  <data name="Dancer_Label" xml:space="preserve">
+    <data name="Dancer_Label" xml:space="preserve">
         <value>踊り子</value>
     </data>
-  <data name="Dancer_WarningText" xml:space="preserve">
+    <data name="Dancer_WarningText" xml:space="preserve">
         <value>ダンスパートナーがいません</value>
     </data>
-  <data name="Dancer_WarningTextShort" xml:space="preserve">
+    <data name="Dancer_WarningTextShort" xml:space="preserve">
         <value>ダンスパートナー</value>
     </data>
-  <data name="Food_EnableFilter" xml:space="preserve">
+    <data name="Food_EnableFilter" xml:space="preserve">
         <value>有効なフィルター</value>
     </data>
-  <data name="Food_Label" xml:space="preserve">
+    <data name="Food_Label" xml:space="preserve">
         <value>食事</value>
     </data>
-  <data name="Food_WarningText" xml:space="preserve">
+    <data name="Food_WarningText" xml:space="preserve">
         <value>食事が切れています</value>
     </data>
-  <data name="Food_EarlyWarningLabel" xml:space="preserve">
+    <data name="Food_EarlyWarningLabel" xml:space="preserve">
         <value>錬精薬切れの事前通知</value>
     </data>
-  <data name="Food_ZoneFilters" xml:space="preserve">
+    <data name="Food_ZoneFilters" xml:space="preserve">
         <value>ゾーンフィルタ</value>
     </data>
-  <data name="Food_ZoneFiltersDescription" xml:space="preserve">
+    <data name="Food_ZoneFiltersDescription" xml:space="preserve">
         <value>次のゾーンでのみ警告を表示します</value>
     </data>
-  <data name="Common_AdditionalOptions" xml:space="preserve">
+    <data name="Common_AdditionalOptions" xml:space="preserve">
         <value>追加オプション</value>
     </data>
-  <data name="Food_SuppressInCombat" xml:space="preserve">
+    <data name="Food_SuppressInCombat" xml:space="preserve">
         <value>戦闘中は無効化する</value>
     </data>
-  <data name="Sage_Label" xml:space="preserve">
+    <data name="Sage_Label" xml:space="preserve">
         <value>賢者</value>
     </data>
-  <data name="Sage_WarningText" xml:space="preserve">
+    <data name="Sage_WarningText" xml:space="preserve">
         <value>カルディアを付与していません</value>
     </data>
-  <data name="Sage_WarningTextShort" xml:space="preserve">
+    <data name="Sage_WarningTextShort" xml:space="preserve">
         <value>カルディアパートナー</value>
     </data>
-  <data name="Scholar_Label" xml:space="preserve">
+    <data name="Scholar_Label" xml:space="preserve">
         <value>学者</value>
     </data>
-  <data name="Scholar_WarningText" xml:space="preserve">
+    <data name="Scholar_WarningText" xml:space="preserve">
         <value>フェアリーが召喚されていません</value>
     </data>
-  <data name="Scholar_WarningTextShort" xml:space="preserve">
+    <data name="Scholar_WarningTextShort" xml:space="preserve">
         <value>サモン・フェアリー</value>
     </data>
-  <data name="Summoner_Label" xml:space="preserve">
+    <data name="Summoner_Label" xml:space="preserve">
         <value>召喚士</value>
     </data>
-  <data name="Summoner_WarningText" xml:space="preserve">
+    <data name="Summoner_WarningText" xml:space="preserve">
         <value>ペットが召喚されていません</value>
     </data>
-  <data name="Summoner_WarningTextShort" xml:space="preserve">
+    <data name="Summoner_WarningTextShort" xml:space="preserve">
         <value>サモン・カーバンクル</value>
     </data>
-  <data name="BlueMage_Label" xml:space="preserve">
+    <data name="BlueMage_Label" xml:space="preserve">
         <value>青魔道士</value>
     </data>
-  <data name="BlueMage_Mimicry" xml:space="preserve">
+    <data name="BlueMage_Mimicry" xml:space="preserve">
         <value>エーテルコピーをしていません</value>
     </data>
-  <data name="BlueMage_MightyGuard" xml:space="preserve">
+    <data name="BlueMage_MightyGuard" xml:space="preserve">
         <value>マイティガードをしていません</value>
     </data>
-  <data name="BlueMage_MimicryLabel" xml:space="preserve">
+    <data name="BlueMage_MimicryLabel" xml:space="preserve">
         <value>エーテルコピー</value>
     </data>
-  <data name="BlueMage_MightyGuardLabel" xml:space="preserve">
+    <data name="BlueMage_MightyGuardLabel" xml:space="preserve">
         <value>マイティガード</value>
     </data>
-  <data name="SpiritBond_Label" xml:space="preserve">
+    <data name="SpiritBond_Label" xml:space="preserve">
         <value>精製</value>
     </data>
-  <data name="SpiritBond_WarningText" xml:space="preserve">
+    <data name="SpiritBond_WarningText" xml:space="preserve">
         <value>精製できません</value>
     </data>
-  <data name="Cutscene_Label" xml:space="preserve">
+    <data name="Cutscene_Label" xml:space="preserve">
         <value>场景</value>
     </data>
-  <data name="Cutscene_WarningText" xml:space="preserve">
+    <data name="Cutscene_WarningText" xml:space="preserve">
         <value>カットシーン</value>
     </data>
-  <data name="Labels_Enabled" xml:space="preserve">
+    <data name="Labels_Enabled" xml:space="preserve">
         <value>有効</value>
     </data>
-  <data name="Labels_Disabled" xml:space="preserve">
+    <data name="Labels_Disabled" xml:space="preserve">
         <value>無効</value>
     </data>
-  <data name="Labels_Options" xml:space="preserve">
+    <data name="Labels_Options" xml:space="preserve">
         <value>通知の有効化</value>
     </data>
-  <data name="Labels_Priority" xml:space="preserve">
+    <data name="Labels_Priority" xml:space="preserve">
         <value>優先度</value>
     </data>
-  <data name="Labels_Seconds" xml:space="preserve">
+    <data name="Labels_Seconds" xml:space="preserve">
         <value>秒</value>
     </data>
-  <data name="Labels_Savage" xml:space="preserve">
+    <data name="Labels_Savage" xml:space="preserve">
         <value>零式</value>
     </data>
-  <data name="Labels_Ultimate" xml:space="preserve">
+    <data name="Labels_Ultimate" xml:space="preserve">
         <value>絶</value>
     </data>
-  <data name="Labels_ExtremeUnreal" xml:space="preserve">
+    <data name="Labels_ExtremeUnreal" xml:space="preserve">
         <value>極＆絶</value>
     </data>
-  <data name="Labels_Criterion" xml:space="preserve">
+    <data name="Labels_Criterion" xml:space="preserve">
         <value>基準</value>
     </data>
-  <data name="Labels_ModeSelect" xml:space="preserve">
+    <data name="Labels_ModeSelect" xml:space="preserve">
         <value>モード選択</value>
     </data>
-  <data name="Labels_Unset" xml:space="preserve">
+    <data name="Labels_Unset" xml:space="preserve">
         <value>解除する</value>
     </data>
-  <data name="Labels_Warnings" xml:space="preserve">
+    <data name="Labels_Warnings" xml:space="preserve">
         <value>警告</value>
     </data>
-  <data name="Labels_DisplayOptions" xml:space="preserve">
+    <data name="Labels_DisplayOptions" xml:space="preserve">
         <value>表示オプション</value>
     </data>
-  <data name="Labels_Scale" xml:space="preserve">
+    <data name="Labels_Scale" xml:space="preserve">
         <value>大きさ:</value>
     </data>
-  <data name="Labels_Default" xml:space="preserve">
+    <data name="Labels_Default" xml:space="preserve">
         <value>Default</value>
     </data>
-  <data name="Tabs_Settings" xml:space="preserve">
+    <data name="Tabs_Settings" xml:space="preserve">
         <value>設定</value>
     </data>
-  <data name="BannerOverlay_BorderThickness" xml:space="preserve">
+    <data name="BannerOverlay_BorderThickness" xml:space="preserve">
         <value>文字枠の太さ</value>
     </data>
-  <data name="BannerOverlay_Label" xml:space="preserve">
+    <data name="BannerOverlay_Label" xml:space="preserve">
         <value>バナーオーバーレイ</value>
     </data>
-  <data name="BannerOverlay_ConfigurationLabel" xml:space="preserve">
+    <data name="BannerOverlay_ConfigurationLabel" xml:space="preserve">
         <value>バナーのオーバーレイ設定</value>
     </data>
-  <data name="BannerOverlay_WarningCount" xml:space="preserve">
+    <data name="BannerOverlay_WarningCount" xml:space="preserve">
         <value>プレイヤー数</value>
     </data>
-  <data name="BannerOverlay_ListModeDescription" xml:space="preserve">
+    <data name="BannerOverlay_ListModeDescription" xml:space="preserve">
         <value>複数のパーティメンバの警告を同時に表示する</value>
     </data>
-  <data name="BannerOverlay_TopPriorityDescription" xml:space="preserve">
+    <data name="BannerOverlay_TopPriorityDescription" xml:space="preserve">
         <value>一度にひとつの警告のみ表示する</value>
     </data>
-  <data name="BannerOverlay_ListMode" xml:space="preserve">
+    <data name="BannerOverlay_ListMode" xml:space="preserve">
         <value>一覧</value>
     </data>
-  <data name="BannerOverlay_TopPriorityMode" xml:space="preserve">
+    <data name="BannerOverlay_TopPriorityMode" xml:space="preserve">
         <value>参加賞</value>
     </data>
-  <data name="BannerOverlay_ListModeOptions" xml:space="preserve">
+    <data name="BannerOverlay_ListModeOptions" xml:space="preserve">
         <value>リストオプション</value>
     </data>
-  <data name="BannerOverlay_RepositionMode" xml:space="preserve">
+    <data name="BannerOverlay_RepositionMode" xml:space="preserve">
         <value>サンプルモード - 位置変更を許可する</value>
     </data>
-  <data name="BannerOverlay_ExclamationMark" xml:space="preserve">
+    <data name="BannerOverlay_ExclamationMark" xml:space="preserve">
         <value>「！」を表示する</value>
     </data>
-  <data name="BannerOverlay_WarningText" xml:space="preserve">
+    <data name="BannerOverlay_WarningText" xml:space="preserve">
         <value>テキストを表示する</value>
     </data>
-  <data name="BannerOverlay_Icon" xml:space="preserve">
+    <data name="BannerOverlay_Icon" xml:space="preserve">
         <value>アイコンを表示する</value>
     </data>
-  <data name="BannerOverlay_PlayerNames" xml:space="preserve">
+    <data name="BannerOverlay_PlayerNames" xml:space="preserve">
         <value>プレイヤー名を表示する</value>
     </data>
-  <data name="BannerOverlay_IconText" xml:space="preserve">
+    <data name="BannerOverlay_IconText" xml:space="preserve">
         <value>アイコンテキストを表示</value>
     </data>
-  <data name="BannerOverlay_SoloMode" xml:space="preserve">
+    <data name="BannerOverlay_SoloMode" xml:space="preserve">
         <value>ソロモード</value>
     </data>
-  <data name="BannerOverlay_SoloModeHelp" xml:space="preserve">
+    <data name="BannerOverlay_SoloModeHelp" xml:space="preserve">
         <value>あなたが生成した警告のみを表示する</value>
     </data>
-  <data name="PartyOverlay_Label" xml:space="preserve">
+    <data name="PartyOverlay_Label" xml:space="preserve">
         <value>パーティフレームのオーバーレイ</value>
     </data>
-  <data name="PartyOverlay_ConfigurationLabel" xml:space="preserve">
+    <data name="PartyOverlay_ConfigurationLabel" xml:space="preserve">
         <value>パーティフレームのオーバーレイ設定</value>
     </data>
-  <data name="PartyOverlay_JobIcon" xml:space="preserve">
+    <data name="PartyOverlay_JobIcon" xml:space="preserve">
         <value>ジョブアイコン</value>
     </data>
-  <data name="PartyOverlay_PlayerName" xml:space="preserve">
+    <data name="PartyOverlay_PlayerName" xml:space="preserve">
         <value>プレイヤー名</value>
     </data>
-  <data name="PartyOverlay_WarningText" xml:space="preserve">
+    <data name="PartyOverlay_WarningText" xml:space="preserve">
         <value>警告文</value>
     </data>
-  <data name="PartyOverlay_FlashingEffects" xml:space="preserve">
+    <data name="PartyOverlay_FlashingEffects" xml:space="preserve">
         <value>点滅エフェクト</value>
     </data>
-  <data name="PartyOverlay_ColorOptions" xml:space="preserve">
+    <data name="PartyOverlay_ColorOptions" xml:space="preserve">
         <value>色の設定</value>
     </data>
-  <data name="PartyOverlay_WarningOutlineColor" xml:space="preserve">
+    <data name="PartyOverlay_WarningOutlineColor" xml:space="preserve">
         <value>アウトライン名</value>
     </data>
-  <data name="Blacklist_Label" xml:space="preserve">
+    <data name="Blacklist_Label" xml:space="preserve">
         <value>除外リスト</value>
     </data>
-  <data name="Blacklist_Button" xml:space="preserve">
+    <data name="Blacklist_Button" xml:space="preserve">
         <value>ブラックリスト設定</value>
     </data>
     <data name="Configuration_DutiesOnly" xml:space="preserve">
         <value>職務のみ</value>
     </data>
-  <data name="Configuration_HideInSanctuary" xml:space="preserve">
+    <data name="Configuration_HideInSanctuary" xml:space="preserve">
         <value>レストエリアに入る</value>
     </data>
-  <data name="Configuration_DutiesOnlyHelp" xml:space="preserve">
+    <data name="Configuration_DutiesOnlyHelp" xml:space="preserve">
         <value>有効にすると職務中のみ警告が表示されます。
 無効にするとどこでも警告が表示されます。</value>
     </data>
-  <data name="Configuration_SoloModeHelp" xml:space="preserve">
+    <data name="Configuration_SoloModeHelp" xml:space="preserve">
         <value>有効にすると、非パーティ時にも通知されます</value>
     </data>
-  <data name="Configuration_PreviewMode" xml:space="preserve">
+    <data name="Configuration_PreviewMode" xml:space="preserve">
         <value>サンプルモード</value>
     </data>
 </root>

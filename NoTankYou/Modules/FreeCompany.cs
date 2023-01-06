@@ -42,12 +42,10 @@ public class FreeCompany : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-
+        public ISelectable Selectable { get; }
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
@@ -55,24 +53,24 @@ public class FreeCompany : IModule
             InfoBox.Instance.DrawGenericSettings(Settings);
             
             InfoBox.Instance
-                .AddTitle(Strings.Common.Labels.ModeSelect)
+                .AddTitle(Strings.Labels_ModeSelect)
                 .BeginTable()
                 .BeginRow()
-                .AddConfigRadio(Strings.Modules.FreeCompany.Any, Settings.ScanMode, FreeCompanyBuffScanMode.Any)
-                .AddConfigRadio(Strings.Modules.FreeCompany.Specific, Settings.ScanMode, FreeCompanyBuffScanMode.Specific)
+                .AddConfigRadio(Strings.FreeCompany_Any, Settings.ScanMode, FreeCompanyBuffScanMode.Any)
+                .AddConfigRadio(Strings.FreeCompany_Specific, Settings.ScanMode, FreeCompanyBuffScanMode.Specific)
                 .EndRow()
                 .EndTable()
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Modules.FreeCompany.BuffCount)
+                .AddTitle(Strings.FreeCompany_BuffCount)
                 .AddAction(DrawBuffCount)
                 .Draw();
 
             if (Settings.ScanMode == FreeCompanyBuffScanMode.Specific)
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Modules.FreeCompany.BuffSelection)
+                    .AddTitle(Strings.FreeCompany_BuffSelection)
                     .AddAction(BuffSelection)
                     .Draw();
             }
@@ -86,7 +84,7 @@ public class FreeCompany : IModule
         {
             for (var i = 0; i < Settings.BuffCount.Value; i++)
             {
-                var displayValue = Strings.Common.Labels.Unset;
+                var displayValue = Strings.Labels_Unset;
                 if (Settings.BuffList[i] != 0)
                 {
                     var status = LuminaCache<Status>.Instance.GetRow(Settings.BuffList[i]);
@@ -176,8 +174,8 @@ public class FreeCompany : IModule
                     {
                         return new WarningState
                         {
-                            MessageLong = Strings.Modules.FreeCompany.WarningText,
-                            MessageShort = Strings.Modules.FreeCompany.WarningTextShort,
+                            MessageLong = Strings.FreeCompany_WarningText,
+                            MessageShort = Strings.FreeCompany_WarningTextShort,
                             IconID = (uint)FreeCompanyStatus.Icon,
                             IconLabel = "",
                             Priority = Settings.Priority.Value,
@@ -194,8 +192,8 @@ public class FreeCompany : IModule
                         {
                             return new WarningState
                             {
-                                MessageLong = Strings.Modules.FreeCompany.WarningText,
-                                MessageShort = Strings.Modules.FreeCompany.WarningTextShort,
+                                MessageLong = Strings.FreeCompany_WarningText,
+                                MessageShort = Strings.FreeCompany_WarningTextShort,
                                 IconID = (uint)FreeCompanyStatus.Icon,
                                 IconLabel = targetStatus.Name.RawString,
                                 Priority = Settings.Priority.Value,

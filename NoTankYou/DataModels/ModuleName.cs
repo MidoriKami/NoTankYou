@@ -23,16 +23,16 @@ public static class ModuleNameExtensions
     {
         return value switch
         {
-            ModuleName.Tanks => Strings.Modules.Tank.Label,
-            ModuleName.BlueMage => Strings.Modules.BlueMage.Label,
-            ModuleName.Dancer => Strings.Modules.Dancer.Label,
-            ModuleName.Food => Strings.Modules.Food.Label,
-            ModuleName.FreeCompany => Strings.Modules.FreeCompany.Label,
-            ModuleName.Sage => Strings.Modules.Sage.Label,
-            ModuleName.Scholar => Strings.Modules.Scholar.Label,
-            ModuleName.Summoner => Strings.Modules.Summoner.Label,
-            ModuleName.Spiritbond => Strings.Modules.SpiritBond.Label,
-            ModuleName.Cutscene => Strings.Modules.Cutscene.Label,
+            ModuleName.Tanks => Strings.Tank_Label,
+            ModuleName.BlueMage => Strings.BlueMage_Label,
+            ModuleName.Dancer => Strings.Dancer_Label,
+            ModuleName.Food => Strings.Food_Label,
+            ModuleName.FreeCompany => Strings.FreeCompany_Label,
+            ModuleName.Sage => Strings.Sage_Label,
+            ModuleName.Scholar => Strings.Scholar_Label,
+            ModuleName.Summoner => Strings.Summoner_Label,
+            ModuleName.Spiritbond => Strings.SpiritBond_Label,
+            ModuleName.Cutscene => Strings.Cutscene_Label,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
         };
     }

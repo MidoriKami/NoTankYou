@@ -13,7 +13,7 @@ public class ConfigurationManager : IDisposable
 
     public CharacterConfiguration CharacterConfiguration => CharacterDataLoaded ? BackingCharacterConfiguration : NullCharacterConfiguration;
 
-    private static bool LoggedIn => Service.ClientState.LocalPlayer != null && Service.ClientState.LocalContentId != 0;
+    private static bool LoggedIn => Service.ClientState is { LocalPlayer: not null, LocalContentId: not 0 };
     
     [MemberNotNullWhen(returnValue: true, nameof(BackingCharacterConfiguration))]
     public bool CharacterDataLoaded { get; private set; }

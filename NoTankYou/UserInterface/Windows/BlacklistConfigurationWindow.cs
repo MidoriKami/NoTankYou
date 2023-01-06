@@ -13,7 +13,7 @@ public class BlacklistConfigurationWindow : Window, IDisposable
 {
     private static BlacklistSettings Settings => Service.ConfigurationManager.CharacterConfiguration.Blacklist;
     
-    public BlacklistConfigurationWindow() : base($"{Strings.TabItems.Blacklist.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
+    public BlacklistConfigurationWindow() : base($"{Strings.Blacklist_Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         SizeConstraints = new WindowSizeConstraints
         {
@@ -31,14 +31,14 @@ public class BlacklistConfigurationWindow : Window, IDisposable
 
     private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
     {
-        WindowName = $"{Strings.TabItems.Blacklist.Label} - {e.CharacterData.Name}";
+        WindowName = $"{Strings.Blacklist_Label} - {e.CharacterData.Name}";
     }
 
     public override void Draw()
     {
         InfoBox.Instance
-            .AddTitle(Strings.Common.Labels.Options, 1.0f)
-            .AddConfigCheckbox(Strings.Configuration.Enable, Settings.Enabled)
+            .AddTitle(Strings.Labels_Options, 1.0f)
+            .AddConfigCheckbox(Strings.Labels_Enabled, Settings.Enabled)
             .Draw();
 
         if (Settings.Enabled)

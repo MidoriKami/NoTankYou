@@ -44,12 +44,10 @@ public class Tanks : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-        
+        public ISelectable Selectable { get; }
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
@@ -57,9 +55,9 @@ public class Tanks : IModule
             InfoBox.Instance.DrawGenericSettings(Settings);
             
             InfoBox.Instance
-                .AddTitle(Strings.Common.Labels.AdditionalOptions)
-                .AddConfigCheckbox(Strings.Modules.Tank.DisableInAllianceRaid, Settings.DisableInAllianceRaid)
-                .AddConfigCheckbox(Strings.Modules.Tank.CheckAllianceStances, Settings.CheckAllianceStances)
+                .AddTitle(Strings.Common_AdditionalOptions)
+                .AddConfigCheckbox(Strings.Tank_DisableInAllianceRaid, Settings.DisableInAllianceRaid)
+                .AddConfigCheckbox(Strings.Tank_CheckAllianceStances, Settings.CheckAllianceStances)
                 .Draw();
             
             InfoBox.Instance.DrawOverlaySettings(Settings);
@@ -203,8 +201,8 @@ public class Tanks : IModule
 
             return new WarningState
             {
-                MessageShort = Strings.Modules.Tank.WarningTextShort,
-                MessageLong = Strings.Modules.Tank.WarningText,
+                MessageShort = Strings.Tank_WarningTextShort,
+                MessageLong = Strings.Tank_WarningText,
                 IconID = iconInfo.ID,
                 IconLabel = iconInfo.Name,
                 Priority = Settings.Priority.Value,

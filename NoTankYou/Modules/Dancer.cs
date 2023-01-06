@@ -35,12 +35,11 @@ public class Dancer : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
+        public ISelectable Selectable { get; }
         
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
@@ -80,8 +79,8 @@ public class Dancer : IModule
             {
                 return new WarningState
                 {
-                    MessageLong = Strings.Modules.Dancer.WarningText,
-                    MessageShort = Strings.Modules.Dancer.WarningTextShort,
+                    MessageLong = Strings.Dancer_WarningText,
+                    MessageShort = Strings.Dancer_WarningTextShort,
                     IconID = ClosedPositionAction.Icon,
                     IconLabel = ClosedPositionAction.Name.RawString,
                     Priority = Settings.Priority.Value,

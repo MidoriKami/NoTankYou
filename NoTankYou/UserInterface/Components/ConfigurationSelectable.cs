@@ -10,9 +10,9 @@ namespace NoTankYou.UserInterface.Components;
 
 public class ConfigurationSelectable : ISelectable
 {
-    public ModuleName OwnerModuleName { get; }
+    private ModuleName OwnerModuleName { get; }
     public IDrawable Contents { get; }
-    public IModule ParentModule { get; }
+    private IModule ParentModule { get; }
     public string ID => ParentModule.Name.GetTranslatedString();
 
     public ConfigurationSelectable(IModule parentModule, IDrawable contents)
@@ -37,7 +37,7 @@ public class ConfigurationSelectable : ISelectable
     {
         var region = ImGui.GetContentRegionAvail();
 
-        var text = ParentModule.GenericSettings.Enabled ? Strings.Common.Labels.Enabled : Strings.Common.Labels.Disabled;
+        var text = ParentModule.GenericSettings.Enabled ? Strings.Labels_Enabled : Strings.Labels_Disabled;
         var color = ParentModule.GenericSettings.Enabled ? Colors.Green : Colors.Red;
 
         var textSize = ImGui.CalcTextSize(text);

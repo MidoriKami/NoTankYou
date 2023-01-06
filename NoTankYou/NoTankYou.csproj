@@ -41,6 +41,7 @@
 
 	<ItemGroup>
 		<Content Include="..\images\**" Link="images\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+		<Content Remove="..\translations\**" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -88,6 +89,30 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\KamiLib\KamiLib.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Localization\new\Strings.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Strings.r_cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Localization\Strings.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Localization\new\Strings.r_cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Strings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Localization\Strings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Strings.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 

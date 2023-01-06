@@ -40,26 +40,25 @@ public class BlueMage : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
+        public ISelectable Selectable { get; }
         
         public ModuleConfigurationComponent(IModule parentModule)
         {
-            ParentModule = parentModule;
+            Selectable = new ConfigurationSelectable(parentModule, this);
         }
 
         public void Draw()
         {
             InfoBox.Instance
-                .AddTitle(Strings.Common.Tabs.Settings)
-                .AddConfigCheckbox(Strings.Common.Labels.Enabled, Settings.Enabled)
-                .AddInputInt(Strings.Common.Labels.Priority, Settings.Priority, 0, 10)
+                .AddTitle(Strings.Tabs_Settings)
+                .AddConfigCheckbox(Strings.Labels_Enabled, Settings.Enabled)
+                .AddInputInt(Strings.Labels_Priority, Settings.Priority, 0, 10)
                 .Draw();
             
             InfoBox.Instance
-                .AddTitle(Strings.Common.Labels.Warnings)
-                .AddConfigCheckbox(Strings.Modules.BlueMage.MimicryLabel, Settings.Mimicry)
-                .AddConfigCheckbox(Strings.Modules.BlueMage.MightyGuardLabel, Settings.TankStance)
+                .AddTitle(Strings.Labels_Warnings)
+                .AddConfigCheckbox(Strings.BlueMage_MimicryLabel, Settings.Mimicry)
+                .AddConfigCheckbox(Strings.BlueMage_MightyGuardLabel, Settings.TankStance)
                 .Draw();
 
             InfoBox.Instance.DrawOverlaySettings(Settings);
@@ -127,8 +126,8 @@ public class BlueMage : IModule
         {
             return new WarningState
             {
-                MessageShort = Strings.Modules.BlueMage.MimicryLabel,
-                MessageLong = Strings.Modules.BlueMage.Mimicry,
+                MessageShort = Strings.BlueMage_MimicryLabel,
+                MessageLong = Strings.BlueMage_Mimicry,
                 IconID = MimicryAction.Icon,
                 IconLabel = MimicryAction.Name.ToString(),
                 Priority = Settings.Priority.Value,
@@ -139,8 +138,8 @@ public class BlueMage : IModule
         {
             return new WarningState
             {
-                MessageShort = Strings.Modules.BlueMage.MightyGuardLabel,
-                MessageLong = Strings.Modules.BlueMage.MightyGuard,
+                MessageShort = Strings.BlueMage_MightyGuardLabel,
+                MessageLong = Strings.BlueMage_MightyGuard,
                 IconID = MightyGuardAction.Icon,
                 IconLabel = MightyGuardAction.Name.ToString(),
                 Priority = Settings.Priority.Value,

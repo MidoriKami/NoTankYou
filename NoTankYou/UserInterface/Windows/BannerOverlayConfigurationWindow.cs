@@ -29,7 +29,7 @@ public class BannerOverlayConfigurationWindow : Window, IDisposable
 {
     private static BannerOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
     
-    public BannerOverlayConfigurationWindow() : base($"{Strings.TabItems.BannerOverlay.ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
+    public BannerOverlayConfigurationWindow() : base($"{Strings.BannerOverlay_ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         SizeConstraints = new WindowSizeConstraints
         {
@@ -49,43 +49,43 @@ public class BannerOverlayConfigurationWindow : Window, IDisposable
 
     private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
     {
-        WindowName = $"{Strings.TabItems.BannerOverlay.ConfigurationLabel} - {e.CharacterData.Name}";
+        WindowName = $"{Strings.BannerOverlay_ConfigurationLabel} - {e.CharacterData.Name}";
     }
 
     public override void Draw()
     {
         InfoBox.Instance
-            .AddTitle(Strings.Configuration.PreviewMode)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.RepositionMode, Settings.SampleMode)
+            .AddTitle(Strings.Configuration_PreviewMode)
+            .AddConfigCheckbox(Strings.BannerOverlay_RepositionMode, Settings.SampleMode)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.TabItems.BannerOverlay.SoloMode)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.SoloMode, Settings.SoloMode, Strings.TabItems.BannerOverlay.SoloModeHelp)
+            .AddTitle(Strings.BannerOverlay_SoloMode)
+            .AddConfigCheckbox(Strings.BannerOverlay_SoloMode, Settings.SoloMode, Strings.BannerOverlay_SoloModeHelp)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.Common.Labels.DisplayOptions)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.ExclamationMark, Settings.WarningShield)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.WarningText, Settings.WarningText)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.PlayerNames, Settings.PlayerNames)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.Icon, Settings.Icon)
-            .AddConfigCheckbox(Strings.TabItems.BannerOverlay.IconText, Settings.IconText)
-            .AddString(Strings.TabItems.BannerOverlay.BorderThickness + ":")
+            .AddTitle(Strings.Labels_DisplayOptions)
+            .AddConfigCheckbox(Strings.BannerOverlay_ExclamationMark, Settings.WarningShield)
+            .AddConfigCheckbox(Strings.BannerOverlay_WarningText, Settings.WarningText)
+            .AddConfigCheckbox(Strings.BannerOverlay_PlayerNames, Settings.PlayerNames)
+            .AddConfigCheckbox(Strings.BannerOverlay_Icon, Settings.Icon)
+            .AddConfigCheckbox(Strings.BannerOverlay_IconText, Settings.IconText)
+            .AddString(Strings.BannerOverlay_BorderThickness + ":")
             .AddDragFloat("##BorderThickness", Settings.BorderThickness, 0.5f, 3.0f, InfoBox.Instance.InnerWidth)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.Common.Labels.Scale)
+            .AddTitle(Strings.Labels_Scale)
             .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, InfoBox.Instance.InnerWidth)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.Common.Labels.ModeSelect)
+            .AddTitle(Strings.Labels_ModeSelect)
                 .BeginTable()
                     .BeginRow()
-                    .AddConfigRadio(Strings.TabItems.BannerOverlay.ListMode, Settings.Mode, BannerOverlayDisplayMode.List, Strings.TabItems.BannerOverlay.ListModeDescription)
-                    .AddConfigRadio(Strings.TabItems.BannerOverlay.TopPriorityMode, Settings.Mode, BannerOverlayDisplayMode.TopPriority, Strings.TabItems.BannerOverlay.TopPriorityDescription)
+                    .AddConfigRadio(Strings.BannerOverlay_ListMode, Settings.Mode, BannerOverlayDisplayMode.List, Strings.BannerOverlay_ListModeDescription)
+                    .AddConfigRadio(Strings.BannerOverlay_TopPriorityMode, Settings.Mode, BannerOverlayDisplayMode.TopPriority, Strings.BannerOverlay_TopPriorityDescription)
                     .EndRow()
                 .EndTable()
             .SameLine()
@@ -94,8 +94,8 @@ public class BannerOverlayConfigurationWindow : Window, IDisposable
         if (Settings.Mode == BannerOverlayDisplayMode.List)
         {
             InfoBox.Instance
-                .AddTitle(Strings.TabItems.BannerOverlay.ListModeOptions)
-                .AddString(Strings.TabItems.BannerOverlay.WarningCount + ":")
+                .AddTitle(Strings.BannerOverlay_ListModeOptions)
+                .AddString(Strings.BannerOverlay_WarningCount + ":")
                 .AddSliderInt("##PlayerWarningCount", Settings.WarningCount, 1, 8, InfoBox.Instance.InnerWidth)
                 .Draw();
         }

@@ -22,5 +22,4 @@ public class Service
     internal static ConfigurationManager ConfigurationManager = null!;
     internal static FontManager FontManager = null!;
     internal static PartyListAddon PartyListAddon = null!;
-    internal static LocalizationManager Localization = null!;
 }
