@@ -40,6 +40,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="..\images\**" Link="images\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+		<Content Remove="..\translations\**" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Content Include="..\translations\**" Link="translations\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="DalamudPackager" Version="2.1.8" />
 	</ItemGroup>
 
