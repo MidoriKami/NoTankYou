@@ -33,11 +33,11 @@ public class BannerOverlayConfigurationWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(320,590),
-            MaximumSize = new Vector2(320,590),
+            MinimumSize = new Vector2(320,400),
+            MaximumSize = new Vector2(320,999),
         };
 
-        Flags |= ImGuiWindowFlags.NoResize;
+        Flags |= ImGuiWindowFlags.NoScrollbar;
 
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
     }
@@ -65,38 +65,37 @@ public class BannerOverlayConfigurationWindow : Window, IDisposable
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.Labels_DisplayOptions)
+            .AddTitle(Strings.Labels_DisplayOptions, out var innerWidth)
             .AddConfigCheckbox(Strings.BannerOverlay_ExclamationMark, Settings.WarningShield)
             .AddConfigCheckbox(Strings.BannerOverlay_WarningText, Settings.WarningText)
             .AddConfigCheckbox(Strings.BannerOverlay_PlayerNames, Settings.PlayerNames)
             .AddConfigCheckbox(Strings.BannerOverlay_Icon, Settings.Icon)
             .AddConfigCheckbox(Strings.BannerOverlay_IconText, Settings.IconText)
             .AddString(Strings.BannerOverlay_BorderThickness + ":")
-            .AddDragFloat("##BorderThickness", Settings.BorderThickness, 0.5f, 3.0f, InfoBox.Instance.InnerWidth)
+            .AddDragFloat("##BorderThickness", Settings.BorderThickness, 0.5f, 3.0f, innerWidth)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.Labels_Scale)
-            .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, InfoBox.Instance.InnerWidth)
+            .AddTitle(Strings.Labels_Scale, out var scaleWidth)
+            .AddDragFloat("", Settings.Scale, 0.1f, 5.0f, scaleWidth)
             .Draw();
 
         InfoBox.Instance
             .AddTitle(Strings.Labels_ModeSelect)
-                .BeginTable()
-                    .BeginRow()
-                    .AddConfigRadio(Strings.BannerOverlay_ListMode, Settings.Mode, BannerOverlayDisplayMode.List, Strings.BannerOverlay_ListModeDescription)
-                    .AddConfigRadio(Strings.BannerOverlay_TopPriorityMode, Settings.Mode, BannerOverlayDisplayMode.TopPriority, Strings.BannerOverlay_TopPriorityDescription)
-                    .EndRow()
-                .EndTable()
-            .SameLine()
+            .BeginTable()
+            .BeginRow()
+            .AddConfigRadio(Strings.BannerOverlay_ListMode, Settings.Mode, BannerOverlayDisplayMode.List, Strings.BannerOverlay_ListModeDescription)
+            .AddConfigRadio(Strings.BannerOverlay_TopPriorityMode, Settings.Mode, BannerOverlayDisplayMode.TopPriority, Strings.BannerOverlay_TopPriorityDescription)
+            .EndRow()
+            .EndTable()
             .Draw();
 
         if (Settings.Mode == BannerOverlayDisplayMode.List)
         {
             InfoBox.Instance
-                .AddTitle(Strings.BannerOverlay_ListModeOptions)
+                .AddTitle(Strings.BannerOverlay_ListModeOptions, out var listModeWidth)
                 .AddString(Strings.BannerOverlay_WarningCount + ":")
-                .AddSliderInt("##PlayerWarningCount", Settings.WarningCount, 1, 8, InfoBox.Instance.InnerWidth)
+                .AddSliderInt("##PlayerWarningCount", Settings.WarningCount, 1, 8, listModeWidth)
                 .Draw();
         }
     }
