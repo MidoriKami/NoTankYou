@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Dalamud.Interface.Windowing;
+using ImGuiNET;
 using KamiLib.BlacklistSystem;
 using KamiLib.InfoBoxSystem;
 using NoTankYou.Configuration;
@@ -17,9 +18,11 @@ public class BlacklistConfigurationWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(350, 500),
-            MaximumSize = new Vector2(350, 9999),
+            MinimumSize = new Vector2(325, 500),
+            MaximumSize = new Vector2(325, 9999),
         };
+
+        Flags |= ImGuiWindowFlags.NoScrollbar;
 
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
     }
