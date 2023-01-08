@@ -1,7 +1,5 @@
 ﻿using Dalamud.Plugin;
 using KamiLib;
-using NoTankYou.Commands;
-using NoTankYou.DataModels;
 using NoTankYou.System;
 using NoTankYou.UserInterface.OverlayWindows;
 using NoTankYou.UserInterface.Windows;
