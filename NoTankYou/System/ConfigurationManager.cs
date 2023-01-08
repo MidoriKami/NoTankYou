@@ -24,7 +24,7 @@ public class ConfigurationManager : IDisposable
     {
         if (LoggedIn)
         {
-            LoadCharacterConfiguration();
+            OnLogin(this, EventArgs.Empty);
         }
 
         Service.ClientState.Login += OnLogin;
@@ -39,29 +39,15 @@ public class ConfigurationManager : IDisposable
 
     private void OnLogin(object? sender, EventArgs e)
     {
-        Service.Framework.Update += LoginLogic;
+        BackingCharacterConfiguration = CharacterConfiguration.Load(Service.ClientState.LocalContentId);
+        CharacterDataLoaded = true;
+
+        OnCharacterDataAvailable?.Invoke(this, CharacterConfiguration);
     }
 
     private void OnLogout(object? sender, EventArgs e)
     {
         CharacterDataLoaded = false;
-    }
-
-    private void LoginLogic(Framework framework)
-    {
-        if (!LoggedIn) return;
-
-        Service.Framework.RunOnTick(LoadCharacterConfiguration, TimeSpan.FromSeconds(1));
-        Service.Framework.Update -= LoginLogic;
-    }
-
-    private void LoadCharacterConfiguration()
-    {
-
-        BackingCharacterConfiguration = CharacterConfiguration.Load(Service.ClientState.LocalContentId);
-        CharacterDataLoaded = true;
-
-        OnCharacterDataAvailable?.Invoke(this, CharacterConfiguration);
     }
 
     public void Save()
