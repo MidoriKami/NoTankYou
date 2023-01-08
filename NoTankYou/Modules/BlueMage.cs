@@ -28,7 +28,7 @@ public class BlueMage : IModule
 
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-
+    public string Command => "blu";
     private static BlueMageConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.BlueMage;
     public GenericSettings GenericSettings => Settings;
 

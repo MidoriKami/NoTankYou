@@ -25,7 +25,7 @@ public class Cutscene : IModule
     public ModuleName Name => ModuleName.Cutscene;
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-
+    public string Command => "cutscene";
     private static CutsceneConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Cutscene;
     public GenericSettings GenericSettings => Settings;
 

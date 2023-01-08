@@ -30,10 +30,9 @@ public class FoodConfiguration : GenericSettings
 public class Food : IModule
 {
     public ModuleName Name => ModuleName.Food;
-
+    public string Command => "food";
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-
     private static FoodConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Food;
     public GenericSettings GenericSettings => Settings;
 

@@ -32,6 +32,7 @@ public class Spiritbond : IModule
     public ModuleName Name => ModuleName.Spiritbond;
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
+    public string Command => "spiritbond";
     private static SpiritBondConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.SpiritBond;
     public GenericSettings GenericSettings => Settings;
 

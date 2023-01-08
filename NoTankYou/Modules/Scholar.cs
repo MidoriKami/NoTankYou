@@ -21,10 +21,9 @@ public class ScholarConfiguration :GenericSettings
 public class Scholar : IModule
 {
     public ModuleName Name => ModuleName.Scholar;
-
+    public string Command => "sch";
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-
     private static ScholarConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Scholar;
     public GenericSettings GenericSettings => Settings;
 

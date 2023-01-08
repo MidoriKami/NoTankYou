@@ -20,10 +20,9 @@ public class DancerConfiguration : GenericSettings
 public class Dancer : IModule
 {
     public ModuleName Name => ModuleName.Dancer;
-
+    public string Command => "dnc";
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-
     private static DancerConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Dancer;
     public GenericSettings GenericSettings => Settings;
 

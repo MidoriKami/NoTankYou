@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dalamud.Utility;
 using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
@@ -13,7 +14,7 @@ public class GenericModuleCommand : IPluginCommand
     public string? CommandArgument { get; }
     public IEnumerable<ISubCommand> SubCommands { get; }
 
-    public GenericModuleCommand(string command, string moduleName, GenericSettings settings)
+    public GenericModuleCommand(string command, string moduleName, Func<GenericSettings> getSettings)
     {
         CommandArgument = command;
 
@@ -25,7 +26,7 @@ public class GenericModuleCommand : IPluginCommand
                 Aliases = new List<string>{"on"},
                 CommandAction = () =>
                 {
-                    settings.Enabled.Value = true;
+                    getSettings.Invoke().Enabled.Value = true;
                     Chat.Print(Strings.Common_Command, string.Format(Strings.Commands_EnablingModule, moduleName));
                 },
                 GetHelpText = () => string.Format(Strings.Commands_EnablesModule, moduleName),
@@ -36,7 +37,7 @@ public class GenericModuleCommand : IPluginCommand
                 Aliases = new List<string>{"off"},
                 CommandAction = () =>
                 {
-                    settings.Enabled.Value = false;
+                    getSettings.Invoke().Enabled.Value = false;
                     Chat.Print(Strings.Common_Command, string.Format(Strings.Commands_DisablingModule, moduleName));
                 },
                 GetHelpText = () => string.Format(Strings.Commands_DisablesModule, moduleName),
@@ -47,8 +48,8 @@ public class GenericModuleCommand : IPluginCommand
                 Aliases = new List<string>{"t"},
                 CommandAction = () =>
                 {
-                    settings.Enabled.Value = !settings.Enabled.Value;
-                    var message = settings.Enabled.Value ? Strings.Commands_EnablingModule.Format(moduleName) : Strings.Commands_DisablingModule.Format(moduleName);
+                    getSettings.Invoke().Enabled.Value = !getSettings.Invoke().Enabled.Value;
+                    var message = getSettings.Invoke().Enabled.Value ? Strings.Commands_EnablingModule.Format(moduleName) : Strings.Commands_DisablingModule.Format(moduleName);
                     
                     Chat.Print(Strings.Common_Command, message);
                 },

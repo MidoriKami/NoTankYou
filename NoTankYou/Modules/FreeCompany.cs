@@ -27,10 +27,9 @@ public class FreeCompanyConfiguration : GenericSettings
 public class FreeCompany : IModule
 {
     public ModuleName Name => ModuleName.FreeCompany;
-
+    public string Command => "fc";
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-
     private static FreeCompanyConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.FreeCompany;
     public GenericSettings GenericSettings => Settings;
 

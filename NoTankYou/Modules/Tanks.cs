@@ -29,10 +29,9 @@ public class TankConfiguration : GenericSettings
 public class Tanks : IModule
 {
     public ModuleName Name => ModuleName.Tanks;
-
+    public string Command => "tank";
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-
     private static TankConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Tank;
     public GenericSettings GenericSettings => Settings;
 

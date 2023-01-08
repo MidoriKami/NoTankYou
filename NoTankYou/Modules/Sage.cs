@@ -20,10 +20,9 @@ public class SageConfiguration : GenericSettings
 public class Sage : IModule
 {
     public ModuleName Name => ModuleName.Sage;
-
+    public string Command => "sge";
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-
     private static SageConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Sage;
     public GenericSettings GenericSettings => Settings;
 

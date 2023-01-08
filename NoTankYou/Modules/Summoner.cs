@@ -20,10 +20,9 @@ public class SummonerConfiguration : GenericSettings
 public class Summoner : IModule
 {
     public ModuleName Name => ModuleName.Summoner;
-
+    public string Command => "smn";
     public IConfigurationComponent ConfigurationComponent { get; }
     public ILogicComponent LogicComponent { get; }
-
     private static SummonerConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Summoner;
     public GenericSettings GenericSettings => Settings;
 

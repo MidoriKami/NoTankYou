@@ -23,6 +23,14 @@ public class ModuleManager
         new Cutscene(),
     };
 
+    public ModuleManager()
+    {
+        foreach (var module in Modules)
+        {
+            module.RegisterCommand();
+        }
+    }
+
     public IEnumerable<ISelectable> GetConfigurationSelectables()
     {
         return Modules
