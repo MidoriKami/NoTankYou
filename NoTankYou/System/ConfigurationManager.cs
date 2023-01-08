@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Dalamud.Game;
 using NoTankYou.Configuration;
 
 namespace NoTankYou.System;
