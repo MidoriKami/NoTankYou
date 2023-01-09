@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using KamiLib.Caching;
+using KamiLib.Drawing;
 using KamiLib.Extensions;
-using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;

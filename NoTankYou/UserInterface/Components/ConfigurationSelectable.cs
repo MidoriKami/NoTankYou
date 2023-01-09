@@ -1,7 +1,7 @@
 ﻿using System;
 using ImGuiNET;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
 using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;

@@ -2,8 +2,8 @@
 using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using KamiLib.BlacklistSystem;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Blacklist;
+using KamiLib.Drawing;
 using NoTankYou.Configuration;
 using NoTankYou.DataModels;
 using NoTankYou.Localization;

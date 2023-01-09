@@ -3,16 +3,16 @@ using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using KamiLib.Caching;
 using KamiLib.Configuration;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
+using KamiLib.Misc;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
-using Condition = KamiLib.Utilities.Condition;
+using Condition = KamiLib.GameState.Condition;
 
 namespace NoTankYou.Modules;
 

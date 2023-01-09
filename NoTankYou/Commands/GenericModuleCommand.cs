@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dalamud.Utility;
-using KamiLib.CommandSystem;
+using KamiLib.ChatCommands;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
 using NoTankYou.DataModels;
 using NoTankYou.Localization;
 

@@ -6,7 +6,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using ImGuiScene;
-using KamiLib.Utilities;
+using KamiLib.Drawing;
 using NoTankYou.Configuration;
 using NoTankYou.DataModels;
 using NoTankYou.System;

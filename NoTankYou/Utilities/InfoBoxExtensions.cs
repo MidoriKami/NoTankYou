@@ -1,4 +1,4 @@
-﻿using KamiLib.InfoBoxSystem;
+﻿using KamiLib.Drawing;
 using NoTankYou.DataModels;
 using NoTankYou.Localization;
 

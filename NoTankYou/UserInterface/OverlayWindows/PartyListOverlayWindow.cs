@@ -5,13 +5,13 @@ using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using ImGuiScene;
 using KamiLib.Caching;
-using KamiLib.Utilities;
+using KamiLib.Drawing;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.System;
 using NoTankYou.UserInterface.Windows;
 using NoTankYou.Utilities;
-using Condition = KamiLib.Utilities.Condition;
+using Condition = KamiLib.GameState.Condition;
 
 namespace NoTankYou.UserInterface.OverlayWindows;
 

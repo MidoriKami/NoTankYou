@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using KamiLib.Utilities;
+using KamiLib.GameState;
 using NoTankYou.DataModels;
 
 namespace NoTankYou.Interfaces;

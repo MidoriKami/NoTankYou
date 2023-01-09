@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
-using KamiLib.Utilities;
+using KamiLib.UserInterface;
 using NoTankYou.DataModels;
 using NoTankYou.System;
-using Condition = KamiLib.Utilities.Condition;
+using Condition = KamiLib.GameState.Condition;
 
 namespace NoTankYou.Utilities;
 
