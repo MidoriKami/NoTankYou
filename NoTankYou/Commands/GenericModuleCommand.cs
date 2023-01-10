@@ -27,6 +27,7 @@ public class GenericModuleCommand : IPluginCommand
                 {
                     getSettings.Invoke().Enabled.Value = true;
                     Chat.Print(Strings.Common_Command, string.Format(Strings.Commands_EnablingModule, moduleName));
+                    Service.ConfigurationManager.Save();
                 },
                 GetHelpText = () => string.Format(Strings.Commands_EnablesModule, moduleName),
             },
@@ -38,6 +39,7 @@ public class GenericModuleCommand : IPluginCommand
                 {
                     getSettings.Invoke().Enabled.Value = false;
                     Chat.Print(Strings.Common_Command, string.Format(Strings.Commands_DisablingModule, moduleName));
+                    Service.ConfigurationManager.Save();
                 },
                 GetHelpText = () => string.Format(Strings.Commands_DisablesModule, moduleName),
             },
@@ -51,6 +53,7 @@ public class GenericModuleCommand : IPluginCommand
                     var message = getSettings.Invoke().Enabled.Value ? Strings.Commands_EnablingModule.Format(moduleName) : Strings.Commands_DisablingModule.Format(moduleName);
                     
                     Chat.Print(Strings.Common_Command, message);
+                    Service.ConfigurationManager.Save();
                 },
                 GetHelpText = () => string.Format(Strings.Commands_TogglesModule, moduleName),
             },
