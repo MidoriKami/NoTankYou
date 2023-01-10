@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
@@ -15,6 +16,7 @@ using NoTankYou.Localization;
 using NoTankYou.System;
 using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
+using Action = Lumina.Excel.GeneratedSheets.Action;
 
 namespace NoTankYou.Modules;
 
@@ -83,14 +85,7 @@ public class Tanks : IModule
                 .Select(r => r.RowId)
                 .ToList();
 
-            TankStances = LuminaCache<Status>.Instance
-                .Where(status => status.Unknown22 is 500)
-                .Where(status => status.PartyListPriority is 0)
-                .Where(status => status.Unknown24)
-                .Where(status => status.InflictedByActor)
-                .Select(status => status.RowId)
-                .ToList();
-
+            TankStances = new List<uint> { 28, 48, 3629, 16142 };
             
             foreach (var job in ClassJobs)
             {
@@ -158,24 +153,18 @@ public class Tanks : IModule
         
         private IconInfo GetTankIcon(uint classjob)
         {
-            // Convert certain jobs to base class,
-            // because Paladin and Warrior don't actually have a tank stance
-            uint translatedClassJob = classjob switch
+            var actionId = classjob switch
             {
-                // Paladin => Gladiator
-                19 => 1,
-
-                // Warrior => Marauder
-                21 => 3,
-                _ => classjob,
+                1 or 19 => 28u,
+                3 or 21 => 48u,
+                32 => 3629u,
+                37 => 16142u,
+                _ => throw new ArgumentOutOfRangeException(nameof(classjob), classjob, null),
             };
 
-            var action = LuminaCache<Action>.Instance
-                .Where(r => r.ClassJob.Row == translatedClassJob)
-                .Where(r => TankStances.Contains(r.StatusGainSelf.Value!.RowId))
-                .First();
+            var action = LuminaCache<Action>.Instance.GetRow(actionId);
 
-            return new IconInfo(action.Icon, action.Name.RawString);
+            return new IconInfo(action!.Icon, action.Name.RawString);
         }
 
         private IEnumerable<PlayerCharacter> GetAllianceTanks()
