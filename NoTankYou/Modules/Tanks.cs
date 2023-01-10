@@ -83,12 +83,14 @@ public class Tanks : IModule
                 .Select(r => r.RowId)
                 .ToList();
 
-            TankStances = LuminaCache<Action>.Instance
-                .Where(r => r.ClassJob.Value?.Role == 1)
-                .Select(r => r.StatusGainSelf.Value!)
-                .Where(r => r.IsPermanent)
-                .Select(s => s.RowId)
+            TankStances = LuminaCache<Status>.Instance
+                .Where(status => status.Unknown22 is 500)
+                .Where(status => status.PartyListPriority is 0)
+                .Where(status => status.Unknown24)
+                .Where(status => status.InflictedByActor)
+                .Select(status => status.RowId)
                 .ToList();
+
             
             foreach (var job in ClassJobs)
             {
