@@ -98,7 +98,7 @@ public class Spiritbond : IModule
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }
         private const int SpiritBondStatusID = 49;
-        private readonly Item SpiritBond;
+        private readonly Item spiritBond;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -107,7 +107,7 @@ public class Spiritbond : IModule
                 .Select(r => r.RowId)
                 .ToList();
 
-            SpiritBond = LuminaCache<Item>.Instance.GetRow(27960)!;
+            spiritBond = LuminaCache<Item>.Instance.GetRow(27960)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -135,7 +135,7 @@ public class Spiritbond : IModule
                 {
                     MessageLong = Strings.SpiritBond_WarningText,
                     MessageShort = Strings.SpiritBond_WarningText,
-                    IconID = SpiritBond.Icon,
+                    IconID = spiritBond.Icon,
                     IconLabel = Strings.SpiritBond_Label,
                     Priority = Settings.Priority.Value,
                 };

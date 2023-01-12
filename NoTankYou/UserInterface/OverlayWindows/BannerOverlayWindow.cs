@@ -18,16 +18,16 @@ namespace NoTankYou.UserInterface.OverlayWindows;
 public class BannerOverlayWindow : Window, IDisposable
 {
     private static BannerOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
-    private readonly TextureWrap WarningIcon;
+    private readonly TextureWrap warningIcon;
 
-    private int WarningsDisplayed;
-    private readonly WarningState DemoWarning;
+    private int warningsDisplayed;
+    private readonly WarningState demoWarning;
 
-    private bool InSanctuaryArea;
+    private bool inSanctuaryArea;
 
     public BannerOverlayWindow() : base($"###BannerOverlay+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
-        WarningIcon = Image.LoadImage("BigWarning");
+        warningIcon = Image.LoadImage("BigWarning");
 
         ForceMainWindow = true;
 
@@ -38,7 +38,7 @@ public class BannerOverlayWindow : Window, IDisposable
         Flags |= ImGuiWindowFlags.NoFocusOnAppearing;
         Flags |= ImGuiWindowFlags.NoNavFocus;
 
-        DemoWarning = new WarningState
+        demoWarning = new WarningState
         {
             MessageShort = "Sample Warning",
             IconID = 786,
@@ -78,7 +78,7 @@ public class BannerOverlayWindow : Window, IDisposable
 
     public override void Update()
     {
-        InSanctuaryArea = FFXIVClientStructs.FFXIV.Client.Game.GameMain.IsInSanctuary();
+        inSanctuaryArea = FFXIVClientStructs.FFXIV.Client.Game.GameMain.IsInSanctuary();
     }
 
     public override void PreDraw()
@@ -91,7 +91,7 @@ public class BannerOverlayWindow : Window, IDisposable
 
     public override void Draw()
     {
-        WarningsDisplayed = 0;
+        warningsDisplayed = 0;
 
         if (Settings.SampleMode)
         {
@@ -100,7 +100,7 @@ public class BannerOverlayWindow : Window, IDisposable
 
             if (Service.ClientState.LocalPlayer is { } player)
             {
-                DrawWarningStateBanner(DemoWarning, player);
+                DrawWarningStateBanner(demoWarning, player);
 
                 var position = ImGui.GetWindowPos() - ImGuiHelpers.ScaledVector2(0.0f, 30.0f * Settings.Scale.Value);
                 DrawUtilities.TextOutlined(position, "Open NoTankYou Settings to Configure Warnings", 0.5f * Settings.Scale.Value, Colors.Orange);
@@ -124,7 +124,7 @@ public class BannerOverlayWindow : Window, IDisposable
                     // Filter to only modules that are enabled for Banner Overlay
                     var enabledModules = modules
                         .Where(module => module.ParentModule.GenericSettings.BannerOverlay.Value)
-                        .Where(module => !(module.ParentModule.GenericSettings.DisableInSanctuary.Value && InSanctuaryArea));
+                        .Where(module => !(module.ParentModule.GenericSettings.DisableInSanctuary.Value && inSanctuaryArea));
 
                     // Get Highest Warning for remaining modules
                     var highestWarning = enabledModules
@@ -154,15 +154,15 @@ public class BannerOverlayWindow : Window, IDisposable
 
         switch (mode)
         {
-            case BannerOverlayDisplayMode.TopPriority when WarningsDisplayed == 0:
+            case BannerOverlayDisplayMode.TopPriority when warningsDisplayed == 0:
                 DrawBanner(ImGui.GetWindowPos(), state.MessageShort, player.Name.TextValue, Settings.Scale.Value, state.IconID, state.IconLabel);
-                WarningsDisplayed = 1;
+                warningsDisplayed = 1;
                 break;
 
-            case BannerOverlayDisplayMode.List when WarningsDisplayed < Settings.WarningCount.Value:
-                var adjustedPosition = ImGui.GetWindowPos() + new Vector2(0.0f, 80.0f) * Settings.Scale.Value * WarningsDisplayed;
+            case BannerOverlayDisplayMode.List when warningsDisplayed < Settings.WarningCount.Value:
+                var adjustedPosition = ImGui.GetWindowPos() + new Vector2(0.0f, 80.0f) * Settings.Scale.Value * warningsDisplayed;
                 DrawBanner(adjustedPosition, state.MessageShort, player.Name.TextValue, Settings.Scale.Value, state.IconID, state.IconLabel);
-                WarningsDisplayed += 1;
+                warningsDisplayed += 1;
                 break;
         }
     }
@@ -176,9 +176,9 @@ public class BannerOverlayWindow : Window, IDisposable
 
         if (Settings.WarningShield)
         {
-            var imageSize = new Vector2(WarningIcon.Width, WarningIcon.Height) * scale;
+            var imageSize = new Vector2(warningIcon.Width, warningIcon.Height) * scale;
 
-            drawList.AddImage(WarningIcon.ImGuiHandle, startingPosition, startingPosition + imageSize);
+            drawList.AddImage(warningIcon.ImGuiHandle, startingPosition, startingPosition + imageSize);
             startingPosition = startingPosition with
             {
                 X = startingPosition.X + imageSize.X + 10.0f * scale, Y = startingPosition.Y + 4.0f,

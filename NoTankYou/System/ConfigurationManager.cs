@@ -6,15 +6,15 @@ namespace NoTankYou.System;
 
 public class ConfigurationManager : IDisposable
 {
-    private readonly CharacterConfiguration NullCharacterConfiguration = new();
+    private readonly CharacterConfiguration nullCharacterConfiguration = new();
 
-    private CharacterConfiguration? BackingCharacterConfiguration;
+    private CharacterConfiguration? backingCharacterConfiguration;
 
-    public CharacterConfiguration CharacterConfiguration => CharacterDataLoaded ? BackingCharacterConfiguration : NullCharacterConfiguration;
+    public CharacterConfiguration CharacterConfiguration => CharacterDataLoaded ? backingCharacterConfiguration : nullCharacterConfiguration;
 
     private static bool LoggedIn => Service.ClientState is { LocalPlayer: not null, LocalContentId: not 0 };
     
-    [MemberNotNullWhen(returnValue: true, nameof(BackingCharacterConfiguration))]
+    [MemberNotNullWhen(returnValue: true, nameof(backingCharacterConfiguration))]
     public bool CharacterDataLoaded { get; private set; }
 
     public event EventHandler<CharacterConfiguration>? OnCharacterDataAvailable;
@@ -38,7 +38,7 @@ public class ConfigurationManager : IDisposable
 
     private void OnLogin(object? sender, EventArgs e)
     {
-        BackingCharacterConfiguration = CharacterConfiguration.Load(Service.ClientState.LocalContentId);
+        backingCharacterConfiguration = CharacterConfiguration.Load(Service.ClientState.LocalContentId);
         CharacterDataLoaded = true;
 
         OnCharacterDataAvailable?.Invoke(this, CharacterConfiguration);

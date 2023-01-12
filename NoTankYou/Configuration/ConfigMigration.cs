@@ -10,8 +10,6 @@ internal static class ConfigMigration
 {
     public static CharacterConfiguration Convert(FileInfo filePath)
     {
-        Migrate.LoadFile(filePath);
-        
         return new CharacterConfiguration
         {
             Version = 5,

@@ -49,7 +49,7 @@ internal static unsafe class HudAgent
 {
     private static readonly AgentInterface* HudAgentInterface = Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.Hud);
     private static PartyListData PartyListData => *(PartyListData*)((byte*)HudAgentInterface + 0xCC8);
-    private static uint* AllianceMemberObjectID => (uint*) ((byte*)HudAgentInterface + 0xE14);
+    private static uint* AllianceMemberObjectID => (uint*) ((byte*)HudAgentInterface + 0x12C4);
     
     public static PartyMemberData GetPartyMember(int index) => PartyListData[index];
     public static PlayerCharacter? GetPlayerCharacter(int index) => PlayerLocator.GetPlayer(GetPartyMember(index).ObjectID);

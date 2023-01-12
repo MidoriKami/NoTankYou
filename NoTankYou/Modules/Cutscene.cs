@@ -63,7 +63,7 @@ public class Cutscene : IModule
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }
 
-        private readonly OnlineStatus CutsceneStatus;
+        private readonly OnlineStatus cutsceneStatus;
 
         private static readonly Dictionary<uint, Stopwatch> TimeSinceInCutscene = new();
         
@@ -75,7 +75,7 @@ public class Cutscene : IModule
                 .Select(r => r.RowId)
                 .ToList();
 
-            CutsceneStatus = LuminaCache<OnlineStatus>.Instance.GetRow(15)!;
+            cutsceneStatus = LuminaCache<OnlineStatus>.Instance.GetRow(15)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -83,18 +83,18 @@ public class Cutscene : IModule
             TimeSinceInCutscene.TryAdd(character.ObjectId, Stopwatch.StartNew());
             var stopwatch = TimeSinceInCutscene[character.ObjectId];
 
-            if (stopwatch.Elapsed >= TimeSpan.FromSeconds(1) && character.HasOnlineStatus(CutsceneStatus.RowId))
+            if (stopwatch.Elapsed >= TimeSpan.FromSeconds(1) && character.HasOnlineStatus(cutsceneStatus.RowId))
             {
                 return new WarningState
                 {
                     MessageLong = Strings.Cutscene_WarningText,
                     MessageShort = Strings.Cutscene_WarningText,
-                    IconID = CutsceneStatus.Icon,
-                    IconLabel = CutsceneStatus.Name.RawString,
+                    IconID = cutsceneStatus.Icon,
+                    IconLabel = cutsceneStatus.Name.RawString,
                     Priority = Settings.Priority.Value,
                 };
             }
-            else if (!character.HasOnlineStatus(CutsceneStatus.RowId))
+            else if (!character.HasOnlineStatus(cutsceneStatus.RowId))
             {
                 stopwatch.Restart();
             }

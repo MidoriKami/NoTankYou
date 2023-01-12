@@ -73,8 +73,8 @@ public class Tanks : IModule
         
         public List<uint> ClassJobs { get; }
 
-        private readonly List<uint> TankStances;
-        private readonly Dictionary<uint, IconInfo> TankIcons = new();
+        private readonly List<uint> tankStances;
+        private readonly Dictionary<uint, IconInfo> tankIcons = new();
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -85,13 +85,13 @@ public class Tanks : IModule
                 .Select(r => r.RowId)
                 .ToList();
 
-            TankStances = new List<uint> { 28, 48, 3629, 16142 };
+            tankStances = new List<uint> { 79, 743, 91, 392 };
             
             foreach (var job in ClassJobs)
             {
                 var icon = GetTankIcon(job);
 
-                TankIcons.Add(job, icon);
+                tankIcons.Add(job, icon);
             }
         }
 
@@ -108,7 +108,7 @@ public class Tanks : IModule
 
             if (Service.PartyList.Length == 0)
             {
-                return character.HasStatus(TankStances) ? null : TankWarning(character);
+                return character.HasStatus(tankStances) ? null : TankWarning(character);
             }
             else
             {
@@ -123,7 +123,7 @@ public class Tanks : IModule
                 .Alive()
                 .ToList();
 
-            if (tanks.Any() && !tanks.WithStatus(TankStances).Any())
+            if (tanks.Any() && !tanks.WithStatus(tankStances).Any())
             {
                 return TankWarning(character);
             }
@@ -140,8 +140,8 @@ public class Tanks : IModule
 
             var allianceTanks = GetAllianceTanks();
 
-            var partyMissingStance = !partyTanks.WithStatus(TankStances).Any();
-            var allianceMissingStance = !allianceTanks.WithStatus(TankStances).Any();
+            var partyMissingStance = !partyTanks.WithStatus(tankStances).Any();
+            var allianceMissingStance = !allianceTanks.WithStatus(tankStances).Any();
 
             if (partyMissingStance && allianceMissingStance)
             {
@@ -187,7 +187,7 @@ public class Tanks : IModule
 
         private WarningState TankWarning(Character character)
         {
-            var iconInfo = TankIcons[character.ClassJob.Id];
+            var iconInfo = tankIcons[character.ClassJob.Id];
 
             return new WarningState
             {

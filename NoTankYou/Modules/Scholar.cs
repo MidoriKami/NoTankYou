@@ -58,18 +58,18 @@ public class Scholar : IModule
 
         private const int DissipationStatusID = 791;
 
-        private readonly HashSet<uint> CharacterWaitList = new();
+        private readonly HashSet<uint> characterWaitList = new();
 
-        private bool LastDissipationStatus;
+        private bool lastDissipationStatus;
 
-        private readonly Action SeleneAction;
+        private readonly Action seleneAction;
 
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
             ClassJobs = new List<uint> { 28 };
 
-            SeleneAction = LuminaCache<Action>.Instance.GetRow(17216)!;
+            seleneAction = LuminaCache<Action>.Instance.GetRow(17216)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -80,26 +80,26 @@ public class Scholar : IModule
             var hasDissipation = character.HasStatus(DissipationStatusID);
 
             // If we had dissipation last frame, but not now, wait a half second
-            if (LastDissipationStatus && !hasDissipation)
+            if (lastDissipationStatus && !hasDissipation)
             {
-                CharacterWaitList.Add(character.ObjectId);
+                characterWaitList.Add(character.ObjectId);
                 Task.Delay(500).ContinueWith(_ =>
                 {
-                    CharacterWaitList.Remove(character.ObjectId);
+                    characterWaitList.Remove(character.ObjectId);
                 });
             }
 
-            LastDissipationStatus = hasDissipation;
+            lastDissipationStatus = hasDissipation;
 
-            if (CharacterWaitList.Contains(character.ObjectId)) return null;
+            if (characterWaitList.Contains(character.ObjectId)) return null;
             if (!hasPet && !hasDissipation)
             {
                 return new WarningState
                 {
                     MessageLong = Strings.Scholar_WarningText,
                     MessageShort = Strings.Scholar_WarningTextShort,
-                    IconID = SeleneAction.Icon,
-                    IconLabel = SeleneAction.Name.RawString,
+                    IconID = seleneAction.Icon,
+                    IconLabel = seleneAction.Name.RawString,
                     Priority = Settings.Priority.Value,
                 };
             }

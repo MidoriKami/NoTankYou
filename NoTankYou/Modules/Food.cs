@@ -101,7 +101,7 @@ public class Food : IModule
 
         private const int WellFedStatusID = 48;
 
-        private readonly Item Food;
+        private readonly Item food;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -111,7 +111,7 @@ public class Food : IModule
                 .Select(r => r.RowId)
                 .ToList();
             
-            Food = LuminaCache<Item>.Instance.GetRow(30482)!;
+            food = LuminaCache<Item>.Instance.GetRow(30482)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -140,7 +140,7 @@ public class Food : IModule
                 {
                     MessageLong = Strings.Food_WarningText,
                     MessageShort = Strings.Food_WarningText,
-                    IconID = Food.Icon,
+                    IconID = food.Icon,
                     IconLabel = Strings.Food_Label,
                     Priority = Settings.Priority.Value,
                 };

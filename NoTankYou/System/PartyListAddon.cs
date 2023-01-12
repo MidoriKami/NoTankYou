@@ -54,7 +54,7 @@ public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposabl
 {
     public IEnumerator<PartyListAddonData> GetEnumerator()
     {
-        return AddonData.GetEnumerator();
+        return addonData.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -62,10 +62,10 @@ public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposabl
         return GetEnumerator();
     }
 
-    private static AddonPartyList* PartyList => (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList", 1);
+    private static AddonPartyList* PartyList => (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
     public static bool DataAvailable => PartyList != null && PartyList->AtkUnitBase.RootNode != null;
 
-    private readonly List<PartyListAddonData> AddonData = new();
+    private readonly List<PartyListAddonData> addonData = new();
 
     public PartyListAddon()
     {
@@ -79,7 +79,7 @@ public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposabl
 
     private void OnFrameworkUpdate(Framework framework)
     {
-        AddonData.Clear();
+        addonData.Clear();
         if (!DataAvailable) return;
         if (PartyList->MemberCount <= 0) return;
         
@@ -89,7 +89,7 @@ public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposabl
             var playerCharacter = HudAgent.GetPlayerCharacter(index);
             var userInterface = PartyList->PartyMember[index];
 
-            AddonData.Add(new PartyListAddonData
+            addonData.Add(new PartyListAddonData
             {
                 AgentData = agentData,
                 PlayerCharacter = playerCharacter,

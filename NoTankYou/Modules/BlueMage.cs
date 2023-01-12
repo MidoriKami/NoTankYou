@@ -72,12 +72,12 @@ public class BlueMage : IModule
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }
         
-        private readonly List<uint> MimicryStatusEffects;
+        private readonly List<uint> mimicryStatusEffects;
         private const uint MightyGuardStatusEffect = 1719;
         private const uint AethericMimicryTank = 2124;
 
-        private readonly Action MimicryAction;
-        private readonly Action MightyGuardAction;
+        private readonly Action mimicryAction;
+        private readonly Action mightyGuardAction;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -85,15 +85,15 @@ public class BlueMage : IModule
 
             ClassJobs = new List<uint> { 36 };
 
-            MimicryStatusEffects = new List<uint>{ 2124, 2125, 2126 };
+            mimicryStatusEffects = new List<uint>{ 2124, 2125, 2126 };
             
-            MimicryAction = LuminaCache<Action>.Instance.GetRow(18322)!;
-            MightyGuardAction = LuminaCache<Action>.Instance.GetRow(11417)!;
+            mimicryAction = LuminaCache<Action>.Instance.GetRow(18322)!;
+            mightyGuardAction = LuminaCache<Action>.Instance.GetRow(11417)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (Settings.Mimicry && !Condition.IsBoundByDuty() && !character.HasStatus(MimicryStatusEffects))
+            if (Settings.Mimicry && !Condition.IsBoundByDuty() && !character.HasStatus(mimicryStatusEffects))
             {
                 return MimicryWarning();
             }
@@ -128,8 +128,8 @@ public class BlueMage : IModule
             {
                 MessageShort = Strings.BlueMage_MimicryLabel,
                 MessageLong = Strings.BlueMage_Mimicry,
-                IconID = MimicryAction.Icon,
-                IconLabel = MimicryAction.Name.ToString(),
+                IconID = mimicryAction.Icon,
+                IconLabel = mimicryAction.Name.ToString(),
                 Priority = Settings.Priority.Value,
             };
         }
@@ -140,8 +140,8 @@ public class BlueMage : IModule
             {
                 MessageShort = Strings.BlueMage_MightyGuardLabel,
                 MessageLong = Strings.BlueMage_MightyGuard,
-                IconID = MightyGuardAction.Icon,
-                IconLabel = MightyGuardAction.Name.ToString(),
+                IconID = mightyGuardAction.Icon,
+                IconLabel = mightyGuardAction.Name.ToString(),
                 Priority = Settings.Priority.Value,
             };
         }

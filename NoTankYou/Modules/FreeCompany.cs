@@ -138,9 +138,9 @@ public class FreeCompany : IModule
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }
 
-        private readonly List<uint> FreeCompanyStatusIDList;
+        private readonly List<uint> freeCompanyStatusIDList;
 
-        private readonly CompanyAction FreeCompanyStatus;
+        private readonly CompanyAction freeCompanyStatus;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -152,12 +152,12 @@ public class FreeCompany : IModule
                 .Select(r => r.RowId)
                 .ToList();
 
-            FreeCompanyStatusIDList = LuminaCache<Status>.Instance
+            freeCompanyStatusIDList = LuminaCache<Status>.Instance
                 .Where(status => status.IsFcBuff)
                 .Select(status => status.RowId)
                 .ToList();
 
-            FreeCompanyStatus = LuminaCache<CompanyAction>.Instance.GetRow(43)!;
+            freeCompanyStatus = LuminaCache<CompanyAction>.Instance.GetRow(43)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -168,14 +168,14 @@ public class FreeCompany : IModule
             switch (Settings.ScanMode.Value)
             {
                 case FreeCompanyBuffScanMode.Any:
-                    var fcBuffCount = character.StatusCount(FreeCompanyStatusIDList);
+                    var fcBuffCount = character.StatusCount(freeCompanyStatusIDList);
                     if (fcBuffCount < Settings.BuffCount.Value)
                     {
                         return new WarningState
                         {
                             MessageLong = Strings.FreeCompany_WarningText,
                             MessageShort = Strings.FreeCompany_WarningTextShort,
-                            IconID = (uint)FreeCompanyStatus.Icon,
+                            IconID = (uint)freeCompanyStatus.Icon,
                             IconLabel = "",
                             Priority = Settings.Priority.Value,
                         };
@@ -193,7 +193,7 @@ public class FreeCompany : IModule
                             {
                                 MessageLong = Strings.FreeCompany_WarningText,
                                 MessageShort = Strings.FreeCompany_WarningTextShort,
-                                IconID = (uint)FreeCompanyStatus.Icon,
+                                IconID = (uint)freeCompanyStatus.Icon,
                                 IconLabel = targetStatus.Name.RawString,
                                 Priority = Settings.Priority.Value,
                             };

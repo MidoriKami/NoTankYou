@@ -57,14 +57,14 @@ public class Sage : IModule
 
         private const int KardiaStatusID = 2604;
 
-        private readonly Action KardiaAction;
+        private readonly Action kardiaAction;
 
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
             ClassJobs = new List<uint> { 40 };
 
-            KardiaAction = LuminaCache<Action>.Instance.GetRow(24285)!;
+            kardiaAction = LuminaCache<Action>.Instance.GetRow(24285)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -77,8 +77,8 @@ public class Sage : IModule
                 {
                     MessageLong = Strings.Sage_WarningText,
                     MessageShort = Strings.Sage_WarningTextShort,
-                    IconID = KardiaAction.Icon,
-                    IconLabel = KardiaAction.Name.RawString,
+                    IconID = kardiaAction.Icon,
+                    IconLabel = kardiaAction.Name.RawString,
                     Priority = Settings.Priority.Value,
                 };
             }

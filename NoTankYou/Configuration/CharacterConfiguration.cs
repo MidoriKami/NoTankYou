@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Dalamud.Logging;
+using KamiLib.Configuration;
 using Newtonsoft.Json;
 using NoTankYou.DataModels;
 using NoTankYou.Modules;
@@ -59,22 +60,17 @@ public class CharacterConfiguration
             return LoadExistingCharacterConfiguration(contentID, configFileInfo);
         }
 
-        // If a configuration for this character doesn't exist
-        else
+        // If a configuration for this character doesn't exist, migrate the plugin-wide config to a character-specific config
+        var pluginConfigFile = Service.PluginInterface.ConfigFile;
+        
+        return Migrate.GetFileVersion(pluginConfigFile) switch
         {
-            var basePluginConfigInfo = Service.PluginInterface.ConfigFile;
-
-            // If a base-plugin config exists
-            if (basePluginConfigInfo.Exists)
-            {
-                return GenerateMigratedCharacterConfiguration(basePluginConfigInfo);
-            }
-            // If it doesn't make a new config for this character
-            else
-            {
-                return CreateNewCharacterConfiguration();
-            }
-        }
+            // If we get an actual version, then the plugin-wide config file exists
+            not 0 => GenerateMigratedCharacterConfiguration(pluginConfigFile),
+            
+            // if we get zero, then no config exists and we need a new config
+            _ => CreateNewCharacterConfiguration()
+        };
     }
 
     private static CharacterConfiguration GenerateMigratedCharacterConfiguration(FileInfo basePluginConfigInfo)

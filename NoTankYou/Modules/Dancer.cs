@@ -58,7 +58,7 @@ public class Dancer : IModule
 
         private const int ClosedPositionStatusId = 1823;
 
-        private readonly Action ClosedPositionAction;
+        private readonly Action closedPositionAction;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -66,7 +66,7 @@ public class Dancer : IModule
 
             ClassJobs = new List<uint> { 38 };
 
-            ClosedPositionAction = LuminaCache<Action>.Instance.GetRow(16006)!;
+            closedPositionAction = LuminaCache<Action>.Instance.GetRow(16006)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -80,8 +80,8 @@ public class Dancer : IModule
                 {
                     MessageLong = Strings.Dancer_WarningText,
                     MessageShort = Strings.Dancer_WarningTextShort,
-                    IconID = ClosedPositionAction.Icon,
-                    IconLabel = ClosedPositionAction.Name.RawString,
+                    IconID = closedPositionAction.Icon,
+                    IconLabel = closedPositionAction.Name.RawString,
                     Priority = Settings.Priority.Value,
                 };
             }

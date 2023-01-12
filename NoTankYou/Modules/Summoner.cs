@@ -55,14 +55,14 @@ public class Summoner : IModule
         public IModule ParentModule { get; }
         public List<uint> ClassJobs { get; }
 
-        private readonly Action SummonCarbuncle;
+        private readonly Action summonCarbuncle;
 
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
             ClassJobs = new List<uint> {27, 26};
 
-            SummonCarbuncle = LuminaCache<Action>.Instance.GetRow(25798)!;
+            summonCarbuncle = LuminaCache<Action>.Instance.GetRow(25798)!;
         }
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
@@ -75,8 +75,8 @@ public class Summoner : IModule
                 {
                     MessageLong = Strings.Summoner_WarningText,
                     MessageShort = Strings.Summoner_WarningTextShort,
-                    IconID = SummonCarbuncle.Icon,
-                    IconLabel = SummonCarbuncle.Name.RawString,
+                    IconID = summonCarbuncle.Icon,
+                    IconLabel = summonCarbuncle.Name.RawString,
                     Priority = Settings.Priority.Value,
                 };
             }

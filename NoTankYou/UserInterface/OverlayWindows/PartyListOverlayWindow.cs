@@ -20,16 +20,16 @@ public class PartyListOverlayWindow : Window
     public static Stopwatch AnimationStopwatch { get; } = new();
     private static PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
 
-    private readonly TextureWrap WarningIcon;
+    private readonly TextureWrap warningIcon;
     private Vector2 Scale { get; set; }
 
-    private readonly WarningState DemoWarning;
+    private readonly WarningState demoWarning;
 
-    private bool InSanctuaryArea;
+    private bool inSanctuaryArea;
 
     public PartyListOverlayWindow() : base($"###PartyListOverlay")
     {
-        WarningIcon = Image.LoadImage("Warning");
+        warningIcon = Image.LoadImage("Warning");
 
         Flags |= ImGuiWindowFlags.NoDecoration;
         Flags |= ImGuiWindowFlags.NoBackground;
@@ -44,7 +44,7 @@ public class PartyListOverlayWindow : Window
 
         var demoAction = LuminaCache<Action>.Instance.GetRow(67)!;
 
-        DemoWarning = new WarningState
+        demoWarning = new WarningState
         {
             MessageShort = "Sample Warning",
             IconID = demoAction.Icon,
@@ -74,7 +74,7 @@ public class PartyListOverlayWindow : Window
 
     public override void Update()
     {
-        InSanctuaryArea = FFXIVClientStructs.FFXIV.Client.Game.GameMain.IsInSanctuary();
+        inSanctuaryArea = FFXIVClientStructs.FFXIV.Client.Game.GameMain.IsInSanctuary();
     }
 
     public override void PreDraw()
@@ -92,7 +92,7 @@ public class PartyListOverlayWindow : Window
         {
             foreach (var player in Service.PartyListAddon)
             {
-                DisplayWarning(DemoWarning, player);
+                DisplayWarning(demoWarning, player);
             }
         }
         else
@@ -110,7 +110,7 @@ public class PartyListOverlayWindow : Window
                     // Filter to only modules that are enabled for PartyFrame Overlay
                     var enabledModules = modules
                         .Where(module => module.ParentModule.GenericSettings.PartyFrameOverlay.Value)
-                        .Where(module => !(module.ParentModule.GenericSettings.DisableInSanctuary.Value && InSanctuaryArea) );
+                        .Where(module => !(module.ParentModule.GenericSettings.DisableInSanctuary.Value && inSanctuaryArea) );
 
                     // Get Highest Warning for remaining modules
                     var highestWarning = enabledModules
@@ -235,7 +235,7 @@ public class PartyListOverlayWindow : Window
         var iconSize = hudPartyIndex.UserInterface.GetIconSize();
 
         ImGui.SetCursorPos(iconPosition * Scale);
-        ImGui.Image(WarningIcon.ImGuiHandle, iconSize * Scale);
+        ImGui.Image(warningIcon.ImGuiHandle, iconSize * Scale);
     }
 
     private void ResetAllAnimation()
