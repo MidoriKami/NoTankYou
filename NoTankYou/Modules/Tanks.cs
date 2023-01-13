@@ -85,7 +85,7 @@ public class Tanks : IModule
                 .Select(r => r.RowId)
                 .ToList();
 
-            tankStances = new List<uint> { 79, 743, 91, 392 };
+            tankStances = new List<uint> { 79, 743, 91, 1833 };
             
             foreach (var job in ClassJobs)
             {
