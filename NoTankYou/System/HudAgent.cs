@@ -10,12 +10,12 @@ namespace NoTankYou.System;
 [StructLayout(LayoutKind.Explicit, Size = 0x20)]
 public readonly struct PartyMemberData
 {
-    [FieldOffset(0x10)] public readonly int LocalContentID;
+    [FieldOffset(0x10)] public readonly int ContentID;
     [FieldOffset(0x18)] public readonly uint ObjectID;
 
     public bool ValidData => ObjectID is not 0 and not 0xE000_0000;
 
-    public override string ToString() => $"{{Valid: {ValidData}, LocalID: {LocalContentID:X8}, ObjectID: {ObjectID:X8}}}";
+    public override string ToString() => $"{{Valid: {ValidData}, LocalID: {ContentID:X8}, ObjectID: {ObjectID:X8}}}";
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 0x100)]
