@@ -39,7 +39,7 @@ public class CharacterConfiguration
 
             var serializedContents = JsonConvert.SerializeObject(this, Formatting.Indented);
 
-            var writer = new StreamWriter(configFileInfo.FullName);
+            var writer = new StreamWriter(new FileStream(configFileInfo.FullName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite));
             writer.Write(serializedContents);
             writer.Dispose();
         }
@@ -66,20 +66,20 @@ public class CharacterConfiguration
         return Migrate.GetFileVersion(pluginConfigFile) switch
         {
             // If we get an actual version, then the plugin-wide config file exists
-            not 0 => GenerateMigratedCharacterConfiguration(pluginConfigFile),
+            not 0 => GenerateMigratedCharacterConfiguration(),
             
             // if we get zero, then no config exists and we need a new config
             _ => CreateNewCharacterConfiguration()
         };
     }
 
-    private static CharacterConfiguration GenerateMigratedCharacterConfiguration(FileInfo basePluginConfigInfo)
+    private static CharacterConfiguration GenerateMigratedCharacterConfiguration()
     {
         CharacterConfiguration migratedConfiguration;
 
         try
         {
-            migratedConfiguration = ConfigMigration.Convert(basePluginConfigInfo);
+            migratedConfiguration = ConfigMigration.Convert();
             migratedConfiguration.Save();
         }
         catch (Exception e)
@@ -95,9 +95,9 @@ public class CharacterConfiguration
         return migratedConfiguration;
     }
 
-    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, FileInfo configFileInfo)
+    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, FileSystemInfo configFileInfo)
     {
-        var reader = new StreamReader(configFileInfo.FullName);
+        var reader = new StreamReader(new FileStream(configFileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
         var fileText = reader.ReadToEnd();
         reader.Dispose();
 

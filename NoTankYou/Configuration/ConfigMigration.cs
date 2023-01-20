@@ -8,7 +8,7 @@ namespace NoTankYou.Configuration;
 
 internal static class ConfigMigration
 {
-    public static CharacterConfiguration Convert(FileInfo filePath)
+    public static CharacterConfiguration Convert()
     {
         return new CharacterConfiguration
         {
