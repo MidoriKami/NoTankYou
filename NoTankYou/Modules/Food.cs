@@ -125,7 +125,7 @@ public class Food : IModule
                 if(Settings.SavageDuties) allowedTypes.Add(DutyType.Savage);
                 if(Settings.UltimateDuties) allowedTypes.Add(DutyType.Ultimate);
                 if(Settings.ExtremeUnreal) allowedTypes.Add(DutyType.ExtremeUnreal);
-                if(Settings.CriterionDuties) allowedTypes.Add(DutyType.Savage);
+                if(Settings.CriterionDuties) allowedTypes.Add(DutyType.Criterion);
 
                 if (!DutyLists.Instance.IsType(Service.ClientState.TerritoryType, allowedTypes))
                 {
