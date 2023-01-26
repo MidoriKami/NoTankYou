@@ -1,5 +1,4 @@
-﻿using System.IO;
-using KamiLib.Configuration;
+﻿using KamiLib.Configuration;
 using NoTankYou.DataModels;
 using NoTankYou.Modules;
 using NoTankYou.UserInterface.Windows;
