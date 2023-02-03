@@ -1,66 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game;
-using Dalamud.Game.ClientState.Objects.SubKinds;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using NoTankYou.DataModels;
+using NoTankYou.Utilities;
 
 namespace NoTankYou.System;
 
-public readonly unsafe struct PartyListAddonData
-{
-    private static readonly Dictionary<uint, Stopwatch> TimeSinceLastTargetable = new();
-
-    public AddonPartyList.PartyListMemberStruct UserInterface { get; init; }
-    public PlayerCharacter? PlayerCharacter { get; init; }
-
-    private bool Targetable => UserInterface.PartyMemberComponent->OwnerNode->AtkResNode.Color.A != 0x99;
-    
-    public bool IsTargetable()
-    {
-        if (PlayerCharacter is null) return false;
-
-        TimeSinceLastTargetable.TryAdd(PlayerCharacter.ObjectId, Stopwatch.StartNew());
-        var stopwatch = TimeSinceLastTargetable[PlayerCharacter.ObjectId];
-            
-        if (Targetable)
-        {
-            // Returns true if the party member has been targetable for 2second or more
-            return stopwatch.Elapsed >= TimeSpan.FromSeconds(2);
-        }
-        else
-        {
-            // Returns false, and continually resets the stopwatch
-            stopwatch.Restart();
-            return false;
-        }
-    }
-}
-
-public readonly struct PartyFramePositionInfo
-{
-    public Vector2 Position { get; init; }
-    public Vector2 Size { get; init; }
-    public Vector2 Scale { get; init; }
-
-    public override string ToString() => $"{{Position: {Position}, Size: {Size}, Scale: {Scale}}}";
-}
-
 public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposable
 {
-    public IEnumerator<PartyListAddonData> GetEnumerator()
-    {
-        return addonData.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
+    public record PartyFramePositionInfo(Vector2 Position, Vector2 Size, Vector2 Scale);
+    public IEnumerator<PartyListAddonData> GetEnumerator() => addonData.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     private static AddonPartyList* PartyList => (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
     public static bool DataAvailable => PartyList != null && PartyList->AtkUnitBase.RootNode != null;
 
@@ -81,10 +35,10 @@ public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposabl
         addonData.Clear();
         if (!DataAvailable) return;
         if (PartyList->MemberCount <= 0) return;
-        
+
         foreach (var index in Enumerable.Range(0, PartyList->MemberCount))
         {
-            var playerCharacter = HudAgent.GetPlayerCharacter(index);
+            var playerCharacter = HudHelper.GetPlayerCharacter(index);
             var userInterface = PartyList->PartyMember[index];
 
             addonData.Add(new PartyListAddonData
@@ -106,56 +60,6 @@ public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposabl
         var partyListPositionOffset = new Vector2(partyListNode->X, partyListNode->Y) * scale;
         var partyListSize = new Vector2(partyListNode->Width, partyListNode->Height);
 
-        return new PartyFramePositionInfo
-        {
-            Size = partyListSize * scale,
-            Position = addonBasePosition + partyListPositionOffset,
-            Scale = scale,
-        };
-    }
-}
-
-public static unsafe class PartyListMemberStructExtensions
-{
-    public static void SetPlayerNameOutlineColor(this AddonPartyList.PartyListMemberStruct data, Vector4 color)
-    {
-        data.Name->AtkResNode.AddRed = (ushort)(color.X * 255);
-        data.Name->AtkResNode.AddGreen = (ushort)(color.Y * 255);
-        data.Name->AtkResNode.AddBlue = (ushort)(color.Z * 255);
-    }
-
-    public static void SetIconVisibility(this AddonPartyList.PartyListMemberStruct data, bool visible)
-    {
-        data.ClassJobIcon->AtkResNode.ToggleVisibility(visible);
-    }
-
-    public static Vector2 GetIconPosition(this AddonPartyList.PartyListMemberStruct data)
-    {
-        var parentOffset = data.ClassJobIcon->AtkResNode.ParentNode->Y;
-        var jobIcon = data.ClassJobIcon->AtkResNode;
-
-        return new Vector2(jobIcon.X, jobIcon.Y + parentOffset);
-    }
-
-    public static Vector2 GetIconSize(this AddonPartyList.PartyListMemberStruct data)
-    {
-        var jobIcon = data.ClassJobIcon->AtkResNode;
-
-        return new Vector2(jobIcon.Width, jobIcon.Height);
-    }
-
-    public static Vector2 GetNamePosition(this AddonPartyList.PartyListMemberStruct data)
-    {
-        var nameElement = data.NameAndBarsContainer;
-        var memberOffset = data.PartyMemberComponent->OwnerNode->AtkResNode.Y;
-
-        return new Vector2(nameElement->X, nameElement->Y + memberOffset);
-    }
-
-    public static Vector2 GetNameSize(this AddonPartyList.PartyListMemberStruct data)
-    {
-        var nameElement = data.NameAndBarsContainer;
-
-        return new Vector2(nameElement->Width, nameElement->Height);
+        return new PartyFramePositionInfo(addonBasePosition + partyListPositionOffset, partyListSize * scale, scale);
     }
 }

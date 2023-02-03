@@ -13,7 +13,6 @@ using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.System;
 using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
 using Action = Lumina.Excel.GeneratedSheets.Action;
@@ -173,7 +172,7 @@ public class Tanks : IModule
 
             for (var i = 0; i < 16; ++i)
             {
-                var player = HudAgent.GetAllianceMember(i);
+                var player = HudHelper.GetAllianceMember(i);
                 if(player == null) continue;
 
                 if (ClassJobs.Contains(player.ClassJob.Id))
