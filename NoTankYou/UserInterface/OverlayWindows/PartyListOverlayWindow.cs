@@ -6,6 +6,7 @@ using ImGuiNET;
 using ImGuiScene;
 using KamiLib.Caching;
 using KamiLib.Drawing;
+using KamiLib.Extensions;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.System;
@@ -57,9 +58,7 @@ public class PartyListOverlayWindow : Window
     private bool ShouldOpenWindow()
     {
         if (!PartyListAddon.DataAvailable) return false;
-
         if (!WarningCondition.ShouldShowWarnings()) return false;
-
         if (Settings.PreviewMode) return true;
 
         return true;
@@ -248,7 +247,7 @@ public class PartyListOverlayWindow : Window
 
     private void ResetAnimation(PartyListAddonData player)
     {
-        player.UserInterface.SetIconVisibility(Condition.IsCrossWorld() || player.AgentData.ValidData);
+        player.UserInterface.SetIconVisibility(Condition.IsCrossWorld() || player.PlayerCharacter.IsValidObject());
         player.UserInterface.SetPlayerNameOutlineColor(Vector4.Zero);
     }
 }
