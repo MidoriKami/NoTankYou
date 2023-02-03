@@ -15,17 +15,16 @@ public readonly unsafe struct PartyListAddonData
     private static readonly Dictionary<uint, Stopwatch> TimeSinceLastTargetable = new();
 
     public AddonPartyList.PartyListMemberStruct UserInterface { get; init; }
-    public PartyMemberData AgentData { get; init; }
     public PlayerCharacter? PlayerCharacter { get; init; }
 
     private bool Targetable => UserInterface.PartyMemberComponent->OwnerNode->AtkResNode.Color.A != 0x99;
     
     public bool IsTargetable()
     {
-        if (!AgentData.ValidData) return false;
+        if (PlayerCharacter is null) return false;
 
-        TimeSinceLastTargetable.TryAdd(AgentData.ObjectID, Stopwatch.StartNew());
-        var stopwatch = TimeSinceLastTargetable[AgentData.ObjectID];
+        TimeSinceLastTargetable.TryAdd(PlayerCharacter.ObjectId, Stopwatch.StartNew());
+        var stopwatch = TimeSinceLastTargetable[PlayerCharacter.ObjectId];
             
         if (Targetable)
         {
@@ -85,13 +84,11 @@ public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposabl
         
         foreach (var index in Enumerable.Range(0, PartyList->MemberCount))
         {
-            var agentData = HudAgent.GetPartyMember(index);
             var playerCharacter = HudAgent.GetPlayerCharacter(index);
             var userInterface = PartyList->PartyMember[index];
 
             addonData.Add(new PartyListAddonData
             {
-                AgentData = agentData,
                 PlayerCharacter = playerCharacter,
                 UserInterface = userInterface,
             });
