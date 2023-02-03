@@ -63,7 +63,13 @@ public class CharacterConfiguration
         // If a configuration for this character doesn't exist, migrate the plugin-wide config to a character-specific config
         var pluginConfigFile = Service.PluginInterface.ConfigFile;
         
-        return Migrate.GetFileVersion(pluginConfigFile) switch
+        var reader = new StreamReader(new FileStream(pluginConfigFile.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+        var fileText = reader.ReadToEnd();
+        reader.Dispose();
+        
+        Migrate.ParseJObject(fileText);
+        
+        return Migrate.GetFileVersion() switch
         {
             // If we get an actual version, then the plugin-wide config file exists
             not 0 => GenerateMigratedCharacterConfiguration(),
