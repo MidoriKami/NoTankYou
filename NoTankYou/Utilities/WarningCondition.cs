@@ -20,6 +20,7 @@ internal static class WarningCondition
         ConditionFlag.Jumping61,
         ConditionFlag.BetweenAreas,
         ConditionFlag.BetweenAreas51,
+        ConditionFlag.Transformed,
     };
     
     public static bool ShouldShowWarnings()
