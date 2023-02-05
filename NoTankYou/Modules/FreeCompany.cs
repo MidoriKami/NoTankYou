@@ -6,7 +6,6 @@ using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 using KamiLib.Extensions;
-using KamiLib.GameState;
 using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
@@ -162,7 +161,7 @@ public class FreeCompany : IModule
 
         public WarningState? EvaluateWarning(PlayerCharacter character)
         {
-            if (DutyState.Instance.IsDutyStarted) return null;
+            if (Service.DutyState.IsDutyStarted) return null;
             if (!CurrentlyInHomeworld(character)) return null;
 
             switch (Settings.ScanMode.Value)
