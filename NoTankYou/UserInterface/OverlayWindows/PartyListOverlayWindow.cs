@@ -68,7 +68,7 @@ public class PartyListOverlayWindow : Window
     {
         IsOpen = ShouldOpenWindow();
 
-        if (!IsOpen) ResetAllAnimation();
+        if (!IsOpen && PartyListAddon.DataAvailable) ResetAllAnimation();
     }
 
     public override void Update()
