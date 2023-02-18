@@ -1,15 +1,11 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using KamiLib.Caching;
-using KamiLib.Drawing;
 using KamiLib.Extensions;
-using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.UserInterface.Components;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
 
@@ -17,71 +13,38 @@ public class SummonerConfiguration : GenericSettings
 {
 }
 
-public class Summoner : IModule
+public class Summoner : BaseModule
 {
-    public ModuleName Name => ModuleName.Summoner;
-    public string Command => "smn";
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public ILogicComponent LogicComponent { get; }
+    public override ModuleName Name => ModuleName.Summoner;
+    public override string Command => "smn";
+    public override List<uint> ClassJobs { get; } = new() {27, 26};
+    
     private static SummonerConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Summoner;
-    public GenericSettings GenericSettings => Settings;
+    public override GenericSettings GenericSettings => Settings;
+    
+    private readonly Action summonCarbuncle;
 
     public Summoner()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
+        summonCarbuncle = LuminaCache<Action>.Instance.GetRow(25798)!;
     }
 
-    private class ModuleConfigurationComponent : IConfigurationComponent
+    public override WarningState? EvaluateWarning(PlayerCharacter character)
     {
-        public ISelectable Selectable { get; }
-        public ModuleConfigurationComponent(IModule parentModule)
+        if (character.Level < 2) return null;
+
+        if(!character.HasPet())
         {
-            Selectable = new ConfigurationSelectable(parentModule, this);
-        }
-
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericSettings(Settings);
-            
-            InfoBox.Instance.DrawOverlaySettings(Settings);
-            
-            InfoBox.Instance.DrawOptions(Settings);
-        }
-    }
-
-    private class ModuleLogicComponent : ILogicComponent
-    {
-        public IModule ParentModule { get; }
-        public List<uint> ClassJobs { get; }
-
-        private readonly Action summonCarbuncle;
-
-        public ModuleLogicComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-            ClassJobs = new List<uint> {27, 26};
-
-            summonCarbuncle = LuminaCache<Action>.Instance.GetRow(25798)!;
-        }
-
-        public WarningState? EvaluateWarning(PlayerCharacter character)
-        {
-            if (character.Level < 2) return null;
-
-            if(!character.HasPet())
+            return new WarningState
             {
-                return new WarningState
-                {
-                    MessageLong = Strings.Summoner_WarningText,
-                    MessageShort = Strings.Summoner_WarningTextShort,
-                    IconID = summonCarbuncle.Icon,
-                    IconLabel = summonCarbuncle.Name.RawString,
-                    Priority = Settings.Priority.Value,
-                };
-            }
-
-            return null;
+                MessageLong = Strings.Summoner_WarningText,
+                MessageShort = Strings.Summoner_WarningTextShort,
+                IconID = summonCarbuncle.Icon,
+                IconLabel = summonCarbuncle.Name.RawString,
+                Priority = Settings.Priority.Value,
+            };
         }
+
+        return null;
     }
 }

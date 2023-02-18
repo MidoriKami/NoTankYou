@@ -7,13 +7,11 @@ using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 using KamiLib.Extensions;
-using KamiLib.Interfaces;
 using KamiLib.Misc;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
 using Action = Lumina.Excel.GeneratedSheets.Action;
 
@@ -27,175 +25,142 @@ public class TankConfiguration : GenericSettings
     public Setting<bool> CheckAllianceStances = new(false);
 }
 
-public class Tanks : IModule
+public class Tanks : BaseModule
 {
-    public ModuleName Name => ModuleName.Tanks;
-    public string Command => "tank";
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public ILogicComponent LogicComponent { get; }
+    public override ModuleName Name => ModuleName.Tanks;
+    public override string Command => "tank";
+    public override sealed List<uint> ClassJobs { get; }
     private static TankConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Tank;
-    public GenericSettings GenericSettings => Settings;
+    public override GenericSettings GenericSettings => Settings;
 
+    private readonly List<uint> tankStances = new() { 79, 743, 91, 1833 };
+    private readonly Dictionary<uint, IconInfo> tankIcons = new();
+    
     public Tanks()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
-    }
+        ClassJobs = LuminaCache<ClassJob>.Instance
+            .Where(job => job.Role is 1)
+            .Select(r => r.RowId)
+            .ToList();
 
-    private class ModuleConfigurationComponent : IConfigurationComponent
-    {
-        public ISelectable Selectable { get; }
-        public ModuleConfigurationComponent(IModule parentModule)
+        foreach (var job in ClassJobs)
         {
-            Selectable = new ConfigurationSelectable(parentModule, this);
-        }
+            var icon = GetTankIcon(job);
 
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericSettings(Settings);
-            
-            InfoBox.Instance
-                .AddTitle(Strings.Common_AdditionalOptions)
-                .AddConfigCheckbox(Strings.Tank_DisableInAllianceRaid, Settings.DisableInAllianceRaid)
-                .AddConfigCheckbox(Strings.Tank_CheckAllianceStances, Settings.CheckAllianceStances)
-                .Draw();
-            
-            InfoBox.Instance.DrawOverlaySettings(Settings);
-            
-            InfoBox.Instance.DrawOptions(Settings);
+            tankIcons.Add(job, icon);
         }
     }
 
-    private class ModuleLogicComponent : ILogicComponent
+    public override WarningState? EvaluateWarning(PlayerCharacter character)
     {
-        public IModule ParentModule { get; }
+        if (character.Level < 10) return null;
+
+        if (Settings.DisableInAllianceRaid && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance)) return null;
+
+        if (Settings.CheckAllianceStances && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance))
+        {
+            return EvaluateAllianceStances(character);
+        }
+
+        if (Service.PartyList.Length == 0)
+        {
+            return character.HasStatus(tankStances) ? null : TankWarning(character);
+        }
+        else
+        {
+            return EvaluateParty(character);
+        }
+    }
+
+    private WarningState? EvaluateParty(Character character)
+    {
+        var tanks = Service.PartyList
+            .WithJob(ClassJobs)
+            .Alive()
+            .ToList();
+
+        if (tanks.Any() && !tanks.WithStatus(tankStances).Any())
+        {
+            return TankWarning(character);
+        }
+
+        return null;
+    }
+
+    private WarningState? EvaluateAllianceStances(PlayerCharacter character)
+    {
+        var partyTanks = Service.PartyList
+            .WithJob(ClassJobs)
+            .Alive()
+            .ToList();
+
+        var allianceTanks = GetAllianceTanks();
+
+        var partyMissingStance = !partyTanks.WithStatus(tankStances).Any();
+        var allianceMissingStance = !allianceTanks.WithStatus(tankStances).Any();
+
+        if (partyMissingStance && allianceMissingStance)
+        {
+            return TankWarning(character);
+        }
+
+        return null;
+    }
         
-        public List<uint> ClassJobs { get; }
-
-        private readonly List<uint> tankStances;
-        private readonly Dictionary<uint, IconInfo> tankIcons = new();
-
-        public ModuleLogicComponent(IModule parentModule)
+    private IconInfo GetTankIcon(uint classjob)
+    {
+        var actionId = classjob switch
         {
-            ParentModule = parentModule;
+            1 or 19 => 28u,
+            3 or 21 => 48u,
+            32 => 3629u,
+            37 => 16142u,
+            _ => throw new ArgumentOutOfRangeException(nameof(classjob), classjob, null),
+        };
 
-            ClassJobs = LuminaCache<ClassJob>.Instance
-                .Where(job => job.Role is 1)
-                .Select(r => r.RowId)
-                .ToList();
+        var action = LuminaCache<Action>.Instance.GetRow(actionId);
 
-            tankStances = new List<uint> { 79, 743, 91, 1833 };
-            
-            foreach (var job in ClassJobs)
+        return new IconInfo(action!.Icon, action.Name.RawString);
+    }
+
+    private IEnumerable<PlayerCharacter> GetAllianceTanks()
+    {
+        var players = new List<PlayerCharacter>();
+
+        for (var i = 0; i < 16; ++i)
+        {
+            var player = HudHelper.GetAllianceMember(i);
+            if(player == null) continue;
+
+            if (ClassJobs.Contains(player.ClassJob.Id))
             {
-                var icon = GetTankIcon(job);
-
-                tankIcons.Add(job, icon);
+                players.Add(player);
             }
         }
 
-        public WarningState? EvaluateWarning(PlayerCharacter character)
+        return players;
+    }
+
+    private WarningState TankWarning(Character character)
+    {
+        var iconInfo = tankIcons[character.ClassJob.Id];
+
+        return new WarningState
         {
-            if (character.Level < 10) return null;
+            MessageShort = Strings.Tank_WarningTextShort,
+            MessageLong = Strings.Tank_WarningText,
+            IconID = iconInfo.ID,
+            IconLabel = iconInfo.Name,
+            Priority = Settings.Priority.Value,
+        };
+    }
 
-            if (Settings.DisableInAllianceRaid && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance)) return null;
-
-            if (Settings.CheckAllianceStances && DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance))
-            {
-                return EvaluateAllianceStances(character);
-            }
-
-            if (Service.PartyList.Length == 0)
-            {
-                return character.HasStatus(tankStances) ? null : TankWarning(character);
-            }
-            else
-            {
-                return EvaluateParty(character);
-            }
-        }
-
-        private WarningState? EvaluateParty(Character character)
-        {
-            var tanks = Service.PartyList
-                .WithJob(ClassJobs)
-                .Alive()
-                .ToList();
-
-            if (tanks.Any() && !tanks.WithStatus(tankStances).Any())
-            {
-                return TankWarning(character);
-            }
-
-            return null;
-        }
-
-        private WarningState? EvaluateAllianceStances(PlayerCharacter character)
-        {
-            var partyTanks = Service.PartyList
-                .WithJob(ClassJobs)
-                .Alive()
-                .ToList();
-
-            var allianceTanks = GetAllianceTanks();
-
-            var partyMissingStance = !partyTanks.WithStatus(tankStances).Any();
-            var allianceMissingStance = !allianceTanks.WithStatus(tankStances).Any();
-
-            if (partyMissingStance && allianceMissingStance)
-            {
-                return TankWarning(character);
-            }
-
-            return null;
-        }
-        
-        private IconInfo GetTankIcon(uint classjob)
-        {
-            var actionId = classjob switch
-            {
-                1 or 19 => 28u,
-                3 or 21 => 48u,
-                32 => 3629u,
-                37 => 16142u,
-                _ => throw new ArgumentOutOfRangeException(nameof(classjob), classjob, null),
-            };
-
-            var action = LuminaCache<Action>.Instance.GetRow(actionId);
-
-            return new IconInfo(action!.Icon, action.Name.RawString);
-        }
-
-        private IEnumerable<PlayerCharacter> GetAllianceTanks()
-        {
-            var players = new List<PlayerCharacter>();
-
-            for (var i = 0; i < 16; ++i)
-            {
-                var player = HudHelper.GetAllianceMember(i);
-                if(player == null) continue;
-
-                if (ClassJobs.Contains(player.ClassJob.Id))
-                {
-                    players.Add(player);
-                }
-            }
-
-            return players;
-        }
-
-        private WarningState TankWarning(Character character)
-        {
-            var iconInfo = tankIcons[character.ClassJob.Id];
-
-            return new WarningState
-            {
-                MessageShort = Strings.Tank_WarningTextShort,
-                MessageLong = Strings.Tank_WarningText,
-                IconID = iconInfo.ID,
-                IconLabel = iconInfo.Name,
-                Priority = Settings.Priority.Value,
-            };
-        }
+    protected override void DrawExtraConfiguration()
+    {
+        InfoBox.Instance
+            .AddTitle(Strings.Common_AdditionalOptions)
+            .AddConfigCheckbox(Strings.Tank_DisableInAllianceRaid, Settings.DisableInAllianceRaid)
+            .AddConfigCheckbox(Strings.Tank_CheckAllianceStances, Settings.CheckAllianceStances)
+            .Draw();
     }
 }

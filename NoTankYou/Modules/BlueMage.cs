@@ -5,12 +5,10 @@ using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 using KamiLib.Extensions;
-using KamiLib.Interfaces;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
-using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
 using Condition = KamiLib.GameState.Condition;
 
@@ -22,128 +20,93 @@ public class BlueMageConfiguration : GenericSettings
     public Setting<bool> TankStance = new(false);
 }
 
-public class BlueMage : IModule
+public class BlueMage : BaseModule
 {
-    public ModuleName Name => ModuleName.BlueMage;
+    public override ModuleName Name => ModuleName.BlueMage;
+    public override string Command => "blu";
+    public override List<uint> ClassJobs { get; } = new() { 36 };
 
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public ILogicComponent LogicComponent { get; }
-    public string Command => "blu";
     private static BlueMageConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.BlueMage;
-    public GenericSettings GenericSettings => Settings;
+    public override GenericSettings GenericSettings => Settings;
 
+    private readonly List<uint> mimicryStatusEffects = new() { 2124, 2125, 2126 };
+    private const uint MightyGuardStatusEffect = 1719;
+    private const uint AethericMimicryTank = 2124;
+
+    private readonly Action mimicryAction;
+    private readonly Action mightyGuardAction;
+    
     public BlueMage()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
+        mimicryAction = LuminaCache<Action>.Instance.GetRow(18322)!;
+        mightyGuardAction = LuminaCache<Action>.Instance.GetRow(11417)!;
     }
 
-    private class ModuleConfigurationComponent : IConfigurationComponent
+    public override WarningState? EvaluateWarning(PlayerCharacter character)
     {
-        public ISelectable Selectable { get; }
-        
-        public ModuleConfigurationComponent(IModule parentModule)
+        if (Settings.Mimicry && !Condition.IsBoundByDuty() && !character.HasStatus(mimicryStatusEffects))
         {
-            Selectable = new ConfigurationSelectable(parentModule, this);
+            return MimicryWarning;
         }
 
-        public void Draw()
+        if (Settings.TankStance)
         {
-            InfoBox.Instance
-                .AddTitle(Strings.Tabs_Settings)
-                .AddConfigCheckbox(Strings.Labels_Enabled, Settings.Enabled)
-                .AddInputInt(Strings.Labels_Priority, Settings.Priority, 0, 10)
-                .Draw();
-            
-            InfoBox.Instance
-                .AddTitle(Strings.Labels_Warnings)
-                .AddConfigCheckbox(Strings.BlueMage_MimicryLabel, Settings.Mimicry)
-                .AddConfigCheckbox(Strings.BlueMage_MightyGuardLabel, Settings.TankStance)
-                .Draw();
+            if (Service.PartyList.Length == 0 && character.HasStatus(AethericMimicryTank) && !character.HasStatus(MightyGuardStatusEffect))
+            {
+                return TankWarning;
+            }
+            else
+            {
+                var tankMages = Service.PartyList
+                    .WithJob(ClassJobs)
+                    .Alive()
+                    .WithStatus(AethericMimicryTank)
+                    .ToList();
 
-            InfoBox.Instance.DrawOverlaySettings(Settings);
-            
-            InfoBox.Instance.DrawOptions(Settings);
+                if (tankMages.Any() && !tankMages.WithStatus(MightyGuardStatusEffect).Any())
+                { 
+                    return TankWarning;
+                }
+            }
         }
+            
+        return null;
     }
 
-    private class ModuleLogicComponent : ILogicComponent
+    private WarningState MimicryWarning => new()
     {
-        public IModule ParentModule { get; }
-        public List<uint> ClassJobs { get; }
-        
-        private readonly List<uint> mimicryStatusEffects;
-        private const uint MightyGuardStatusEffect = 1719;
-        private const uint AethericMimicryTank = 2124;
+        MessageShort = Strings.BlueMage_MimicryLabel,
+        MessageLong = Strings.BlueMage_Mimicry,
+        IconID = mimicryAction.Icon,
+        IconLabel = mimicryAction.Name.ToString(),
+        Priority = Settings.Priority.Value,
+    };
 
-        private readonly Action mimicryAction;
-        private readonly Action mightyGuardAction;
+    private WarningState TankWarning => new()
+    {
+        MessageShort = Strings.BlueMage_MightyGuardLabel,
+        MessageLong = Strings.BlueMage_MightyGuard,
+        IconID = mightyGuardAction.Icon,
+        IconLabel = mightyGuardAction.Name.ToString(),
+        Priority = Settings.Priority.Value,
+    };
 
-        public ModuleLogicComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-
-            ClassJobs = new List<uint> { 36 };
-
-            mimicryStatusEffects = new List<uint>{ 2124, 2125, 2126 };
+    public override void DrawConfiguration()
+    {
+        InfoBox.Instance
+            .AddTitle(Strings.Tabs_Settings)
+            .AddConfigCheckbox(Strings.Labels_Enabled, Settings.Enabled)
+            .AddInputInt(Strings.Labels_Priority, Settings.Priority, 0, 10)
+            .Draw();
             
-            mimicryAction = LuminaCache<Action>.Instance.GetRow(18322)!;
-            mightyGuardAction = LuminaCache<Action>.Instance.GetRow(11417)!;
-        }
+        InfoBox.Instance
+            .AddTitle(Strings.Labels_Warnings)
+            .AddConfigCheckbox(Strings.BlueMage_MimicryLabel, Settings.Mimicry)
+            .AddConfigCheckbox(Strings.BlueMage_MightyGuardLabel, Settings.TankStance)
+            .Draw();
 
-        public WarningState? EvaluateWarning(PlayerCharacter character)
-        {
-            if (Settings.Mimicry && !Condition.IsBoundByDuty() && !character.HasStatus(mimicryStatusEffects))
-            {
-                return MimicryWarning();
-            }
-
-            if (Settings.TankStance)
-            {
-                if (Service.PartyList.Length == 0 && character.HasStatus(AethericMimicryTank) && !character.HasStatus(MightyGuardStatusEffect))
-                {
-                    return TankWarning();
-                }
-                else
-                {
-                    var tankMages = Service.PartyList
-                        .WithJob(ClassJobs)
-                        .Alive()
-                        .WithStatus(AethericMimicryTank)
-                        .ToList();
-
-                    if (tankMages.Any() && !tankMages.WithStatus(MightyGuardStatusEffect).Any())
-                    { 
-                        return TankWarning();
-                    }
-                }
-            }
+        InfoBox.Instance.DrawOverlaySettings(Settings);
             
-            return null;
-        }
-
-        private WarningState MimicryWarning()
-        {
-            return new WarningState
-            {
-                MessageShort = Strings.BlueMage_MimicryLabel,
-                MessageLong = Strings.BlueMage_Mimicry,
-                IconID = mimicryAction.Icon,
-                IconLabel = mimicryAction.Name.ToString(),
-                Priority = Settings.Priority.Value,
-            };
-        }
-        
-        private WarningState TankWarning()
-        {
-            return new WarningState
-            {
-                MessageShort = Strings.BlueMage_MightyGuardLabel,
-                MessageLong = Strings.BlueMage_MightyGuard,
-                IconID = mightyGuardAction.Icon,
-                IconLabel = mightyGuardAction.Name.ToString(),
-                Priority = Settings.Priority.Value,
-            };
-        }
+        InfoBox.Instance.DrawOptions(Settings);
     }
 }
