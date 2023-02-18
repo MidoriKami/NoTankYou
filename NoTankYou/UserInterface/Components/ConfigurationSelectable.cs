@@ -8,19 +8,21 @@ using NoTankYou.Localization;
 
 namespace NoTankYou.UserInterface.Components;
 
-public class ConfigurationSelectable : ISelectable
+public class ConfigurationSelectable : ISelectable, IDrawable
 {
-    private ModuleName OwnerModuleName { get; }
-    public IDrawable Contents { get; }
-    private IModule ParentModule { get; }
+    public IDrawable Contents => this;
+    
+    private readonly IConfigurationComponent configurationComponent;
+    private ModuleName OwnerModuleName => configurationComponent.ParentModule.Name;
+    private IModule ParentModule => configurationComponent.ParentModule;
     public string ID => ParentModule.Name.GetTranslatedString();
 
-    public ConfigurationSelectable(IModule parentModule, IDrawable contents)
+    public ConfigurationSelectable(IConfigurationComponent parentModule)
     {
-        OwnerModuleName = parentModule.Name;
-        ParentModule = parentModule;
-        Contents = contents;
+        configurationComponent = parentModule;
     }
+
+    public void Draw() => configurationComponent.DrawConfiguration();
 
     public void DrawLabel()
     {

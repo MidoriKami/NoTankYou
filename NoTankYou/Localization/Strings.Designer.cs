@@ -276,6 +276,24 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chocobo.
+        /// </summary>
+        internal static string Chocobo_Label {
+            get {
+                return ResourceManager.GetString("Chocobo_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chocobo Missing.
+        /// </summary>
+        internal static string Chocobo_WarningText {
+            get {
+                return ResourceManager.GetString("Chocobo_WarningText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disables {0} Warning.
         /// </summary>
         internal static string Commands_DisablesModule {

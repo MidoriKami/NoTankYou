@@ -21,6 +21,7 @@ public class ModuleManager
         new Summoner(),
         new Spiritbond(),
         new Cutscene(),
+        new Chocobo(),
     };
 
     public ModuleManager()

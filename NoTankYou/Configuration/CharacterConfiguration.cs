@@ -26,6 +26,7 @@ public class CharacterConfiguration
     public SummonerConfiguration Summoner = new();
     public SpiritBondConfiguration SpiritBond = new();
     public CutsceneConfiguration Cutscene = new();
+    public ChocoboConfiguration Chocobo = new();
 
     public PartyOverlaySettings PartyOverlay = new();
     public BannerOverlaySettings BannerOverlay = new();

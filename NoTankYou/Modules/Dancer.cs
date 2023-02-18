@@ -1,15 +1,11 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using KamiLib.Caching;
-using KamiLib.Drawing;
 using KamiLib.Extensions;
-using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.UserInterface.Components;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
 
@@ -17,76 +13,41 @@ public class DancerConfiguration : GenericSettings
 {
 }
 
-public class Dancer : IModule
+public class Dancer : BaseModule
 {
-    public ModuleName Name => ModuleName.Dancer;
-    public string Command => "dnc";
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public ILogicComponent LogicComponent { get; }
-    private static DancerConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Dancer;
-    public GenericSettings GenericSettings => Settings;
+    public override ModuleName Name => ModuleName.Dancer;
+    public override string Command => "dnc";
+    public override List<uint> ClassJobs { get; } = new() { 38 };
 
+    private static DancerConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Dancer;
+    public override GenericSettings GenericSettings => Settings;
+
+    private const int ClosedPositionStatusId = 1823;
+
+    private readonly Action closedPositionAction;
+    
     public Dancer()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
+        closedPositionAction = LuminaCache<Action>.Instance.GetRow(16006)!;
     }
 
-    private class ModuleConfigurationComponent : IConfigurationComponent
+    public override WarningState? EvaluateWarning(PlayerCharacter character)
     {
-        public ISelectable Selectable { get; }
-        
-        public ModuleConfigurationComponent(IModule parentModule)
+        if (character.Level < 60) return null;
+        if (Service.PartyList.Length < 2) return null;
+
+        if (!character.HasStatus(ClosedPositionStatusId))
         {
-            Selectable = new ConfigurationSelectable(parentModule, this);
-        }
-
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericSettings(Settings);
-            
-            InfoBox.Instance.DrawOverlaySettings(Settings);
-            
-            InfoBox.Instance.DrawOptions(Settings);
-        }
-    }
-
-    private class ModuleLogicComponent : ILogicComponent
-    {
-        public IModule ParentModule { get; }
-        public List<uint> ClassJobs { get; }
-
-        private const int ClosedPositionStatusId = 1823;
-
-        private readonly Action closedPositionAction;
-
-        public ModuleLogicComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-
-            ClassJobs = new List<uint> { 38 };
-
-            closedPositionAction = LuminaCache<Action>.Instance.GetRow(16006)!;
-        }
-
-        public WarningState? EvaluateWarning(PlayerCharacter character)
-        {
-            if (character.Level < 60) return null;
-            if (Service.PartyList.Length < 2) return null;
-
-            if (!character.HasStatus(ClosedPositionStatusId))
+            return new WarningState
             {
-                return new WarningState
-                {
-                    MessageLong = Strings.Dancer_WarningText,
-                    MessageShort = Strings.Dancer_WarningTextShort,
-                    IconID = closedPositionAction.Icon,
-                    IconLabel = closedPositionAction.Name.RawString,
-                    Priority = Settings.Priority.Value,
-                };
-            }
-
-            return null;
+                MessageLong = Strings.Dancer_WarningText,
+                MessageShort = Strings.Dancer_WarningTextShort,
+                IconID = closedPositionAction.Icon,
+                IconLabel = closedPositionAction.Name.RawString,
+                Priority = Settings.Priority.Value,
+            };
         }
+
+        return null;
     }
 }

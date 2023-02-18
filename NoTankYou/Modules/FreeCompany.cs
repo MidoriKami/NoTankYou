@@ -6,13 +6,10 @@ using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 using KamiLib.Extensions;
-using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.Interfaces;
 using NoTankYou.Localization;
-using NoTankYou.UserInterface.Components;
-using NoTankYou.Utilities;
 
 namespace NoTankYou.Modules;
 
@@ -23,108 +20,113 @@ public class FreeCompanyConfiguration : GenericSettings
     public uint[] BuffList = new uint[2];
 }
 
-public class FreeCompany : IModule
+public class FreeCompany : BaseModule
 {
-    public ModuleName Name => ModuleName.FreeCompany;
-    public string Command => "fc";
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public ILogicComponent LogicComponent { get; }
-    private static FreeCompanyConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.FreeCompany;
-    public GenericSettings GenericSettings => Settings;
+    public override ModuleName Name => ModuleName.FreeCompany;
+    public override string Command => "fc";
+    public override List<uint> ClassJobs { get; }
 
+    private static FreeCompanyConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.FreeCompany;
+    public override GenericSettings GenericSettings => Settings;
+
+    private readonly List<uint> freeCompanyStatusIDList;
+    private readonly CompanyAction freeCompanyStatus;
+    
     public FreeCompany()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
+        Settings.SoloMode.Value = true;
+        Settings.DutiesOnly.Value = false;
+
+        ClassJobs = LuminaCache<ClassJob>.Instance
+            .Select(r => r.RowId)
+            .ToList();
+
+        freeCompanyStatusIDList = LuminaCache<Status>.Instance
+            .Where(status => status.IsFcBuff)
+            .Select(status => status.RowId)
+            .ToList();
+
+        freeCompanyStatus = LuminaCache<CompanyAction>.Instance.GetRow(43)!;
     }
 
-    private class ModuleConfigurationComponent : IConfigurationComponent
+    public  override WarningState? EvaluateWarning(PlayerCharacter character)
     {
-        public ISelectable Selectable { get; }
-        public ModuleConfigurationComponent(IModule parentModule)
+        if (Service.DutyState.IsDutyStarted) return null;
+        if (!CurrentlyInHomeworld(character)) return null;
+
+        switch (Settings.ScanMode.Value)
         {
-            Selectable = new ConfigurationSelectable(parentModule, this);
-        }
-
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericSettings(Settings);
-            
-            InfoBox.Instance
-                .AddTitle(Strings.Labels_ModeSelect)
-                .BeginTable()
-                .BeginRow()
-                .AddConfigRadio(Strings.FreeCompany_Any, Settings.ScanMode, FreeCompanyBuffScanMode.Any)
-                .AddConfigRadio(Strings.FreeCompany_Specific, Settings.ScanMode, FreeCompanyBuffScanMode.Specific)
-                .EndRow()
-                .EndTable()
-                .Draw();
-
-            InfoBox.Instance
-                .AddTitle(Strings.FreeCompany_BuffCount)
-                .AddAction(DrawBuffCount)
-                .Draw();
-
-            if (Settings.ScanMode == FreeCompanyBuffScanMode.Specific)
-            {
-                InfoBox.Instance
-                    .AddTitle(Strings.FreeCompany_BuffSelection)
-                    .AddAction(BuffSelection)
-                    .Draw();
-            }
-
-            InfoBox.Instance.DrawOverlaySettings(Settings);
-            
-            InfoBox.Instance.DrawOptions(Settings);
-        }
-
-        private void BuffSelection()
-        {
-            for (var i = 0; i < Settings.BuffCount.Value; i++)
-            {
-                var displayValue = Strings.Labels_Unset;
-                if (Settings.BuffList[i] != 0)
+            case FreeCompanyBuffScanMode.Any:
+                var fcBuffCount = character.StatusCount(freeCompanyStatusIDList);
+                if (fcBuffCount < Settings.BuffCount.Value)
                 {
-                    var status = LuminaCache<Status>.Instance.GetRow(Settings.BuffList[i]);
-
-                    if (status != null)
+                    return new WarningState
                     {
-                        displayValue = status.Name.RawString;
-                    }
+                        MessageLong = Strings.FreeCompany_WarningText,
+                        MessageShort = Strings.FreeCompany_WarningTextShort,
+                        IconID = (uint)freeCompanyStatus.Icon,
+                        IconLabel = "",
+                        Priority = Settings.Priority.Value,
+                    };
                 }
-                
-                ImGui.PushItemWidth(InfoBox.Instance.InnerWidth);
-                if (ImGui.BeginCombo($"###BuffSelection{i}", displayValue))
+                break;
+
+            case FreeCompanyBuffScanMode.Specific:
+                for (var i = 0; i < Settings.BuffCount.Value; ++i)
                 {
-                    foreach (var status in LuminaCache<Status>.Instance.Where(status => status.IsFcBuff).OrderBy(s => s.Name.RawString))
+                    var targetStatus = LuminaCache<Status>.Instance.GetRow(Settings.BuffList[i])!;
+
+                    if (!character.HasStatus(targetStatus.RowId))
                     {
-                        if (ImGui.Selectable(status.Name.RawString, status.RowId == Settings.BuffList[i]))
+                        return new WarningState
                         {
-                            Settings.BuffList[i] = status.RowId;
-                            Service.ConfigurationManager.Save();
-                        }
+                            MessageLong = Strings.FreeCompany_WarningText,
+                            MessageShort = Strings.FreeCompany_WarningTextShort,
+                            IconID = (uint)freeCompanyStatus.Icon,
+                            IconLabel = targetStatus.Name.RawString,
+                            Priority = Settings.Priority.Value,
+                        };
                     }
-
-                    ImGui.EndCombo();
                 }
-            }
+                break;
         }
 
-        private void DrawBuffCount()
-        {
-            ImGui.PushItemWidth(InfoBox.Instance.InnerWidth);
-            if (ImGui.BeginCombo("###BuffCountCombo", Settings.BuffCount.ToString()))
-            {
-                if (ImGui.Selectable("1", Settings.BuffCount == 1))
-                {
-                    Settings.BuffCount.Value = 1;
-                    Service.ConfigurationManager.Save();
-                }
+        return null;
+    }
 
-                if (ImGui.Selectable("2", Settings.BuffCount == 2))
+    private static bool CurrentlyInHomeworld(PlayerCharacter character)
+    {
+        var homeworld = character.HomeWorld.Id;
+        var currentWorld = character.CurrentWorld.Id;
+
+        return homeworld == currentWorld;
+    }
+
+    private void BuffSelection()
+    {
+        for (var i = 0; i < Settings.BuffCount.Value; i++)
+        {
+            var displayValue = Strings.Labels_Unset;
+            if (Settings.BuffList[i] != 0)
+            {
+                var status = LuminaCache<Status>.Instance.GetRow(Settings.BuffList[i]);
+
+                if (status != null)
                 {
-                    Settings.BuffCount.Value = 2;
-                    Service.ConfigurationManager.Save();
+                    displayValue = status.Name.RawString;
+                }
+            }
+
+            ImGui.PushItemWidth(InfoBox.Instance.InnerWidth);
+            if (ImGui.BeginCombo($"###BuffSelection{i}", displayValue))
+            {
+                foreach (var status in LuminaCache<Status>.Instance.Where(status => status.IsFcBuff).OrderBy(s => s.Name.RawString))
+                {
+                    if (ImGui.Selectable(status.Name.RawString, status.RowId == Settings.BuffList[i]))
+                    {
+                        Settings.BuffList[i] = status.RowId;
+                        Service.ConfigurationManager.Save();
+                    }
                 }
 
                 ImGui.EndCombo();
@@ -132,84 +134,50 @@ public class FreeCompany : IModule
         }
     }
 
-    private class ModuleLogicComponent : ILogicComponent
+    private void DrawBuffCount()
     {
-        public IModule ParentModule { get; }
-        public List<uint> ClassJobs { get; }
-
-        private readonly List<uint> freeCompanyStatusIDList;
-
-        private readonly CompanyAction freeCompanyStatus;
-
-        public ModuleLogicComponent(IModule parentModule)
+        ImGui.PushItemWidth(InfoBox.Instance.InnerWidth);
+        if (ImGui.BeginCombo("###BuffCountCombo", Settings.BuffCount.ToString()))
         {
-            ParentModule = parentModule;
-            Settings.SoloMode.Value = true;
-            Settings.DutiesOnly.Value = false;
-
-            ClassJobs = LuminaCache<ClassJob>.Instance
-                .Select(r => r.RowId)
-                .ToList();
-
-            freeCompanyStatusIDList = LuminaCache<Status>.Instance
-                .Where(status => status.IsFcBuff)
-                .Select(status => status.RowId)
-                .ToList();
-
-            freeCompanyStatus = LuminaCache<CompanyAction>.Instance.GetRow(43)!;
-        }
-
-        public WarningState? EvaluateWarning(PlayerCharacter character)
-        {
-            if (Service.DutyState.IsDutyStarted) return null;
-            if (!CurrentlyInHomeworld(character)) return null;
-
-            switch (Settings.ScanMode.Value)
+            if (ImGui.Selectable("1", Settings.BuffCount == 1))
             {
-                case FreeCompanyBuffScanMode.Any:
-                    var fcBuffCount = character.StatusCount(freeCompanyStatusIDList);
-                    if (fcBuffCount < Settings.BuffCount.Value)
-                    {
-                        return new WarningState
-                        {
-                            MessageLong = Strings.FreeCompany_WarningText,
-                            MessageShort = Strings.FreeCompany_WarningTextShort,
-                            IconID = (uint)freeCompanyStatus.Icon,
-                            IconLabel = "",
-                            Priority = Settings.Priority.Value,
-                        };
-                    }
-                    break;
-
-                case FreeCompanyBuffScanMode.Specific:
-                    for (var i = 0; i < Settings.BuffCount.Value; ++i)
-                    {
-                        var targetStatus = LuminaCache<Status>.Instance.GetRow(Settings.BuffList[i])!;
-
-                        if (!character.HasStatus(targetStatus.RowId))
-                        {
-                            return new WarningState
-                            {
-                                MessageLong = Strings.FreeCompany_WarningText,
-                                MessageShort = Strings.FreeCompany_WarningTextShort,
-                                IconID = (uint)freeCompanyStatus.Icon,
-                                IconLabel = targetStatus.Name.RawString,
-                                Priority = Settings.Priority.Value,
-                            };
-                        }
-                    }
-                    break;
+                Settings.BuffCount.Value = 1;
+                Service.ConfigurationManager.Save();
             }
 
-            return null;
+            if (ImGui.Selectable("2", Settings.BuffCount == 2))
+            {
+                Settings.BuffCount.Value = 2;
+                Service.ConfigurationManager.Save();
+            }
+
+            ImGui.EndCombo();
         }
+    }
+    
+    protected override void DrawExtraConfiguration()
+    {
+        InfoBox.Instance
+            .AddTitle(Strings.Labels_ModeSelect)
+            .BeginTable()
+            .BeginRow()
+            .AddConfigRadio(Strings.FreeCompany_Any, Settings.ScanMode, FreeCompanyBuffScanMode.Any)
+            .AddConfigRadio(Strings.FreeCompany_Specific, Settings.ScanMode, FreeCompanyBuffScanMode.Specific)
+            .EndRow()
+            .EndTable()
+            .Draw();
 
-        private static bool CurrentlyInHomeworld(PlayerCharacter character)
+        InfoBox.Instance
+            .AddTitle(Strings.FreeCompany_BuffCount)
+            .AddAction(DrawBuffCount)
+            .Draw();
+
+        if (Settings.ScanMode == FreeCompanyBuffScanMode.Specific)
         {
-            var homeworld = character.HomeWorld.Id;
-            var currentWorld = character.CurrentWorld.Id;
-
-            return homeworld == currentWorld;
+            InfoBox.Instance
+                .AddTitle(Strings.FreeCompany_BuffSelection)
+                .AddAction(BuffSelection)
+                .Draw();
         }
     }
 }
