@@ -41,6 +41,8 @@ public unsafe class Chocobo : BaseModule
     
     public override WarningState? EvaluateWarning(PlayerCharacter character)
     {
+        if (Service.DutyState.IsDutyStarted) return null;
+        
         var remainingTimeLimit = Settings.EnableEarlyWarning ? Settings.EarlyWarningTime.Value : 0;
         
         if (UIState.Instance()->Buddy.TimeLeft <= remainingTimeLimit)
