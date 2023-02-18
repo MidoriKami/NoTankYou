@@ -15,6 +15,7 @@ public enum ModuleName
     Summoner,
     Spiritbond,
     Cutscene,
+    Chocobo,
 }
 
 public static class ModuleNameExtensions
@@ -33,6 +34,7 @@ public static class ModuleNameExtensions
             ModuleName.Summoner => Strings.Summoner_Label,
             ModuleName.Spiritbond => Strings.SpiritBond_Label,
             ModuleName.Cutscene => Strings.Cutscene_Label,
+            ModuleName.Chocobo => Strings.Chocobo_Label,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
         };
     }

@@ -307,4 +307,10 @@ Mientras esté desactivado, mostrará advertencias siempre</value>
         <value>Alterna los avisos de {0}</value>
         <comment>{0} is a module name, Ex: "Free Company", "Tanks"</comment>
     </data>
+    <data name="Chocobo_Label" xml:space="preserve">
+        <value>Chocobo</value>
+    </data>
+    <data name="Chocobo_WarningText" xml:space="preserve">
+        <value>Chocobo Missing</value>
+    </data>
 </root>
