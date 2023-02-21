@@ -3,7 +3,7 @@ using System.Numerics;
 using ImGuiNET;
 using KamiLib.Caching;
 using KamiLib.Drawing;
-using NoTankYou.UserInterface.Windows;
+using NoTankYou.UserInterface.Components;
 
 namespace NoTankYou.Utilities;
 

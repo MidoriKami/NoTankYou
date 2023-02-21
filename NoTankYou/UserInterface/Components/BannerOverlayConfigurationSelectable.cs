@@ -1,14 +1,11 @@
-﻿using System;
-using System.Numerics;
-using Dalamud.Interface.Windowing;
-using ImGuiNET;
+﻿using ImGuiNET;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
-using NoTankYou.Configuration;
+using KamiLib.Interfaces;
 using NoTankYou.DataModels;
 using NoTankYou.Localization;
 
-namespace NoTankYou.UserInterface.Windows;
+namespace NoTankYou.UserInterface.Components;
 
 public class BannerOverlaySettings
 {
@@ -25,34 +22,16 @@ public class BannerOverlaySettings
     public Setting<bool> SoloMode = new(false);
 }
 
-public class BannerOverlayConfigurationWindow : Window, IDisposable
+public class BannerOverlayConfigurationSelectable : ISelectable, IDrawable
 {
+    public IDrawable Contents => this;
+    public string ID => Strings.BannerOverlay_Label;
+    
     private static BannerOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
     
-    public BannerOverlayConfigurationWindow() : base($"{Strings.BannerOverlay_ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
-    {
-        SizeConstraints = new WindowSizeConstraints
-        {
-            MinimumSize = new Vector2(320,400),
-            MaximumSize = new Vector2(320,999),
-        };
+    public void DrawLabel() => ImGui.Text(ID);
 
-        Flags |= ImGuiWindowFlags.NoScrollbar;
-
-        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
-    }
-    
-    public void Dispose()
-    {
-        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
-    }
-
-    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
-    {
-        WindowName = $"{Strings.BannerOverlay_ConfigurationLabel} - {e.CharacterData.Name}";
-    }
-
-    public override void Draw()
+    public void Draw()
     {
         InfoBox.Instance
             .AddTitle(Strings.Configuration_PreviewMode)
@@ -99,4 +78,5 @@ public class BannerOverlayConfigurationWindow : Window, IDisposable
                 .Draw();
         }
     }
+
 }

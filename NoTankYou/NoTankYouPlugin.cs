@@ -29,12 +29,10 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         
         KamiCommon.CommandManager.AddHandler(ShorthandCommand, "shorthand command to open configuration window");
         
-        KamiCommon.WindowManager.AddConfigurationWindow(new ConfigurationWindow());
+        KamiCommon.WindowManager.AddConfigurationWindow(new ModuleConfigurationWindow());
+        KamiCommon.WindowManager.AddWindow(new SettingsConfigurationWindow());
         KamiCommon.WindowManager.AddWindow(new PartyListOverlayWindow());
         KamiCommon.WindowManager.AddWindow(new BannerOverlayWindow());
-        KamiCommon.WindowManager.AddWindow(new PartyOverlayConfigurationWindow());
-        KamiCommon.WindowManager.AddWindow(new BannerOverlayConfigurationWindow());
-        KamiCommon.WindowManager.AddWindow(new BlacklistConfigurationWindow());
     }
         
     public void Dispose()

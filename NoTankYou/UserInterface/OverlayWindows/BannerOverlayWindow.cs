@@ -10,7 +10,7 @@ using KamiLib.Drawing;
 using NoTankYou.Configuration;
 using NoTankYou.DataModels;
 using NoTankYou.System;
-using NoTankYou.UserInterface.Windows;
+using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.UserInterface.OverlayWindows;

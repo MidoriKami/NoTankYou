@@ -1,13 +1,11 @@
-﻿using System;
-using System.Numerics;
-using Dalamud.Interface.Windowing;
+﻿using System.Numerics;
 using ImGuiNET;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
-using NoTankYou.Configuration;
+using KamiLib.Interfaces;
 using NoTankYou.Localization;
 
-namespace NoTankYou.UserInterface.Windows;
+namespace NoTankYou.UserInterface.Components;
 
 public class PartyOverlaySettings
 {
@@ -21,34 +19,17 @@ public class PartyOverlaySettings
     public Setting<bool> SoloMode = new(false);
 }
 
-public class PartyOverlayConfigurationWindow : Window, IDisposable
+public class PartyOverlayConfigurationSelectable : ISelectable, IDrawable
 {
+    public IDrawable Contents => this;
+
+    public string ID => Strings.PartyOverlay_Label;
+    
     private static PartyOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.PartyOverlay;
+    
+    public void DrawLabel() => ImGui.Text(ID);
 
-    public PartyOverlayConfigurationWindow() : base($"{Strings.PartyOverlay_ConfigurationLabel} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}" )
-    {
-        SizeConstraints = new WindowSizeConstraints
-        {
-            MinimumSize = new Vector2(250,400),
-            MaximumSize = new Vector2(250,400),
-        };
-
-        Flags |= ImGuiWindowFlags.NoResize;
-
-        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
-    }
-
-    public void Dispose()
-    {
-        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
-    }
-
-    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
-    {
-        WindowName = $"{Strings.PartyOverlay_ConfigurationLabel} - {e.CharacterData.Name}";
-    }
-
-    public override void Draw()
+    public void Draw()
     {
         InfoBox.Instance
             .AddTitle(Strings.Configuration_PreviewMode)

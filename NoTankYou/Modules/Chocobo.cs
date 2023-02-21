@@ -25,7 +25,7 @@ public unsafe class Chocobo : BaseModule
     public override ModuleName Name => ModuleName.Chocobo;
     public override string Command => "chocobo";
     public override List<uint> ClassJobs { get; }
-    public static ChocoboConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Chocobo;
+    private static ChocoboConfiguration Settings => Service.ConfigurationManager.CharacterConfiguration.Chocobo;
     public override GenericSettings GenericSettings => Settings;
 
     private readonly Item gysahlGreens;

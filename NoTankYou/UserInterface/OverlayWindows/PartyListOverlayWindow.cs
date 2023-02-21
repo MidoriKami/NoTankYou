@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Numerics;
 using Dalamud.Interface.Windowing;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using ImGuiNET;
 using ImGuiScene;
 using KamiLib.Caching;
@@ -10,7 +11,7 @@ using KamiLib.Extensions;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.DataModels;
 using NoTankYou.System;
-using NoTankYou.UserInterface.Windows;
+using NoTankYou.UserInterface.Components;
 using NoTankYou.Utilities;
 using Condition = KamiLib.GameState.Condition;
 
@@ -73,7 +74,7 @@ public class PartyListOverlayWindow : Window
 
     public override void Update()
     {
-        inSanctuaryArea = FFXIVClientStructs.FFXIV.Client.Game.GameMain.IsInSanctuary();
+        inSanctuaryArea = GameMain.IsInSanctuary();
     }
 
     public override void PreDraw()
