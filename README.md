@@ -28,33 +28,14 @@ Configuration is split into three categories, Display, Modules, Settings.
 
 You can use the command `/nty help` to view a list of all available commands.
 
-![image](https://user-images.githubusercontent.com/9083275/194430187-f60ae9d5-04d0-43dd-be18-7ab2c30dacbf.png)
+![image](https://user-images.githubusercontent.com/9083275/220266189-d88bda94-2b22-4e55-be5a-179cea9e39d2.png)
 
-## Banner Overlay
-
-The Banner Overlay displays a warning banner with the warning info, player name of the player triggering the warning, and an icon indicating what the warning is regarding.
-
-This overlay can be configured to be anywhere on your screen with configurable scale, and display options. You can hide individual parts of the warning banner.
-
-The Banner Overlay will by default show up to 8 warnings at once, one for each party member, you can configure it to display fewer warnings.
+## Overlays
+NoTankYou has two overlays you can use to display the warnings, you can go for the subtle approach by integrating with the PartyList user interface, or you can go with the classic in-your-face warning banner in the middle of your screen.
 
 Configuration Window             |  Warning Appearance
 :-------------------------:|:-------------------------:
-![image](https://user-images.githubusercontent.com/9083275/194428607-7b3db649-aec7-4acd-adf1-af1d2d26d03a.png) | ![image](https://user-images.githubusercontent.com/9083275/194427783-45b4d2f2-3778-4dfd-8f90-5e8b5cf53b03.png)
-
-## Party Frame Overlay
-
-The Party Frame Overlay displays warnings next to the players name in the Party List.
-
-The hide in sanctuaries option will prevent the warning banner for showing while you are in any area the game considers to be a sanctuary.
-
-You can configure individual parts to show or hide, and you can enable or disable the flashing effect.
-
-For accessability options for changing the color are provided.
-
-Configuration Window             |  Warning Appearance
-:-------------------------:|:-------------------------:
-![image](https://user-images.githubusercontent.com/9083275/194430654-166fd1c5-8029-4da2-82ae-da9febddd832.png) |  ![YoloMouse_JVgwSjNQUg](https://user-images.githubusercontent.com/9083275/177447974-c2bfc46d-ac92-4bfe-a1bf-42f413074d02.gif)
+![YoloMouse_JVgwSjNQUg](https://user-images.githubusercontent.com/9083275/177447974-c2bfc46d-ac92-4bfe-a1bf-42f413074d02.gif) | ![image](https://user-images.githubusercontent.com/9083275/194427783-45b4d2f2-3778-4dfd-8f90-5e8b5cf53b03.png)
 
 # Blacklist
 
@@ -62,6 +43,5 @@ NoTankYou includes a zone blacklist that allows you to explicity state which zon
 
 Note: NoTankYou is entirely disabled while you are in PvP automatically
 
-![image](https://user-images.githubusercontent.com/9083275/194430817-9ec4aaad-01fa-46d1-80fa-00a3b7073b5c.png)
-
+![image](https://user-images.githubusercontent.com/9083275/220271041-3834a0f0-05c4-4171-9008-1e5d7df86be6.png)
 
