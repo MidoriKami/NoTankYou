@@ -78,5 +78,4 @@ public class BannerOverlayConfigurationSelectable : ISelectable, IDrawable
                 .Draw();
         }
     }
-
 }

@@ -1,7 +1,7 @@
 ﻿using ImGuiNET;
-using KamiLib.Blacklist;
 using KamiLib.Drawing;
 using KamiLib.Interfaces;
+using KamiLib.ZoneFilterList;
 using NoTankYou.DataModels;
 using NoTankYou.Localization;
 
@@ -28,12 +28,12 @@ public class BlacklistConfigurationSelectable : ISelectable, IDrawable
         {
             if (Service.ClientState.TerritoryType != 0)
             {
-                BlacklistDraw.DrawAddRemoveHere(Settings.BlacklistedZoneSettings);
+                ZoneFilterListDraw.DrawAddRemoveHere(Settings.BlacklistedZoneSettings);
             }
         
-            BlacklistDraw.DrawTerritorySearch(Settings.BlacklistedZoneSettings);
+            ZoneFilterListDraw.DrawTerritorySearch(Settings.BlacklistedZoneSettings, ZoneFilterType.BlackList);
         
-            BlacklistDraw.DrawBlacklist(Settings.BlacklistedZoneSettings);
+            ZoneFilterListDraw.DrawZoneList(Settings.BlacklistedZoneSettings, ZoneFilterType.BlackList);
         }
     }
 }

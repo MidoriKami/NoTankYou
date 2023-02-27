@@ -16,7 +16,7 @@ public unsafe class PartyListAddon : IEnumerable<PartyListAddonData>, IDisposabl
     public IEnumerator<PartyListAddonData> GetEnumerator() => addonData.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     private static AddonPartyList* PartyList => (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
-    public static bool DataAvailable => PartyList != null && PartyList->AtkUnitBase.RootNode != null;
+    public static bool DataAvailable => PartyList is not null && PartyList->AtkUnitBase.RootNode is not null;
 
     private readonly List<PartyListAddonData> addonData = new();
 

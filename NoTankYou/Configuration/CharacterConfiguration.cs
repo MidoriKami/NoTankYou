@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using Dalamud.Configuration;
 using Dalamud.Logging;
-using KamiLib.Configuration;
 using Newtonsoft.Json;
 using NoTankYou.DataModels;
 using NoTankYou.Modules;
@@ -10,7 +11,7 @@ using NoTankYou.UserInterface.Components;
 namespace NoTankYou.Configuration;
 
 [Serializable]
-public class CharacterConfiguration
+public class CharacterConfiguration : IPluginConfiguration
 {
     public int Version { get; set; } = 5;
 
@@ -46,104 +47,64 @@ public class CharacterConfiguration
         }
     }
 
-    private static FileInfo GetConfigFileInfo(ulong contentID)
-    {
-        var pluginConfigDirectory = Service.PluginInterface.ConfigDirectory;
-
-        return new FileInfo(pluginConfigDirectory.FullName + $@"\{contentID}.json");
-    }
-    
     public static CharacterConfiguration Load(ulong contentID)
     {
-        // If a configuration for this character already exists
-        if ( GetConfigFileInfo(contentID) is { Exists: true } configFileInfo )
-        {
-            return LoadExistingCharacterConfiguration(contentID, configFileInfo);
-        }
-
-        // If a configuration for this character doesn't exist, migrate the plugin-wide config to a character-specific config
-        var pluginConfigFile = Service.PluginInterface.ConfigFile;
-        if (pluginConfigFile.Exists)
-        {
-            var reader = new StreamReader(new FileStream(pluginConfigFile.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-            var fileText = reader.ReadToEnd();
-            reader.Dispose();
-        
-            Migrate.ParseJObject(fileText);
-            
-            return Migrate.GetFileVersion() switch
-            {
-                // If we get an actual version, then the plugin-wide config file exists
-                not 0 => GenerateMigratedCharacterConfiguration(),
-            
-                // if we get zero, then no config exists and we need a new config
-                _ => CreateNewCharacterConfiguration()
-            };
-        }
-        else
-        {
-            return CreateNewCharacterConfiguration();
-        }
-    }
-
-    private static CharacterConfiguration GenerateMigratedCharacterConfiguration()
-    {
-        CharacterConfiguration migratedConfiguration;
-
         try
         {
-            migratedConfiguration = ConfigMigration.Convert();
-            migratedConfiguration.Save();
+            var configFileInfo = GetConfigFileInfo(contentID);
+
+            if (TryLoadSpecificConfiguration(configFileInfo, out var loadedConfig))
+            {
+                return loadedConfig;
+            }
+
+            return CreateNewCharacterConfiguration();
         }
         catch (Exception e)
         {
-            PluginLog.Warning(e, "Unable to Migrate Configuration, generating new configuration instead.");
-            migratedConfiguration = CreateNewCharacterConfiguration();
+            PluginLog.Warning(e, $"Exception Occured during loading Character {contentID}. Loading new default config instead.");
+            return CreateNewCharacterConfiguration();
         }
-
-        // The user may have saved values here that we want to ignore
-        migratedConfiguration.BlueMage.DutiesOnly.Value = false;
-        migratedConfiguration.BlueMage.SoloMode.Value = false;
-        
-        return migratedConfiguration;
     }
-
-    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, FileSystemInfo configFileInfo)
+    
+    private static bool TryLoadSpecificConfiguration(FileSystemInfo? fileInfo, [NotNullWhen(true)] out CharacterConfiguration? info)
     {
-        var reader = new StreamReader(new FileStream(configFileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-        var fileText = reader.ReadToEnd();
-        reader.Dispose();
-
-        var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
-
-        if (loadedCharacterConfiguration == null)
+        if (fileInfo is null || !fileInfo.Exists)
         {
-            throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
+            info = null;
+            return false;
         }
-
-        // The user may have saved values here that we want to ignore
-        loadedCharacterConfiguration.BlueMage.DutiesOnly.Value = false;
-        loadedCharacterConfiguration.BlueMage.SoloMode.Value = false;
         
-        return loadedCharacterConfiguration;
+        info = JsonConvert.DeserializeObject<CharacterConfiguration>(LoadFile(fileInfo));
+        return info is not null;
     }
+    
+    private static FileInfo GetConfigFileInfo(ulong contentId) => new(Service.PluginInterface.ConfigDirectory.FullName + $@"\{contentId}.json");
 
-    private static CharacterConfiguration CreateNewCharacterConfiguration()
+    private static string LoadFile(FileSystemInfo fileInfo)
     {
-        var newCharacterConfiguration = new CharacterConfiguration();
-
-        var playerData = Service.ClientState.LocalPlayer;
-        var contentId = Service.ClientState.LocalContentId;
-
-        var playerName = playerData?.Name.TextValue ?? "Unknown";
-
-        newCharacterConfiguration.CharacterData = new CharacterData
-        {
-            Name = playerName,
-            LocalContentID = contentId,
-        };
-
-        newCharacterConfiguration.Save();
-        return newCharacterConfiguration;
+        using var reader = new StreamReader(fileInfo.FullName);
+        return reader.ReadToEnd();
     }
+
+    private static void SaveFile(FileSystemInfo file, string fileText)
+    {
+        using var writer = new StreamWriter(file.FullName);
+        writer.Write(fileText);
+    }
+
+    private void SaveConfigFile(FileSystemInfo file)
+    {
+        var text = JsonConvert.SerializeObject(this, Formatting.Indented);
+        SaveFile(file, text);
+    }
+    
+    private static CharacterConfiguration CreateNewCharacterConfiguration() => new()
+    {
+        CharacterData = new CharacterData
+        {
+            Name = Service.ClientState.LocalPlayer?.Name.TextValue ?? "Unknown",
+            LocalContentID = Service.ClientState.LocalContentId,
+        },
+    };
 }
