@@ -248,7 +248,7 @@ public class PartyListOverlayWindow : Window
 
     private void ResetAnimation(PartyListAddonData player)
     {
-        player.UserInterface.SetIconVisibility(Condition.IsCrossWorld() || (player.PlayerCharacter?.IsValidObject() ?? false));
+        player.UserInterface.SetIconVisibility(Condition.IsCrossWorld() || (player.PlayerCharacter?.IsValid() ?? false));
         player.UserInterface.SetPlayerNameOutlineColor(Vector4.Zero);
     }
 }
