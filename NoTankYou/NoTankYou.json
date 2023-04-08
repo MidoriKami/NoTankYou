@@ -11,5 +11,6 @@
     "UI"
   ],
   "InternalName": "NoTankYou",
-  "RepoUrl": "https://github.com/MidoriKami/NoTankYou"
+  "RepoUrl": "https://github.com/MidoriKami/NoTankYou",
+  "AcceptsFeedback": false
 }
