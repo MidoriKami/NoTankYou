@@ -30,7 +30,7 @@ public class Scholar : BaseModule
     
     public Scholar()
     {
-        seleneAction = LuminaCache<Action>.Instance.GetRow(17216)!;
+        seleneAction = LuminaCache<Action>.Instance.GetRow(17215)!;
     }
 
     public override WarningState? EvaluateWarning(PlayerCharacter character)

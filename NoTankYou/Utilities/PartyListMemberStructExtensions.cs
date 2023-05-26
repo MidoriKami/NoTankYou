@@ -21,8 +21,9 @@ public static unsafe class PartyListMemberStructExtensions
     {
         var parentOffset = data.ClassJobIcon->AtkResNode.ParentNode->Y;
         var jobIcon = data.ClassJobIcon->AtkResNode;
+        var listOffset = data.PartyMemberComponent->OwnerNode->AtkResNode.ParentNode->ParentNode->Y;
 
-        return new Vector2(jobIcon.X, jobIcon.Y + parentOffset);
+        return new Vector2(jobIcon.X, jobIcon.Y + parentOffset + listOffset);
     }
 
     public static Vector2 GetIconSize(this AddonPartyList.PartyListMemberStruct data)
@@ -36,8 +37,9 @@ public static unsafe class PartyListMemberStructExtensions
     {
         var nameElement = data.NameAndBarsContainer;
         var memberOffset = data.PartyMemberComponent->OwnerNode->AtkResNode.Y;
-
-        return new Vector2(nameElement->X, nameElement->Y + memberOffset);
+        var listOffset = data.PartyMemberComponent->OwnerNode->AtkResNode.ParentNode->ParentNode->Y;
+        
+        return new Vector2(nameElement->X, nameElement->Y + memberOffset + listOffset);
     }
 
     public static Vector2 GetNameSize(this AddonPartyList.PartyListMemberStruct data)
