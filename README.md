@@ -28,12 +28,12 @@ Configuration is split into three categories, Display, Modules, Settings.
 
 You can use the command `/nty help` to view a list of all available commands.
 
-![image](https://user-images.githubusercontent.com/9083275/220266189-d88bda94-2b22-4e55-be5a-179cea9e39d2.png)
+![image](https://github.com/MidoriKami/NoTankYou/assets/9083275/d9091131-c857-42a4-b707-ad21002d6406)
 
 ## Overlays
 NoTankYou has two overlays you can use to display the warnings, you can go for the subtle approach by integrating with the PartyList user interface, or you can go with the classic in-your-face warning banner in the middle of your screen.
 
-Configuration Window             |  Warning Appearance
+Party List Overlay Appearance            |  Warning Banner Appearance
 :-------------------------:|:-------------------------:
 ![YoloMouse_JVgwSjNQUg](https://user-images.githubusercontent.com/9083275/177447974-c2bfc46d-ac92-4bfe-a1bf-42f413074d02.gif) | ![image](https://user-images.githubusercontent.com/9083275/194427783-45b4d2f2-3778-4dfd-8f90-5e8b5cf53b03.png)
 
@@ -43,5 +43,5 @@ NoTankYou includes a zone blacklist that allows you to explicity state which zon
 
 Note: NoTankYou is entirely disabled while you are in PvP automatically
 
-![image](https://user-images.githubusercontent.com/9083275/220271041-3834a0f0-05c4-4171-9008-1e5d7df86be6.png)
+![image](https://github.com/MidoriKami/NoTankYou/assets/9083275/d1e45580-ee14-4300-a3a6-d8ab716831ed)
 
