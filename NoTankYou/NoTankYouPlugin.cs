@@ -1,47 +1,46 @@
-﻿using Dalamud.Plugin;
+﻿using Dalamud.Logging;
+using Dalamud.Plugin;
+using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using KamiLib;
+using KamiLib.Commands;
+using NoTankYou.Localization;
 using NoTankYou.System;
-using NoTankYou.UserInterface.OverlayWindows;
-using NoTankYou.UserInterface.Windows;
+using NoTankYou.Views.Windows;
 
 namespace NoTankYou;
 
 public sealed class NoTankYouPlugin : IDalamudPlugin
 {
     public string Name => "NoTankYou";
-    private const string ShorthandCommand = "/nty";
+    
+    public static NoTankYouSystem System = null!;
 
     public NoTankYouPlugin(DalamudPluginInterface pluginInterface)
     {
         // Create Static Services for use everywhere
         pluginInterface.Create<Service>();
 
-        KamiCommon.Initialize(pluginInterface, Name, () => Service.ConfigurationManager.Save());
-        LocalizationManager.Instance.Initialize();
-        
-        // Systems that have no dependencies
-        Service.FontManager = new FontManager();
-        Service.PartyListAddon = new PartyListAddon();
+        KamiCommon.Initialize(pluginInterface, Name);
+        KamiCommon.RegisterLocalizationHandler(key => Strings.ResourceManager.GetString(key, Strings.Culture));
 
-        // Dependent systems below
-        Service.ConfigurationManager = new ConfigurationManager();
-        Service.ModuleManager = new ModuleManager();
+        System = new NoTankYouSystem();
         
-        KamiCommon.CommandManager.AddHandler(ShorthandCommand, "shorthand command to open configuration window");
+        CommandController.RegisterMainCommand("/nty", "/notankyou");
         
         KamiCommon.WindowManager.AddConfigurationWindow(new ConfigurationWindow());
-        KamiCommon.WindowManager.AddWindow(new PartyListOverlayWindow());
-        KamiCommon.WindowManager.AddWindow(new BannerOverlayWindow());
+        // KamiCommon.WindowManager.AddWindow(new PartyListOverlayWindow());
+        // KamiCommon.WindowManager.AddWindow(new BannerOverlayWindow());
+
+        unsafe
+        {
+            PluginLog.Debug($"GroupManager: {new nint(GroupManager.Instance()):X8}");
+        }
     }
         
     public void Dispose()
     {
         KamiCommon.Dispose();
         
-        Service.FontManager.Dispose();
-        Service.PartyListAddon.Dispose();
-        Service.ConfigurationManager.Dispose();
-        
-        LocalizationManager.Cleanup();
+        System.Dispose();
     }
 }

@@ -1,0 +1,136 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Numerics;
+using ImGuiNET;
+using KamiLib.AutomaticUserInterface;
+using KamiLib.Utilities;
+using NoTankYou.DataModels;
+using NoTankYou.Models;
+using NoTankYou.Utilities;
+using NoTankYou.Views.Components;
+
+namespace NoTankYou.System;
+
+public class BannerController : IDisposable
+{
+    private BannerConfig config = new();
+    private Vector2? holdOffset;
+
+    private readonly WarningState sampleWarning = new()
+    {
+        Message = "Sample Warning",
+        MessageLong = "Sample Warning",
+        Priority = 100,
+        ActionId = 33472,
+        SourceObjectId = 0xE0000000,
+        SourcePlayerName = "Sample Player",
+    };
+    
+    public void Dispose() => Unload();
+    
+    public void DrawConfig()
+    {
+        DrawableAttribute.DrawAttributes(config, SaveConfig);
+    }
+
+    public void Draw(IEnumerable<WarningState> warnings)
+    {
+        if (!config.Enabled) return;
+
+        if (config.SampleMode || config.CanDrag)
+        {
+            WarningBanner.Draw(config.WindowPosition, sampleWarning, config);
+
+            if (config.CanDrag) DrawDraggableRepositionWindow();
+            return;
+        }
+        
+        if (config.SoloMode)
+        {
+            DrawSoloModeWarnings(warnings);
+        }
+        else switch (config.DisplayMode)
+        {
+            case BannerOverlayDisplayMode.TopPriority:
+            {
+                DrawTopPriorityWarnings(warnings);
+                break;
+            }
+
+            case BannerOverlayDisplayMode.List:
+            {
+                DrawListWarnings(warnings);
+                break;
+            }
+        }
+    }
+    private void DrawListWarnings(IEnumerable<WarningState> warnings)
+    {
+        var orderedWarnings = warnings
+            .OrderByDescending(warning => warning.Priority)
+            .Take(config.WarningCount)
+            .ToList();
+
+        var warningOffset = new Vector2(0.0f, 95.0f) * config.Scale;
+        var position = config.WindowPosition;
+
+        foreach (var warning in orderedWarnings)
+        {
+            WarningBanner.Draw(position, warning, config);
+            position += warningOffset;
+        }
+    }
+    
+    private void DrawTopPriorityWarnings(IEnumerable<WarningState> warnings)
+    {
+        var highestWarning = warnings.MaxBy(warning => warning.Priority);
+        if (highestWarning is not null) WarningBanner.Draw(config.WindowPosition, highestWarning, config);
+    }
+    
+    private void DrawSoloModeWarnings(IEnumerable<WarningState> warnings)
+    {
+        var highestWarning = warnings
+            .Where(warning => warning.SourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
+            .MaxBy(warning => warning.Priority);
+
+        if (highestWarning is not null) WarningBanner.Draw(config.WindowPosition, highestWarning, config);
+    }
+
+    private void DrawDraggableRepositionWindow()
+    {
+        var sampleWarningSize = new Vector2(515.0f, 110.0f) * config.Scale;
+        var infoTextOffset = new Vector2(-12.5f, -30.0f) * config.Scale;
+        
+        DrawUtilities.TextOutlined(config.WindowPosition + infoTextOffset, "Open NoTankYou Settings to Configure Warnings", 0.5f * config.Scale, KnownColor.White);
+        
+        ImGui.SetNextWindowPos(config.WindowPosition);
+        ImGui.SetNextWindowSize(sampleWarningSize);
+        if (ImGui.Begin("##NoTankYouDraggableFrame", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoBackground))
+        {
+            ImGui.GetBackgroundDrawList().AddRect(config.WindowPosition, config.WindowPosition + sampleWarningSize, ImGui.GetColorU32(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)), 0.0f, ImDrawFlags.RoundCornersNone, 2.0f);
+
+            var pos = ImGui.GetMousePos();
+            if (ImGui.IsMouseDown(ImGuiMouseButton.Left) && ImGui.IsWindowFocused())
+            {
+                holdOffset ??= config.WindowPosition - pos;
+                
+                var old = config.WindowPosition;
+                config.WindowPosition = (Vector2) (pos + holdOffset)!;
+                
+                if (old != config.WindowPosition) SaveConfig();
+            }
+            else
+            {
+                holdOffset = null;
+            }
+        }
+        ImGui.End();
+    }
+
+    public void Load() => config = LoadConfig();
+    public void Unload() { }
+    private BannerConfig LoadConfig() => FileController.LoadFile<BannerConfig>("BannerDisplay.config.json", config);
+    public void SaveConfig() => FileController.SaveFile("BannerDisplay.config.json", config.GetType(), config);
+}

@@ -6,7 +6,6 @@ using Dalamud.Game.DutyState;
 using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using NoTankYou.System;
 
 namespace NoTankYou;
 
@@ -19,9 +18,4 @@ public class Service
     [PluginService] public static ObjectTable ObjectTable { get; private set;} = null!;
     [PluginService] public static GameGui GameGui { get; private set; } = null!;
     [PluginService] public static DutyState DutyState { get; private set; } = null!;
-
-    internal static ModuleManager ModuleManager = null!;
-    internal static ConfigurationManager ConfigurationManager = null!;
-    internal static FontManager FontManager = null!;
-    internal static PartyListAddon PartyListAddon = null!;
 }
