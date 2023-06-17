@@ -29,6 +29,9 @@ public class BannerConfig
     
     [IntConfigOption("MaxWarnings", "DisplayOptions", 2, 1, 10)]
     public int WarningCount = 10;
+
+    [FloatConfigOption("AdditionalSpacing", "DisplayOptions", 2, 0.0f, 100.0f)]
+    public float AdditionalSpacing = 0.0f;
     
     [BoolConfigOption("WarningShield", "DisplayStyle", 3)]
     public bool WarningShield = true;

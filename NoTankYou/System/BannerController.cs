@@ -5,7 +5,6 @@ using System.Linq;
 using System.Numerics;
 using ImGuiNET;
 using KamiLib.AutomaticUserInterface;
-using KamiLib.Utilities;
 using NoTankYou.DataModels;
 using NoTankYou.Models;
 using NoTankYou.Utilities;
@@ -63,7 +62,7 @@ public class BannerController : IDisposable
             .OrderByDescending(warning => warning.Priority)
             .Take(config.WarningCount);
 
-        var warningOffset = new Vector2(0.0f, 95.0f) * config.Scale;
+        var warningOffset = new Vector2(0.0f, 95.0f + config.AdditionalSpacing) * config.Scale;
         var position = config.WindowPosition;
 
         foreach (var warning in orderedWarnings)
