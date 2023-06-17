@@ -11,8 +11,10 @@ namespace NoTankYou.Views.Components;
 public class WarningBanner
 {
     private static TextureWrap? WarningIcon => ImageCache.Instance.GetImage("BigWarning.png");
-    public static void Draw(Vector2 drawPosition, WarningState warning, BannerConfig settings)
+    public static void Draw(Vector2 drawPosition, WarningState? warning, BannerConfig settings)
     {
+        if (warning is null) return;
+        
         DrawWarningShield(ref drawPosition, settings);
         DrawWarningText(ref drawPosition, warning, settings);
         DrawActionIcon(ref drawPosition, warning, settings);

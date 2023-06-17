@@ -50,24 +50,20 @@ public class BannerController : IDisposable
         else switch (config.DisplayMode)
         {
             case BannerOverlayDisplayMode.TopPriority:
-            {
                 DrawTopPriorityWarnings(warnings);
                 break;
-            }
 
             case BannerOverlayDisplayMode.List:
-            {
                 DrawListWarnings(warnings);
                 break;
-            }
         }
     }
+
     private void DrawListWarnings(IEnumerable<WarningState> warnings)
     {
         var orderedWarnings = warnings
             .OrderByDescending(warning => warning.Priority)
-            .Take(config.WarningCount)
-            .ToList();
+            .Take(config.WarningCount);
 
         var warningOffset = new Vector2(0.0f, 95.0f) * config.Scale;
         var position = config.WindowPosition;
@@ -82,7 +78,8 @@ public class BannerController : IDisposable
     private void DrawTopPriorityWarnings(IEnumerable<WarningState> warnings)
     {
         var highestWarning = warnings.MaxBy(warning => warning.Priority);
-        if (highestWarning is not null) WarningBanner.Draw(config.WindowPosition, highestWarning, config);
+        
+        WarningBanner.Draw(config.WindowPosition, highestWarning, config);
     }
     
     private void DrawSoloModeWarnings(IEnumerable<WarningState> warnings)
@@ -91,7 +88,7 @@ public class BannerController : IDisposable
             .Where(warning => warning.SourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
             .MaxBy(warning => warning.Priority);
 
-        if (highestWarning is not null) WarningBanner.Draw(config.WindowPosition, highestWarning, config);
+        WarningBanner.Draw(config.WindowPosition, highestWarning, config);
     }
 
     private void DrawDraggableRepositionWindow()
