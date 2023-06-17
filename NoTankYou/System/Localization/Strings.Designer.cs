@@ -78,6 +78,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Spacing.
+        /// </summary>
+        internal static string AdditionalSpacing {
+            get {
+                return ResourceManager.GetString("AdditionalSpacing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Any.
         /// </summary>
         internal static string Any {
@@ -128,6 +137,15 @@ namespace NoTankYou.Localization {
         internal static string Chocobo {
             get {
                 return ResourceManager.GetString("Chocobo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chocobo Missing.
+        /// </summary>
+        internal static string ChocoboMissing {
+            get {
+                return ResourceManager.GetString("ChocoboMissing", resourceCulture);
             }
         }
         
@@ -432,7 +450,7 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide in Sanctuary.
+        ///   Looks up a localized string similar to Hide in Sanctuaries.
         /// </summary>
         internal static string HideInSanctuary {
             get {
@@ -464,6 +482,15 @@ namespace NoTankYou.Localization {
         internal static string MaxWarnings {
             get {
                 return ResourceManager.GetString("MaxWarnings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mighty Guard.
+        /// </summary>
+        internal static string MightyGuard {
+            get {
+                return ResourceManager.GetString("MightyGuard", resourceCulture);
             }
         }
         

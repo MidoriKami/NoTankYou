@@ -1,6 +1,7 @@
 ﻿using System;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using NoTankYou.Abstracts;
+using NoTankYou.Localization;
 using NoTankYou.Models;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
@@ -10,7 +11,7 @@ namespace NoTankYou.System.Modules;
 public unsafe class BlueMage : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.BlueMage;
-    public override string DefaultWarningText { get; protected set; } = "Mighty Guard";
+    public override string DefaultWarningText { get; protected set; } = Strings.MightyGuard;
 
     private const uint MightyGuardStatusId = 1719;
     private const uint AetherialMimicryTankStatusId = 2124;

@@ -5,6 +5,7 @@ using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Abstracts;
+using NoTankYou.Localization;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
 using Condition = KamiLib.GameState.Condition;
@@ -35,7 +36,7 @@ public class ChocoboConfiguration : ModuleConfigBase
 public unsafe class Chocobo : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Chocobo;
-    public override string DefaultWarningText { get; protected set; } = "Chocobo Missing";
+    public override string DefaultWarningText { get; protected set; } = Strings.ChocoboMissing;
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new ChocoboConfiguration();
 
     private const uint GyshalGreensItemId = 4868;

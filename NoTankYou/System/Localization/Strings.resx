@@ -55,7 +55,7 @@
         <value>Only generate warnings while in a duty</value>
     </data>
     <data name="HideInSanctuary" xml:space="preserve">
-        <value>Hide in Sanctuary</value>
+        <value>Hide in Sanctuaries</value>
     </data>
     <data name="HideInSanctuaryHelp" xml:space="preserve">
         <value>Do not show warnings in towns or outposts</value>
@@ -269,5 +269,14 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     </data>
     <data name="FreeCompanyBuff" xml:space="preserve">
         <value>Free Company Buff</value>
+    </data>
+    <data name="AdditionalSpacing" xml:space="preserve">
+        <value>Additional Spacing</value>
+    </data>
+    <data name="MightyGuard" xml:space="preserve">
+        <value>Mighty Guard</value>
+    </data>
+    <data name="ChocoboMissing" xml:space="preserve">
+        <value>Chocobo Missing</value>
     </data>
 </root>
