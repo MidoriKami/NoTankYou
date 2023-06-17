@@ -42,19 +42,17 @@ public class BannerController : IDisposable
             DrawDraggableRepositionWindow();
             return;
         }
-        
-        if (config.SoloMode)
-        {
-            DrawSoloModeWarnings(warnings);
-        }
-        else switch (config.DisplayMode)
+
+        var filteredWarnings = config.SoloMode ? warnings.Where(warning => warning.SourceObjectId == Service.ClientState.LocalPlayer?.ObjectId) : warnings;
+
+        switch (config.DisplayMode)
         {
             case BannerOverlayDisplayMode.TopPriority:
-                DrawTopPriorityWarnings(warnings);
+                DrawTopPriorityWarnings(filteredWarnings);
                 break;
 
             case BannerOverlayDisplayMode.List:
-                DrawListWarnings(warnings);
+                DrawListWarnings(filteredWarnings);
                 break;
         }
     }
@@ -82,15 +80,6 @@ public class BannerController : IDisposable
         WarningBanner.Draw(config.WindowPosition, highestWarning, config);
     }
     
-    private void DrawSoloModeWarnings(IEnumerable<WarningState> warnings)
-    {
-        var highestWarning = warnings
-            .Where(warning => warning.SourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
-            .MaxBy(warning => warning.Priority);
-
-        WarningBanner.Draw(config.WindowPosition, highestWarning, config);
-    }
-
     private void DrawDraggableRepositionWindow()
     {
         var sampleWarningSize = new Vector2(545.0f, 110.0f) * config.Scale;
