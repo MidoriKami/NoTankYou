@@ -1,6 +1,4 @@
-﻿using Dalamud.Logging;
-using Dalamud.Plugin;
-using FFXIVClientStructs.FFXIV.Client.Game.Group;
+﻿using Dalamud.Plugin;
 using KamiLib;
 using KamiLib.Commands;
 using NoTankYou.Localization;
@@ -17,7 +15,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
 
     public NoTankYouPlugin(DalamudPluginInterface pluginInterface)
     {
-        // Create Static Services for use everywhere
         pluginInterface.Create<Service>();
 
         KamiCommon.Initialize(pluginInterface, Name);
@@ -28,13 +25,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin
         CommandController.RegisterMainCommand("/nty", "/notankyou");
         
         KamiCommon.WindowManager.AddConfigurationWindow(new ConfigurationWindow());
-        // KamiCommon.WindowManager.AddWindow(new PartyListOverlayWindow());
-        // KamiCommon.WindowManager.AddWindow(new BannerOverlayWindow());
-
-        unsafe
-        {
-            PluginLog.Debug($"GroupManager: {new nint(GroupManager.Instance()):X8}");
-        }
     }
         
     public void Dispose()
