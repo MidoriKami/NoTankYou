@@ -21,29 +21,25 @@ public class BannerController : IDisposable
     private readonly WarningState sampleWarning = new()
     {
         Message = "Sample Warning",
-        MessageLong = "Sample Warning",
         Priority = 100,
-        ActionId = 33472,
+        IconId = 786,
+        IconLabel = "Sample Action",
         SourceObjectId = 0xE0000000,
         SourcePlayerName = "Sample Player",
     };
     
     public void Dispose() => Unload();
     
-    public void DrawConfig()
-    {
-        DrawableAttribute.DrawAttributes(config, SaveConfig);
-    }
+    public void DrawConfig() => DrawableAttribute.DrawAttributes(config, SaveConfig);
 
     public void Draw(IEnumerable<WarningState> warnings)
     {
         if (!config.Enabled) return;
 
-        if (config.SampleMode || config.CanDrag)
+        if (config.CanDrag || config.SampleMode)
         {
             WarningBanner.Draw(config.WindowPosition, sampleWarning, config);
-
-            if (config.CanDrag) DrawDraggableRepositionWindow();
+            DrawDraggableRepositionWindow();
             return;
         }
         
@@ -100,33 +96,39 @@ public class BannerController : IDisposable
 
     private void DrawDraggableRepositionWindow()
     {
-        var sampleWarningSize = new Vector2(515.0f, 110.0f) * config.Scale;
-        var infoTextOffset = new Vector2(-12.5f, -30.0f) * config.Scale;
-        
-        DrawUtilities.TextOutlined(config.WindowPosition + infoTextOffset, "Open NoTankYou Settings to Configure Warnings", 0.5f * config.Scale, KnownColor.White);
-        
-        ImGui.SetNextWindowPos(config.WindowPosition);
-        ImGui.SetNextWindowSize(sampleWarningSize);
-        if (ImGui.Begin("##NoTankYouDraggableFrame", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoBackground))
-        {
-            ImGui.GetBackgroundDrawList().AddRect(config.WindowPosition, config.WindowPosition + sampleWarningSize, ImGui.GetColorU32(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)), 0.0f, ImDrawFlags.RoundCornersNone, 2.0f);
+        var sampleWarningSize = new Vector2(545.0f, 110.0f) * config.Scale;
+        var infoTextOffset = new Vector2(6.0f, -30.0f) * config.Scale;
 
-            var pos = ImGui.GetMousePos();
-            if (ImGui.IsMouseDown(ImGuiMouseButton.Left) && ImGui.IsWindowFocused())
-            {
-                holdOffset ??= config.WindowPosition - pos;
-                
-                var old = config.WindowPosition;
-                config.WindowPosition = (Vector2) (pos + holdOffset)!;
-                
-                if (old != config.WindowPosition) SaveConfig();
-            }
-            else
-            {
-                holdOffset = null;
-            }
+        if (config.SampleMode)
+        {
+            DrawUtilities.TextOutlined(config.WindowPosition + infoTextOffset, "Open NoTankYou Settings to Configure Warnings", 0.5f * config.Scale, KnownColor.White);
         }
-        ImGui.End();
+
+        if (config.CanDrag)
+        {
+            ImGui.SetNextWindowPos(config.WindowPosition);
+            ImGui.SetNextWindowSize(sampleWarningSize);
+            if (ImGui.Begin("##NoTankYouDraggableFrame", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoBackground))
+            {
+                ImGui.GetBackgroundDrawList().AddRect(config.WindowPosition, config.WindowPosition + sampleWarningSize, ImGui.GetColorU32(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)), 0.0f, ImDrawFlags.RoundCornersNone, 2.0f);
+
+                var pos = ImGui.GetMousePos();
+                if (ImGui.IsMouseDown(ImGuiMouseButton.Left) && ImGui.IsWindowFocused())
+                {
+                    holdOffset ??= config.WindowPosition - pos;
+                
+                    var old = config.WindowPosition;
+                    config.WindowPosition = (Vector2) (pos + holdOffset)!;
+                
+                    if (old != config.WindowPosition) SaveConfig();
+                }
+                else
+                {
+                    holdOffset = null;
+                }
+            }
+            ImGui.End();
+        }
     }
 
     public void Load() => config = LoadConfig();

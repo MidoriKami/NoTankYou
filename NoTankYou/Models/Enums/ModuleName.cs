@@ -4,36 +4,33 @@ namespace NoTankYou.Models.Enums;
 
 public enum ModuleName
 {
-    [EnumLabel("Tank_Label")]
+    [EnumLabel("Tank")]
     Tanks,
     
-    [EnumLabel("BlueMage_Label")]
+    [EnumLabel("BlueMage")]
     BlueMage,
     
-    [EnumLabel("Dancer_Label")]
+    [EnumLabel("Dancer")]
     Dancer,
     
-    [EnumLabel("Food_Label")]
-    Food,
-    
-    [EnumLabel("FreeCompany_Label")]
+    [EnumLabel("FreeCompany")]
     FreeCompany,
     
-    [EnumLabel("Sage_Label")]
+    [EnumLabel("Food")]
+    Food,
+    
+    [EnumLabel("SpiritBond")]
+    SpiritBond,
+    
+    [EnumLabel("Sage")]
     Sage,
     
-    [EnumLabel("Scholar_Label")]
+    [EnumLabel("Scholar")]
     Scholar,
     
-    [EnumLabel("Summoner_Label")]
+    [EnumLabel("Summoner")]
     Summoner,
     
-    [EnumLabel("SpiritBond_Label")]
-    Spiritbond,
-    
-    [EnumLabel("Cutscene_Label")]
-    Cutscene,
-    
-    [EnumLabel("Chocobo_Label")]
+    [EnumLabel("Chocobo")]
     Chocobo,
 }

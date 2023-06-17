@@ -39,9 +39,9 @@ public class WarningBanner
     {
         if (displaySettings.WarningText)
         {
-            DrawUtilities.TextOutlined(startingPosition, warningState.MessageLong, displaySettings.Scale, KnownColor.White);
+            DrawUtilities.TextOutlined(startingPosition, warningState.Message, displaySettings.Scale, KnownColor.White);
 
-            var textSize = DrawUtilities.CalculateTextSize(warningState.MessageLong, displaySettings.Scale);
+            var textSize = DrawUtilities.CalculateTextSize(warningState.Message, displaySettings.Scale);
             startingPosition = startingPosition with {X = startingPosition.X + textSize.X};
 
             if (displaySettings.PlayerNames)
@@ -64,7 +64,7 @@ public class WarningBanner
     {
         if (displaySettings.Icon)
         {
-            DrawUtilities.DrawIconWithName(startingPosition, warningState.ActionId, displaySettings.Scale, displaySettings.ShowActionName);
+            DrawUtilities.DrawIconWithName(startingPosition, warningState.IconId, warningState.IconLabel, displaySettings.Scale, displaySettings.ShowActionName);
         }
     }
 }

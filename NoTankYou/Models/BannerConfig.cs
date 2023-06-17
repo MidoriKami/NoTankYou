@@ -6,28 +6,28 @@ namespace NoTankYou.Models;
 
 public class BannerConfig
 {
-    [BoolConfigOption("Enabled", "DisplayOptions", 0)]
+    [BoolConfigOption("Enable", "DisplayOptions", 0)]
     public bool Enabled = true;
+
+    [BoolConfigOption("SoloMode", "DisplayOptions", 0, "SoloModeHelp")]
+    public bool SoloMode = false;
 
     [BoolConfigOption("SampleMode", "DisplayOptions", 0)]
     public bool SampleMode = true;
     
-    [BoolConfigOption("SoloMode", "DisplayOptions", 0)]
-    public bool SoloMode = false;
-    
-    [BoolConfigOption("EnableWindowDragging", "PositionOptions", 1)]
+    [BoolConfigOption("WindowDragging", "Positioning", 1)]
     public bool CanDrag = true;
     
-    [PositionConfigOption("Position", "PositionOptions", 1)]
+    [PositionConfigOption("Position", "Positioning", 1)]
     public Vector2 WindowPosition = new(700.0f, 400.0f);
 
-    [FloatConfigOption("Scale", "PositionOptions", 1, 0.25f, 3.0f)]
+    [FloatConfigOption("Scale", "Positioning", 1, 0.25f, 3.0f)]
     public float Scale = 1.0f;
 
-    [EnumConfigOption("DisplayMode", "DisplayOptions", 2)]
+    [EnumConfigOption("DisplayMode", "DisplayOptions", 2, "DisplayModeHelp")]
     public BannerOverlayDisplayMode DisplayMode = BannerOverlayDisplayMode.List;
     
-    [IntConfigOption("MaxDisplayedWarningCount", "DisplayOptions", 2, 1, 10)]
+    [IntConfigOption("MaxWarnings", "DisplayOptions", 2, 1, 10)]
     public int WarningCount = 10;
     
     [BoolConfigOption("WarningShield", "DisplayStyle", 3)]
@@ -42,6 +42,6 @@ public class BannerConfig
     [BoolConfigOption("ActionName", "DisplayStyle", 3)]
     public bool ShowActionName = true;
 
-    [BoolConfigOption("Icon", "DisplayStyle", 3)]
+    [BoolConfigOption("ActionIcon", "DisplayStyle", 3)]
     public bool Icon = true;
 }

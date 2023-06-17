@@ -9,8 +9,7 @@ namespace NoTankYou.System.Modules;
 public class Summoner : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Summoner;
-    public override string DefaultShortWarning { get; protected set; } = Strings.Summoner_WarningTextShort;
-    public override string DefaultLongWarning { get; protected set; } = Strings.Summoner_WarningText;
+    public override string DefaultWarningText { get; protected set; } = Strings.SummonerPet;
 
     private const uint SummonCarbuncleActionId = 25798;
     private const byte MinimumLevel = 2;
@@ -19,11 +18,16 @@ public class Summoner : ModuleBase
 
     private readonly Debouncer petDebouncer = new();
     
-    protected override void EvaluatePlayer(IPlayerData playerData)
+    protected override bool ShouldEvaluate(IPlayerData playerData)
     {
-        if (playerData.MissingClassJob(ArcanistJobId, SummonerJobId)) return;
-        if (playerData.GetLevel() < MinimumLevel) return;
-
+        if (playerData.MissingClassJob(ArcanistJobId, SummonerJobId)) return false;
+        if (playerData.GetLevel() < MinimumLevel) return false;
+        
+        return true;
+    }
+    
+    protected override void EvaluateWarnings(IPlayerData playerData)
+    {
         petDebouncer.Update(playerData.GetObjectId(), playerData.HasPet());
         if (petDebouncer.IsLockedOut(playerData.GetObjectId())) return;
         

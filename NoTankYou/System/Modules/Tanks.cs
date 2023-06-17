@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using KamiLib.AutomaticUserInterface;
@@ -16,48 +15,51 @@ namespace NoTankYou.System.Modules;
 
 public class TankConfiguration : ModuleConfigBase
 {
-    [BoolConfigOption("DisableInAllianceRaid", "ModuleOptions", 2)]
-    public bool DisableInAllianceRaid = true;
+    [BoolConfigOption("DisableInAllianceRaid", "ModuleOptions", 1)]
+    public bool DisableInAlliance = true;
 
-    [BoolConfigOption("CheckAllianceStances", "ModuleOptions", 2)]
-    public bool CheckAllianceStances = false;
+    [BoolConfigOption("CheckAllianceTanks", "ModuleOptions", 1)]
+    public bool CheckAllianceTanks = true;
 }
 
 public unsafe class Tanks : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Tanks;
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new TankConfiguration();
-    public override string DefaultShortWarning { get; protected set; } = Strings.Tank_WarningTextShort;
-    public override string DefaultLongWarning { get; protected set; } = Strings.Tank_WarningText;
+    public override string DefaultWarningText { get; protected set; } = Strings.TankStance;
 
-    private readonly List<uint> tankClassJobs = LuminaCache<ClassJob>.Instance
+    private readonly uint[] tankClassJobArray = LuminaCache<ClassJob>.Instance
         .Where(job => job.Role is 1)
         .Select(r => r.RowId)
-        .ToList();
+        .ToArray();
 
-    private readonly List<uint> tankStanceIdList = LuminaCache<Status>.Instance
+    private readonly uint[] tankStanceIdArray = LuminaCache<Status>.Instance
         .Where(status => status is { InflictedByActor: true, CanStatusOff: true, IsPermanent: true, ParamModifier: 500, PartyListPriority: 0})
         .Select(status => status.RowId)
-        .ToList();
+        .ToArray();
 
     private const byte MinimumLevel = 10;
     
-    protected override void EvaluatePlayer(IPlayerData playerData)
+    protected override bool ShouldEvaluate(IPlayerData playerData)
     {
-        if (GetConfig<TankConfiguration>().DisableInAllianceRaid && IsInAllianceRaid()) return;
-        if (playerData.MissingClassJob(tankClassJobs.ToArray())) return;
-        if (playerData.GetLevel() < MinimumLevel) return;
-
+        if (GetConfig<TankConfiguration>().DisableInAlliance && IsInAllianceRaid()) return false;
+        if (!IsTank(playerData)) return false;
+        
+        return true;
+    }
+    
+    protected override void EvaluateWarnings(IPlayerData playerData)
+    {
         if (GroupManager.Instance()->MemberCount is 0)
         {
-            if (playerData.MissingStatus(tankStanceIdList.ToArray()))
+            if (playerData.MissingStatus(tankStanceIdArray))
             {
                 AddActiveWarning(GetActionIdForClass(playerData.GetClassJob()), playerData);
             }
         }
         else
         {
-            if (GetConfig<TankConfiguration>().CheckAllianceStances)
+            if (GetConfig<TankConfiguration>().CheckAllianceTanks && IsInAllianceRaid())
             {
                 if (AllianceHasStance()) return;
             }
@@ -68,46 +70,47 @@ public unsafe class Tanks : ModuleBase
             }
         }
     }
-
-    private bool AllianceHasStance()
-    {
-        foreach (var partyMember in GroupManager.Instance()->AllianceMembersSpan)
-        {
-            if (HasTankStance(new PartyMemberPlayerData(&partyMember))) return true;
-        }
-
-        return false;
-    }
-
+    
     private bool PartyHasStance()
     {
         var filteredPartyMembers = new Span<PartyMember>(GroupManager.Instance()->PartyMembers, GroupManager.Instance()->MemberCount);
 
         foreach (var partyMember in filteredPartyMembers)
         {
-            if (HasTankStance(new PartyMemberPlayerData(&partyMember))) return true;
+            IPlayerData playerData = new PartyMemberPlayerData(partyMember);
+
+            if (!IsTank(playerData)) continue;
+            if (playerData.HasStatus(tankStanceIdArray)) return true;
         }
 
         return false;
     }
 
-    private bool HasTankStance(IPlayerData playerData)
+    private bool AllianceHasStance()
     {
-        if (playerData.MissingClassJob(tankClassJobs.ToArray())) return false;
-        if (playerData.GetLevel() < MinimumLevel) return false;
+        foreach (var partyMember in GroupManager.Instance()->AllianceMembersSpan)
+        {
+            if (partyMember.ObjectID is 0xE0000000) continue;
+            
+            IPlayerData playerData = new PartyMemberPlayerData(partyMember);
 
-        if (playerData.HasStatus(tankStanceIdList.ToArray())) return true;
+            if (!IsTank(playerData)) continue;
+            if (playerData.GameObjectHasStatus(tankStanceIdArray)) return true;
+        }
 
         return false;
     }
 
-    private static bool IsInAllianceRaid()
+    private bool IsTank(IPlayerData playerData)
     {
-        var currentTerritory = Service.ClientState.TerritoryType;
-
-        return DutyLists.Instance.IsType(currentTerritory, DutyType.Alliance);
+        if (playerData.MissingClassJob(tankClassJobArray)) return false;
+        if (playerData.GetLevel() < MinimumLevel) return false;
+        
+        return true;
     }
     
+    private static bool IsInAllianceRaid() => DutyLists.Instance.IsType(Service.ClientState.TerritoryType, DutyType.Alliance);
+
     private static uint GetActionIdForClass(byte classJob) => classJob switch
     {
         1 or 19 => 28u,

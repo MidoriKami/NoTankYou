@@ -4,30 +4,24 @@ namespace NoTankYou.Abstracts;
 
 public class ModuleConfigBase
 {
-    [BoolConfigOption("Labels_Enabled", "Labels_Options", -1)]
+    [BoolConfigOption("Enable", "Options", -1)]
     public bool Enabled = false;
 
-    [BoolConfigOption("BannerOverlay_SoloMode", "Labels_Options", -1)]
+    [BoolConfigOption("SoloMode", "Options", -1, "SoloModeHelp")]
     public bool SoloMode = false;
     
-    [BoolConfigOption("Configuration_DutiesOnly", "Labels_Options", -1)]
+    [BoolConfigOption("DutiesOnly", "Options", -1, "DutiesOnlyHelp")]
     public bool DutiesOnly = false;
         
-    [BoolConfigOption("Configuration_HideInSanctuary", "Labels_Options", -1)]
-    public bool DisableInSanctuary = true;
+    [BoolConfigOption("HideInSanctuary", "Options", -1, "HideInSanctuaryHelp")]
+    public bool DisableInSanctuary = false;
     
-    [IntCounterConfigOption("Labels_Priority", "Labels_Options", -1)]
+    [IntCounterConfigOption("Priority", "Options", -1, "PriorityHelp")]
     public int Priority = 1;
 
-    [BoolConfigOption("Configuration_CustomLongWarningEnable", "Warning_Options", 0)]
-    public bool UseCustomLongWarning = false;
+    [BoolConfigOption("CustomWarning", "DisplayOptions", 0)]
+    public bool CustomWarning = false;
 
-    [StringConfigOption("Configuration_CustomLongWarningText", "Warning_Options", 0, true)]
-    public string CustomLongWarningText = string.Empty;
-    
-    [BoolConfigOption("Configuration_CustomShortWarningEnable", "Warning_Options", 0)]
-    public bool UseCustomShortWarning = false;
-
-    [StringConfigOption("Configuration_CustomShortWarningText", "Warning_Options", 0, true)]
-    public string CustomShortWarningText = string.Empty;
+    [StringConfigOption("CustomWarningText", "DisplayOptions", 0)]
+    public string CustomWarningText = string.Empty;
 }

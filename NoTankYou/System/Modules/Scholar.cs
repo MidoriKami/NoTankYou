@@ -9,8 +9,7 @@ namespace NoTankYou.System.Modules;
 public class Scholar : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Scholar;
-    public override string DefaultShortWarning { get; protected set; } = Strings.Scholar_WarningTextShort;
-    public override string DefaultLongWarning { get; protected set; } = Strings.Scholar_WarningText;
+    public override string DefaultWarningText { get; protected set; } = Strings.ScholarFaerie;
 
     private const int DissipationStatusId = 791;
     private const byte ScholarJobId = 28;
@@ -19,11 +18,16 @@ public class Scholar : ModuleBase
 
     private readonly Debouncer dissipationDebouncer = new();
     
-    protected override void EvaluatePlayer(IPlayerData playerData)
+    protected override bool ShouldEvaluate(IPlayerData playerData)
     {
-        if (playerData.MissingClassJob(ScholarJobId)) return;
-        if(playerData.GetLevel() < MinimumLevel) return;
-
+        if (playerData.MissingClassJob(ScholarJobId)) return false;
+        if(playerData.GetLevel() < MinimumLevel) return false;
+        
+        return true;
+    }
+    
+    protected override void EvaluateWarnings(IPlayerData playerData)
+    {
         var hasDissipation = playerData.HasStatus(DissipationStatusId);
         
         dissipationDebouncer.Update(playerData.GetObjectId(), hasDissipation);

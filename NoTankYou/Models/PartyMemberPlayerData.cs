@@ -1,4 +1,4 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.Character;
+﻿using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using NoTankYou.Models.Interfaces;
 
@@ -6,25 +6,32 @@ namespace NoTankYou.Models;
 
 public unsafe class PartyMemberPlayerData : IPlayerData
 {
-    private readonly PartyMember* partyMember;
+    private readonly PartyMember partyMember;
 
-    public PartyMemberPlayerData(PartyMember* partyMemberPointer)
+    public PartyMemberPlayerData(PartyMember partyMemberPointer) => partyMember = partyMemberPointer;
+    
+    public bool HasStatus(uint statusId) => partyMember.StatusManager.HasStatus(statusId);
+    public uint GetObjectId() => partyMember.ObjectID;
+    public string GetName()
     {
-        partyMember = partyMemberPointer;
+        fixed (byte* bytePointer = partyMember.Name)
+        {
+            return MemoryHelper.ReadStringNullTerminated((nint) bytePointer);
+        }
     }
-
-    public bool HasStatus(uint statusId) => partyMember->StatusManager.HasStatus(statusId);
-    public uint GetObjectId() => partyMember->ObjectID;
-    public byte* GetName() => partyMember->Name;
-    public byte GetLevel() => partyMember->Level;
-    public bool HasClassJob(uint classJobId) => partyMember->ClassJob == classJobId;
-    public byte GetClassJob() => partyMember->ClassJob;
-
-    public bool HasPet()
+    public float GetStatusTimeRemaining(uint statusId)
     {
-        var gameObject = Service.ObjectTable.SearchById(partyMember->ObjectID);
-        if (gameObject is null) return true; // If we can't find the object, then assume they have a pet
-        
-        return CharacterManager.Instance()->LookupPetByOwnerObject((BattleChara*) gameObject.Address) != null;
+        if (HasStatus(statusId))
+        {
+            var statusIndex = partyMember.StatusManager.GetStatusIndex(statusId);
+            return partyMember.StatusManager.GetRemainingTime(statusIndex);
+        }
+
+        return 0.0f;
     }
+    public byte GetLevel() => partyMember.Level;
+    public bool HasClassJob(uint classJobId) => partyMember.ClassJob == classJobId;
+    public bool IsDead() => partyMember.CurrentHP is 0;
+    public byte GetClassJob() => partyMember.ClassJob;
+    public bool HasPet() => (this as IPlayerData).GameObjectHasPet();
 }

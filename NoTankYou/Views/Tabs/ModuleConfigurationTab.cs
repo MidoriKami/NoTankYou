@@ -8,6 +8,7 @@ using ImGuiNET;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using NoTankYou.Abstracts;
+using NoTankYou.Localization;
 using NoTankYou.System;
 using NoTankYou.Views.Components;
 
@@ -15,7 +16,7 @@ namespace NoTankYou.UserInterface.Tabs;
 
 public class ModuleConfigurationTab : ISelectionWindowTab
 {
-    public string TabName => "Modules";
+    public string TabName => Strings.Modules;
     public ISelectable? LastSelection { get; set; }
     public IEnumerable<ISelectable> GetTabSelectables() => NoTankYouSystem.ModuleController.Modules.Select(module => new ModuleSelectable(module));
     

@@ -9,20 +9,24 @@ namespace NoTankYou.System.Modules;
 public unsafe class Dancer : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Dancer;
-    public override string DefaultShortWarning { get; protected set; } = Strings.Dancer_WarningTextShort;
-    public override string DefaultLongWarning { get; protected set; } = Strings.Dancer_WarningText;
+    public override string DefaultWarningText { get; protected set; } = Strings.DancePartner;
 
     private const uint DancerClassJobId = 38;
     private const uint MinimumLevel = 60;
     private const int ClosedPositionStatusId = 1823;
     private const int ClosedPositionActionId = 16006;
-    
-    protected override void EvaluatePlayer(IPlayerData playerData)
-    {
-        if (GroupManager.Instance()->MemberCount < 2) return;
-        if (playerData.MissingClassJob(DancerClassJobId)) return;
-        if (playerData.GetLevel() < MinimumLevel) return;
 
+    protected override bool ShouldEvaluate(IPlayerData playerData)
+    {
+        if (GroupManager.Instance()->MemberCount < 2) return false;
+        if (playerData.MissingClassJob(DancerClassJobId)) return false;
+        if (playerData.GetLevel() < MinimumLevel) return false;
+
+        return true;
+    }
+    
+    protected override void EvaluateWarnings(IPlayerData playerData)
+    {
         if (playerData.MissingStatus(ClosedPositionStatusId))
         {
             AddActiveWarning(ClosedPositionActionId, playerData);

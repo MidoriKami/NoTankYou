@@ -5,6 +5,7 @@ using DailyDuty.Models;
 using Dalamud.Game;
 using Dalamud.Interface.GameFonts;
 using Dalamud.Logging;
+using KamiLib.AutomaticUserInterface;
 using NoTankYou.DataModels;
 using NoTankYou.Models;
 using NoTankYou.Utilities;
@@ -59,7 +60,9 @@ public class NoTankYouSystem : IDisposable
         Service.ClientState.LeavePvP -= OnLeavePvP;
         Service.PluginInterface.UiBuilder.Draw -= OnDraw;
     }
-    
+
+    public void DrawConfig() => DrawableAttribute.DrawAttributes(SystemConfig, SaveSystemConfig);
+
     private void OnFrameworkUpdate(Framework framework)
     {
         if (Service.ClientState.IsPvP) return;
@@ -112,5 +115,5 @@ public class NoTankYouSystem : IDisposable
         SaveSystemConfig();
     }
     
-    public void SaveSystemConfig() => FileController.SaveFile("System.config.json", SystemConfig.GetType(), SystemConfig);
+    private void SaveSystemConfig() => FileController.SaveFile("System.config.json", SystemConfig.GetType(), SystemConfig);
 }

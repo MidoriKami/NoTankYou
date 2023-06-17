@@ -53,13 +53,11 @@ public class DrawUtilities
         drawList.AddText(font, font.FontSize * scale, drawPosition, ImGui.GetColorU32(color.AsVector4()), text);
     }
     
-    public static void DrawIconWithName(Vector2 drawPosition, uint actionId, float scale, bool showActionName)
+    public static void DrawIconWithName(Vector2 drawPosition, uint iconId, string iconLabel, float scale, bool showActionName)
     {
         if (!NoTankYouSystem.Axis56.Available) return;
-        var action = LuminaCache<Action>.Instance.GetRow(actionId)!;
-        var actionName = action.Name.ToDalamudString().ToString();
         
-        if (IconCache.Instance.GetIcon(action.Icon) is { } icon)
+        if (IconCache.Instance.GetIcon(iconId) is { } icon)
         {
             var drawList = ImGui.GetBackgroundDrawList();
 
@@ -75,12 +73,12 @@ public class DrawUtilities
                 drawPosition.X += imageSize.X / 2.0f;
                 drawPosition.Y += imageSize.Y + 2.0f * scale;
 
-                var textSize = CalculateTextSize(actionName, scale / 2.75f);
+                var textSize = CalculateTextSize(iconLabel, scale / 2.75f);
                 var textOffset = new Vector2(0.0f, 17.5f) * scale;
 
                 drawPosition.X -= textSize.X / 2.0f;
 
-                TextOutlined(drawPosition + textOffset, actionName, scale / 2.75f, KnownColor.White);
+                TextOutlined(drawPosition + textOffset, iconLabel, scale / 2.75f, KnownColor.White);
             }
         }
     }

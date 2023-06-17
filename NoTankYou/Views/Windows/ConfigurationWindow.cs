@@ -50,8 +50,7 @@ public class ConfigurationWindow : TabbedSelectionWindow
     }
 
     [BaseCommandHandler("OpenConfigWindow")]
-    // ReSharper disable once UnusedMember.Local
-    private void OpenConfigWindow()
+    public void OpenConfigWindow()
     {
         if (!Service.ClientState.IsLoggedIn) return;
         if (Service.ClientState.IsPvP) return;

@@ -1,12 +1,11 @@
-﻿using KamiLib.AutomaticUserInterface;
-using KamiLib.Interfaces;
-using NoTankYou.System;
+﻿using KamiLib.Interfaces;
+using NoTankYou.Localization;
 
 namespace NoTankYou.UserInterface.Tabs;
 
 public class GeneralConfigurationTab : ITabItem
 {
-    public string TabName => "General";
+    public string TabName => Strings.General;
     public bool Enabled => true;
-    public void Draw() => DrawableAttribute.DrawAttributes(NoTankYouSystem.SystemConfig);
+    public void Draw() => NoTankYouPlugin.System.DrawConfig();
 }
