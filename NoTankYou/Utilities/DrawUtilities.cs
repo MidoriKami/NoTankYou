@@ -2,12 +2,10 @@
 using System.Drawing;
 using System.Numerics;
 using Dalamud.Interface;
-using Dalamud.Utility;
 using ImGuiNET;
 using KamiLib.Caching;
 using KamiLib.Utilities;
 using NoTankYou.System;
-using Action = Lumina.Excel.GeneratedSheets.Action;
 
 namespace NoTankYou.Utilities;
 

@@ -73,9 +73,7 @@ public unsafe class Tanks : ModuleBase
     
     private bool PartyHasStance()
     {
-        var filteredPartyMembers = new Span<PartyMember>(GroupManager.Instance()->PartyMembers, GroupManager.Instance()->MemberCount);
-
-        foreach (var partyMember in filteredPartyMembers)
+        foreach (var partyMember in PartyMemberSpan)
         {
             IPlayerData playerData = new PartyMemberPlayerData(partyMember);
 

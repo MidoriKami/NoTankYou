@@ -13,14 +13,9 @@ namespace NoTankYou.System.Modules;
 
 public class FreeCompanyConfiguration : ModuleConfigBase
 {
-    [Disabled]
-    public new bool SoloMode = true;
-
-    [Disabled]
-    public new bool DutiesOnly = false;
-
-    [Disabled]
-    public new bool DisableInSanctuary = false;
+    [Disabled] public new bool SoloMode = true;
+    [Disabled] public new bool DutiesOnly = false;
+    [Disabled] public new bool DisableInSanctuary = false;
 
     [EnumConfigOption("ModeSelect", "ModuleOptions", 1, "FreeCompanyModeHelp")]
     public FreeCompanyMode Mode = FreeCompanyMode.Any;

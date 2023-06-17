@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
-using NoTankYou.Abstracts;
 using NoTankYou.Localization;
 using NoTankYou.System;
 using NoTankYou.Views.Components;

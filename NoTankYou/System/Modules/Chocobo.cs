@@ -14,14 +14,9 @@ namespace NoTankYou.System.Modules;
 
 public class ChocoboConfiguration : ModuleConfigBase
 {
-    [Disabled]
-    public new bool SoloMode = false;
-
-    [Disabled]
-    public new bool DutiesOnly = false;
-
-    [Disabled]
-    public new bool DisableInSanctuary = false;
+    [Disabled] public new bool SoloMode = false;
+    [Disabled] public new bool DutiesOnly = false;
+    [Disabled] public new bool DisableInSanctuary = false;
 
     [BoolConfigOption("SuppressInCombat", "ModuleOptions", 1)]
     public bool DisableInCombat = true;

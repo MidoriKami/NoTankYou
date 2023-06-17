@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using DailyDuty.Models;
 using Dalamud.Game;
@@ -7,7 +6,6 @@ using Dalamud.Interface.GameFonts;
 using Dalamud.Logging;
 using KamiLib.AutomaticUserInterface;
 using NoTankYou.DataModels;
-using NoTankYou.Models;
 using NoTankYou.Utilities;
 
 namespace NoTankYou.System;

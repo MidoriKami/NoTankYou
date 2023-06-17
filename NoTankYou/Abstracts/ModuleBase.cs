@@ -71,8 +71,7 @@ public abstract unsafe class ModuleBase : IDisposable
         }
         else
         {
-            var adjustedPartyMemberSpan = new Span<PartyMember>(groupManager->PartyMembers, groupManager->MemberCount);
-            foreach (var partyMember in adjustedPartyMemberSpan)
+            foreach (var partyMember in PartyMemberSpan)
             {
                 ProcessPlayer(new PartyMemberPlayerData(partyMember));
             }
@@ -103,6 +102,8 @@ public abstract unsafe class ModuleBase : IDisposable
     {
         PluginLog.Debug($"[{ModuleName}] Unloading Module");
     }
+
+    protected Span<PartyMember> PartyMemberSpan => new(GroupManager.Instance()->PartyMembers, GroupManager.Instance()->MemberCount);
 
     protected T GetConfig<T>() where T : ModuleConfigBase
     {

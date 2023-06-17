@@ -1,5 +1,4 @@
-﻿using System;
-using FFXIVClientStructs.FFXIV.Client.Game.Group;
+﻿using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;
 using NoTankYou.Models;
@@ -46,9 +45,7 @@ public unsafe class BlueMage : ModuleBase
 
     private bool PartyHasStance()
     {
-        var filteredPartyMembers = new Span<PartyMember>(GroupManager.Instance()->PartyMembers, GroupManager.Instance()->MemberCount);
-
-        foreach (var partyMember in filteredPartyMembers)
+        foreach (var partyMember in PartyMemberSpan)
         {
             IPlayerData playerData = new PartyMemberPlayerData(partyMember);
 
