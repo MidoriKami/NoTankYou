@@ -1,4 +1,5 @@
 ﻿using Dalamud.Utility;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
@@ -17,6 +18,9 @@ public class ChocoboConfiguration : ModuleConfigBase
 
     [Disabled]
     public new bool DutiesOnly = false;
+
+    [Disabled]
+    public new bool DisableInSanctuary = false;
 
     [BoolConfigOption("SuppressInCombat", "ModuleOptions", 1)]
     public bool DisableInCombat = true;
@@ -40,6 +44,7 @@ public unsafe class Chocobo : ModuleBase
 
     protected override bool ShouldEvaluate(IPlayerData playerData)
     {
+        if (GameMain.IsInSanctuary()) return false;
         if (Condition.IsBoundByDuty()) return false;
         if (GetConfig<ChocoboConfiguration>().DisableInCombat && Condition.IsInCombat()) return false;
         if (playerData.GetObjectId() != Service.ClientState.LocalPlayer?.ObjectId) return false;
