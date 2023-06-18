@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.AutomaticUserInterface;
 using NoTankYou.DataModels;
@@ -93,6 +94,7 @@ public class BannerController : IDisposable
         {
             ImGui.SetNextWindowPos(config.WindowPosition);
             ImGui.SetNextWindowSize(sampleWarningSize);
+            ImGuiHelpers.ForceNextWindowMainViewport();
             if (ImGui.Begin("##NoTankYouDraggableFrame", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoBackground))
             {
                 ImGui.GetBackgroundDrawList().AddRect(config.WindowPosition, config.WindowPosition + sampleWarningSize, ImGui.GetColorU32(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)), 0.0f, ImDrawFlags.RoundCornersNone, 2.0f);
