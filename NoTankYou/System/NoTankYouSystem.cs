@@ -14,6 +14,7 @@ public class NoTankYouSystem : IDisposable
 {
     public static ModuleController ModuleController = null!;
     public static BannerController BannerController = null!;
+    public static PartyListController PartyListController = null!;
     public static GameFontHandle Axis56 = null!;
     public static SystemConfig SystemConfig = null!;
     private List<WarningState> activeWarnings = new();
@@ -28,6 +29,7 @@ public class NoTankYouSystem : IDisposable
         
         ModuleController = new ModuleController();
         BannerController = new BannerController();
+        PartyListController = new PartyListController();
         
         if (Service.ClientState.IsLoggedIn)
         {
@@ -37,8 +39,6 @@ public class NoTankYouSystem : IDisposable
         Service.Framework.Update += OnFrameworkUpdate;
         Service.ClientState.Login += OnLogin;
         Service.ClientState.Logout += OnLogout;
-        Service.ClientState.EnterPvP += OnEnterPvP;
-        Service.ClientState.LeavePvP += OnLeavePvP;
         Service.PluginInterface.UiBuilder.Draw += OnDraw;
     }
     
@@ -50,12 +50,12 @@ public class NoTankYouSystem : IDisposable
         ImageCache.Cleanup();
         
         ModuleController.Dispose();
+        BannerController.Dispose();
+        PartyListController.Dispose();
         
         Service.Framework.Update -= OnFrameworkUpdate;
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
-        Service.ClientState.EnterPvP -= OnEnterPvP;
-        Service.ClientState.LeavePvP -= OnLeavePvP;
         Service.PluginInterface.UiBuilder.Draw -= OnDraw;
     }
 
@@ -68,6 +68,8 @@ public class NoTankYouSystem : IDisposable
 
         // Process and Collect Warnings
         activeWarnings = ModuleController.EvaluateWarnings();
+
+        PartyListController.Update();
     }
     
     private void OnLogin(object? sender, EventArgs e)
@@ -76,12 +78,14 @@ public class NoTankYouSystem : IDisposable
         
         ModuleController.LoadModules();
         BannerController.Load();
+        PartyListController.Load();
     }
     
     private void OnLogout(object? sender, EventArgs e)
     {
         ModuleController.UnloadModules();
         BannerController.Unload();
+        PartyListController.Unload();
     }
     
     private void OnDraw()
@@ -90,16 +94,7 @@ public class NoTankYouSystem : IDisposable
         if (!Service.ClientState.IsLoggedIn) return;
         
         BannerController.Draw(activeWarnings);
-    }
-    
-    private void OnLeavePvP()
-    {
-        
-    }
-
-    private void OnEnterPvP()
-    {
-        
+        PartyListController.Draw(activeWarnings);
     }
     
     private void LoadSystemConfig()

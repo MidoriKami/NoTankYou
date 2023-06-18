@@ -12,108 +12,135 @@ using ImGuiScene;
 using KamiLib.Utilities;
 using NoTankYou.DataModels;
 using NoTankYou.Models;
-using NoTankYou.System;
 using NoTankYou.Utilities;
 using PartyListMemberStruct = FFXIVClientStructs.FFXIV.Client.UI.AddonPartyList.PartyListMemberStruct;
 
 namespace NoTankYou.Views.Components;
-// Change this to be per party member, and pass in MaxBy which can be null to draw, if null, and state was dirty then reset else leave alone
+
 public unsafe class PartyMemberOverlay
 {
     private static TextureWrap? WarningIcon => ImageCache.Instance.GetImage("Warning.png");
     private static ImDrawListPtr DrawList => ImGui.GetBackgroundDrawList();
     private static AddonPartyList* Addon => (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
     private static AgentHUD* Agent => AgentModule.Instance()->GetAgentHUD();
-    private static readonly Stopwatch AnimationStopwatch = Stopwatch.StartNew();
-    private static PartyListConfig Config => NoTankYouSystem.PartyListController.Config;
-    private static bool AnimationState => !Config.Animation || AnimationStopwatch.ElapsedMilliseconds < Config.AnimationPeriod / 2.0f;
 
-    public static void Update()
+    private HudPartyMember HudData => Agent->PartyMemberListSpan[memberIndex];
+    private PartyListMemberStruct AddonData => Addon->PartyMember[memberIndex];
+    
+    private readonly Stopwatch animationStopwatch = Stopwatch.StartNew();
+    private readonly PartyListConfig config;
+    private readonly int memberIndex;
+    private bool dirty;
+
+    public uint ObjectId => HudData.ObjectId;
+    private bool AnimationState => !config.Animation || animationStopwatch.ElapsedMilliseconds < config.AnimationPeriod / 2.0f;
+    
+    public PartyMemberOverlay( PartyListConfig configuration, int memberId)
     {
-        if(AnimationStopwatch.ElapsedMilliseconds > Config.AnimationPeriod) AnimationStopwatch.Restart();
+        config = configuration;
+        memberIndex = memberId;
+    }
+
+    public void Update()
+    {
+        if(animationStopwatch.ElapsedMilliseconds > config.AnimationPeriod) animationStopwatch.Restart();
     }
     
-    public static void Draw(WarningState? warningState)
+    public void DrawWarning(WarningState? warning)
     {
-        if (!IsAddonReady(&Addon->AtkUnitBase)) return;
-        if (!Agent->AgentInterface.IsAgentActive()) return;
-        if (warningState is null) return;
+        if (warning is null)
+        {
+            Reset();
+            return;
+        }
 
-        if (GetPartyListMemberForObjectId(warningState.SourceObjectId) is not { } partyMember) return;
-        
-         if (Config.JobIcon) DrawWarningShield(partyMember);
-         if (Config.PlayerName) DrawPlayerName(partyMember);
-         if (Config.WarningText) DrawWarningText(partyMember, warningState);
+        if (config.JobIcon) AnimateWarningShield();
+        if (config.PlayerName) AnimatePlayerName();
+        if (config.WarningText) AnimateWarningText(warning);
     }
 
-    public static void Reset(PartyListMemberStruct member, PartyListMemberStruct chocobo)
+    private void AnimateWarningShield()
     {
-        member.Name->AtkResNode.ToggleVisibility(chocobo.Name->AtkResNode.IsVisible);
-        member.Name->EdgeColor = chocobo.Name->EdgeColor;
-        member.ClassJobIcon->AtkResNode.ToggleVisibility(chocobo.ClassJobIcon->AtkResNode.IsVisible);
+        if (AnimationState)
+        {
+            HideJobIcon();
+            DrawWarningShield();
+        }
+        else
+        {
+            ShowJobIcon();
+        }
     }
 
-    private static void DrawWarningShield(PartyListMemberStruct member)
+    private void AnimatePlayerName()
+    {
+        if (AnimationState)
+        {
+            ColorPlayerName();
+        }
+        else
+        {
+            ResetColorPlayerName();
+        }
+    }
+
+    private void AnimateWarningText(WarningState warning)
+    {
+        DrawWarningText(warning, AnimationState ? config.TextColor : KnownColor.White.AsVector4());
+    }
+
+    private void DrawWarningShield()
     {
         if (WarningIcon is null) return;
         
-        var jobIconPosition = GetScreenPosition((AtkResNode*) member.ClassJobIcon);
+        var jobIconPosition = GetScreenPosition((AtkResNode*) AddonData.ClassJobIcon);
         var warningShieldSize = new Vector2(WarningIcon.Width, WarningIcon.Height) * Addon->AtkUnitBase.Scale;
-
-        if (AnimationState)
-        {
-            member.ClassJobIcon->AtkResNode.ToggleVisibility(false);
-            DrawList.AddImage(WarningIcon.ImGuiHandle, jobIconPosition, jobIconPosition + warningShieldSize);
-        }
-        else
-        {
-            member.ClassJobIcon->AtkResNode.ToggleVisibility(true);
-        }
-    }
-
-    private static void DrawPlayerName(PartyListMemberStruct member)
-    {
-        if (AnimationState)
-        {
-            member.Name->EdgeColor = Config.OutlineColor.ToByteColor();
-        }
-        else
-        {
-            member.Name->EdgeColor = Addon->Chocobo.Name->EdgeColor;
-        }
-    }
-
-    private static void DrawWarningText(PartyListMemberStruct member, WarningState warning)
-    {
-        var position = GetScreenPosition((AtkResNode*) member.Name);
-        position += new Vector2(member.Name->AtkResNode.Width * Addon->AtkUnitBase.Scale, 7.5f);
-        position -= ImGui.CalcTextSize(warning.Message);
-
-        DrawList.AddText(position, AnimationState ? ImGui.GetColorU32(Config.TextColor) : ImGui.GetColorU32(KnownColor.White.AsVector4()), warning.Message);
+        
+        DrawList.AddImage(WarningIcon.ImGuiHandle, jobIconPosition, jobIconPosition + warningShieldSize);
     }
     
-    private static bool IsAddonReady(AtkUnitBase* addon)
+    private void DrawWarningText(WarningState warning, Vector4 color)
     {
-        if (addon is null) return false;
-        if (addon->RootNode is null) return false;
-        if (addon->RootNode->ChildNode is null) return false;
+        var position = GetScreenPosition((AtkResNode*) AddonData.Name);
+        position += new Vector2(AddonData.Name->AtkResNode.Width * Addon->AtkUnitBase.Scale, 7.5f);
+        position -= ImGui.CalcTextSize(warning.Message);
 
-        return true;
+        DrawList.AddText(position, ImGui.GetColorU32(color), warning.Message);
+    }
+    
+    private void HideJobIcon()
+    {
+        AddonData.ClassJobIcon->AtkResNode.ToggleVisibility(false);
+        dirty = true;
     }
 
-    private static PartyListMemberStruct? GetPartyListMemberForObjectId(ulong objectId)
+    private void ShowJobIcon()
     {
-        for (var i = 0; i < Agent->PartyMemberCount; ++i)
+        AddonData.ClassJobIcon->AtkResNode.ToggleVisibility(true);
+        dirty = true;
+    }
+
+    private void ColorPlayerName()
+    {
+        AddonData.Name->EdgeColor = config.OutlineColor.ToByteColor();
+        dirty = true;
+    }
+
+    private void ResetColorPlayerName()
+    {
+        AddonData.Name->EdgeColor = Addon->Chocobo.Name->EdgeColor;
+    }
+
+    public void Reset(bool force = false)
+    {
+        if (dirty || force)
         {
-            if (Agent->PartyMemberListSpan[i].ObjectId == objectId)
-            {
-                return Addon->PartyMember[i];
-            }
+            AddonData.Name->EdgeColor = Addon->Chocobo.Name->EdgeColor;
+            AddonData.ClassJobIcon->AtkResNode.ToggleVisibility(Addon->Chocobo.ClassJobIcon->AtkResNode.IsVisible);
+            dirty = false;
         }
-
-        return null;
     }
-
+    
     private static Vector2 GetScreenPosition(AtkResNode* element)
     {
         AtkResNode* previousNode = null;

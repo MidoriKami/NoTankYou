@@ -87,6 +87,24 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flashing Effects.
+        /// </summary>
+        internal static string Animation {
+            get {
+                return ResourceManager.GetString("Animation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flashing Period (milliseconds).
+        /// </summary>
+        internal static string AnimationPeriod {
+            get {
+                return ResourceManager.GetString("AnimationPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Any.
         /// </summary>
         internal static string Any {
@@ -204,6 +222,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string Default {
+            get {
+                return ResourceManager.GetString("Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disabled.
         /// </summary>
         internal static string Disabled {
@@ -236,6 +263,15 @@ namespace NoTankYou.Localization {
         internal static string Disabling {
             get {
                 return ResourceManager.GetString("Disabling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Colors.
+        /// </summary>
+        internal static string DisplayColors {
+            get {
+                return ResourceManager.GetString("DisplayColors", resourceCulture);
             }
         }
         
@@ -468,6 +504,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job Icon.
+        /// </summary>
+        internal static string JobIcon {
+            get {
+                return ResourceManager.GetString("JobIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List.
         /// </summary>
         internal static string List {
@@ -536,6 +581,15 @@ namespace NoTankYou.Localization {
         internal static string Options {
             get {
                 return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outline Color.
+        /// </summary>
+        internal static string OutlineColor {
+            get {
+                return ResourceManager.GetString("OutlineColor", resourceCulture);
             }
         }
         
@@ -743,6 +797,15 @@ namespace NoTankYou.Localization {
         internal static string TankStance {
             get {
                 return ResourceManager.GetString("TankStance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text Color.
+        /// </summary>
+        internal static string TextColor {
+            get {
+                return ResourceManager.GetString("TextColor", resourceCulture);
             }
         }
         

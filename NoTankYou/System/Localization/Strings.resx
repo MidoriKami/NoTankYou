@@ -279,4 +279,25 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     <data name="ChocoboMissing" xml:space="preserve">
         <value>Chocobo Missing</value>
     </data>
+    <data name="Default" xml:space="preserve">
+        <value>Default</value>
+    </data>
+    <data name="DisplayColors" xml:space="preserve">
+        <value>Display Colors</value>
+    </data>
+    <data name="TextColor" xml:space="preserve">
+        <value>Text Color</value>
+    </data>
+    <data name="OutlineColor" xml:space="preserve">
+        <value>Outline Color</value>
+    </data>
+    <data name="JobIcon" xml:space="preserve">
+        <value>Job Icon</value>
+    </data>
+    <data name="Animation" xml:space="preserve">
+        <value>Flashing Effects</value>
+    </data>
+    <data name="AnimationPeriod" xml:space="preserve">
+        <value>Flashing Period (milliseconds)</value>
+    </data>
 </root>
