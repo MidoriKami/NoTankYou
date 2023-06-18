@@ -22,6 +22,6 @@ public class ModuleConfigBase
     [BoolConfigOption("CustomWarning", "DisplayOptions", 0)]
     public bool CustomWarning = false;
 
-    [StringConfigOption("CustomWarningText", "DisplayOptions", 0)]
+    [StringConfigOption("CustomWarningText", "DisplayOptions", 0, true)]
     public string CustomWarningText = string.Empty;
 }
