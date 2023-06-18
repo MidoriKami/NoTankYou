@@ -132,6 +132,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blacklisted Zones.
+        /// </summary>
+        internal static string BlacklistedZones {
+            get {
+                return ResourceManager.GetString("BlacklistedZones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blue Mage.
         /// </summary>
         internal static string BlueMage {
@@ -707,6 +716,15 @@ namespace NoTankYou.Localization {
         internal static string ScholarFaerie {
             get {
                 return ResourceManager.GetString("ScholarFaerie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search....
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
             }
         }
         

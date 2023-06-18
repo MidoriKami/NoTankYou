@@ -10,6 +10,7 @@ using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
+using NoTankYou.Localization;
 using Action = System.Action;
 
 namespace NoTankYou.Models.Attributes;
@@ -36,7 +37,7 @@ public class Blacklist : DrawableAttribute
         var hashSet = GetValue<HashSet<uint>>(obj, field);
         var removalSet = new HashSet<uint>();
 
-        if (ImGui.InputTextWithHint($"##SearchBox", "Search...", ref _searchString, 64))
+        if (ImGui.InputTextWithHint($"##SearchBox", Strings.Search, ref _searchString, 64))
         {
             _searchResults = Search(_searchString, 10);
         }
@@ -68,7 +69,7 @@ public class Blacklist : DrawableAttribute
         
         ImGuiHelpers.ScaledDummy(10.0f);
         ImGui.Unindent(15.0f);
-        ImGui.TextUnformatted("Blacklisted Zones");
+        ImGui.TextUnformatted(Strings.BlacklistedZones);
         ImGui.Separator();
         ImGui.Indent(15.0f);
 
