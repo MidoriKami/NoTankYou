@@ -61,7 +61,7 @@ public class FreeCompany : ModuleBase
         {
             case FreeCompanyMode.Any when playerData.MissingStatus(statusList):
             case FreeCompanyMode.Specific when config.BuffCount is 1 && playerData.MissingStatus(config.PrimaryBuff):
-            case FreeCompanyMode.Specific when config.BuffCount is 2 && playerData.MissingStatus(config.PrimaryBuff, config.SecondaryBuff):
+            case FreeCompanyMode.Specific when config.BuffCount is 2 && (playerData.MissingStatus(config.PrimaryBuff) || playerData.MissingStatus(config.SecondaryBuff)):
                 AddActiveWarning((uint)freeCompanyIconId, string.Empty, playerData);
                 break;
         }

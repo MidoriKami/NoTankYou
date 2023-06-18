@@ -300,4 +300,7 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     <data name="AnimationPeriod" xml:space="preserve">
         <value>Flashing Period (milliseconds)</value>
     </data>
+    <data name="Blacklist" xml:space="preserve">
+        <value>Blacklist</value>
+    </data>
 </root>

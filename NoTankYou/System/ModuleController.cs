@@ -24,7 +24,7 @@ public class ModuleController : IDisposable
         }
     }
     
-    public void LoadModules()
+    public void Load()
     {
         foreach (var module in Modules)
         {
@@ -32,7 +32,7 @@ public class ModuleController : IDisposable
         }
     }
     
-    public void UnloadModules()
+    public void Unload()
     {
         foreach (var module in Modules)
         {

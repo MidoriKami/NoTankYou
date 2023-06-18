@@ -7,6 +7,7 @@ using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using KamiLib.ChatCommands;
@@ -32,6 +33,8 @@ public abstract unsafe class ModuleBase : IDisposable
     protected abstract bool ShouldEvaluate(IPlayerData playerData);
     protected abstract void EvaluateWarnings(IPlayerData playerData);
 
+    private AtkUnitBase* NameplateAddon => (AtkUnitBase*)Service.GameGui.GetAddonByName("NamePlate");
+    
     private readonly DeathTracker deathTracker = new();
     
     public virtual void Dispose() { }
@@ -51,10 +54,12 @@ public abstract unsafe class ModuleBase : IDisposable
     public void EvaluateWarnings()
     {
         ActiveWarningStates.Clear();
-        
+
+        if (!NameplateAddon->IsVisible) return;
         if (!ModuleConfig.Enabled) return;
-        if (ModuleConfig.DutiesOnly && !Condition.IsBoundByDuty()) return;
+        if (NoTankYouSystem.BlacklistController.IsZoneBlacklisted(Service.ClientState.TerritoryType)) return;
         if (NoTankYouSystem.SystemConfig.WaitUntilDutyStart && Condition.IsBoundByDuty() && !Service.DutyState.IsDutyStarted) return;
+        if (ModuleConfig.DutiesOnly && !Condition.IsBoundByDuty()) return;
         if (ModuleConfig.DisableInSanctuary && GameMain.IsInSanctuary()) return;
         if (Condition.IsCrossWorld()) return;
 
@@ -88,9 +93,7 @@ public abstract unsafe class ModuleBase : IDisposable
         EvaluateWarnings(player);
     }
 
-    private bool ConditionNotAllowed() => Service.Condition[ConditionFlag.Jumping61] || 
-                                          Service.Condition[ConditionFlag.BetweenAreas] || 
-                                          Service.Condition[ConditionFlag.BetweenAreas51];
+    private bool ConditionNotAllowed() => Service.Condition[ConditionFlag.Jumping61];
 
     public void DrawConfig() => DrawableAttribute.DrawAttributes(ModuleConfig, SaveConfig);
     

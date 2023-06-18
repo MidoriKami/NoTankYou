@@ -16,7 +16,7 @@ public class PartyListController : IDisposable
 
     private static WarningState SampleWarning => new()
     {
-        Message = "Sample Warning",
+        Message = "NoTankYou Sample Warning",
         Priority = 100,
         IconId = 786,
         IconLabel = "Sample Action",
@@ -42,13 +42,24 @@ public class PartyListController : IDisposable
             return;
         }
 
-        foreach (var partyMember in partyMembers)
+        if (config.SoloMode)
         {
             var warning = warnings
-                .Where(warning => warning.SourceObjectId == partyMember.ObjectId)
+                .Where(warning => warning.SourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
                 .MaxBy(warning => warning.Priority);
             
-            partyMember.DrawWarning(warning);
+            partyMembers[0].DrawWarning(warning);
+        }
+        else
+        {
+            foreach (var partyMember in partyMembers)
+            {
+                var warning = warnings
+                    .Where(warning => warning.SourceObjectId == partyMember.ObjectId)
+                    .MaxBy(warning => warning.Priority);
+            
+                partyMember.DrawWarning(warning);
+            }
         }
     }
 

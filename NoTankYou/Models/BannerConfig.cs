@@ -13,7 +13,7 @@ public class BannerConfig
     public bool SoloMode = false;
 
     [BoolConfigOption("SampleMode", "DisplayOptions", 0)]
-    public bool SampleMode = true;
+    public bool SampleMode = false;
     
     [BoolConfigOption("WindowDragging", "Positioning", 1)]
     public bool CanDrag = true;

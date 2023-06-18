@@ -14,7 +14,7 @@ public class PartyListConfig
     public bool SoloMode = false;
 
     [BoolConfigOption("SampleMode", "DisplayOptions", 0)]
-    public bool SampleMode = true;
+    public bool SampleMode = false;
 
     [BoolConfigOption("WarningText", "DisplayStyle", 1)]
     public bool WarningText = true;

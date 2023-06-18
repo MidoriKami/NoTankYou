@@ -17,8 +17,9 @@ public class NoTankYouSystem : IDisposable
     public static PartyListController PartyListController = null!;
     public static GameFontHandle Axis56 = null!;
     public static SystemConfig SystemConfig = null!;
+    public static BlacklistController BlacklistController = null!;
     private List<WarningState> activeWarnings = new();
-
+    
     public NoTankYouSystem()
     {
         Axis56 = Service.PluginInterface.UiBuilder.GetGameFontHandle(new GameFontStyle(GameFontFamily.Axis, 56.0f));
@@ -26,7 +27,8 @@ public class NoTankYouSystem : IDisposable
         SystemConfig = new SystemConfig();
         
         LocalizationController.Instance.Initialize();
-        
+
+        BlacklistController = new BlacklistController();
         ModuleController = new ModuleController();
         BannerController = new BannerController();
         PartyListController = new PartyListController();
@@ -76,14 +78,16 @@ public class NoTankYouSystem : IDisposable
     {
         LoadSystemConfig();
         
-        ModuleController.LoadModules();
+        BlacklistController.Load();
+        ModuleController.Load();
         BannerController.Load();
         PartyListController.Load();
     }
     
     private void OnLogout(object? sender, EventArgs e)
     {
-        ModuleController.UnloadModules();
+        BlacklistController.Unload();
+        ModuleController.Unload();
         BannerController.Unload();
         PartyListController.Unload();
     }

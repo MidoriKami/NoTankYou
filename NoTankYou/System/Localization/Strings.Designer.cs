@@ -123,6 +123,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blacklist.
+        /// </summary>
+        internal static string Blacklist {
+            get {
+                return ResourceManager.GetString("Blacklist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blue Mage.
         /// </summary>
         internal static string BlueMage {
