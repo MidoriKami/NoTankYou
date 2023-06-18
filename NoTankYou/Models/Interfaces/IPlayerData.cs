@@ -40,8 +40,9 @@ public unsafe interface IPlayerData
     {
         var gameObject = GetCharacterGameObject();
         if (gameObject is null) return true;
-        
-        return CharacterManager.Instance()->LookupPetByOwnerObject((BattleChara*) gameObject) != null;
+
+        var petChara = CharacterManager.Instance()->LookupPetByOwnerObject((BattleChara*) gameObject);
+        return petChara is not null && petChara->Character.CompanionOwnerID == GetObjectId();
     }
 
     // Internal Helpers

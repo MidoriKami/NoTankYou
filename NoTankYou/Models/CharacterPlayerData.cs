@@ -11,7 +11,11 @@ public unsafe class CharacterPlayerData : IPlayerData
     public CharacterPlayerData(Character* characterPointer) => character = characterPointer;
     
     public bool HasStatus(uint statusId) => character->GetStatusManager()->HasStatus(statusId);
-    public bool HasPet() => CharacterManager.Instance()->LookupPetByOwnerObject((BattleChara*) &character->GameObject) != null;
+    public bool HasPet()
+    {
+        var petChara = CharacterManager.Instance()->LookupPetByOwnerObject((BattleChara*) &character->GameObject);
+        return petChara is not null && petChara->Character.CompanionOwnerID == GetObjectId();
+    }
     public uint GetObjectId() => character->GameObject.ObjectID;
     public string GetName() => MemoryHelper.ReadStringNullTerminated((nint) character->GameObject.Name);
     public float GetStatusTimeRemaining(uint statusId)
