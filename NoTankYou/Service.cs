@@ -3,6 +3,7 @@ using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.DutyState;
+using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 
@@ -16,4 +17,5 @@ public class Service
     [PluginService] public static ObjectTable ObjectTable { get; private set;} = null!;
     [PluginService] public static DutyState DutyState { get; private set; } = null!;
     [PluginService] public static Condition Condition { get; private set; } = null!;
+    [PluginService] public static GameGui GameGui { get; private set; } = null!;
 }
