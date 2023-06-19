@@ -309,4 +309,7 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     <data name="BlacklistedZones" xml:space="preserve">
         <value>Blacklisted Zones</value>
     </data>
+    <data name="NothingBlacklisted" xml:space="preserve">
+        <value>Nothing Blacklisted</value>
+    </data>
 </root>

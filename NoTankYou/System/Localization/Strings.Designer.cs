@@ -585,6 +585,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nothing Blacklisted.
+        /// </summary>
+        internal static string NothingBlacklisted {
+            get {
+                return ResourceManager.GetString("NothingBlacklisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Configuration Window.
         /// </summary>
         internal static string OpenConfigWindow {
