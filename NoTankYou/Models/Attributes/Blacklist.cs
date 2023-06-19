@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
@@ -37,60 +38,91 @@ public class Blacklist : DrawableAttribute
         var hashSet = GetValue<HashSet<uint>>(obj, field);
         var removalSet = new HashSet<uint>();
 
-        if (ImGui.InputTextWithHint($"##SearchBox", Strings.Search, ref _searchString, 64))
+        ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X * 0.75f);
+        if (ImGui.InputTextWithHint($"##SearchBox", Strings.Search, ref _searchString, 64, ImGuiInputTextFlags.AutoSelectAll))
         {
             _searchResults = Search(_searchString, 10);
         }
 
-        if (_searchResults is not null)
-        {
-            foreach (var result in _searchResults)
-            {
-                if (hashSet.Contains(result.TerritoryID))
-                {
-                    if (ImGuiComponents.IconButton($"RemoveButton{result.TerritoryID}", FontAwesomeIcon.Trash))
-                    {
-                        removalSet.Add(result.TerritoryID);
-                    }
-                }
-                else
-                {
-                    if (ImGuiComponents.IconButton($"AddButton{result.TerritoryID}", FontAwesomeIcon.Plus))
-                    {
-                        AddZone(obj, field, saveAction, result.TerritoryID);
-                    }
-                }
-                
-                ImGui.SameLine();
-                
-                DrawTerritory(result.TerritoryID);
-            }
-        }
-        
+        DrawSearchResults(obj, field, saveAction, hashSet, removalSet);
+
         ImGuiHelpers.ScaledDummy(10.0f);
         ImGui.Unindent(15.0f);
         ImGui.TextUnformatted(Strings.BlacklistedZones);
-        ImGui.Separator();
         ImGui.Indent(15.0f);
 
-        foreach (var zone in hashSet)
-        {
-            if (ImGuiComponents.IconButton($"RemoveButton{zone}", FontAwesomeIcon.Trash))
-            {
-                removalSet.Add(zone);
-            }
-            
-            ImGui.SameLine();
-            
-            DrawTerritory(zone);
-        }
-
-        foreach (var removalZone in removalSet)
-        {
-            RemoveZone(obj, field, saveAction, removalZone);
-        }
+        DrawCurrentlyBlacklisted(obj, field, saveAction, hashSet, removalSet);
     }
     
+    private void DrawCurrentlyBlacklisted(object obj, FieldInfo field, Action? saveAction, HashSet<uint> hashSet, HashSet<uint> removalSet)
+    {
+        var width = ImGui.GetContentRegionAvail().X * 0.75f;
+        var height = 270.0f * ImGuiHelpers.GlobalScale * 0.5f;
+        
+        if (ImGui.BeginChild("##CurrentlyBlacklisted", new Vector2(width, height), true))
+        {
+            if (hashSet.Count == 0)
+            {
+                ImGui.TextUnformatted(Strings.NothingBlacklisted);
+            }
+
+            foreach (var zone in hashSet)
+            {
+                if (ImGuiComponents.IconButton($"RemoveButton{zone}", FontAwesomeIcon.Trash))
+                {
+                    removalSet.Add(zone);
+                }
+
+                ImGui.SameLine();
+
+                DrawTerritory(zone);
+            }
+
+            foreach (var removalZone in removalSet)
+            {
+                RemoveZone(obj, field, saveAction, removalZone);
+            }
+        }
+
+        ImGui.EndChild();
+    }
+    
+    private void DrawSearchResults(object obj, FieldInfo field, Action? saveAction, HashSet<uint> hashSet, HashSet<uint> removalSet)
+    {
+        var width = ImGui.GetContentRegionAvail().X * 0.75f;
+        var height = 270.0f * ImGuiHelpers.GlobalScale;
+        
+        if (ImGui.BeginChild("##SearchResults", new Vector2(width, height), true, ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse))
+        {
+            if (_searchResults is not null)
+            {
+                foreach (var result in _searchResults)
+                {
+                    if (hashSet.Contains(result.TerritoryID))
+                    {
+                        if (ImGuiComponents.IconButton($"RemoveButton{result.TerritoryID}", FontAwesomeIcon.Trash))
+                        {
+                            removalSet.Add(result.TerritoryID);
+                        }
+                    }
+                    else
+                    {
+                        if (ImGuiComponents.IconButton($"AddButton{result.TerritoryID}", FontAwesomeIcon.Plus))
+                        {
+                            AddZone(obj, field, saveAction, result.TerritoryID);
+                        }
+                    }
+
+                    ImGui.SameLine();
+
+                    DrawTerritory(result.TerritoryID);
+                }
+            }
+        }
+
+        ImGui.EndChild();
+    }
+
     private void AddZone(object obj, FieldInfo field, Action? saveAction, uint zone)
     {
         var hashSet = GetValue<HashSet<uint>>(obj, field);
