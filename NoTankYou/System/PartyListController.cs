@@ -55,7 +55,7 @@ public class PartyListController : IDisposable
             foreach (var partyMember in partyMembers)
             {
                 var warning = warnings
-                    .Where(warning => warning.SourceObjectId == partyMember.ObjectId)
+                    .Where(warning => warning.SourceObjectId == partyMember?.ObjectId)
                     .MaxBy(warning => warning.Priority);
             
                 partyMember?.DrawWarning(warning);
