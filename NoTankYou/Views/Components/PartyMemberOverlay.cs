@@ -9,6 +9,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using ImGuiScene;
+using KamiLib.Atk;
 using KamiLib.Utilities;
 using NoTankYou.DataModels;
 using NoTankYou.Models;
@@ -133,6 +134,8 @@ public unsafe class PartyMemberOverlay
 
     public void Reset(bool force = false)
     {
+        if (!Node.IsAddonReady((AtkUnitBase*) Addon)) return;
+        
         if (dirty || force)
         {
             AddonData.Name->EdgeColor = Addon->Chocobo.Name->EdgeColor;

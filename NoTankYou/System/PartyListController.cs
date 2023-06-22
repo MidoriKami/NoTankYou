@@ -12,7 +12,7 @@ public class PartyListController : IDisposable
 {
     private PartyListConfig config = new();
     
-    private readonly PartyMemberOverlay[] partyMembers = new PartyMemberOverlay[8];
+    private readonly PartyMemberOverlay?[] partyMembers = new PartyMemberOverlay[8];
 
     private static WarningState SampleWarning => new()
     {
@@ -28,7 +28,7 @@ public class PartyListController : IDisposable
     {
         foreach (var member in partyMembers)
         {
-            member.Update();
+            member?.Update();
         }
     }
 
@@ -38,7 +38,7 @@ public class PartyListController : IDisposable
 
         if (config.SampleMode)
         {
-            partyMembers[0].DrawWarning(SampleWarning);
+            partyMembers[0]?.DrawWarning(SampleWarning);
             return;
         }
 
@@ -48,7 +48,7 @@ public class PartyListController : IDisposable
                 .Where(warning => warning.SourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
                 .MaxBy(warning => warning.Priority);
             
-            partyMembers[0].DrawWarning(warning);
+            partyMembers[0]?.DrawWarning(warning);
         }
         else
         {
@@ -58,7 +58,7 @@ public class PartyListController : IDisposable
                     .Where(warning => warning.SourceObjectId == partyMember.ObjectId)
                     .MaxBy(warning => warning.Priority);
             
-                partyMember.DrawWarning(warning);
+                partyMember?.DrawWarning(warning);
             }
         }
     }
@@ -77,7 +77,7 @@ public class PartyListController : IDisposable
     {
         foreach (var member in partyMembers)
         {
-            member.Reset(true);
+            member?.Reset(true);
         }
     }
 
