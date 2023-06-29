@@ -12,7 +12,6 @@ using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using KamiLib.ChatCommands;
 using KamiLib.Commands;
-using KamiLib.Commands.temp;
 using KamiLib.Utilities;
 using NoTankYou.DataModels;
 using NoTankYou.Localization;
@@ -28,7 +27,7 @@ namespace NoTankYou.Abstracts;
 public abstract unsafe class ModuleBase : IDisposable
 {
     public abstract ModuleName ModuleName { get; }
-    public virtual ModuleConfigBase ModuleConfig { get; protected set; } = new();
+    public abstract IModuleConfigBase ModuleConfig { get; protected set; }
     public abstract string DefaultWarningText { get; protected set; }
     protected abstract bool ShouldEvaluate(IPlayerData playerData);
     protected abstract void EvaluateWarnings(IPlayerData playerData);
@@ -110,7 +109,7 @@ public abstract unsafe class ModuleBase : IDisposable
 
     protected Span<PartyMember> PartyMemberSpan => new(GroupManager.Instance()->PartyMembers, GroupManager.Instance()->MemberCount);
 
-    protected T GetConfig<T>() where T : ModuleConfigBase
+    protected T GetConfig<T>() where T : IModuleConfigBase
     {
         if (ModuleConfig is not T castedConfig) throw new Exception($"Unable to Get Config Object as type {typeof(T)}");
         
@@ -125,6 +124,7 @@ public abstract unsafe class ModuleBase : IDisposable
         Message = ModuleConfig.CustomWarning ? ModuleConfig.CustomWarningText : DefaultWarningText,
         SourcePlayerName = playerData.GetName(),
         SourceObjectId = playerData.GetObjectId(),
+        SourceModule = ModuleName,
     });
 
     protected void AddActiveWarning(uint iconId, string iconLabel, IPlayerData playerData) => ActiveWarningStates.Add(new WarningState
@@ -135,9 +135,10 @@ public abstract unsafe class ModuleBase : IDisposable
         Message = ModuleConfig.CustomWarning ? ModuleConfig.CustomWarningText : DefaultWarningText,
         SourcePlayerName = playerData.GetName(),
         SourceObjectId = playerData.GetObjectId(),
+        SourceModule = ModuleName,
     });
 
-    private ModuleConfigBase LoadConfig() => FileController.LoadFile<ModuleConfigBase>($"{ModuleName}.config.json", ModuleConfig);
+    private IModuleConfigBase LoadConfig() => FileController.LoadFile<IModuleConfigBase>($"{ModuleName}.config.json", ModuleConfig);
     
     public void SaveConfig() => FileController.SaveFile($"{ModuleName}.config.json", ModuleConfig.GetType(), ModuleConfig);
 

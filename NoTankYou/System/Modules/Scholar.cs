@@ -3,6 +3,7 @@ using NoTankYou.Localization;
 using NoTankYou.Models;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
+using NoTankYou.Models.ModuleConfiguration;
 
 namespace NoTankYou.System.Modules;
 
@@ -10,6 +11,7 @@ public class Scholar : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Scholar;
     public override string DefaultWarningText { get; protected set; } = Strings.ScholarFaerie;
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new GenericBattleConfiguration();
 
     private const int DissipationStatusId = 791;
     private const byte ScholarJobId = 28;

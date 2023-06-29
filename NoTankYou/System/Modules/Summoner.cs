@@ -3,6 +3,7 @@ using NoTankYou.Localization;
 using NoTankYou.Models;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
+using NoTankYou.Models.ModuleConfiguration;
 
 namespace NoTankYou.System.Modules;
 
@@ -10,6 +11,7 @@ public class Summoner : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Summoner;
     public override string DefaultWarningText { get; protected set; } = Strings.SummonerPet;
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new GenericBattleConfiguration();
 
     private const uint SummonCarbuncleActionId = 25798;
     private const byte MinimumLevel = 2;

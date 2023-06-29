@@ -4,11 +4,22 @@ using NoTankYou.Models.Attributes;
 
 namespace NoTankYou.Models;
 
-public class BlacklistConfig
+[Category("Options")]
+public interface IBlacklistOptions
 {
-    [BoolConfigOption("Enable", "Options", 0)]
-    public bool Enabled = false;
+    [BoolConfig("Enable")]
+    public bool Enabled { get; set; }
+}
 
-    [Blacklist("Blacklist", 1)]
-    public HashSet<uint> BlacklistedZones = new();
+[Category("Blacklist",1)]
+public interface IBlacklistZones
+{
+    [Blacklist]
+    public HashSet<uint> BlacklistedZones { get; set; }
+}
+
+public class BlacklistConfig : IBlacklistOptions, IBlacklistZones
+{
+    public bool Enabled { get; set; } = false;
+    public HashSet<uint> BlacklistedZones { get; set; } = new();
 }

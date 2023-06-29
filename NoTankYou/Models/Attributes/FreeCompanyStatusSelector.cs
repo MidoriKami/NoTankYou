@@ -11,9 +11,9 @@ namespace NoTankYou.Models.Attributes;
 
 public class FreeCompanyStatusSelector : RightLabeledTabledDrawableAttribute
 {
-    public FreeCompanyStatusSelector(string? label, string category, int group) : base(label, category, group) { }
+    public FreeCompanyStatusSelector(string? label) : base(label) { }
     
-    protected override void DrawLeftColumn(object obj, FieldInfo field, Action? saveAction = null)
+    protected override void DrawLeftColumn(object obj, MemberInfo field, Action? saveAction = null)
     {
         var value = GetValue<uint>(obj, field);
         var statusEffect = LuminaCache<Status>.Instance.GetRow(value)!;

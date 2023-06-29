@@ -168,6 +168,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generate warnings if none of the tanks in any any alliance have their stance on.
+        /// </summary>
+        internal static string CheckAllianceTanksHelp {
+            get {
+                return ResourceManager.GetString("CheckAllianceTanksHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chocobo.
         /// </summary>
         internal static string Chocobo {
@@ -263,6 +272,15 @@ namespace NoTankYou.Localization {
         internal static string DisableInAllianceRaid {
             get {
                 return ResourceManager.GetString("DisableInAllianceRaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prevents generating any warnings while in an Alliance Raid..
+        /// </summary>
+        internal static string DisableInAllianceRaidHelp {
+            get {
+                return ResourceManager.GetString("DisableInAllianceRaidHelp", resourceCulture);
             }
         }
         
@@ -563,6 +581,24 @@ namespace NoTankYou.Localization {
         internal static string ModeSelect {
             get {
                 return ResourceManager.GetString("ModeSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Module Blacklist.
+        /// </summary>
+        internal static string ModuleBlacklist {
+            get {
+                return ResourceManager.GetString("ModuleBlacklist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle to prevent warnings from selected modules from appearing..
+        /// </summary>
+        internal static string ModuleBlacklistInfo {
+            get {
+                return ResourceManager.GetString("ModuleBlacklistInfo", resourceCulture);
             }
         }
         

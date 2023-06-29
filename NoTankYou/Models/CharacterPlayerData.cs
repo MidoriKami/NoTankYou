@@ -28,8 +28,8 @@ public unsafe class CharacterPlayerData : IPlayerData
 
         return 0.0f;
     }
-    public byte GetLevel() => character->Level;
-    public byte GetClassJob() => character->ClassJob;
-    public bool HasClassJob(uint classJobId) => character->ClassJob == classJobId;
-    public bool IsDead() => character->Health is 0;
+    public byte GetLevel() => character->CharacterData.Level;
+    public byte GetClassJob() => character->CharacterData.ClassJob;
+    public bool HasClassJob(uint classJobId) => character->CharacterData.ClassJob == classJobId;
+    public bool IsDead() => character->CharacterData.Health is 0;
 }

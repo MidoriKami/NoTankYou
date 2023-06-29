@@ -4,6 +4,7 @@ using System.Linq;
 using KamiLib.AutomaticUserInterface;
 using NoTankYou.DataModels;
 using NoTankYou.Models;
+using NoTankYou.Models.Enums;
 using NoTankYou.Views.Components;
 
 namespace NoTankYou.System;
@@ -22,6 +23,7 @@ public class PartyListController : IDisposable
         IconLabel = "Sample Action",
         SourceObjectId = Service.ClientState.LocalPlayer?.ObjectId ?? 0xE000000,
         SourcePlayerName = "Sample Player",
+        SourceModule = ModuleName.Test,
     };
 
     public void Update()
@@ -45,6 +47,7 @@ public class PartyListController : IDisposable
         if (config.SoloMode)
         {
             var warning = warnings
+                .Where(warning => !config.BlacklistedModules.Contains(warning.SourceModule))
                 .Where(warning => warning.SourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
                 .MaxBy(warning => warning.Priority);
             
@@ -55,6 +58,7 @@ public class PartyListController : IDisposable
             foreach (var partyMember in partyMembers)
             {
                 var warning = warnings
+                    .Where(warning => !config.BlacklistedModules.Contains(warning.SourceModule))
                     .Where(warning => warning.SourceObjectId == partyMember?.ObjectId)
                     .MaxBy(warning => warning.Priority);
             

@@ -3,12 +3,14 @@ using NoTankYou.Abstracts;
 using NoTankYou.Localization;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
+using NoTankYou.Models.ModuleConfiguration;
 
 namespace NoTankYou.System.Modules;
 
 public unsafe class Dancer : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Dancer;
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new GenericBattleConfiguration();
     public override string DefaultWarningText { get; protected set; } = Strings.DancePartner;
 
     private const uint DancerClassJobId = 38;

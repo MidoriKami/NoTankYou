@@ -3,36 +3,15 @@ using KamiLib.AutomaticUserInterface;
 using KamiLib.GameState;
 using KamiLib.Utilities;
 using NoTankYou.Models.Interfaces;
+using NoTankYou.Models.ModuleConfiguration;
 
 namespace NoTankYou.Abstracts;
 
-public class ConsumableConfig : ModuleConfigBase
-{
-    [BoolConfigOption("SuppressInCombat", "ModuleOptions", 1)]
-    public bool SuppressInCombat = true;
 
-    [IntCounterConfigOption("EarlyWarningTime", "ModuleOptions", 1, false)]
-    public int EarlyWarningTime = 600;
-    
-    [BoolDescriptionConfigOption("EnableZoneFilter", "ZoneFilter", 2, "ZoneFilterDescription")]
-    public bool ZoneFilter = false;
-
-    [BoolConfigOption("Savage", "ZoneFilter", 2)]
-    public bool SavageFilter = false;
-
-    [BoolConfigOption("Ultimate", "ZoneFilter", 2)]
-    public bool UltimateFilter = false;
-
-    [BoolConfigOption("ExtremeUnreal", "ZoneFilter", 2)]
-    public bool ExtremeUnrealFilter = false;
-
-    [BoolConfigOption("Criterion", "ZoneFilter", 2)]
-    public bool CriterionFilter = false;
-}
 
 public abstract class ConsumableModule : ModuleBase
 {
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new ConsumableConfig();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new ConsumableConfiguration();
     
     protected abstract uint IconId { get; set; }
     protected abstract string IconLabel { get; set; }
@@ -40,7 +19,7 @@ public abstract class ConsumableModule : ModuleBase
     
     protected override bool ShouldEvaluate(IPlayerData playerData)
     {
-        var config = GetConfig<ConsumableConfig>();
+        var config = GetConfig<ConsumableConfiguration>();
         
         if (config.SuppressInCombat && Condition.IsInCombat()) return false;
 
@@ -61,7 +40,7 @@ public abstract class ConsumableModule : ModuleBase
     
     protected override void EvaluateWarnings(IPlayerData playerData)
     {
-        if (playerData.GetStatusTimeRemaining(StatusId) < GetConfig<ConsumableConfig>().EarlyWarningTime)
+        if (playerData.GetStatusTimeRemaining(StatusId) < GetConfig<ConsumableConfiguration>().EarlyWarningTime)
         {
             AddActiveWarning(IconId, IconLabel, playerData);
         }

@@ -33,4 +33,7 @@ public enum ModuleName
     
     [EnumLabel("Chocobo")]
     Chocobo,
+    
+    [EnumLabel("Test")]
+    Test,
 }

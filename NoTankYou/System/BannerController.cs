@@ -8,6 +8,7 @@ using ImGuiNET;
 using KamiLib.AutomaticUserInterface;
 using NoTankYou.DataModels;
 using NoTankYou.Models;
+using NoTankYou.Models.Enums;
 using NoTankYou.Utilities;
 using NoTankYou.Views.Components;
 
@@ -26,6 +27,7 @@ public class BannerController : IDisposable
         IconLabel = "Sample Action",
         SourceObjectId = 0xE0000000,
         SourcePlayerName = "Sample Player",
+        SourceModule = ModuleName.Test
     };
     
     public void Dispose() => Unload();
@@ -60,6 +62,7 @@ public class BannerController : IDisposable
     private void DrawListWarnings(IEnumerable<WarningState> warnings)
     {
         var orderedWarnings = warnings
+            .Where(warning => !config.BlacklistedModules.Contains(warning.SourceModule))
             .OrderByDescending(warning => warning.Priority)
             .Take(config.WarningCount);
 
@@ -75,7 +78,9 @@ public class BannerController : IDisposable
     
     private void DrawTopPriorityWarnings(IEnumerable<WarningState> warnings)
     {
-        var highestWarning = warnings.MaxBy(warning => warning.Priority);
+        var highestWarning = warnings
+            .Where(warning => !config.BlacklistedModules.Contains(warning.SourceModule))
+            .MaxBy(warning => warning.Priority);
         
         WarningBanner.Draw(config.WindowPosition, highestWarning, config);
     }

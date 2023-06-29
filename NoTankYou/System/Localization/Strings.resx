@@ -312,4 +312,16 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     <data name="NothingBlacklisted" xml:space="preserve">
         <value>Nothing Blacklisted</value>
     </data>
+    <data name="DisableInAllianceRaidHelp" xml:space="preserve">
+        <value>Prevents generating any warnings while in an Alliance Raid.</value>
+    </data>
+    <data name="CheckAllianceTanksHelp" xml:space="preserve">
+        <value>Generate warnings if none of the tanks in any any alliance have their stance on</value>
+    </data>
+    <data name="ModuleBlacklist" xml:space="preserve">
+        <value>Module Blacklist</value>
+    </data>
+    <data name="ModuleBlacklistInfo" xml:space="preserve">
+        <value>Toggle to prevent warnings from selected modules from appearing.</value>
+    </data>
 </root>

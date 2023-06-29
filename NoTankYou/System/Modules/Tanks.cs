@@ -10,22 +10,14 @@ using NoTankYou.Localization;
 using NoTankYou.Models;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
+using NoTankYou.Models.ModuleConfiguration;
 
 namespace NoTankYou.System.Modules;
-
-public class TankConfiguration : ModuleConfigBase
-{
-    [BoolConfigOption("DisableInAllianceRaid", "ModuleOptions", 1)]
-    public bool DisableInAlliance = true;
-
-    [BoolConfigOption("CheckAllianceTanks", "ModuleOptions", 1)]
-    public bool CheckAllianceTanks = true;
-}
 
 public unsafe class Tanks : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Tanks;
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new TankConfiguration();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new TankConfiguration();
     public override string DefaultWarningText { get; protected set; } = Strings.TankStance;
 
     private readonly uint[] tankClassJobArray = LuminaCache<ClassJob>.Instance

@@ -1,4 +1,6 @@
-﻿namespace NoTankYou.DataModels;
+﻿using NoTankYou.Models.Enums;
+
+namespace NoTankYou.DataModels;
 
 public class WarningState
 {
@@ -8,4 +10,5 @@ public class WarningState
     public required int Priority { get; init; }
     public required string SourcePlayerName { get; init; } = string.Empty;
     public required ulong SourceObjectId { get; init; }
+    public required ModuleName SourceModule { get; init; }
 }

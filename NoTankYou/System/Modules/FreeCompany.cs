@@ -7,34 +7,16 @@ using NoTankYou.Localization;
 using NoTankYou.Models.Attributes;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
+using NoTankYou.Models.ModuleConfiguration;
 using Condition = KamiLib.GameState.Condition;
 
 namespace NoTankYou.System.Modules;
-
-public class FreeCompanyConfiguration : ModuleConfigBase
-{
-    [Disabled] public new bool SoloMode = true;
-    [Disabled] public new bool DutiesOnly = false;
-    [Disabled] public new bool DisableInSanctuary = false;
-
-    [EnumConfigOption("ModeSelect", "ModuleOptions", 1, "FreeCompanyModeHelp")]
-    public FreeCompanyMode Mode = FreeCompanyMode.Any;
-
-    [IntComboConfigOption("BuffCount", "ModuleOptions", 1, 1, 2, "FreeCompanyBuffCountHelp")]
-    public int BuffCount = 2;
-    
-    [FreeCompanyStatusSelector("FirstBuff", "ModuleOptions", 1)]
-    public uint PrimaryBuff = 360;
-
-    [FreeCompanyStatusSelector("SecondBuff", "ModuleOptions", 1)]
-    public uint SecondaryBuff = 364;
-}
 
 public class FreeCompany : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.FreeCompany;
     public override string DefaultWarningText { get; protected set; } = Strings.FreeCompanyBuff;
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new FreeCompanyConfiguration();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new FreeCompanyConfiguration();
 
     private const uint FreeCompanyActionId = 43;
     private readonly int freeCompanyIconId = LuminaCache<CompanyAction>.Instance.GetRow(FreeCompanyActionId)!.Icon;

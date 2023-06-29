@@ -1,38 +1,22 @@
 ﻿using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
+using NoTankYou.Models.ModuleConfiguration;
 using Condition = KamiLib.GameState.Condition;
 
 namespace NoTankYou.System.Modules;
-
-public class ChocoboConfiguration : ModuleConfigBase
-{
-    [Disabled] public new bool SoloMode = false;
-    [Disabled] public new bool DutiesOnly = false;
-    [Disabled] public new bool DisableInSanctuary = false;
-
-    [BoolConfigOption("SuppressInCombat", "ModuleOptions", 1)]
-    public bool DisableInCombat = true;
-
-    [BoolConfigOption("EarlyWarning", "ModuleOptions", 1)]
-    public bool EarlyWarning = true;
-    
-    [IntCounterConfigOption("EarlyWarningTime", "ModuleOptions", 1, false)]
-    public int EarlyWarningTime = 300;
-}
 
 public unsafe class Chocobo : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Chocobo;
     public override string DefaultWarningText { get; protected set; } = Strings.ChocoboMissing;
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new ChocoboConfiguration();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new ChocoboConfiguration();
 
     private const uint GyshalGreensItemId = 4868;
     private readonly uint gysahlGreensIconId = LuminaCache<Item>.Instance.GetRow(GyshalGreensItemId)!.Icon;

@@ -4,12 +4,14 @@ using NoTankYou.Localization;
 using NoTankYou.Models;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
+using NoTankYou.Models.ModuleConfiguration;
 
 namespace NoTankYou.System.Modules;
 
 public unsafe class BlueMage : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.BlueMage;
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new BlueMageConfiguration();
     public override string DefaultWarningText { get; protected set; } = Strings.MightyGuard;
 
     private const uint MightyGuardStatusId = 1719;

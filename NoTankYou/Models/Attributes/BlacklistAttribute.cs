@@ -16,7 +16,7 @@ using Action = System.Action;
 
 namespace NoTankYou.Models.Attributes;
 
-public class Blacklist : DrawableAttribute
+public class BlacklistAttribute : DrawableAttribute
 {
     public class SearchResult
     {
@@ -28,37 +28,38 @@ public class Blacklist : DrawableAttribute
     private static string _searchString = string.Empty;
     private static List<SearchResult>? _searchResults = new();
 
-    public Blacklist(string category, int group) : base(null, category, group)
+    public BlacklistAttribute() : base(null)
     {
         _searchResults = Search("", 10);
     }
     
-    protected override void Draw(object obj, FieldInfo field, Action? saveAction = null)
+    protected override void Draw(object obj, MemberInfo field, Action? saveAction = null)
     {
         var hashSet = GetValue<HashSet<uint>>(obj, field);
-        var removalSet = new HashSet<uint>();
 
         ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X * 0.75f);
-        if (ImGui.InputTextWithHint($"##SearchBox", Strings.Search, ref _searchString, 64, ImGuiInputTextFlags.AutoSelectAll))
+        if (ImGui.InputTextWithHint("##SearchBox", Strings.Search, ref _searchString, 64, ImGuiInputTextFlags.AutoSelectAll))
         {
             _searchResults = Search(_searchString, 10);
         }
 
-        DrawSearchResults(obj, field, saveAction, hashSet, removalSet);
+        DrawSearchResults(obj, field, saveAction, hashSet);
 
         ImGuiHelpers.ScaledDummy(10.0f);
         ImGui.Unindent(15.0f);
         ImGui.TextUnformatted(Strings.BlacklistedZones);
         ImGui.Indent(15.0f);
 
-        DrawCurrentlyBlacklisted(obj, field, saveAction, hashSet, removalSet);
+        DrawCurrentlyBlacklisted(obj, field, saveAction, hashSet);
     }
     
-    private void DrawCurrentlyBlacklisted(object obj, FieldInfo field, Action? saveAction, HashSet<uint> hashSet, HashSet<uint> removalSet)
+    private void DrawCurrentlyBlacklisted(object obj, MemberInfo field, Action? saveAction, HashSet<uint> hashSet)
     {
         var width = ImGui.GetContentRegionAvail().X * 0.75f;
         var height = 270.0f * ImGuiHelpers.GlobalScale * 0.5f;
-        
+        var removalSet = new HashSet<uint>();
+
+        ImGui.PushID("CurrentlyBlacklist");
         if (ImGui.BeginChild("##CurrentlyBlacklisted", new Vector2(width, height), true))
         {
             if (hashSet.Count == 0)
@@ -83,15 +84,16 @@ public class Blacklist : DrawableAttribute
                 RemoveZone(obj, field, saveAction, removalZone);
             }
         }
-
         ImGui.EndChild();
+        ImGui.PopID();
     }
     
-    private void DrawSearchResults(object obj, FieldInfo field, Action? saveAction, HashSet<uint> hashSet, HashSet<uint> removalSet)
+    private void DrawSearchResults(object obj, MemberInfo field, Action? saveAction, IReadOnlySet<uint> hashSet)
     {
         var width = ImGui.GetContentRegionAvail().X * 0.75f;
         var height = 270.0f * ImGuiHelpers.GlobalScale;
         
+        ImGui.PushID("SearchWindow");
         if (ImGui.BeginChild("##SearchResults", new Vector2(width, height), true, ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse))
         {
             if (_searchResults is not null)
@@ -102,7 +104,7 @@ public class Blacklist : DrawableAttribute
                     {
                         if (ImGuiComponents.IconButton($"RemoveButton{result.TerritoryID}", FontAwesomeIcon.Trash))
                         {
-                            removalSet.Add(result.TerritoryID);
+                            RemoveZone(obj, field, saveAction, result.TerritoryID);
                         }
                     }
                     else
@@ -119,18 +121,18 @@ public class Blacklist : DrawableAttribute
                 }
             }
         }
-
         ImGui.EndChild();
+        ImGui.PopID();
     }
 
-    private void AddZone(object obj, FieldInfo field, Action? saveAction, uint zone)
+    private void AddZone(object obj, MemberInfo field, Action? saveAction, uint zone)
     {
         var hashSet = GetValue<HashSet<uint>>(obj, field);
         hashSet.Add(zone);
         saveAction?.Invoke();
     }
     
-    private void RemoveZone(object obj, FieldInfo field, Action? saveAction, uint zone)
+    private void RemoveZone(object obj, MemberInfo field, Action? saveAction, uint zone)
     {
         var hashSet = GetValue<HashSet<uint>>(obj, field);
         hashSet.Remove(zone);
