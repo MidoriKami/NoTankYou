@@ -6,9 +6,6 @@ namespace NoTankYou.Models.ModuleConfiguration;
 [Category("ZoneFilter", 1)]
 public interface IZoneFilter
 {
-    [BoolDescriptionConfig("EnableZoneFilter", "ZoneFilterDescription")]
-    public bool ZoneFilter { get; set; }
-
     [BoolConfig("Savage")]
     public bool SavageFilter { get; set; }
 

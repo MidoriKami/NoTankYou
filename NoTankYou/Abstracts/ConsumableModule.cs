@@ -23,7 +23,7 @@ public abstract class ConsumableModule : ModuleBase
         
         if (config.SuppressInCombat && Condition.IsInCombat()) return false;
 
-        if (config.ZoneFilter)
+        if (config.SavageFilter || config.UltimateFilter || config.ExtremeUnrealFilter || config.CriterionFilter)
         {
             var allowedZones = new List<DutyType>();
             
