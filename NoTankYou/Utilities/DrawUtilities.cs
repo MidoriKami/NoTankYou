@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Drawing;
 using System.Numerics;
+using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.Caching;
-using KamiLib.Drawing;
-using NoTankYou.UserInterface.Components;
+using KamiLib.Utilities;
+using NoTankYou.System;
 
 namespace NoTankYou.Utilities;
 
-internal static class DrawUtilities
+public class DrawUtilities
 {
-    private static BannerOverlaySettings BannerOverlaySettings => Service.ConfigurationManager.CharacterConfiguration.BannerOverlay;
-    
-    public static void TextOutlined(Vector2 startingPosition, string text, float scale, Vector4 color)
+    public static void TextOutlined(Vector2 startingPosition, string text, float scale, KnownColor color)
     {
-        startingPosition = startingPosition.Ceil();
+        startingPosition = new Vector2(MathF.Ceiling(startingPosition.X), MathF.Ceiling(startingPosition.Y));
 
-        var outlineThickness = (int)MathF.Ceiling(BannerOverlaySettings.BorderThickness.Value * scale);
+        var outlineThickness = (int)MathF.Ceiling(1.0f * scale);
         
         for (var x = -outlineThickness; x <= outlineThickness; ++x)
         {
@@ -23,19 +23,39 @@ internal static class DrawUtilities
             {
                 if (x == 0 && y == 0) continue;
 
-                DrawText(startingPosition + new Vector2(x, y), text, Colors.Black, scale);
+                DrawText(startingPosition + new Vector2(x, y), text, KnownColor.Black, scale);
             }
         }
 
         DrawText(startingPosition, text, color, scale);
     }
-
-    public static void DrawIconWithName(Vector2 drawPosition, uint iconID, string name, float scale, bool drawText = true)
+    
+    public static Vector2 CalculateTextSize(string text, float scale)
     {
-        if (!Service.FontManager.GameFont.Available) return;
+        ImGui.PushFont(NoTankYouSystem.Axis56.ImFont);
+        var textSize = ImGui.CalcTextSize(text) / ImGuiHelpers.GlobalScale;
+        ImGui.PopFont();
 
-        var icon = IconCache.Instance.GetIcon(iconID);
-        if (icon != null)
+        return new Vector2(textSize.X, textSize.Y) * scale;
+    }
+    
+    private static void DrawText(Vector2 drawPosition, string text, KnownColor color, float scale)
+    {
+        var font = NoTankYouSystem.Axis56.ImFont;
+        var drawList = ImGui.GetBackgroundDrawList();
+
+        // Debug Outline for Text
+            // var stringSize = CalculateTextSize(text, scale);
+            // drawList.AddRect(drawPosition, drawPosition + stringSize, ImGui.GetColorU32(KnownColor.Green.AsVector4()));
+        
+        drawList.AddText(font, font.FontSize * scale, drawPosition, ImGui.GetColorU32(color.AsVector4()), text);
+    }
+    
+    public static void DrawIconWithName(Vector2 drawPosition, uint iconId, string iconLabel, float scale, bool showActionName)
+    {
+        if (!NoTankYouSystem.Axis56.Available) return;
+        
+        if (IconCache.Instance.GetIcon(iconId) is { } icon)
         {
             var drawList = ImGui.GetBackgroundDrawList();
 
@@ -46,53 +66,18 @@ internal static class DrawUtilities
 
             drawList.AddImage(icon.ImGuiHandle, drawPosition, drawPosition + imageSize);
 
-            if (drawText)
+            if (showActionName)
             {
                 drawPosition.X += imageSize.X / 2.0f;
                 drawPosition.Y += imageSize.Y + 2.0f * scale;
 
-                var textSize = CalculateTextSize(name, scale / 2.75f);
-                var textOffset = new Vector2(0.0f, 5.0f) * scale;
+                var textSize = CalculateTextSize(iconLabel, scale / 2.75f);
+                var textOffset = new Vector2(0.0f, 17.5f) * scale;
 
                 drawPosition.X -= textSize.X / 2.0f;
 
-                TextOutlined(drawPosition + textOffset, name, scale / 2.75f, Colors.White);
+                TextOutlined(drawPosition + textOffset, iconLabel, scale / 2.75f, KnownColor.White);
             }
         }
-    }
-
-    public static Vector2 CalculateTextSize(string text, float scale)
-    {
-        if(!Service.FontManager.GameFont.Available) return Vector2.Zero;
-
-        var fontSize = Service.FontManager.GameFont.ImFont.FontSize;
-        var textSize = ImGui.CalcTextSize(text);
-        var fontScalar = 62.0f / textSize.Y;
-
-        var textWidth = textSize.X * fontScalar;
-
-        return new Vector2(textWidth, fontSize) * scale;
-    }
-
-    private static void DrawText(Vector2 drawPosition, string text, Vector4 color, float scale, bool debug = false)
-    {
-        if (!Service.FontManager.GameFont.Available) return;
-        var font = Service.FontManager.GameFont.ImFont;
-
-        var drawList = ImGui.GetBackgroundDrawList();
-        var stringSize = CalculateTextSize(text, scale);
-
-        if(debug)
-            drawList.AddRect(drawPosition, drawPosition + stringSize, ImGui.GetColorU32(Colors.Green));
-
-        drawList.AddText(font, font.FontSize * scale, drawPosition, ImGui.GetColorU32(color), text);
-    }
-}
-
-public static class VectorExtensions
-{
-    public static Vector2 Ceil(this Vector2 data)
-    {
-        return new Vector2(MathF.Ceiling(data.X), MathF.Ceiling(data.Y));
     }
 }

@@ -1,27 +1,18 @@
 ﻿using Dalamud.Game;
-using Dalamud.Game.ClientState;
-using Dalamud.Game.ClientState.Objects;
-using Dalamud.Game.ClientState.Party;
-using Dalamud.Game.DutyState;
-using Dalamud.Game.Gui;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using NoTankYou.System;
+using Dalamud.Plugin.Services;
 
 namespace NoTankYou;
 
 public class Service
 {
     [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; } = null!;
-    [PluginService] public static ClientState ClientState { get; private set;} = null!;
-    [PluginService] public static PartyList PartyList { get; private set;} = null!;
+    [PluginService] public static IClientState ClientState { get; private set;} = null!;
     [PluginService] public static Framework Framework { get; private set;} = null!;
-    [PluginService] public static ObjectTable ObjectTable { get; private set;} = null!;
-    [PluginService] public static GameGui GameGui { get; private set; } = null!;
-    [PluginService] public static DutyState DutyState { get; private set; } = null!;
-
-    internal static ModuleManager ModuleManager = null!;
-    internal static ConfigurationManager ConfigurationManager = null!;
-    internal static FontManager FontManager = null!;
-    internal static PartyListAddon PartyListAddon = null!;
+    [PluginService] public static IObjectTable ObjectTable { get; private set;} = null!;
+    [PluginService] public static IDutyState DutyState { get; private set; } = null!;
+    [PluginService] public static Condition Condition { get; private set; } = null!;
+    [PluginService] public static IGameGui GameGui { get; private set; } = null!;
 }
