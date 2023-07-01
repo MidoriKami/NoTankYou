@@ -14,7 +14,7 @@ public class BannerConfig : IBannerMainOptions, IBannerPositioning, IBannerDispl
     public bool SampleMode { get; set; } = false;
     
     // IBannerPositioning
-    public bool CanDrag { get; set; } = true;
+    public bool CanDrag { get; set; } = false;
     public Vector2 WindowPosition { get; set; } = new(700.0f, 400.0f);
     public float Scale { get; set; } = 1.0f;
     
