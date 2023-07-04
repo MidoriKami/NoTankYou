@@ -8,6 +8,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.Atk;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using KamiLib.ChatCommands;
@@ -54,6 +55,7 @@ public abstract unsafe class ModuleBase : IDisposable
     {
         ActiveWarningStates.Clear();
 
+        if (!Node.IsAddonReady(NameplateAddon)) return;
         if (!NameplateAddon->IsVisible) return;
         if (!ModuleConfig.Enabled) return;
         if (NoTankYouSystem.BlacklistController.IsZoneBlacklisted(Service.ClientState.TerritoryType)) return;
