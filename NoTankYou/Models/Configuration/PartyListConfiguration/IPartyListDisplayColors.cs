@@ -3,7 +3,7 @@ using KamiLib.AutomaticUserInterface;
 
 namespace NoTankYou.Models;
 
-[Category("DisplayColors")]
+[Category("DisplayColors", 3)]
 public interface IPartyListDisplayColors
 {
     [ColorConfig("TextColor", 1.0f, 0.0f, 0.0f, 1.0f)]

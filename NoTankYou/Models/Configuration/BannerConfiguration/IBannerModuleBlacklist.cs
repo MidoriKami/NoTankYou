@@ -5,7 +5,7 @@ using NoTankYou.Models.Enums;
 
 namespace NoTankYou.Models.BannerConfiguration;
 
-[Category("ModuleBlacklist")]
+[Category("ModuleBlacklist", 4)]
 public interface IBannerModuleBlacklist
 {
     [ModuleBlacklist("ModuleBlacklist")]
