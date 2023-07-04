@@ -139,7 +139,7 @@ public unsafe class PartyMemberOverlay
         if (dirty || force)
         {
             AddonData.Name->EdgeColor = Addon->Chocobo.Name->EdgeColor;
-            AddonData.ClassJobIcon->AtkResNode.ToggleVisibility(Addon->Chocobo.ClassJobIcon->AtkResNode.IsVisible);
+            AddonData.ClassJobIcon->AtkResNode.ToggleVisibility(true);
             dirty = false;
         }
     }
