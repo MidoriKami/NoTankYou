@@ -94,7 +94,7 @@ public unsafe class PartyMemberOverlay
     {
         if (WarningIcon is null) return;
         
-        var jobIconPosition = GetScreenPosition((AtkResNode*) AddonData.ClassJobIcon);
+        var jobIconPosition = GetScreenPosition((AtkResNode*) AddonData.ClassJobIcon) + ImGui.GetMainViewport().Pos;
         var warningShieldSize = new Vector2(WarningIcon.Width, WarningIcon.Height) * Addon->AtkUnitBase.Scale;
         
         DrawList.AddImage(WarningIcon.ImGuiHandle, jobIconPosition, jobIconPosition + warningShieldSize);
@@ -102,7 +102,7 @@ public unsafe class PartyMemberOverlay
     
     private void DrawWarningText(WarningState warning, Vector4 color)
     {
-        var position = GetScreenPosition((AtkResNode*) AddonData.Name);
+        var position = GetScreenPosition((AtkResNode*) AddonData.Name) + ImGui.GetMainViewport().Pos;
         position += new Vector2(AddonData.Name->AtkResNode.Width * Addon->AtkUnitBase.Scale, 7.5f);
         position -= ImGui.CalcTextSize(warning.Message);
 

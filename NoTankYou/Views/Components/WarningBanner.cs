@@ -15,6 +15,8 @@ public class WarningBanner
     {
         if (warning is null) return;
         
+        drawPosition += ImGui.GetMainViewport().Pos;
+        
         DrawWarningShield(ref drawPosition, settings);
         DrawWarningText(ref drawPosition, warning, settings);
         DrawActionIcon(ref drawPosition, warning, settings);
