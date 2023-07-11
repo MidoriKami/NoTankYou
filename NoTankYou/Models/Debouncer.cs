@@ -11,7 +11,7 @@ public class Debouncer
     private bool lastState;
 
     public Debouncer(TimeSpan delay) => delayTime = delay;
-    public Debouncer() => delayTime = TimeSpan.FromMilliseconds(500);
+    public Debouncer() => delayTime = TimeSpan.FromMilliseconds(750);
 
     public void Update(uint objectId, bool state)
     {
