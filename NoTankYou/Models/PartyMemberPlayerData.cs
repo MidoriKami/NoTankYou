@@ -33,5 +33,4 @@ public unsafe class PartyMemberPlayerData : IPlayerData
     public bool HasClassJob(uint classJobId) => partyMember.ClassJob == classJobId;
     public bool IsDead() => partyMember.CurrentHP is 0;
     public byte GetClassJob() => partyMember.ClassJob;
-    public bool HasPet() => (this as IPlayerData).GameObjectHasPet();
 }
