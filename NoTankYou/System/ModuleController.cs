@@ -56,4 +56,12 @@ public class ModuleController : IDisposable
 
         return warningList;
     }
+    
+    public void ZoneChange(ushort newZoneId)
+    {
+        foreach (var module in Modules)
+        {
+            module.ZoneChange(newZoneId);
+        }
+    }
 }

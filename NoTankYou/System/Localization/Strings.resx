@@ -324,4 +324,11 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     <data name="ModuleBlacklistInfo" xml:space="preserve">
         <value>Toggle to prevent warnings from selected modules from appearing.</value>
     </data>
+    <data name="SuppressingWarnings" xml:space="preserve">
+        <value>Suppressing {0} Warnings for: {1}</value>
+        <comment>{0} represents the module name, {1} represents a playername</comment>
+    </data>
+    <data name="SuppressModuleHelp" xml:space="preserve">
+        <value>Suppress current warnings from players for this module until next zone change</value>
+    </data>
 </root>

@@ -32,6 +32,7 @@ public abstract unsafe class ModuleBase : IDisposable
     public abstract string DefaultWarningText { get; protected set; }
     protected abstract bool ShouldEvaluate(IPlayerData playerData);
     protected abstract void EvaluateWarnings(IPlayerData playerData);
+    protected List<ulong> SuppressedObjectIds = new();
 
     private AtkUnitBase* NameplateAddon => (AtkUnitBase*)Service.GameGui.GetAddonByName("NamePlate");
     
@@ -49,6 +50,7 @@ public abstract unsafe class ModuleBase : IDisposable
         CommandController.RegisterDoubleTierCommand(EnableModuleHandler, new DoubleTierCommandHandler("EnableModuleHelp", ModuleCommand, "enable"));
         CommandController.RegisterDoubleTierCommand(DisableModuleHandler, new DoubleTierCommandHandler("DisableModuleHelp", ModuleCommand, "disable"));
         CommandController.RegisterDoubleTierCommand(ToggleModuleHandler, new DoubleTierCommandHandler("ToggleModuleHelp", ModuleCommand, "toggle"));
+        CommandController.RegisterDoubleTierCommand(SuppressModuleHandler, new DoubleTierCommandHandler("SuppressModuleHelp", ModuleCommand, "suppress"));
     }
 
     public void EvaluateWarnings()
@@ -90,6 +92,7 @@ public abstract unsafe class ModuleBase : IDisposable
         if (player.GetObjectId() is 0xE0000000 or 0) return;
         if (deathTracker.IsDead(player)) return;
         if (!ShouldEvaluate(player)) return;
+        if (SuppressedObjectIds.Contains(player.GetObjectId())) return;
 
         EvaluateWarnings(player);
     }
@@ -108,6 +111,8 @@ public abstract unsafe class ModuleBase : IDisposable
     {
         PluginLog.Debug($"[{ModuleName}] Unloading Module");
     }
+    
+    public void ZoneChange(ushort newZoneId) => SuppressedObjectIds.Clear();
 
     protected Span<PartyMember> PartyMemberSpan => new(GroupManager.Instance()->PartyMembers, GroupManager.Instance()->MemberCount);
 
@@ -172,6 +177,18 @@ public abstract unsafe class ModuleBase : IDisposable
         ModuleConfig.Enabled = !ModuleConfig.Enabled;
         PrintConfirmation();
         SaveConfig();
+    }
+
+    private void SuppressModuleHandler(params string[] _)
+    {
+        if (!Service.ClientState.IsLoggedIn) return;
+        if (Service.ClientState.IsPvP) return;
+
+        foreach (var warningPlayer in ActiveWarningStates)
+        {
+            SuppressedObjectIds.Add(warningPlayer.SourceObjectId);
+            Chat.Print(Strings.Command, string.Format(Strings.SuppressingWarnings, ModuleName.GetLabel(), warningPlayer.SourcePlayerName));
+        }
     }
 
     private void PrintConfirmation() => Chat.Print(Strings.Command, ModuleConfig.Enabled ? $"{Strings.Enabling} {ModuleName.GetLabel()}" : $"{Strings.Disabling} {ModuleName.GetLabel()}");

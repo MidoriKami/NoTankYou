@@ -855,6 +855,24 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Suppressing {0} Warnings for: {1}.
+        /// </summary>
+        internal static string SuppressingWarnings {
+            get {
+                return ResourceManager.GetString("SuppressingWarnings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suppress current warnings from players for this module until next zone change.
+        /// </summary>
+        internal static string SuppressModuleHelp {
+            get {
+                return ResourceManager.GetString("SuppressModuleHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tank.
         /// </summary>
         internal static string Tank {

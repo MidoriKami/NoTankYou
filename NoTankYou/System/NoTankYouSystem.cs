@@ -42,8 +42,9 @@ public class NoTankYouSystem : IDisposable
         Service.ClientState.Login += OnLogin;
         Service.ClientState.Logout += OnLogout;
         Service.PluginInterface.UiBuilder.Draw += OnDraw;
+        Service.ClientState.TerritoryChanged += OnZoneChange;
     }
-    
+
     public void Dispose()
     {
         Axis56.Dispose();
@@ -59,6 +60,7 @@ public class NoTankYouSystem : IDisposable
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
         Service.PluginInterface.UiBuilder.Draw -= OnDraw;
+        Service.ClientState.TerritoryChanged -= OnZoneChange;
     }
 
     public void DrawConfig() => DrawableAttribute.DrawAttributes(SystemConfig, SaveSystemConfig);
@@ -99,6 +101,14 @@ public class NoTankYouSystem : IDisposable
         
         BannerController.Draw(activeWarnings);
         PartyListController.Draw(activeWarnings);
+    }
+    
+    private void OnZoneChange(object? sender, ushort newZoneId)
+    {
+        if (Service.ClientState.IsPvP) return;
+        if (!Service.ClientState.IsLoggedIn) return;
+
+        ModuleController.ZoneChange(newZoneId);
     }
     
     private void LoadSystemConfig()
