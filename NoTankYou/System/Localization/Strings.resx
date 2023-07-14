@@ -331,4 +331,7 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     <data name="SuppressModuleHelp" xml:space="preserve">
         <value>Suppress current warnings from players for this module until next zone change</value>
     </data>
+    <data name="HelpText" xml:space="preserve">
+        <value>Show this help message</value>
+    </data>
 </root>
