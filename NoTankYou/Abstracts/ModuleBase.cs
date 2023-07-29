@@ -97,7 +97,10 @@ public abstract unsafe class ModuleBase : IDisposable
         EvaluateWarnings(player);
     }
 
-    private bool ConditionNotAllowed() => Service.Condition[ConditionFlag.Jumping61];
+    private static bool ConditionNotAllowed() 
+        => Condition.Any(ConditionFlag.Jumping61,
+            ConditionFlag.Transformed,
+            ConditionFlag.InThisState89);
 
     public void DrawConfig() => DrawableAttribute.DrawAttributes(ModuleConfig, SaveConfig);
     
