@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KamiLib.AutomaticUserInterface;
+using KamiLib.Utilities;
 using NoTankYou.DataModels;
 using NoTankYou.Models;
 using NoTankYou.Models.Enums;
@@ -87,6 +88,6 @@ public class PartyListController : IDisposable
 
     public void Dispose() => Unload();
     public void DrawConfig() => DrawableAttribute.DrawAttributes(config, SaveConfig);
-    private PartyListConfig LoadConfig() => FileController.LoadFile<PartyListConfig>("PartyListOverlay.config.json", config);
-    public void SaveConfig() => FileController.SaveFile("PartyListOverlay.config.json", config.GetType(), config);
+    private PartyListConfig LoadConfig() => CharacterFileController.LoadFile<PartyListConfig>("PartyListOverlay.config.json", config);
+    public void SaveConfig() => CharacterFileController.SaveFile("PartyListOverlay.config.json", config.GetType(), config);
 }

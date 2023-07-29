@@ -5,6 +5,7 @@ using Dalamud.Game;
 using Dalamud.Interface.GameFonts;
 using Dalamud.Logging;
 using KamiLib.AutomaticUserInterface;
+using KamiLib.Utilities;
 using NoTankYou.DataModels;
 using NoTankYou.Utilities;
 
@@ -113,7 +114,7 @@ public class NoTankYouSystem : IDisposable
     
     private void LoadSystemConfig()
     {
-        SystemConfig = FileController.LoadFile<SystemConfig>("System.config.json", SystemConfig);
+        SystemConfig = CharacterFileController.LoadFile<SystemConfig>("System.config.json", SystemConfig);
         
         PluginLog.Debug($"[NoTankYouSystem] Logging into character: {Service.ClientState.LocalPlayer?.Name}, updating System.config.json");
 
@@ -122,5 +123,5 @@ public class NoTankYouSystem : IDisposable
         SaveSystemConfig();
     }
     
-    private void SaveSystemConfig() => FileController.SaveFile("System.config.json", SystemConfig.GetType(), SystemConfig);
+    private void SaveSystemConfig() => CharacterFileController.SaveFile("System.config.json", SystemConfig.GetType(), SystemConfig);
 }

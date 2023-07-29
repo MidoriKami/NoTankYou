@@ -148,9 +148,9 @@ public abstract unsafe class ModuleBase : IDisposable
         SourceModule = ModuleName,
     });
 
-    private IModuleConfigBase LoadConfig() => FileController.LoadFile<IModuleConfigBase>($"{ModuleName}.config.json", ModuleConfig);
+    private IModuleConfigBase LoadConfig() => CharacterFileController.LoadFile<IModuleConfigBase>($"{ModuleName}.config.json", ModuleConfig);
     
-    public void SaveConfig() => FileController.SaveFile($"{ModuleName}.config.json", ModuleConfig.GetType(), ModuleConfig);
+    public void SaveConfig() => CharacterFileController.SaveFile($"{ModuleName}.config.json", ModuleConfig.GetType(), ModuleConfig);
 
     private void EnableModuleHandler(params string[] _)
     {

@@ -6,6 +6,7 @@ using System.Numerics;
 using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.AutomaticUserInterface;
+using KamiLib.Utilities;
 using NoTankYou.DataModels;
 using NoTankYou.Models;
 using NoTankYou.Models.Enums;
@@ -125,6 +126,6 @@ public class BannerController : IDisposable
 
     public void Load() => config = LoadConfig();
     public void Unload() { }
-    private BannerConfig LoadConfig() => FileController.LoadFile<BannerConfig>("BannerDisplay.config.json", config);
-    public void SaveConfig() => FileController.SaveFile("BannerDisplay.config.json", config.GetType(), config);
+    private BannerConfig LoadConfig() => CharacterFileController.LoadFile<BannerConfig>("BannerDisplay.config.json", config);
+    public void SaveConfig() => CharacterFileController.SaveFile("BannerDisplay.config.json", config.GetType(), config);
 }
