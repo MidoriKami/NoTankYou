@@ -981,6 +981,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Window Dragging Enabled.
+        /// </summary>
+        internal static string WindowDraggingEnabled {
+            get {
+                return ResourceManager.GetString("WindowDraggingEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zone Filter.
         /// </summary>
         internal static string ZoneFilter {
