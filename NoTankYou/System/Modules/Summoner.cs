@@ -24,7 +24,8 @@ public class Summoner : ModuleBase
     {
         if (playerData.MissingClassJob(ArcanistJobId, SummonerJobId)) return false;
         if (playerData.GetLevel() < MinimumLevel) return false;
-        
+        if (!playerData.IsTargetable()) return false;
+
         return true;
     }
     

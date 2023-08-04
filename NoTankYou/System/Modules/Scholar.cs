@@ -23,7 +23,8 @@ public class Scholar : ModuleBase
     protected override bool ShouldEvaluate(IPlayerData playerData)
     {
         if (playerData.MissingClassJob(ScholarJobId)) return false;
-        if(playerData.GetLevel() < MinimumLevel) return false;
+        if (playerData.GetLevel() < MinimumLevel) return false;
+        if (!playerData.IsTargetable()) return false;
         
         return true;
     }

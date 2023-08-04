@@ -26,6 +26,7 @@ public unsafe interface IPlayerData
     bool MissingClassJob(uint classJobId) => !HasClassJob(classJobId);
     bool MissingClassJob(params uint[] classJobs) => !HasClassJob(classJobs);
     bool GameObjectHasStatus(params uint[] statuses) => statuses.Any(GameObjectHasStatus);
+    bool IsTargetable() => GetGameObject()?.IsTargetable ?? false;
     
     bool GameObjectHasStatus(uint statusId)
     {
