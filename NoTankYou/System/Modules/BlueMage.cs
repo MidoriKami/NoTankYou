@@ -52,7 +52,7 @@ public unsafe class BlueMage : ModuleBase
             IPlayerData playerData = new PartyMemberPlayerData(partyMember);
 
             if (playerData.MissingStatus(AetherialMimicryTankStatusId)) continue;
-            if (playerData.HasStatus(MightyGuardActionId)) return true;
+            if (playerData.HasStatus(MightyGuardStatusId)) return true;
         }
 
         return false;
