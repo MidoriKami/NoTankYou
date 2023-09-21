@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using KamiLib.AutomaticUserInterface;
 using KamiLib.GameState;
 using KamiLib.Utilities;
 using NoTankYou.Models.Interfaces;

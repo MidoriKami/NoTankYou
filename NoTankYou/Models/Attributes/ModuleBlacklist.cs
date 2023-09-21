@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Dalamud.Interface;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.Utilities;

@@ -47,9 +47,9 @@ public unsafe class BlueMage : ModuleBase
 
     private bool PartyHasStance()
     {
-        foreach (var partyMember in PartyMemberSpan)
+        foreach (ref var partyMember in PartyMemberSpan)
         {
-            IPlayerData playerData = new PartyMemberPlayerData(partyMember);
+            IPlayerData playerData = new PartyMemberPlayerData(ref partyMember);
 
             if (playerData.MissingStatus(AetherialMimicryTankStatusId)) continue;
             if (playerData.HasStatus(MightyGuardStatusId)) return true;

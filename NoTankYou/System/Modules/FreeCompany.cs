@@ -1,10 +1,8 @@
 ﻿using System.Linq;
-using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;
-using NoTankYou.Models.Attributes;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
 using NoTankYou.Models.ModuleConfiguration;

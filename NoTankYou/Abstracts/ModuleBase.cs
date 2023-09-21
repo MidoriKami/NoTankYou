@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
@@ -79,9 +78,9 @@ public abstract unsafe class ModuleBase : IDisposable
         }
         else
         {
-            foreach (var partyMember in PartyMemberSpan)
+            foreach (ref var partyMember in PartyMemberSpan)
             {
-                ProcessPlayer(new PartyMemberPlayerData(partyMember));
+                ProcessPlayer(new PartyMemberPlayerData(ref partyMember));
             }
         }
     }
@@ -106,13 +105,13 @@ public abstract unsafe class ModuleBase : IDisposable
     
     public void Load()
     {
-        PluginLog.Debug($"[{ModuleName}] Loading Module");
+        Service.Log.Debug($"[{ModuleName}] Loading Module");
         ModuleConfig = LoadConfig();
     }
 
     public void Unload()
     {
-        PluginLog.Debug($"[{ModuleName}] Unloading Module");
+        Service.Log.Debug($"[{ModuleName}] Unloading Module");
     }
     
     public void ZoneChange(ushort newZoneId) => SuppressedObjectIds.Clear();

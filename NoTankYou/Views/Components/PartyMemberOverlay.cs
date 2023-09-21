@@ -23,7 +23,7 @@ public unsafe class PartyMemberOverlay
     private static TextureWrap? WarningIcon => ImageCache.Instance.GetImage("Warning.png");
     private static ImDrawListPtr DrawList => ImGui.GetBackgroundDrawList();
     private static AddonPartyList* Addon => (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
-    private static AgentHUD* Agent => AgentModule.Instance()->GetAgentHUD();
+    private static AgentHUD* Agent => AgentHUD.Instance();
 
     private HudPartyMember HudData => Agent->PartyMemberListSpan[memberIndex];
     private PartyListMemberStruct AddonData => Addon->PartyMember[memberIndex];

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Dalamud.Logging;
 using ImGuiScene;
 
 namespace NoTankYou.Utilities;
@@ -38,7 +37,7 @@ public class ImageCache : IDisposable
             }
             catch (Exception exception)
             {
-                PluginLog.LogError(exception, $"Failed loading image: {imagePath}");
+                Service.Log.Error(exception, $"Failed loading image: {imagePath}");
             }
         });
     }
