@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Numerics;
+using Dalamud.Interface.Internal;
 using ImGuiNET;
 using ImGuiScene;
 using NoTankYou.DataModels;
@@ -10,7 +11,7 @@ namespace NoTankYou.Views.Components;
 
 public class WarningBanner
 {
-    private static TextureWrap? WarningIcon => ImageCache.Instance.GetImage("BigWarning.png");
+    private static IDalamudTextureWrap? WarningIcon => ImageCache.Instance.GetImage("BigWarning.png");
     public static void Draw(Vector2 drawPosition, WarningState? warning, BannerConfig settings)
     {
         if (warning is null) return;

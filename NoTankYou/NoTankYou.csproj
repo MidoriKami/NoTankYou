@@ -37,6 +37,7 @@
 		<None Remove="NoTankYou.json" />
 		<None Remove="README.md" />
 		<None Remove="..\.editorconfig" />
+		<None Remove="packages.lock.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -44,7 +45,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DalamudPackager" Version="2.1.10" />
+		<PackageReference Include="DalamudPackager" Version="2.1.12" />
 	</ItemGroup>
 
 	<ItemGroup>

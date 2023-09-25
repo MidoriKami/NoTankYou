@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using Dalamud.Logging;
 using NoTankYou.Localization;
 
 namespace NoTankYou.System;
@@ -31,12 +30,12 @@ internal class LocalizationController : IDisposable
     {
         try
         {
-            PluginLog.Information($"Loading Localization for {languageCode}");
+            Service.Log.Information($"Loading Localization for {languageCode}");
             Strings.Culture = new CultureInfo(languageCode);
         }
         catch (Exception ex)
         {
-            PluginLog.Error(ex, "Unable to Load Localization");
+            Service.Log.Error(ex, "Unable to Load Localization");
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Interface;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 using KamiLib;
 using KamiLib.AutomaticUserInterface;
@@ -122,13 +123,13 @@ public class BannerController : IDisposable
                     holdOffset = null;
                 }
 
-                var textPosition = new Vector2(config.WindowPosition.X, config.WindowPosition.Y + sampleWarningSize.Y);
+                var textPosition = config.WindowPosition with { Y = config.WindowPosition.Y + sampleWarningSize.Y };
                 
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition - new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition - new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition + new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition + new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition, ImGui.GetColorU32(KnownColor.OrangeRed.AsVector4()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition - new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.Vector()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition - new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.Vector()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition + new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.Vector()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition + new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.Vector()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis18.ImFont, 30, textPosition, ImGui.GetColorU32(KnownColor.OrangeRed.Vector()), Strings.WindowDraggingEnabled);
             }
             ImGui.End();
         }

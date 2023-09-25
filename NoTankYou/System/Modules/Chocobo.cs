@@ -15,7 +15,7 @@ namespace NoTankYou.System.Modules;
 public unsafe class Chocobo : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Chocobo;
-    public override string DefaultWarningText { get; protected set; } = Strings.ChocoboMissing;
+    protected override string DefaultWarningText { get; } = Strings.ChocoboMissing;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new ChocoboConfiguration();
 
     private const uint GyshalGreensItemId = 4868;

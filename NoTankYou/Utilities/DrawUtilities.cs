@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 using Dalamud.Interface;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 using KamiLib.Caching;
 using KamiLib.Utilities;
@@ -46,16 +47,16 @@ public class DrawUtilities
 
         // Debug Outline for Text
             // var stringSize = CalculateTextSize(text, scale);
-            // drawList.AddRect(drawPosition, drawPosition + stringSize, ImGui.GetColorU32(KnownColor.Green.AsVector4()));
+            // drawList.AddRect(drawPosition, drawPosition + stringSize, ImGui.GetColorU32(KnownColor.Green.Vector()));
         
-        drawList.AddText(font, font.FontSize * scale, drawPosition, ImGui.GetColorU32(color.AsVector4()), text);
+        drawList.AddText(font, font.FontSize * scale, drawPosition, ImGui.GetColorU32(color.Vector()), text);
     }
     
     public static void DrawIconWithName(Vector2 drawPosition, uint iconId, string iconLabel, float scale, bool showActionName)
     {
         if (!NoTankYouSystem.Axis56.Available) return;
         
-        if (IconCache.Instance.GetIcon(iconId) is { } icon)
+        if (Service.TextureProvider.GetIcon(iconId) is { } icon)
         {
             var drawList = ImGui.GetBackgroundDrawList();
 

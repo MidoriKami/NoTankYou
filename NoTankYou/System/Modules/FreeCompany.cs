@@ -1,10 +1,8 @@
 ﻿using System.Linq;
-using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;
-using NoTankYou.Models.Attributes;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
 using NoTankYou.Models.ModuleConfiguration;
@@ -15,7 +13,7 @@ namespace NoTankYou.System.Modules;
 public class FreeCompany : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.FreeCompany;
-    public override string DefaultWarningText { get; protected set; } = Strings.FreeCompanyBuff;
+    protected override string DefaultWarningText { get; } = Strings.FreeCompanyBuff;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new FreeCompanyConfiguration();
 
     private const uint FreeCompanyActionId = 43;

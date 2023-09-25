@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
@@ -29,12 +28,13 @@ public abstract unsafe class ModuleBase : IDisposable
 {
     public abstract ModuleName ModuleName { get; }
     public abstract IModuleConfigBase ModuleConfig { get; protected set; }
-    public abstract string DefaultWarningText { get; protected set; }
+    protected abstract string DefaultWarningText { get; }
     protected abstract bool ShouldEvaluate(IPlayerData playerData);
     protected abstract void EvaluateWarnings(IPlayerData playerData);
-    protected List<ulong> SuppressedObjectIds = new();
+    
+    private readonly List<ulong> suppressedObjectIds = new();
 
-    private AtkUnitBase* NameplateAddon => (AtkUnitBase*)Service.GameGui.GetAddonByName("NamePlate");
+    private static AtkUnitBase* NameplateAddon => (AtkUnitBase*)Service.GameGui.GetAddonByName("NamePlate");
     
     private readonly DeathTracker deathTracker = new();
     
@@ -79,9 +79,9 @@ public abstract unsafe class ModuleBase : IDisposable
         }
         else
         {
-            foreach (var partyMember in PartyMemberSpan)
+            foreach (ref var partyMember in PartyMemberSpan)
             {
-                ProcessPlayer(new PartyMemberPlayerData(partyMember));
+                ProcessPlayer(new PartyMemberPlayerData(ref partyMember));
             }
         }
     }
@@ -92,13 +92,13 @@ public abstract unsafe class ModuleBase : IDisposable
         if (player.GetObjectId() is 0xE0000000 or 0) return;
         if (deathTracker.IsDead(player)) return;
         if (!ShouldEvaluate(player)) return;
-        if (SuppressedObjectIds.Contains(player.GetObjectId())) return;
+        if (suppressedObjectIds.Contains(player.GetObjectId())) return;
 
         EvaluateWarnings(player);
     }
 
     private static bool ConditionNotAllowed() 
-        => Condition.Any(ConditionFlag.Jumping61,
+        => Service.Condition.Any(ConditionFlag.Jumping61,
             ConditionFlag.Transformed,
             ConditionFlag.InThisState89);
 
@@ -106,18 +106,18 @@ public abstract unsafe class ModuleBase : IDisposable
     
     public void Load()
     {
-        PluginLog.Debug($"[{ModuleName}] Loading Module");
+        Service.Log.Debug($"[{ModuleName}] Loading Module");
         ModuleConfig = LoadConfig();
     }
 
     public void Unload()
     {
-        PluginLog.Debug($"[{ModuleName}] Unloading Module");
+        Service.Log.Debug($"[{ModuleName}] Unloading Module");
     }
     
-    public void ZoneChange(ushort newZoneId) => SuppressedObjectIds.Clear();
+    public void ZoneChange(ushort _) => suppressedObjectIds.Clear();
 
-    protected Span<PartyMember> PartyMemberSpan => new(GroupManager.Instance()->PartyMembers, GroupManager.Instance()->MemberCount);
+    protected static Span<PartyMember> PartyMemberSpan => new(GroupManager.Instance()->PartyMembers, GroupManager.Instance()->MemberCount);
 
     protected T GetConfig<T>() where T : IModuleConfigBase
     {
@@ -189,10 +189,10 @@ public abstract unsafe class ModuleBase : IDisposable
 
         foreach (var warningPlayer in ActiveWarningStates)
         {
-            SuppressedObjectIds.Add(warningPlayer.SourceObjectId);
-            Chat.Print(Strings.Command, string.Format(Strings.SuppressingWarnings, ModuleName.GetLabel(), warningPlayer.SourcePlayerName));
+            suppressedObjectIds.Add(warningPlayer.SourceObjectId);
+            Chat.Print(Strings.Command, string.Format(Strings.SuppressingWarnings, ModuleName.Label(), warningPlayer.SourcePlayerName));
         }
     }
 
-    private void PrintConfirmation() => Chat.Print(Strings.Command, ModuleConfig.Enabled ? $"{Strings.Enabling} {ModuleName.GetLabel()}" : $"{Strings.Disabling} {ModuleName.GetLabel()}");
+    private void PrintConfirmation() => Chat.Print(Strings.Command, ModuleConfig.Enabled ? $"{Strings.Enabling} {ModuleName.Label()}" : $"{Strings.Disabling} {ModuleName.Label()}");
 }

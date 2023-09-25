@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Dalamud.Interface;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.Utilities;
@@ -25,7 +25,7 @@ public class ModuleBlacklistAttribute : DrawableAttribute
         foreach (var module in Enum.GetValues<ModuleName>()[..^1]) // Trim "Test" Module
         {
             var inHashset = hashSet.Contains(module);
-            if(ImGui.Checkbox(module.GetLabel(), ref inHashset))
+            if(ImGui.Checkbox(module.Label(), ref inHashset))
             {
                 if (!inHashset) hashSet.Remove(module);
                 if (inHashset) hashSet.Add(module);

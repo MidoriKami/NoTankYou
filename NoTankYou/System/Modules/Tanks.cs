@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
-using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
@@ -18,7 +17,7 @@ public unsafe class Tanks : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Tanks;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new TankConfiguration();
-    public override string DefaultWarningText { get; protected set; } = Strings.TankStance;
+    protected override string DefaultWarningText { get; } = Strings.TankStance;
 
     private readonly uint[] tankClassJobArray = LuminaCache<ClassJob>.Instance
         .Where(job => job.Role is 1)
@@ -65,9 +64,9 @@ public unsafe class Tanks : ModuleBase
     
     private bool PartyHasStance()
     {
-        foreach (var partyMember in PartyMemberSpan)
+        foreach (ref var partyMember in PartyMemberSpan)
         {
-            IPlayerData playerData = new PartyMemberPlayerData(partyMember);
+            IPlayerData playerData = new PartyMemberPlayerData(ref partyMember);
 
             if (!IsTank(playerData)) continue;
             if (playerData.HasStatus(tankStanceIdArray)) return true;
@@ -78,11 +77,11 @@ public unsafe class Tanks : ModuleBase
 
     private bool AllianceHasStance()
     {
-        foreach (var partyMember in GroupManager.Instance()->AllianceMembersSpan)
+        foreach (ref var partyMember in GroupManager.Instance()->AllianceMembersSpan)
         {
             if (partyMember.ObjectID is 0xE0000000) continue;
             
-            IPlayerData playerData = new PartyMemberPlayerData(partyMember);
+            IPlayerData playerData = new PartyMemberPlayerData(ref partyMember);
 
             if (!IsTank(playerData)) continue;
             if (playerData.GameObjectHasStatus(tankStanceIdArray)) return true;

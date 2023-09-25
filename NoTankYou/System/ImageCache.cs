@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Dalamud.Logging;
-using ImGuiScene;
+using Dalamud.Interface.Internal;
 
 namespace NoTankYou.Utilities;
 
@@ -12,7 +11,7 @@ public class ImageCache : IDisposable
     private static ImageCache? _instance;
     public static ImageCache Instance => _instance ??= new ImageCache();
 
-    private readonly Dictionary<string, TextureWrap?> imageTextures = new();
+    private readonly Dictionary<string, IDalamudTextureWrap?> imageTextures = new();
 
     public static void Cleanup() => Instance.Dispose();
     
@@ -38,12 +37,12 @@ public class ImageCache : IDisposable
             }
             catch (Exception exception)
             {
-                PluginLog.LogError(exception, $"Failed loading image: {imagePath}");
+                Service.Log.Error(exception, $"Failed loading image: {imagePath}");
             }
         });
     }
     
-    public TextureWrap? GetImage(string imagePath)
+    public IDalamudTextureWrap? GetImage(string imagePath)
     {
         if (imageTextures.TryGetValue(imagePath, out var textureWrap)) return textureWrap;
         
