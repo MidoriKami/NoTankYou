@@ -10,7 +10,7 @@ namespace NoTankYou.System.Modules;
 public class Scholar : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Scholar;
-    public override string DefaultWarningText { get; protected set; } = Strings.ScholarFaerie;
+    protected override string DefaultWarningText { get; } = Strings.ScholarFaerie;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new GenericBattleConfiguration();
 
     private const int DissipationStatusId = 791;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using Dalamud.Interface;
 using KamiLib.Utilities;
 using NoTankYou.Models.BannerConfiguration;
 using NoTankYou.Models.Enums;
@@ -22,8 +23,8 @@ public class PartyListConfig : IPartyListMainOptions, IPartyListDisplayStyle, IP
     public float AnimationPeriod { get; set; } = 1000;
     
     // IPartyListDisplayColors
-    public Vector4 TextColor { get; set; } = KnownColor.Red.AsVector4();
-    public Vector4 OutlineColor { get; set; } = KnownColor.Red.AsVector4();
+    public Vector4 TextColor { get; set; } = KnownColor.Red.Vector();
+    public Vector4 OutlineColor { get; set; } = KnownColor.Red.Vector();
     
     // IPartyListBlacklist
     public HashSet<ModuleName> BlacklistedModules { get; set; } = new();

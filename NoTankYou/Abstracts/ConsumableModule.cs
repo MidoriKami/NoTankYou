@@ -6,8 +6,6 @@ using NoTankYou.Models.ModuleConfiguration;
 
 namespace NoTankYou.Abstracts;
 
-
-
 public abstract class ConsumableModule : ModuleBase
 {
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new ConsumableConfiguration();
@@ -31,7 +29,7 @@ public abstract class ConsumableModule : ModuleBase
             if(config.ExtremeUnrealFilter) allowedZones.Add(DutyType.ExtremeUnreal);
             if(config.CriterionFilter) allowedZones.Add(DutyType.Criterion);
 
-            if (!DutyLists.Instance.IsType(Service.ClientState.TerritoryType, allowedZones)) return false;
+            if (!DutyLists.Instance.IsType(Service.ClientState.TerritoryType, allowedZones.ToArray())) return false;
         }
         
         return true;

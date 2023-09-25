@@ -17,7 +17,7 @@ public unsafe class Tanks : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Tanks;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new TankConfiguration();
-    public override string DefaultWarningText { get; protected set; } = Strings.TankStance;
+    protected override string DefaultWarningText { get; } = Strings.TankStance;
 
     private readonly uint[] tankClassJobArray = LuminaCache<ClassJob>.Instance
         .Where(job => job.Role is 1)

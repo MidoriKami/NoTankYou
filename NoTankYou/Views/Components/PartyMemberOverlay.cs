@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Interface;
+using Dalamud.Interface.Internal;
 using Dalamud.Utility.Numerics;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -20,7 +22,7 @@ namespace NoTankYou.Views.Components;
 
 public unsafe class PartyMemberOverlay
 {
-    private static TextureWrap? WarningIcon => ImageCache.Instance.GetImage("Warning.png");
+    private static IDalamudTextureWrap? WarningIcon => ImageCache.Instance.GetImage("Warning.png");
     private static ImDrawListPtr DrawList => ImGui.GetBackgroundDrawList();
     private static AddonPartyList* Addon => (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
     private static AgentHUD* Agent => AgentHUD.Instance();
@@ -87,7 +89,7 @@ public unsafe class PartyMemberOverlay
 
     private void AnimateWarningText(WarningState warning)
     {
-        DrawWarningText(warning, AnimationState ? config.TextColor : KnownColor.White.AsVector4());
+        DrawWarningText(warning, AnimationState ? config.TextColor : KnownColor.White.Vector());
     }
 
     private void DrawWarningShield()

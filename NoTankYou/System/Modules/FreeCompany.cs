@@ -13,7 +13,7 @@ namespace NoTankYou.System.Modules;
 public class FreeCompany : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.FreeCompany;
-    public override string DefaultWarningText { get; protected set; } = Strings.FreeCompanyBuff;
+    protected override string DefaultWarningText { get; } = Strings.FreeCompanyBuff;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new FreeCompanyConfiguration();
 
     private const uint FreeCompanyActionId = 43;

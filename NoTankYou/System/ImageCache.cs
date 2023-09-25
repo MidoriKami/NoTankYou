@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using ImGuiScene;
+using Dalamud.Interface.Internal;
 
 namespace NoTankYou.Utilities;
 
@@ -11,7 +11,7 @@ public class ImageCache : IDisposable
     private static ImageCache? _instance;
     public static ImageCache Instance => _instance ??= new ImageCache();
 
-    private readonly Dictionary<string, TextureWrap?> imageTextures = new();
+    private readonly Dictionary<string, IDalamudTextureWrap?> imageTextures = new();
 
     public static void Cleanup() => Instance.Dispose();
     
@@ -42,7 +42,7 @@ public class ImageCache : IDisposable
         });
     }
     
-    public TextureWrap? GetImage(string imagePath)
+    public IDalamudTextureWrap? GetImage(string imagePath)
     {
         if (imageTextures.TryGetValue(imagePath, out var textureWrap)) return textureWrap;
         

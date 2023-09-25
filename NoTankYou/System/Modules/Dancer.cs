@@ -11,7 +11,7 @@ public unsafe class Dancer : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Dancer;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new GenericBattleConfiguration();
-    public override string DefaultWarningText { get; protected set; } = Strings.DancePartner;
+    protected override string DefaultWarningText { get; } = Strings.DancePartner;
 
     private const uint DancerClassJobId = 38;
     private const uint MinimumLevel = 60;

@@ -9,7 +9,6 @@ public unsafe interface IPlayerData
 {
     // Interface Members
     bool HasStatus(uint statusId);
-
     uint GetObjectId();
     byte GetLevel();
     byte GetClassJob();

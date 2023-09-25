@@ -9,7 +9,7 @@ namespace NoTankYou.System.Modules;
 public class Sage : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Sage;
-    public override string DefaultWarningText { get; protected set; } = Strings.SageKardion;
+    protected override string DefaultWarningText { get; } = Strings.SageKardion;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new GenericBattleConfiguration();
 
     private const byte MinimumLevel = 4;

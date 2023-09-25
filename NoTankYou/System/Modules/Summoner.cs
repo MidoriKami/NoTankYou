@@ -10,7 +10,7 @@ namespace NoTankYou.System.Modules;
 public class Summoner : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.Summoner;
-    public override string DefaultWarningText { get; protected set; } = Strings.SummonerPet;
+    protected override string DefaultWarningText { get; } = Strings.SummonerPet;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new GenericBattleConfiguration();
 
     private const uint SummonCarbuncleActionId = 25798;

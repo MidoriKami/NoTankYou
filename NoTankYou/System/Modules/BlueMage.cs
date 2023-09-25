@@ -12,7 +12,7 @@ public unsafe class BlueMage : ModuleBase
 {
     public override ModuleName ModuleName => ModuleName.BlueMage;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new BlueMageConfiguration();
-    public override string DefaultWarningText { get; protected set; } = Strings.MightyGuard;
+    protected override string DefaultWarningText { get; } = Strings.MightyGuard;
 
     private const uint MightyGuardStatusId = 1719;
     private const uint AetherialMimicryTankStatusId = 2124;
@@ -45,7 +45,7 @@ public unsafe class BlueMage : ModuleBase
         }
     }
 
-    private bool PartyHasStance()
+    private static bool PartyHasStance()
     {
         foreach (ref var partyMember in PartyMemberSpan)
         {
