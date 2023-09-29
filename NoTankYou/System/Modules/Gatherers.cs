@@ -28,8 +28,14 @@ public class Gatherers : ModuleBase
 
     protected override void EvaluateWarnings(IPlayerData playerData)
     {
-        foreach (var (_, minLevel, statusId, actionId) in data)
+        var config = GetConfig<GatherersConfig>();
+        
+        foreach (var (classJob, minLevel, statusId, actionId) in data)
         {
+            if (!config.Miner && classJob is 16) continue;
+            if (!config.Botanist && classJob is 17) continue;
+            if (!config.Fisher && classJob is 18) continue;
+            
             if (playerData.GetLevel() >= minLevel && playerData.MissingStatus(statusId))
             {
                 AddActiveWarning(actionId, playerData);

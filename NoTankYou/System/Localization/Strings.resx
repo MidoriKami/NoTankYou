@@ -353,6 +353,6 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
         <value>Fisher</value>
     </data>
     <data name="StatusMissing" xml:space="preserve">
-        <value>Status Missing</value>
+        <value>DoH Status Missing</value>
     </data>
 </root>

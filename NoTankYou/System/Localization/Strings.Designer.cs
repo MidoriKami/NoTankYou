@@ -882,7 +882,7 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status Missing.
+        ///   Looks up a localized string similar to DoH Status Missing.
         /// </summary>
         internal static string StatusMissing {
             get {
