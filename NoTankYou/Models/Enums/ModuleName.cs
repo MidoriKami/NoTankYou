@@ -36,4 +36,7 @@ public enum ModuleName
     
     [EnumLabel("Test")]
     Test,
+    
+    [EnumLabel("Gatherers")]
+    Gatherers,
 }

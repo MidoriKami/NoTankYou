@@ -337,4 +337,22 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     <data name="WindowDraggingEnabled" xml:space="preserve">
         <value>Window Dragging Enabled</value>
     </data>
+    <data name="Gatherers" xml:space="preserve">
+        <value>Gatherers</value>
+    </data>
+    <data name="JobWarnings" xml:space="preserve">
+        <value>Job Based Warnings</value>
+    </data>
+    <data name="Miner" xml:space="preserve">
+        <value>Miner</value>
+    </data>
+    <data name="Botanist" xml:space="preserve">
+        <value>Botanist</value>
+    </data>
+    <data name="Fisher" xml:space="preserve">
+        <value>Fisher</value>
+    </data>
+    <data name="StatusMissing" xml:space="preserve">
+        <value>Status Missing</value>
+    </data>
 </root>

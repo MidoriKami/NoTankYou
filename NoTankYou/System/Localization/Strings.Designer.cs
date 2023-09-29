@@ -150,6 +150,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Botanist.
+        /// </summary>
+        internal static string Botanist {
+            get {
+                return ResourceManager.GetString("Botanist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Buff Count.
         /// </summary>
         internal static string BuffCount {
@@ -448,6 +457,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fisher.
+        /// </summary>
+        internal static string Fisher {
+            get {
+                return ResourceManager.GetString("Fisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Food.
         /// </summary>
         internal static string Food {
@@ -500,6 +518,15 @@ namespace NoTankYou.Localization {
         internal static string FreeCompanyModeHelp {
             get {
                 return ResourceManager.GetString("FreeCompanyModeHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gatherers.
+        /// </summary>
+        internal static string Gatherers {
+            get {
+                return ResourceManager.GetString("Gatherers", resourceCulture);
             }
         }
         
@@ -558,6 +585,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job Based Warnings.
+        /// </summary>
+        internal static string JobWarnings {
+            get {
+                return ResourceManager.GetString("JobWarnings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List.
         /// </summary>
         internal static string List {
@@ -581,6 +617,15 @@ namespace NoTankYou.Localization {
         internal static string MightyGuard {
             get {
                 return ResourceManager.GetString("MightyGuard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Miner.
+        /// </summary>
+        internal static string Miner {
+            get {
+                return ResourceManager.GetString("Miner", resourceCulture);
             }
         }
         
@@ -833,6 +878,15 @@ namespace NoTankYou.Localization {
         internal static string SpiritBondWarning {
             get {
                 return ResourceManager.GetString("SpiritBondWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status Missing.
+        /// </summary>
+        internal static string StatusMissing {
+            get {
+                return ResourceManager.GetString("StatusMissing", resourceCulture);
             }
         }
         
