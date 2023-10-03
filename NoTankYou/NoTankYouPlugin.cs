@@ -9,15 +9,13 @@ namespace NoTankYou;
 
 public sealed class NoTankYouPlugin : IDalamudPlugin
 {
-    public string Name => "NoTankYou";
-    
     public static NoTankYouSystem System = null!;
 
     public NoTankYouPlugin(DalamudPluginInterface pluginInterface)
     {
         pluginInterface.Create<Service>();
 
-        KamiCommon.Initialize(pluginInterface, Name);
+        KamiCommon.Initialize(pluginInterface, "NoTankYou");
         KamiCommon.RegisterLocalizationHandler(key => Strings.ResourceManager.GetString(key, Strings.Culture));
 
         System = new NoTankYouSystem();
