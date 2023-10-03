@@ -1,5 +1,5 @@
-﻿using KamiLib.Caching;
-using KamiLib.Utilities;
+﻿using KamiLib.Game;
+using KamiLib.Utility;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;

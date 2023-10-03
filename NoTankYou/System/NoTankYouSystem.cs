@@ -4,7 +4,7 @@ using DailyDuty.Models;
 using Dalamud.Interface.GameFonts;
 using Dalamud.Plugin.Services;
 using KamiLib.AutomaticUserInterface;
-using KamiLib.Utilities;
+using KamiLib.FileIO;
 using NoTankYou.DataModels;
 using NoTankYou.Utilities;
 

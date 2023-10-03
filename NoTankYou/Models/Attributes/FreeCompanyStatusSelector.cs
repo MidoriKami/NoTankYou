@@ -3,7 +3,7 @@ using System.Reflection;
 using Dalamud.Utility;
 using ImGuiNET;
 using KamiLib.AutomaticUserInterface;
-using KamiLib.Caching;
+using KamiLib.Game;
 using Lumina.Excel.GeneratedSheets;
 using Action = System.Action;
 

@@ -8,6 +8,6 @@ public interface IModuleConfigBaseDisplayOptions
     [BoolConfig("CustomWarning")]
     public bool CustomWarning { get; set; }
 
-    [StringConfig("CustomWarningText", true)]
+    [StringConfig("CustomWarningText")]
     public string CustomWarningText { get; set; }
 }

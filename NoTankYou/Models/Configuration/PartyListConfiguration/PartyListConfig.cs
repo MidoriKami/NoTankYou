@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Numerics;
 using Dalamud.Interface;
-using KamiLib.Utilities;
 using NoTankYou.Models.BannerConfiguration;
 using NoTankYou.Models.Enums;
 

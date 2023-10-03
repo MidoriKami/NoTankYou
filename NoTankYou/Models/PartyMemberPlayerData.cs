@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Dalamud.Memory;
+﻿using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using NoTankYou.Models.Interfaces;
 
@@ -9,7 +8,7 @@ public unsafe class PartyMemberPlayerData : IPlayerData
 {
     private readonly PartyMember* partyMember;
 
-    public PartyMemberPlayerData(ref PartyMember partyMemberPointer) => partyMember = (PartyMember*) Unsafe.AsPointer(ref partyMemberPointer);
+    public PartyMemberPlayerData(PartyMember* partyMemberPointer) => partyMember = partyMemberPointer;
     
     public bool HasStatus(uint statusId) => partyMember->StatusManager.HasStatus(statusId);
     public uint GetObjectId() => partyMember->ObjectID;

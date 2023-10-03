@@ -1,6 +1,6 @@
 ﻿using Dalamud.Plugin;
 using KamiLib;
-using KamiLib.Commands;
+using KamiLib.System;
 using NoTankYou.Localization;
 using NoTankYou.System;
 using NoTankYou.Views.Windows;

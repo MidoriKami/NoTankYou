@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
-using KamiLib.Caching;
-using KamiLib.Utilities;
+using FFXIVClientStructs.Interop;
+using KamiLib.Game;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;
@@ -64,9 +64,9 @@ public unsafe class Tanks : ModuleBase
     
     private bool PartyHasStance()
     {
-        foreach (ref var partyMember in PartyMemberSpan)
+        foreach (var partyMember in PartyMemberSpan.PointerEnumerator())
         {
-            IPlayerData playerData = new PartyMemberPlayerData(ref partyMember);
+            IPlayerData playerData = new PartyMemberPlayerData(partyMember);
 
             if (!IsTank(playerData)) continue;
             if (playerData.HasStatus(tankStanceIdArray)) return true;
@@ -77,11 +77,11 @@ public unsafe class Tanks : ModuleBase
 
     private bool AllianceHasStance()
     {
-        foreach (ref var partyMember in GroupManager.Instance()->AllianceMembersSpan)
+        foreach (var partyMember in GroupManager.Instance()->AllianceMembersSpan.PointerEnumerator())
         {
-            if (partyMember.ObjectID is 0xE0000000) continue;
+            if (partyMember->ObjectID is 0xE0000000) continue;
             
-            IPlayerData playerData = new PartyMemberPlayerData(ref partyMember);
+            IPlayerData playerData = new PartyMemberPlayerData(partyMember);
 
             if (!IsTank(playerData)) continue;
             if (playerData.GameObjectHasStatus(tankStanceIdArray)) return true;

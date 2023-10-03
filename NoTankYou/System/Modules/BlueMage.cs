@@ -1,4 +1,5 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.Group;
+using FFXIVClientStructs.Interop;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;
 using NoTankYou.Models;
@@ -47,9 +48,9 @@ public unsafe class BlueMage : ModuleBase
 
     private static bool PartyHasStance()
     {
-        foreach (ref var partyMember in PartyMemberSpan)
+        foreach (var partyMember in PartyMemberSpan.PointerEnumerator())
         {
-            IPlayerData playerData = new PartyMemberPlayerData(ref partyMember);
+            IPlayerData playerData = new PartyMemberPlayerData(partyMember);
 
             if (playerData.MissingStatus(AetherialMimicryTankStatusId)) continue;
             if (playerData.HasStatus(MightyGuardStatusId)) return true;

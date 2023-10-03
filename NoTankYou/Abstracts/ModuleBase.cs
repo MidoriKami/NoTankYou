@@ -7,12 +7,14 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.Atk;
+using FFXIVClientStructs.Interop;
 using KamiLib.AutomaticUserInterface;
-using KamiLib.Caching;
-using KamiLib.ChatCommands;
-using KamiLib.Commands;
-using KamiLib.Utilities;
+using KamiLib.Command;
+using KamiLib.FileIO;
+using KamiLib.Game;
+using KamiLib.NativeUi;
+using KamiLib.System;
+using KamiLib.Utility;
 using NoTankYou.DataModels;
 using NoTankYou.Localization;
 using NoTankYou.Models;
@@ -20,7 +22,6 @@ using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
 using NoTankYou.System;
 using Action = Lumina.Excel.GeneratedSheets.Action;
-using Condition = KamiLib.GameState.Condition;
 
 namespace NoTankYou.Abstracts;
 
@@ -79,9 +80,9 @@ public abstract unsafe class ModuleBase : IDisposable
         }
         else
         {
-            foreach (ref var partyMember in PartyMemberSpan)
+            foreach (var partyMember in PartyMemberSpan.PointerEnumerator())
             {
-                ProcessPlayer(new PartyMemberPlayerData(ref partyMember));
+                ProcessPlayer(new PartyMemberPlayerData(partyMember));
             }
         }
     }

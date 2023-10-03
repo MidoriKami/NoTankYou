@@ -1,5 +1,5 @@
 ﻿using Dalamud.Utility;
-using KamiLib.Caching;
+using KamiLib.Game;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;

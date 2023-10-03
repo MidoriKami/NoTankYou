@@ -2,7 +2,6 @@
 using System.Numerics;
 using Dalamud.Interface.Internal;
 using ImGuiNET;
-using ImGuiScene;
 using NoTankYou.DataModels;
 using NoTankYou.Models;
 using NoTankYou.Utilities;

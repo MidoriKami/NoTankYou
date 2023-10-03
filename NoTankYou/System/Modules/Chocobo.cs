@@ -1,14 +1,14 @@
 ﻿using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using KamiLib.Caching;
+using KamiLib.Game;
 using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;
 using NoTankYou.Models.Enums;
 using NoTankYou.Models.Interfaces;
 using NoTankYou.Models.ModuleConfiguration;
-using Condition = KamiLib.GameState.Condition;
+using Condition = KamiLib.Game.Condition;
 
 namespace NoTankYou.System.Modules;
 

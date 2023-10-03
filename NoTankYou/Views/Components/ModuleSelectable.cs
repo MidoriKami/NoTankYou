@@ -2,7 +2,7 @@
 using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
+using KamiLib.Utility;
 using NoTankYou.Abstracts;
 using NoTankYou.Localization;
 

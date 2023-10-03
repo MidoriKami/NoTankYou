@@ -8,7 +8,7 @@ using Dalamud.Interface.Utility;
 using ImGuiNET;
 using KamiLib;
 using KamiLib.AutomaticUserInterface;
-using KamiLib.Utilities;
+using KamiLib.FileIO;
 using NoTankYou.DataModels;
 using NoTankYou.Localization;
 using NoTankYou.Models;

@@ -4,7 +4,7 @@ using System.Reflection;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
 using KamiLib.AutomaticUserInterface;
-using KamiLib.Utilities;
+using KamiLib.Utility;
 using NoTankYou.Localization;
 using NoTankYou.Models.Enums;
 

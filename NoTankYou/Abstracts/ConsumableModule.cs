@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using KamiLib.GameState;
-using KamiLib.Utilities;
+using KamiLib.Game;
 using NoTankYou.Models.Interfaces;
 using NoTankYou.Models.ModuleConfiguration;
 
