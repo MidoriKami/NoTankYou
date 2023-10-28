@@ -48,7 +48,6 @@ public unsafe class Chocobo : ModuleBase
     private bool CanUseGyshalGreens() {
         if (Service.ClientState.LocalPlayer is { IsCasting: false }) {
             lastError = ActionManager.Instance()->GetActionStatus(ActionType.Item, 4868, 0xE0000000, false, false);
-            Service.Log.Debug($"LastError: {lastError}");
         }
 
         return lastError is not 1329;
