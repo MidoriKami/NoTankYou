@@ -24,7 +24,7 @@ public unsafe class Chocobo : ModuleBase
 
     protected override bool ShouldEvaluate(IPlayerData playerData)
     {
-        if (GameMain.IsInSanctuary()) return false;
+        if (GameMain.IsInSanctuary() && ActionManager.Instance()->GetActionStatus(ActionType.Item, 4868) is not 0) return false;
         if (Condition.IsBoundByDuty()) return false;
         if (GetConfig<ChocoboConfiguration>().DisableInCombat && Condition.IsInCombat()) return false;
         if (playerData.GetObjectId() != Service.ClientState.LocalPlayer?.ObjectId) return false;
