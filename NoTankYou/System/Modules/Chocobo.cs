@@ -18,14 +18,13 @@ public unsafe class Chocobo : ModuleBase
     protected override string DefaultWarningText { get; } = Strings.ChocoboMissing;
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new ChocoboConfiguration();
 
-    private uint lastError;
     private const uint GyshalGreensItemId = 4868;
     private readonly uint gysahlGreensIconId = LuminaCache<Item>.Instance.GetRow(GyshalGreensItemId)!.Icon;
     private readonly string gyshalGreensActionName = LuminaCache<Item>.Instance.GetRow(GyshalGreensItemId)!.Name.ToDalamudString().ToString();
 
     protected override bool ShouldEvaluate(IPlayerData playerData)
     {
-        if (GameMain.IsInSanctuary() && !CanUseGyshalGreens()) return false;
+        if (GameMain.IsInSanctuary()) return false;
         if (Condition.IsBoundByDuty()) return false;
         if (GetConfig<ChocoboConfiguration>().DisableInCombat && Condition.IsInCombat()) return false;
         if (playerData.GetObjectId() != Service.ClientState.LocalPlayer?.ObjectId) return false;
@@ -43,13 +42,5 @@ public unsafe class Chocobo : ModuleBase
         {
             AddActiveWarning(gysahlGreensIconId, gyshalGreensActionName, playerData);
         }
-    }
-
-    private bool CanUseGyshalGreens() {
-        if (Service.ClientState.LocalPlayer is { IsCasting: false }) {
-            lastError = ActionManager.Instance()->GetActionStatus(ActionType.Item, 4868, 0xE0000000, false, false);
-        }
-
-        return lastError is not 1329;
     }
 }
