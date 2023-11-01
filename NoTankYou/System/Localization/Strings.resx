@@ -358,4 +358,7 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     <data name="CollectorsGlove" xml:space="preserve">
         <value>Collectors Glove</value>
     </data>
+    <data name="ShowTimeRemaining" xml:space="preserve">
+        <value>Show Time Remaining</value>
+    </data>
 </root>

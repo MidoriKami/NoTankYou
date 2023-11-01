@@ -846,6 +846,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Time Remaining.
+        /// </summary>
+        internal static string ShowTimeRemaining {
+            get {
+                return ResourceManager.GetString("ShowTimeRemaining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Solo Mode.
         /// </summary>
         internal static string SoloMode {

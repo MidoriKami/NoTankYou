@@ -34,10 +34,17 @@ public abstract class ConsumableModule : ModuleBase
         return true;
     }
     
-    protected override void EvaluateWarnings(IPlayerData playerData)
-    {
-        if (playerData.GetStatusTimeRemaining(StatusId) < GetConfig<ConsumableConfiguration>().EarlyWarningTime)
-        {
+    protected override void EvaluateWarnings(IPlayerData playerData) {
+        var statusTimeRemaining = playerData.GetStatusTimeRemaining(StatusId);
+        
+        if (statusTimeRemaining < GetConfig<ConsumableConfiguration>().EarlyWarningTime) {
+            if (GetConfig<ConsumableConfiguration>() is { ShowTimeRemaining: true } && statusTimeRemaining is not 0) {
+                ExtraWarningText = $" ({(int)playerData.GetStatusTimeRemaining(StatusId)}s)";
+            }
+            else {
+                ExtraWarningText = string.Empty;
+            }
+            
             AddActiveWarning(IconId, IconLabel, playerData);
         }
     }

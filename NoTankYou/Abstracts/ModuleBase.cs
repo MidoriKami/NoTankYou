@@ -30,6 +30,7 @@ public abstract unsafe class ModuleBase : IDisposable
     public abstract ModuleName ModuleName { get; }
     public abstract IModuleConfigBase ModuleConfig { get; protected set; }
     protected abstract string DefaultWarningText { get; }
+    protected string ExtraWarningText { get; set; } = string.Empty;
     protected abstract bool ShouldEvaluate(IPlayerData playerData);
     protected abstract void EvaluateWarnings(IPlayerData playerData);
     
@@ -132,7 +133,7 @@ public abstract unsafe class ModuleBase : IDisposable
         Priority = ModuleConfig.Priority,
         IconId = LuminaCache<Action>.Instance.GetRow(actionId)!.Icon,
         IconLabel = LuminaCache<Action>.Instance.GetRow(actionId)!.Name.ToDalamudString().ToString(),
-        Message = ModuleConfig.CustomWarning ? ModuleConfig.CustomWarningText : DefaultWarningText,
+        Message = (ModuleConfig.CustomWarning ? ModuleConfig.CustomWarningText : DefaultWarningText) + ExtraWarningText,
         SourcePlayerName = playerData.GetName(),
         SourceObjectId = playerData.GetObjectId(),
         SourceModule = ModuleName,
@@ -143,7 +144,7 @@ public abstract unsafe class ModuleBase : IDisposable
         Priority = ModuleConfig.Priority,
         IconId = iconId,
         IconLabel = iconLabel,
-        Message = ModuleConfig.CustomWarning ? ModuleConfig.CustomWarningText : DefaultWarningText,
+        Message = (ModuleConfig.CustomWarning ? ModuleConfig.CustomWarningText : DefaultWarningText) + ExtraWarningText,
         SourcePlayerName = playerData.GetName(),
         SourceObjectId = playerData.GetObjectId(),
         SourceModule = ModuleName,

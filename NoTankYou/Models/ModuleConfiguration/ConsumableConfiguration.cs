@@ -35,6 +35,9 @@ public class ConsumableConfiguration : IModuleConfigBase, IZoneFilter
 
     [IntCounterConfig("EarlyWarningTime", false)]
     public int EarlyWarningTime { get; set; } = 600;
+
+    [BoolConfig("ShowTimeRemaining")] 
+    public bool ShowTimeRemaining { get; set; } = false;
     
     // IZoneFilter
     public bool ZoneFilter { get; set; } = false;
