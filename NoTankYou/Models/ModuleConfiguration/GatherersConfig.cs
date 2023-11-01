@@ -22,4 +22,7 @@ public class GatherersConfig : IModuleConfigBase
     
     [BoolConfig("Fisher")]
     public bool Fisher { get; set; } = true;
+
+    [BoolConfig("CollectorsGlove")] 
+    public bool CollectorsGlove = true;
 }

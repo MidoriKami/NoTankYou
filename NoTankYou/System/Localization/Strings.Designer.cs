@@ -204,6 +204,15 @@ namespace NoTankYou.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collectors Glove.
+        /// </summary>
+        internal static string CollectorsGlove {
+            get {
+                return ResourceManager.GetString("CollectorsGlove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Command.
         /// </summary>
         internal static string Command {

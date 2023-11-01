@@ -13,14 +13,19 @@ public class Gatherers : ModuleBase
     public override IModuleConfigBase ModuleConfig { get; protected set; } = new GatherersConfig();
     protected override string DefaultWarningText => Strings.StatusMissing;
 
+    private const uint MinerClassJobId = 16;
+    private const uint BotanistClassJobId = 17;
+    private const uint FisherClassJobId = 18;
+    
     private readonly List<(uint ClassJob, uint MinLevel, uint StatusId, uint ActionId)> data = new()
     {
-        ( 16, 1, 255, 227 ),
-        ( 16, 46, 222, 238 ),
-        ( 17, 1, 217, 210 ),
-        ( 17, 46, 221, 221 ),
-        ( 16, 61, 1166, 7903 ),
-        ( 16, 65, 1173, 7911 ),
+        ( MinerClassJobId, 1, 255, 227 ),
+        ( MinerClassJobId, 46, 222, 238 ),
+        ( BotanistClassJobId, 1, 217, 210 ),
+        ( BotanistClassJobId, 46, 221, 221 ),
+        ( FisherClassJobId, 61, 1166, 7903 ),
+        ( FisherClassJobId, 65, 1173, 7911 ),
+        ( FisherClassJobId, 50, 805, 4101 ),
     };
     
     protected override bool ShouldEvaluate(IPlayerData playerData) 
@@ -36,6 +41,9 @@ public class Gatherers : ModuleBase
             if (!config.Botanist && classJob is 17) continue;
             if (!config.Fisher && classJob is 18) continue;
             
+            // Collectors Glove
+            if (statusId is 805 && !config.CollectorsGlove) continue;
+
             if (playerData.GetLevel() >= minLevel && playerData.MissingStatus(statusId))
             {
                 AddActiveWarning(actionId, playerData);
