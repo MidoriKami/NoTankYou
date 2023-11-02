@@ -19,7 +19,7 @@ public class Gatherers : ModuleBase
     
     private readonly List<(uint ClassJob, uint MinLevel, uint StatusId, uint ActionId)> data = new()
     {
-        ( MinerClassJobId, 1, 255, 227 ),
+        ( MinerClassJobId, 1, 225, 227 ),
         ( MinerClassJobId, 46, 222, 238 ),
         ( BotanistClassJobId, 1, 217, 210 ),
         ( BotanistClassJobId, 46, 221, 221 ),
