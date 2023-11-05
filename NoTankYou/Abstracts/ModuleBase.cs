@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Utility;
@@ -34,7 +35,8 @@ public abstract unsafe class ModuleBase : IDisposable
     protected abstract bool ShouldEvaluate(IPlayerData playerData);
     protected abstract void EvaluateWarnings(IPlayerData playerData);
     
-    private readonly List<ulong> suppressedObjectIds = new();
+    private readonly HashSet<ulong> suppressedObjectIds = new();
+    private readonly Dictionary<ulong, Stopwatch> suppressionTimer = new();
 
     private static AtkUnitBase* NameplateAddon => (AtkUnitBase*)Service.GameGui.GetAddonByName("NamePlate");
     
@@ -98,7 +100,30 @@ public abstract unsafe class ModuleBase : IDisposable
         if (suppressedObjectIds.Contains(player.GetObjectId())) return;
 
         EvaluateWarnings(player);
+        EvaluateAutoSuppression(player);
     }
+
+    private void EvaluateAutoSuppression(IPlayerData player) {
+        if (NoTankYouSystem.SystemConfig.AutoSuppress) {
+            if (Service.ClientState.LocalPlayer is { ObjectId: var playerObjectId } && playerObjectId == player.GetObjectId()) {
+                return; // Do not allow auto suppression for the user.
+            }
+            
+            suppressionTimer.TryAdd(player.GetObjectId(), Stopwatch.StartNew());
+            if (suppressionTimer.TryGetValue(player.GetObjectId(), out var timer)) {
+                if (HasWarnings) {
+                    if (timer.Elapsed.TotalSeconds >= NoTankYouSystem.SystemConfig.AutoSuppressTime) {
+                        suppressedObjectIds.Add(player.GetObjectId());
+                        Service.Log.Warning($"[{ModuleName}]: Adding {player.GetName()} to auto-suppression list");
+                    }
+                }
+                else {
+                    timer.Restart();
+                }
+            }
+        }
+    }
+
     private bool HasDisallowedStatus(IPlayerData player)
         => player.HasStatus(1534);
 

@@ -10,4 +10,7 @@ public class SystemConfig
 
     [BoolConfig("WaitForDutyStart", "WaitForDutyStartHelp")]
     public bool WaitUntilDutyStart { get; set; } = true;
+
+    public bool AutoSuppress { get; set; } = false;
+    public int AutoSuppressTime { get; set; } = 60;
 }

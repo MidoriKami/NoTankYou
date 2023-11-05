@@ -79,6 +79,9 @@ public class NoTankYouSystem : IDisposable
     private void OnLogin()
     {
         LoadSystemConfig();
+        if (SystemConfig.AutoSuppress) {
+            Service.Log.Warning($"User Enabled AutoSuppression. Warnings will automatically be silenced after being active for {SystemConfig.AutoSuppressTime} seconds");
+        }
         
         BlacklistController.Load();
         ModuleController.Load();
