@@ -26,6 +26,7 @@ public class ConsumableConfiguration : IModuleConfigBase, IZoneFilter
     public bool SoloMode { get; set; } = false;
     public bool DutiesOnly { get; set; } = false;
     public bool DisableInSanctuary { get; set; } = false;
+    public bool DisableWhileRolePlaying { get; set; } = true;
     public int Priority { get; set; } = 3;
     public bool CustomWarning { get; set; } = false;
     public string CustomWarningText { get; set; } = string.Empty;

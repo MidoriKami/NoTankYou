@@ -1,4 +1,4 @@
-﻿using KamiLib.AutomaticUserInterface;
+using KamiLib.AutomaticUserInterface;
 
 namespace NoTankYou.Abstracts;
 
@@ -16,6 +16,9 @@ public interface IModuleConfigBaseMainOptions
         
     [BoolConfig("HideInSanctuary", "HideInSanctuaryHelp")]
     public bool DisableInSanctuary { get; set; }
+
+    [BoolConfig("DisableWhileRolePlaying", "DisableWhileRolePlayingHelp")]
+    public bool DisableWhileRolePlaying { get; set; }
     
     [IntCounterConfig("Priority", "PriorityHelp")]
     public int Priority { get; set; }

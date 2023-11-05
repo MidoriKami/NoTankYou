@@ -9,6 +9,7 @@ public class ChocoboConfiguration : IModuleConfigBase
     [Disabled] public bool SoloMode { get; set; } = false;
     [Disabled] public bool DutiesOnly { get; set; } = false;
     [Disabled] public bool DisableInSanctuary { get; set; } = false;
+    [Disabled] public bool DisableWhileRolePlaying { get; set; } = false;
     
     public bool Enabled { get; set; } = false;
     public int Priority { get; set; } = 1;

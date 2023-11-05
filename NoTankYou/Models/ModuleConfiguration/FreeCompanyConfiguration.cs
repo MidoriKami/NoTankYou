@@ -11,6 +11,7 @@ public class FreeCompanyConfiguration : IModuleConfigBase
     [Disabled] public bool SoloMode { get; set; }
     [Disabled] public bool DutiesOnly { get; set; }
     [Disabled] public bool DisableInSanctuary { get; set; }
+    [Disabled] public bool DisableWhileRolePlaying { get; set; } = false;
 
     public bool Enabled { get; set; } = false;
     public int Priority { get; set; } = 2;

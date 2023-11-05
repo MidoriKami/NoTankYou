@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
@@ -68,12 +68,23 @@ public abstract unsafe class ModuleBase : IDisposable
         if (ModuleConfig.DisableInSanctuary && GameMain.IsInSanctuary()) return;
         if (Condition.IsCrossWorld()) return;
 
+        var player = Service.ClientState.LocalPlayer;
+        if (ModuleConfig.DisableWhileRolePlaying && player is not null)
+        {
+            foreach (var status in player.StatusList)
+            {
+                if (status.StatusId == 1534) // "Role-playing" status effect
+                {
+                    return;
+                }
+            }
+        }
+
         var groupManager = GroupManager.Instance();
         
         if (ModuleConfig.SoloMode || groupManager->MemberCount is 0)
         {
-            if (Service.ClientState.LocalPlayer is not { } player) return;
-            
+            if (player is null) return;
             var localPlayer = (Character*) player.Address;
             if (localPlayer is null) return;
             

@@ -10,6 +10,7 @@ public class GatherersConfig : IModuleConfigBase
     [Disabled] public bool SoloMode { get; set; } = true;
     [Disabled] public bool DutiesOnly { get; set; } = false;
     public bool DisableInSanctuary { get; set; }
+    [Disabled] public bool DisableWhileRolePlaying { get; set; } = false;
     public int Priority { get; set; } = 3;
     public bool CustomWarning { get; set; }
     public string CustomWarningText { get; set; } = string.Empty;
