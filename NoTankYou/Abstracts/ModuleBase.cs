@@ -90,16 +90,19 @@ public abstract unsafe class ModuleBase : IDisposable
     
     private void ProcessPlayer(IPlayerData player)
     {
-        if (ConditionNotAllowed()) return;
         if (player.GetObjectId() is 0xE0000000 or 0) return;
+        if (HasDisallowedCondition()) return;
+        if (HasDisallowedStatus(player)) return;
         if (deathTracker.IsDead(player)) return;
         if (!ShouldEvaluate(player)) return;
         if (suppressedObjectIds.Contains(player.GetObjectId())) return;
 
         EvaluateWarnings(player);
     }
+    private bool HasDisallowedStatus(IPlayerData player)
+        => player.HasStatus(1534);
 
-    private static bool ConditionNotAllowed() 
+    private static bool HasDisallowedCondition() 
         => Service.Condition.Any(ConditionFlag.Jumping61,
             ConditionFlag.Transformed,
             ConditionFlag.InThisState89);
