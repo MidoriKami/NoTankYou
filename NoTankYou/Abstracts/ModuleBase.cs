@@ -68,15 +68,15 @@ public abstract unsafe class ModuleBase : IDisposable
         if (ModuleConfig.DisableInSanctuary && GameMain.IsInSanctuary()) return;
         if (Condition.IsCrossWorld()) return;
 
+        // Disable while the "Role-playing" status effect is active. This
+        // prevents warnings during main story quests where you control another
+        // character.
         var player = Service.ClientState.LocalPlayer;
-        if (ModuleConfig.DisableWhileRolePlaying && player is not null)
+        if (player is not null)
         {
             foreach (var status in player.StatusList)
             {
-                if (status.StatusId == 1534) // "Role-playing" status effect
-                {
-                    return;
-                }
+                if (status.StatusId == 1534) return;
             }
         }
 

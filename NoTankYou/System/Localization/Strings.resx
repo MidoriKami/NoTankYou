@@ -3,7 +3,7 @@
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:element name="root" msdata:IsDataSet="true">
-
+            
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
@@ -360,11 +360,5 @@ Specific - Generate warnings if you do not have the specified Free Company Buffs
     </data>
     <data name="ShowTimeRemaining" xml:space="preserve">
         <value>Show Time Remaining</value>
-    </data>
-    <data name="DisableWhileRolePlaying" xml:space="preserve">
-        <value>Disable while Role-playing</value>
-    </data>
-    <data name="DisableWhileRolePlayingHelp" xml:space="preserve">
-        <value>Disables all modules while you have the Role-playing status effect (applicable in some main story quests)</value>
     </data>
 </root>
