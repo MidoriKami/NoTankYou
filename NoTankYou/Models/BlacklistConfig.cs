@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using KamiLib.AutomaticUserInterface;
-using NoTankYou.Models.Attributes;
 
 namespace NoTankYou.Models;
 

@@ -14,14 +14,14 @@ public class ConfigurationWindow : TabbedSelectionWindow
     private readonly List<ISelectionWindowTab> tabs;
     private readonly List<ITabItem> regularTabs;
     
-    public ConfigurationWindow() : base("NoTankYou - Configuration Window", 50.0f, 150.0f)
+    public ConfigurationWindow() : base("NoTankYou - Configuration Window", 0.0f, 150.0f)
     {
         tabs = new List<ISelectionWindowTab>(Reflection.ActivateOfInterface<ISelectionWindowTab>());
         regularTabs = new List<ITabItem>(Reflection.ActivateOfInterface<ITabItem>());
         
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(550, 400),
+            MinimumSize = new Vector2(550, 350),
             MaximumSize = new Vector2(9999,9999),
         };
         
@@ -40,12 +40,6 @@ public class ConfigurationWindow : TabbedSelectionWindow
         if (!Service.ClientState.IsLoggedIn) return false;
 
         return true;
-    }
-
-    protected override void DrawWindowExtras()
-    {
-        base.DrawWindowExtras();
-        PluginVersion.Instance.DrawVersionText();
     }
 
     [BaseCommandHandler("OpenConfigWindow")]
