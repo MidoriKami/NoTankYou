@@ -56,8 +56,13 @@ public unsafe class PartyMemberOverlay
         }
 
         if (config.JobIcon) AnimateWarningShield();
-        if (config.PlayerName) AnimatePlayerName();
         if (config.WarningText) AnimateWarningText(warning);
+    }
+
+    public void DrawNative(WarningState? warning) {
+        if (warning is null) return;
+        
+        if (config.PlayerName) AnimatePlayerName();
     }
 
     private void AnimateWarningShield()

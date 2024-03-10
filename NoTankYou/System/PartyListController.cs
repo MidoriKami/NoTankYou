@@ -10,11 +10,13 @@ using NoTankYou.Views.Components;
 
 namespace NoTankYou.System;
 
-public class PartyListController : IDisposable
-{
+public class PartyListController : IDisposable {
+    private record MemberWarning(PartyMemberOverlay? UiData, WarningState? Warning);
+
     private PartyListConfig config = new();
     
     private readonly PartyMemberOverlay?[] partyMembers = new PartyMemberOverlay[8];
+    private List<MemberWarning> ActiveWarnings = new();
 
     private static WarningState SampleWarning => new()
     {
@@ -35,36 +37,54 @@ public class PartyListController : IDisposable
         }
     }
 
-    public void Draw(List<WarningState> warnings)
-    {
+    public void UpdateWarnings(List<WarningState> warnings) {
+        ActiveWarnings.Clear();
         if (!config.Enabled) return;
 
-        if (config.SampleMode)
-        {
-            partyMembers[0]?.DrawWarning(SampleWarning);
+        if (config.SampleMode) {
+            ActiveWarnings.Add(new MemberWarning(partyMembers[0], SampleWarning));
             return;
         }
 
-        if (config.SoloMode)
-        {
+        if (config.SoloMode) {
             var warning = warnings
                 .Where(warning => !config.BlacklistedModules.Contains(warning.SourceModule))
                 .Where(warning => warning.SourceObjectId == Service.ClientState.LocalPlayer?.ObjectId)
                 .MaxBy(warning => warning.Priority);
             
-            partyMembers[0]?.DrawWarning(warning);
+            ActiveWarnings.Add(new MemberWarning(partyMembers[0], warning));
         }
-        else
-        {
-            foreach (var partyMember in partyMembers)
-            {
+        else {
+            foreach (var partyMember in partyMembers) {
                 var warning = warnings
                     .Where(warning => !config.BlacklistedModules.Contains(warning.SourceModule))
                     .Where(warning => warning.SourceObjectId == partyMember?.ObjectId)
                     .MaxBy(warning => warning.Priority);
             
-                partyMember?.DrawWarning(warning);
+                ActiveWarnings.Add(new MemberWarning(partyMember, warning));
             }
+        }
+    }
+
+    public void DrawImGui() {
+        if (!config.Enabled) return;
+
+        foreach (var (member, warning) in ActiveWarnings) {
+            if (member is null) continue;
+            if (warning is null) continue;
+            
+            member.DrawWarning(warning);
+        }
+    }
+
+    public void DrawNative() {
+        if (!config.Enabled) return;
+
+        foreach (var (member, warning) in ActiveWarnings) {
+            if (member is null) continue;
+            if (warning is null) continue;
+            
+            member.DrawNative(warning);
         }
     }
 
