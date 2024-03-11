@@ -71,7 +71,6 @@ public class PartyListController : IDisposable {
 
         foreach (var (member, warning) in ActiveWarnings) {
             if (member is null) continue;
-            if (warning is null) continue;
             
             member.DrawWarning(warning);
         }
@@ -82,7 +81,6 @@ public class PartyListController : IDisposable {
 
         foreach (var (member, warning) in ActiveWarnings) {
             if (member is null) continue;
-            if (warning is null) continue;
             
             member.DrawNative(warning);
         }
