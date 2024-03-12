@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using DailyDuty.Models;
-using Dalamud.Game.Addon.Lifecycle;
-using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Interface.GameFonts;
 using Dalamud.Plugin.Services;
 using KamiLib.AutomaticUserInterface;
@@ -45,8 +43,6 @@ public class NoTankYouSystem : IDisposable
         Service.ClientState.Logout += OnLogout;
         Service.PluginInterface.UiBuilder.Draw += OnDraw;
         Service.ClientState.TerritoryChanged += OnZoneChange;
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostDraw, "_PartyList", OnPartyListUpdate);
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostRequestedUpdate, "_PartyList", OnPartyListUpdate); 
     }
 
     public void Dispose()
@@ -65,7 +61,6 @@ public class NoTankYouSystem : IDisposable
         Service.ClientState.Logout -= OnLogout;
         Service.PluginInterface.UiBuilder.Draw -= OnDraw;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
-        Service.AddonLifecycle.UnregisterListener(OnPartyListUpdate);
     }
 
     public void DrawConfig() => DrawableAttribute.DrawAttributes(SystemConfig, SaveSystemConfig);
@@ -79,11 +74,6 @@ public class NoTankYouSystem : IDisposable
         activeWarnings = ModuleController.EvaluateWarnings();
 
         PartyListController.Update();
-        PartyListController.UpdateWarnings(activeWarnings);
-    }
-
-    private void OnPartyListUpdate(AddonEvent type, AddonArgs args) {
-        PartyListController.DrawNative();
     }
     
     private void OnLogin()
@@ -113,7 +103,7 @@ public class NoTankYouSystem : IDisposable
         if (!Service.ClientState.IsLoggedIn) return;
         
         BannerController.Draw(activeWarnings);
-        PartyListController.DrawImGui();
+        PartyListController.Draw(activeWarnings);
     }
     
     private void OnZoneChange(ushort newZoneId)
