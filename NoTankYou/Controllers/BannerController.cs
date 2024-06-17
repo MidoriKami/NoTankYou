@@ -25,7 +25,7 @@ public class BannerController : IDisposable {
     public void Dispose() 
         => Unload();
 
-    public void DrawConfig()
+    public void DrawConfigUi()
         => config.DrawConfigUi();
 
     public void Draw(IEnumerable<WarningState> warnings) {

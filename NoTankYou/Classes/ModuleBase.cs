@@ -79,9 +79,10 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     public override void EvaluateWarnings() {
         ActiveWarningStates.Clear();
 
+        if (!Config.Enabled) return;
+        if (NameplateAddon is null) return;
         if (!NameplateAddon->IsReady) return;
         if (!NameplateAddon->IsVisible) return;
-        if (!Config.Enabled) return;
         if (System.BlacklistController.IsZoneBlacklisted(Service.ClientState.TerritoryType)) return;
         if (System.SystemConfig.WaitUntilDutyStart && Service.Condition.IsBoundByDuty() && !Service.DutyState.IsDutyStarted) return;
         if (Config.DutiesOnly && !Service.Condition.IsBoundByDuty()) return;
@@ -242,8 +243,8 @@ public enum OptionDisableFlags {
 public abstract class ModuleConfigBase(ModuleName moduleName) {
     public bool Enabled;
     public bool SoloMode;
-    public bool DutiesOnly;
-    public bool DisableInSanctuary;
+    public bool DutiesOnly = true;
+    public bool DisableInSanctuary = true;
     public int Priority;
     public bool CustomWarning;
     public string CustomWarningText = string.Empty;

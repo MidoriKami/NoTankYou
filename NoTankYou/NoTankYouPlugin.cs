@@ -2,6 +2,7 @@
 using Dalamud.Plugin.Services;
 using KamiLib.CommandManager;
 using KamiLib.Window;
+using KamiToolKit.Nodes;
 using NoTankYou.Classes;
 using NoTankYou.Controllers;
 using NoTankYou.Windows;
@@ -49,6 +50,8 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         Service.ClientState.Logout -= OnLogout;
         Service.PluginInterface.UiBuilder.Draw -= OnDraw;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
+        
+        NodeBase.DisposeAllNodes();
     }
     
      private void OnFrameworkUpdate(IFramework framework) {
@@ -59,6 +62,7 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         System.ActiveWarnings = System.ModuleController.EvaluateWarnings();
 
         System.PartyListController.Update();
+        System.PartyListController.Draw(System.ActiveWarnings);
     }
     
     private void OnLogin() {
@@ -86,7 +90,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         
         // todo: make these native ui
         System.BannerController.Draw(System.ActiveWarnings);
-        System.PartyListController.Draw(System.ActiveWarnings);
     }
     
     private void OnZoneChange(ushort newZoneId) {

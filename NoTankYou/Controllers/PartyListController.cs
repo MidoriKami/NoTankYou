@@ -3,17 +3,47 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Game.Addon.Lifecycle;
+using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Interface;
+using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
+using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.Interop;
 using ImGuiNET;
+using KamiLib.Components;
 using KamiLib.Configuration;
+using KamiLib.Extensions;
 using NoTankYou.Classes;
+using NoTankYou.Localization;
 
 namespace NoTankYou.Controllers;
 
-public class PartyListController : IDisposable {
-    private PartyListConfig config = new();
-    
-    // private readonly PartyMemberOverlay?[] partyMembers = new PartyMemberOverlay[8];
+public unsafe class PartyListController : IDisposable {
+    public PartyListConfig Config { get; private set; } = new();
+
+    private PartyListMemberOverlay[] partyMembers = new PartyListMemberOverlay[8];
+
+    public PartyListController() {
+        var partyListAddon = (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
+        if (partyListAddon is not null) {
+            AttachToNative(partyListAddon);
+        }
+        
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "_PartyList", OnPartyListSetup);
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "_PartyList", OnPartyListFinalize);
+    }
+
+    private void OnPartyListFinalize(AddonEvent type, AddonArgs args) {
+        foreach (var node in partyMembers) {
+            node.Dispose();
+        }
+    }
+
+    private void OnPartyListSetup(AddonEvent type, AddonArgs args) {
+        AttachToNative((AddonPartyList*)args.Addon);
+    }
 
     private static WarningState SampleWarning => new() {
         Message = "NoTankYou Sample Warning",
@@ -26,78 +56,172 @@ public class PartyListController : IDisposable {
     };
 
     public void Update() {
-        // foreach (var member in partyMembers) {
-        //     member?.Update();
-        // }
-    }
-
-    public void Draw(List<WarningState> warnings) {
-        // if (!config.Enabled) return;
-        //
-        // if (config.SampleMode) {
-        //     partyMembers[0]?.DrawWarning(SampleWarning);
-        //     return;
-        // }
-        //
-        // if (config.SoloMode) {
-        //     var warning = warnings
-        //         .Where(warning => !config.BlacklistedModules.Contains(warning.SourceModule))
-        //         .Where(warning => warning.SourceEntityId == Service.ClientState.LocalPlayer?.EntityId)
-        //         .MaxBy(warning => warning.Priority);
-        //     
-        //     partyMembers[0]?.DrawWarning(warning);
-        // }
-        // else {
-        //     foreach (var partyMember in partyMembers) {
-        //         var warning = warnings
-        //             .Where(warning => !config.BlacklistedModules.Contains(warning.SourceModule))
-        //             .Where(warning => warning.SourceEntityId == partyMember?.ObjectId)
-        //             .MaxBy(warning => warning.Priority);
-        //     
-        //         partyMember?.DrawWarning(warning);
-        //     }
-        // }
-    }
-
-    public void Load() {
-        config = PartyListConfig.Load();
-
-        foreach (var index in Enumerable.Range(0, 8)) {
-            // partyMembers[index] = new PartyMemberOverlay(config, index);
+        foreach (var member in partyMembers) {
+            member.Update();
         }
     }
 
-    public void Unload() {
-        // foreach (var member in partyMembers) {
-        //     member?.Reset(true);
-        // }
+    public void Draw(List<WarningState> warnings) {
+        if (!Config.Enabled) return;
+
+        foreach (var partyMember in partyMembers) {
+            partyMember.Reset();
+        }
+        
+        if (Config.SampleMode) {
+            partyMembers[0].DrawWarning(SampleWarning);
+            return;
+        }
+        
+        if (Config.SoloMode) {
+            var warning = warnings
+                .Where(warning => !Config.BlacklistedModules.Contains(warning.SourceModule))
+                .Where(warning => warning.SourceEntityId == Service.ClientState.LocalPlayer?.EntityId)
+                .MaxBy(warning => warning.Priority);
+            
+            partyMembers[0].DrawWarning(warning);
+        }
+        else {
+            foreach (var index in Enumerable.Range(0, partyMembers.Length)) {
+                var partyMember = partyMembers[index];
+                var hudPartyMember = AgentHUD.Instance()->PartyMembers[index];
+                
+                var warning = warnings
+                    .Where(warning => !Config.BlacklistedModules.Contains(warning.SourceModule))
+                    .Where(warning => warning.SourceEntityId == hudPartyMember.EntityId)
+                    .MaxBy(warning => warning.Priority);
+            
+                partyMember.DrawWarning(warning);
+            }
+        }
     }
 
-    public void Dispose() 
-        => Unload();
+    public void Load() {
+        Config = PartyListConfig.Load();
+    }
 
-    public void DrawConfig()
-        => config.DrawConfigUi();
+    public void Unload() {
+        foreach (var member in partyMembers) {
+            member.Reset();
+            member.Dispose();
+        }
+    }
+
+    public void Dispose() {
+        Unload();
+
+        Service.Framework.RunOnFrameworkThread(() => {
+            var addonPartyList = (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
+            if (addonPartyList is not null) {
+                addonPartyList->UpdateCollisionNodeList(false);
+                addonPartyList->UldManager.UpdateDrawNodeList();
+            }
+        });
+        
+        Service.AddonLifecycle.UnregisterListener(OnPartyListSetup);
+        Service.AddonLifecycle.UnregisterListener(OnPartyListFinalize);
+    }
+
+    public void DrawConfigUi()
+        => Config.DrawConfigUi();
+
+    private void AttachToNative(AddonPartyList* addonPartyList) {
+        Service.Framework.RunOnFrameworkThread(() => {
+            partyMembers = new PartyListMemberOverlay[8];
+
+            foreach (var index in Enumerable.Range(0, 8)) {
+                var partyMemberData = addonPartyList->PartyMembers.GetPointer(index);
+
+                var partyMemberOverlay = new PartyListMemberOverlay(partyMemberData);
+                
+                partyMemberOverlay.EnableTooltip(addonPartyList);
+                
+                partyMembers[index] = partyMemberOverlay;
+            }
+        
+            addonPartyList->UpdateCollisionNodeList(false);
+            addonPartyList->UldManager.UpdateDrawNodeList();
+        }); 
+    }
 }
 
 public class PartyListConfig {
-    public bool Enabled { get; set; } = true;
-    public bool SoloMode { get; set; } = false;
-    public bool SampleMode { get; set; } = false;
+    public bool Enabled = true;
+    public bool SoloMode;
+    public bool SampleMode;
     
-    public bool WarningText { get; set; } = true;
-    public bool PlayerName { get; set; } = true;
-    public bool JobIcon { get; set; } = true;
-    public bool Animation { get; set; } = true;
-    public float AnimationPeriod { get; set; } = 1000;
+    public bool PlayerName = true;
+    public bool JobIcon = true;
+    public bool Animation = true;
+    public float AnimationPeriod = 1000;
     
-    public Vector4 TextColor { get; set; } = KnownColor.Red.Vector();
-    public Vector4 OutlineColor { get; set; } = KnownColor.Red.Vector();
+    public Vector4 OutlineColor  = KnownColor.Red.Vector();
     
-    public HashSet<ModuleName> BlacklistedModules { get; set; } = [];
+    public HashSet<ModuleName> BlacklistedModules = [];
 
     public void DrawConfigUi() {
-        ImGui.Text("not implemented yet");
+        var configChanged = false;
+        
+        ImGui.Text(Strings.DisplayOptions);
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        
+        using (var _ = ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox(Strings.Enable, ref Enabled);
+            configChanged |= ImGuiTweaks.Checkbox(Strings.SoloMode, ref SoloMode, Strings.SoloModeHelp);
+            configChanged |= ImGui.Checkbox(Strings.SampleMode, ref SampleMode);
+        }
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.Text(Strings.DisplayStyle);
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        
+        using (var _ = ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox(Strings.PlayerNames, ref PlayerName);
+            configChanged |= ImGui.Checkbox(Strings.JobIcon, ref JobIcon);
+            configChanged |= ImGui.Checkbox(Strings.Animation, ref Animation);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 3.0f);
+            configChanged |= ImGui.DragFloat(Strings.AnimationPeriod, ref AnimationPeriod, 5.0f, 1.0f, 30000.0f);
+        }
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.Text(Strings.DisplayColors);
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        
+        using (var _ = ImRaii.PushIndent()) {
+            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.OutlineColor, ref OutlineColor, KnownColor.Red.Vector());
+        }
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.Text(Strings.ModuleBlacklist);
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        
+        using (var _ = ImRaii.PushIndent()) {
+            ImGui.Columns(2);
+
+            foreach (var module in Enum.GetValues<ModuleName>()[..^1]) // Trim "Test" Module
+            {
+                var inHashset = BlacklistedModules.Contains(module);
+                if(ImGui.Checkbox(module.GetDescription(), ref inHashset))
+                {
+                    if (!inHashset) BlacklistedModules.Remove(module);
+                    if (inHashset) BlacklistedModules.Add(module);
+                    configChanged = true;
+                }
+                ImGui.NextColumn();
+            }
+        
+            ImGui.Columns(1);
+        }
+
+        if (configChanged) {
+            Save();
+        }
     }
     
     public static PartyListConfig Load() 
