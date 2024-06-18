@@ -25,6 +25,16 @@ public unsafe class PartyListController : IDisposable {
 
     private PartyListMemberOverlay[] partyMembers = new PartyListMemberOverlay[8];
 
+    private static WarningState SampleWarning => new() {
+        Message = "NoTankYou Sample Warning",
+        Priority = 100,
+        IconId = 786,
+        IconLabel = "Sample Action",
+        SourceEntityId = Service.ClientState.LocalPlayer?.EntityId ?? 0xE000000,
+        SourcePlayerName = "Sample Player",
+        SourceModule = ModuleName.Test,
+    };
+    
     public PartyListController() {
         var partyListAddon = (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
         if (partyListAddon is not null) {
@@ -35,25 +45,24 @@ public unsafe class PartyListController : IDisposable {
         Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "_PartyList", OnPartyListFinalize);
     }
 
-    private void OnPartyListFinalize(AddonEvent type, AddonArgs args) {
-        foreach (var node in partyMembers) {
-            node.Dispose();
+    public void Dispose() {
+        Unload();
+        
+        Service.AddonLifecycle.UnregisterListener(OnPartyListSetup);
+        Service.AddonLifecycle.UnregisterListener(OnPartyListFinalize);
+    }
+    
+    public void Load() {
+        Config = PartyListConfig.Load();
+    }
+
+    public void Unload() {
+        foreach (var member in partyMembers) {
+            member.Reset();
+            member.Dispose();
         }
     }
 
-    private void OnPartyListSetup(AddonEvent type, AddonArgs args) {
-        AttachToNative((AddonPartyList*)args.Addon);
-    }
-
-    private static WarningState SampleWarning => new() {
-        Message = "NoTankYou Sample Warning",
-        Priority = 100,
-        IconId = 786,
-        IconLabel = "Sample Action",
-        SourceEntityId = Service.ClientState.LocalPlayer?.EntityId ?? 0xE000000,
-        SourcePlayerName = "Sample Player",
-        SourceModule = ModuleName.Test,
-    };
 
     public void Update() {
         foreach (var member in partyMembers) {
@@ -90,36 +99,20 @@ public unsafe class PartyListController : IDisposable {
                     .Where(warning => !Config.BlacklistedModules.Contains(warning.SourceModule))
                     .Where(warning => warning.SourceEntityId == hudPartyMember.EntityId)
                     .MaxBy(warning => warning.Priority);
-            
+                
                 partyMember.DrawWarning(warning);
             }
         }
     }
-
-    public void Load() {
-        Config = PartyListConfig.Load();
-    }
-
-    public void Unload() {
-        foreach (var member in partyMembers) {
-            member.Reset();
-            member.Dispose();
+    
+    private void OnPartyListFinalize(AddonEvent type, AddonArgs args) {
+        foreach (var node in partyMembers) {
+            node.Dispose();
         }
     }
 
-    public void Dispose() {
-        Unload();
-
-        Service.Framework.RunOnFrameworkThread(() => {
-            var addonPartyList = (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
-            if (addonPartyList is not null) {
-                addonPartyList->UpdateCollisionNodeList(false);
-                addonPartyList->UldManager.UpdateDrawNodeList();
-            }
-        });
-        
-        Service.AddonLifecycle.UnregisterListener(OnPartyListSetup);
-        Service.AddonLifecycle.UnregisterListener(OnPartyListFinalize);
+    private void OnPartyListSetup(AddonEvent type, AddonArgs args) {
+        AttachToNative((AddonPartyList*)args.Addon);
     }
 
     public void DrawConfigUi()

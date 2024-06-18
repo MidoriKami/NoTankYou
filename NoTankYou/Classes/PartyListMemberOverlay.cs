@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Numerics;
+using Dalamud.Utility;
 using Dalamud.Utility.Numerics;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -14,6 +16,7 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 	private static readonly Stopwatch AnimationStopwatch = Stopwatch.StartNew();
 
 	private readonly ImageNode imageNode;
+	private readonly ImageNode[] warningIndicators;
 
 	private readonly AtkImageNode* jobIconNode;
 	private readonly AtkTextNode* playerNameNode;
@@ -28,24 +31,62 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 		jobIconNode = memberUiData->ClassJobIcon;
 		playerNameNode = memberUiData->Name;
 		
+		// Get all modules, minus test module.
+		var moduleNames = Enum.GetValues<ModuleName>()[..^1];
+		
+		warningIndicators = new ImageNode[moduleNames.Length];
+
+		foreach (var moduleType in moduleNames) {
+			var warningTypeNode = new ImageNode {
+				NodeID = 20000 + (uint)moduleType,
+				NodeFlags = NodeFlags.Visible,
+				Size = new Vector2(24.0f, 24.0f),
+				X = jobIconNode->GetX() + 16.0f,
+				Y = jobIconNode->GetY() + 16.0f,
+				IsVisible = false,
+			};
+			
+			warningIndicators[(int) moduleType] = warningTypeNode;
+
+			if (moduleType is ModuleName.Tanks) {
+				warningTypeNode.LoadTexture("ui/uld/fourth/LFG_hr1.tex");
+				warningTypeNode.TextureCoordinates = new Vector2(0.0f, 216.0f);
+				warningTypeNode.ImageNodeFlags = 0;
+				warningTypeNode.Size = new Vector2(56.0f, 56.0f);
+				warningTypeNode.Scale = new Vector2(24.0f / 56.0f);
+			}
+			else {
+				warningTypeNode.LoadIcon(moduleType.GetAttribute<ModuleIconAttribute>()!.SimpleIcon);
+			}
+
+			warningTypeNode.AttachNode((AtkResNode*)jobIconNode, NodePosition.AfterTarget);
+		}
+		
 		imageNode = new ImageNode {
 			NodeID = 10000 + containerNode->NodeId,
 			NodeFlags = NodeFlags.Visible,
 			Size = new Vector2(32.0f, 32.0f),
-			X = memberUiData->ClassJobIcon->GetX(),
-			Y = memberUiData->ClassJobIcon->GetY(),
+			X = jobIconNode->GetX(),
+			Y = jobIconNode->GetY(),
 			IsVisible = false,
 		};
 
 		imageNode.LoadIcon(60074);
-		imageNode.AttachNode((AtkResNode*)memberUiData->ClassJobIcon, NodePosition.AfterTarget);
+		imageNode.AttachNode((AtkResNode*)jobIconNode, NodePosition.AfterTarget);
 		
 		memberUiData->PartyMemberComponent->UldManager.UpdateDrawNodeList();
 	}
 
 	public void Dispose() {
 		imageNode.Dispose();
-		partyComponent->UldManager.UpdateDrawNodeList();
+
+		foreach (var indicator in warningIndicators) {
+			indicator.Dispose();
+		}
+		
+		Service.Framework.RunOnFrameworkThread(() => {
+			partyComponent->UldManager.UpdateDrawNodeList();
+		});
 	}
 
 	public void Update() {
@@ -59,7 +100,7 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 		
 		if (System.PartyListController.Config.JobIcon) {
 			imageNode.Tooltip = warning.Message;
-			AnimateWarningIcon();
+			AnimateWarningIcon(warning);
 		}
 
 		if (System.PartyListController.Config.PlayerName) {
@@ -67,14 +108,21 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 		}
 	}
 
-	private void AnimateWarningIcon() {
+	private void AnimateWarningIcon(WarningState warning) {
 		if (AnimationState) {
 			imageNode.IsVisible = true;
 			jobIconNode->ToggleVisibility(false);
+
+			foreach (var index in Enumerable.Range(0, Enum.GetValues<ModuleName>().Length - 1)) {
+				warningIndicators[index].IsVisible = index == (int) warning.SourceModule;
+			}
 		}
 		else {
 			imageNode.IsVisible = false;
 			jobIconNode->ToggleVisibility(true);
+			foreach (var index in Enumerable.Range(0, Enum.GetValues<ModuleName>().Length - 1)) {
+				warningIndicators[index].IsVisible = false;
+			}
 		}
 	}
 
@@ -98,9 +146,12 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 		if (originalOutlineColor is null) return;
 		
 		playerNameNode->EdgeColor = originalOutlineColor.Value;
-		playerNameNode->ToggleVisibility(true);
 		jobIconNode->ToggleVisibility(true);
 
 		imageNode.IsVisible = false;
+		
+		foreach (var index in Enumerable.Range(0, Enum.GetValues<ModuleName>().Length - 1)) {
+			warningIndicators[index].IsVisible = false;
+		}
 	}
 }

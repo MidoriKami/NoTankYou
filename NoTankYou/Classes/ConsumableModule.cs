@@ -31,7 +31,7 @@ public abstract class ConsumableModule<T> : ModuleBase<T> where T : ConsumableCo
             if (currentCfc is null) return true;
 
             var currentDutyType = Service.DataManager.GetDutyType(currentCfc);
-            if (allowedZones.Contains(currentDutyType)) return true;
+            if (!allowedZones.Contains(currentDutyType)) return false;
         }
         
         return true;
@@ -72,7 +72,7 @@ public abstract class ConsumableConfiguration(ModuleName moduleName) : ModuleCon
         
         ImGuiHelpers.ScaledDummy(10.0f);
 
-        using (var unindent = ImRaii.PushIndent(-1)) {
+        using (var _ = ImRaii.PushIndent(-1)) {
             ImGui.Text(Strings.ZoneFilter);
             ImGui.Separator();
         }
@@ -81,6 +81,6 @@ public abstract class ConsumableConfiguration(ModuleName moduleName) : ModuleCon
         ConfigChanged |= ImGui.Checkbox(Strings.Savage, ref SavageFilter);
         ConfigChanged |= ImGui.Checkbox(Strings.Ultimate, ref UltimateFilter);
         ConfigChanged |= ImGui.Checkbox(Strings.ExtremeUnreal, ref ExtremeUnrealFilter);
-        ConfigChanged |= ImGui.Checkbox(Strings.Savage, ref CriterionFilter);
+        ConfigChanged |= ImGui.Checkbox(Strings.Criterion, ref CriterionFilter);
     }
 }

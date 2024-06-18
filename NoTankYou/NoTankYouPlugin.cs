@@ -34,7 +34,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         Service.Framework.Update += OnFrameworkUpdate;
         Service.ClientState.Login += OnLogin;
         Service.ClientState.Logout += OnLogout;
-        Service.PluginInterface.UiBuilder.Draw += OnDraw;
         Service.ClientState.TerritoryChanged += OnZoneChange;
     }
         
@@ -48,7 +47,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         Service.Framework.Update -= OnFrameworkUpdate;
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
-        Service.PluginInterface.UiBuilder.Draw -= OnDraw;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
         
         NodeBase.DisposeAllNodes();
@@ -82,14 +80,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         System.ModuleController.Unload();
         System.BannerController.Unload();
         System.PartyListController.Unload();
-    }
-    
-    private void OnDraw() {
-        if (Service.ClientState.IsPvP) return;
-        if (!Service.ClientState.IsLoggedIn) return;
-        
-        // todo: make these native ui
-        System.BannerController.Draw(System.ActiveWarnings);
     }
     
     private void OnZoneChange(ushort newZoneId) {
