@@ -73,6 +73,8 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 
 		imageNode.LoadIcon(60074);
 		imageNode.AttachNode((AtkResNode*)jobIconNode, NodePosition.AfterTarget);
+
+		memberUiData->PartyMemberComponent->UldManager.SearchNodeById(2)->Priority = 1;
 		
 		memberUiData->PartyMemberComponent->UldManager.UpdateDrawNodeList();
 	}
