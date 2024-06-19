@@ -24,9 +24,6 @@ public class Summoner : ModuleBase<SummonerConfiguration> {
     }
     
     protected override void EvaluateWarnings(IPlayerData playerData) {
-        petDebouncer.Update(playerData.GetEntityId(), playerData.HasPet());
-        if (petDebouncer.IsLockedOut(playerData.GetEntityId())) return;
-        
         if (!playerData.HasPet()) {
             AddActiveWarning(SummonCarbuncleActionId, playerData);
         }
