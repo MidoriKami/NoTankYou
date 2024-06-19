@@ -23,7 +23,7 @@ namespace NoTankYou.Controllers;
 public unsafe class PartyListController : IDisposable {
     public PartyListConfig Config { get; private set; } = new();
 
-    private PartyListMemberOverlay[] partyMembers = new PartyListMemberOverlay[8];
+    private PartyListMemberOverlay?[] partyMembers = new PartyListMemberOverlay[8];
 
     private static WarningState SampleWarning => new() {
         Message = "NoTankYou Sample Warning",
@@ -58,15 +58,15 @@ public unsafe class PartyListController : IDisposable {
 
     public void Unload() {
         foreach (var member in partyMembers) {
-            member.Reset();
-            member.Dispose();
+            member?.Reset();
+            member?.Dispose();
         }
     }
 
 
     public void Update() {
         foreach (var member in partyMembers) {
-            member.Update();
+            member?.Update();
         }
     }
 
@@ -74,11 +74,11 @@ public unsafe class PartyListController : IDisposable {
         if (!Config.Enabled) return;
 
         foreach (var partyMember in partyMembers) {
-            partyMember.Reset();
+            partyMember?.Reset();
         }
         
         if (Config.SampleMode) {
-            partyMembers[0].DrawWarning(SampleWarning);
+            partyMembers[0]?.DrawWarning(SampleWarning);
             return;
         }
         
@@ -88,7 +88,7 @@ public unsafe class PartyListController : IDisposable {
                 .Where(warning => warning.SourceEntityId == Service.ClientState.LocalPlayer?.EntityId)
                 .MaxBy(warning => warning.Priority);
             
-            partyMembers[0].DrawWarning(warning);
+            partyMembers[0]?.DrawWarning(warning);
         }
         else {
             foreach (var index in Enumerable.Range(0, partyMembers.Length)) {
@@ -100,14 +100,14 @@ public unsafe class PartyListController : IDisposable {
                     .Where(warning => warning.SourceEntityId == hudPartyMember.EntityId)
                     .MaxBy(warning => warning.Priority);
                 
-                partyMember.DrawWarning(warning);
+                partyMember?.DrawWarning(warning);
             }
         }
     }
     
     private void OnPartyListFinalize(AddonEvent type, AddonArgs args) {
         foreach (var node in partyMembers) {
-            node.Dispose();
+            node?.Dispose();
         }
     }
 
@@ -197,11 +197,9 @@ public class PartyListConfig {
         using (var _ = ImRaii.PushIndent()) {
             ImGui.Columns(2);
 
-            foreach (var module in Enum.GetValues<ModuleName>()[..^1]) // Trim "Test" Module
-            {
+            foreach (var module in Enum.GetValues<ModuleName>()[..^1]) {
                 var inHashset = BlacklistedModules.Contains(module);
-                if(ImGui.Checkbox(module.GetDescription(), ref inHashset))
-                {
+                if(ImGui.Checkbox(module.GetDescription(), ref inHashset)) {
                     if (!inHashset) BlacklistedModules.Remove(module);
                     if (inHashset) BlacklistedModules.Add(module);
                     configChanged = true;

@@ -59,8 +59,12 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         // Process and Collect Warnings
         System.ActiveWarnings = System.ModuleController.EvaluateWarnings();
 
+        // Update time-step for animations
         System.PartyListController.Update();
+
+        // Draw Warnings
         System.PartyListController.Draw(System.ActiveWarnings);
+        System.BannerController.Draw(System.ActiveWarnings);
     }
     
     private void OnLogin() {
