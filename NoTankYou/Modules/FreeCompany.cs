@@ -46,6 +46,11 @@ public class FreeCompany : ModuleBase<FreeCompanyConfiguration> {
     }
 }
 
+public enum FreeCompanyMode {
+    Any,
+    Specific,
+}
+
 public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompany) {
     protected override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.Sanctuary | OptionDisableFlags.DutiesOnly | OptionDisableFlags.SoloMode;
     

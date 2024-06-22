@@ -26,40 +26,39 @@ public unsafe class BannerController : IDisposable {
 
     private ListNode<BannerOverlayNode>? bannerListNode;
     
-    private readonly WarningState sampleWarning = new() {
-        Message = "Sample Warning",
-        Priority = 100,
-        IconId = 786,
-        IconLabel = "Sample Action",
-        SourceEntityId = 0xE0000000,
-        SourcePlayerName = "Sample Player",
-        SourceModule = ModuleName.Test,
-    };
+    public BannerController() {
+        var nameplateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
+        if (nameplateAddon is not null) {
+            AttachToNative(nameplateAddon);
+        }
+        
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", OnNamePlateSetup);
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", OnNamePlateFinalize);
+    }
     
-    public void Dispose() 
-        => Unload();
-    
-    private void OnNamePlateFinalize(AddonEvent type, AddonArgs args) {
+    public void Dispose() {
         Unload();
+        
+        Service.AddonLifecycle.UnregisterListener(OnNamePlateSetup);
+        Service.AddonLifecycle.UnregisterListener(OnNamePlateFinalize);
+    }
+        
+    public void Load() {
+        Config = BannerConfig.Load();
     }
 
-    private void OnNamePlateSetup(AddonEvent type, AddonArgs args) {
-        AttachToNative((AddonNamePlate*)args.Addon);
+    public void Unload() {
+        var namePlateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
+        if (namePlateAddon is not null) {
+            DetachFromNative(namePlateAddon);
+        }
+    
+        bannerListNode?.Dispose();
     }
     
-    private void AttachToNative(AddonNamePlate* addonNamePlate) {
-        Service.Framework.RunOnFrameworkThread(() => {
-            bannerListNode?.AttachNode(addonNamePlate->RootNode, NodePosition.AsFirstChild);
-            bannerListNode?.EnableTooltip(Service.AddonEventManager, addonNamePlate);
-            
-            addonNamePlate->UpdateCollisionNodeList(false);
-            addonNamePlate->UldManager.UpdateDrawNodeList();
-        }); 
-    }
-
     public void DrawConfigUi()
         => Config.DrawConfigUi();
-
+    
     public void Draw(IEnumerable<WarningState> warnings) {
         if (!Config.Enabled) return;
         if (bannerListNode is null) return;
@@ -69,7 +68,7 @@ public unsafe class BannerController : IDisposable {
                 var bannerNode = bannerListNode[index];
                 
                 if (index is 0) {
-                    bannerNode.AssociatedWarning = sampleWarning;
+                    bannerNode.AssociatedWarning = ModuleController.SampleWarning;
                     bannerNode.IsVisible = true;
                 }
                 else {
@@ -90,6 +89,51 @@ public unsafe class BannerController : IDisposable {
                 DrawListWarnings(filteredWarnings);
                 break;
         }
+    }
+
+    private void OnNamePlateSetup(AddonEvent type, AddonArgs args) {
+        AttachToNative((AddonNamePlate*)args.Addon);
+    }
+    
+    private void AttachToNative(AddonNamePlate* addonNamePlate) {
+        Service.Framework.RunOnFrameworkThread(() => {
+            bannerListNode = new ListNode<BannerOverlayNode> {
+                Size = Config.OverlaySize,
+                Position = Config.WindowPosition,
+                LayoutAnchor = Config.LayoutAnchor,
+                NodeFlags = NodeFlags.Clip,
+                IsVisible = Config.Enabled,
+                LayoutOrientation = Config.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical,
+                NodeID = 200_000,
+                // Tooltip = "Overlay from NoTankYou Plugin",
+                Color = KnownColor.White.Vector(),
+                BackgroundVisible = Config.ShowListBackground,
+                BackgroundColor = Config.ListBackgroundColor,
+            };
+        
+            foreach(uint index in Enumerable.Range(0, 10)) {
+                bannerListNode.Add(new BannerOverlayNode(200_100u + index) {
+                    IsVisible = false,
+                });
+            }
+            
+            System.NativeController.AttachToAddon(bannerListNode, (AtkUnitBase*)addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+        });
+    }
+    
+    private void OnNamePlateFinalize(AddonEvent type, AddonArgs args) {
+        DetachFromNative((AddonNamePlate*)args.Addon);
+    }
+
+    private void DetachFromNative(AddonNamePlate* addon) {
+        Service.Framework.RunOnFrameworkThread(() => {
+            if (bannerListNode is not null) {
+                System.NativeController.DetachFromAddon(bannerListNode, (AtkUnitBase*)addon);
+                
+                bannerListNode.Dispose();
+                bannerListNode = null;
+            }
+        });
     }
 
     private void DrawListWarnings(IEnumerable<WarningState> warnings) {
@@ -135,46 +179,6 @@ public unsafe class BannerController : IDisposable {
             }
         }
     }
-    
-    public void Load() {
-        Config = BannerConfig.Load();
-        
-        bannerListNode = new ListNode<BannerOverlayNode> {
-            Size = Config.OverlaySize,
-            Position = Config.WindowPosition,
-            LayoutAnchor = Config.LayoutAnchor,
-            NodeFlags = NodeFlags.Clip,
-            IsVisible = Config.Enabled,
-            LayoutOrientation = Config.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical,
-            NodeID = 200_000,
-            Tooltip = "Overlay from NoTankYou Plugin",
-            Color = KnownColor.White.Vector(),
-            BackgroundVisible = Config.ShowListBackground,
-            BackgroundColor = Config.ListBackgroundColor,
-        };
-        
-        foreach(uint index in Enumerable.Range(0, 10)) {
-            bannerListNode.Add(new BannerOverlayNode(200_100u + index));
-        }
-        
-        var namePlateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
-        if (namePlateAddon is not null) {
-            AttachToNative(namePlateAddon);
-        }
-        
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", OnNamePlateSetup);
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", OnNamePlateFinalize);
-    }
-
-    public void Unload() {
-        bannerListNode?.Dispose();
-        
-        var namePlateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
-        if (namePlateAddon is not null) {
-            namePlateAddon->UpdateCollisionNodeList(false);
-            namePlateAddon->UldManager.UpdateDrawNodeList();
-        }
-    }
 
     public void Reset() {
         if (bannerListNode is null) return;
@@ -205,6 +209,11 @@ public unsafe class BannerController : IDisposable {
             node.UpdateStyle();
         } 
     }
+}
+
+public enum BannerOverlayDisplayMode {
+    TopPriority,
+    List,
 }
 
 public class BannerConfig {

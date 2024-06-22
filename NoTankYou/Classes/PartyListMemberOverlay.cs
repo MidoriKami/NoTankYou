@@ -20,14 +20,14 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 
 	private readonly AtkImageNode* jobIconNode;
 	private readonly AtkTextNode* playerNameNode;
-	private readonly AtkComponentBase* partyComponent;
 	private ByteColor? originalOutlineColor;
 	
 	private static bool AnimationState => !System.PartyListController.Config.Animation || AnimationStopwatch.ElapsedMilliseconds < System.PartyListController.Config.AnimationPeriod / 2.0f;
-	public PartyListMemberOverlay(AddonPartyList.PartyListMemberStruct* memberUiData) {
+	
+	public PartyListMemberOverlay(AddonPartyList.PartyListMemberStruct* memberUiData, AddonPartyList* addonPartyList) {
 		var containerNode = memberUiData->PartyMemberComponent->OwnerNode;
 
-		partyComponent = memberUiData->PartyMemberComponent;
+		var partyComponent = memberUiData->PartyMemberComponent;
 		jobIconNode = memberUiData->ClassJobIcon;
 		playerNameNode = memberUiData->Name;
 		
@@ -42,7 +42,7 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 				NodeFlags = NodeFlags.Visible,
 				Size = new Vector2(24.0f, 24.0f),
 				X = jobIconNode->GetX() + 16.0f,
-				Y = jobIconNode->GetY() + 16.0f,
+				Y = jobIconNode->GetY(),
 				IsVisible = false,
 			};
 			
@@ -58,8 +58,8 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 			else {
 				warningTypeNode.LoadIcon(moduleType.GetAttribute<ModuleIconAttribute>()!.SimpleIcon);
 			}
-
-			warningTypeNode.AttachNode((AtkResNode*)jobIconNode, NodePosition.AfterTarget);
+			
+			System.NativeController.AttachToComponent(warningTypeNode, (AtkUnitBase*) addonPartyList, partyComponent, (AtkResNode*)jobIconNode, NodePosition.AfterTarget);
 		}
 		
 		imageNode = new ImageNode {
@@ -72,23 +72,26 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 		};
 
 		imageNode.LoadIcon(60074);
-		imageNode.AttachNode((AtkResNode*)jobIconNode, NodePosition.AfterTarget);
+		System.NativeController.AttachToComponent(imageNode, (AtkUnitBase*) addonPartyList, partyComponent, (AtkResNode*)jobIconNode, NodePosition.AfterTarget);
 
 		memberUiData->PartyMemberComponent->UldManager.SearchNodeById(2)->Priority = 1;
-		
 		memberUiData->PartyMemberComponent->UldManager.UpdateDrawNodeList();
 	}
 
-	public void Dispose() {
-		imageNode.Dispose();
+	public void Detach(AtkComponentBase* componentBase, AddonPartyList* addonPartyList) {
+		foreach (var indicator in warningIndicators) {
+			System.NativeController.DetachFromComponent(indicator, (AtkUnitBase*)addonPartyList, componentBase);
+		}
+		
+		System.NativeController.DetachFromComponent(imageNode, (AtkUnitBase*)addonPartyList, componentBase);
+	}
 
+	public void Dispose() {
 		foreach (var indicator in warningIndicators) {
 			indicator.Dispose();
 		}
 		
-		Service.Framework.RunOnFrameworkThread(() => {
-			partyComponent->UldManager.UpdateDrawNodeList();
-		});
+		imageNode.Dispose();
 	}
 
 	public void Update() {
@@ -129,7 +132,13 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 	}
 
 	private void AnimePlayerNameColor() {
-		originalOutlineColor ??= playerNameNode->EdgeColor;
+		if (originalOutlineColor is null) {
+			var partyListAddon = (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
+			if (partyListAddon is not null) {
+				originalOutlineColor = partyListAddon->Pet.Name->EdgeColor;
+			}
+		}
+		
 		if (originalOutlineColor is null) return;
 		
 		if (AnimationState) {
@@ -141,7 +150,7 @@ public unsafe class PartyListMemberOverlay : IDisposable {
 	}
 
 	public void EnableTooltip(AddonPartyList* addon) {
-		imageNode.EnableTooltip(Service.AddonEventManager, addon);
+		System.NativeController.UpdateEvents(imageNode, (AtkUnitBase*) addon);
 	}
 	
 	public void Reset() {

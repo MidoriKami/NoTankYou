@@ -25,16 +25,6 @@ public unsafe class PartyListController : IDisposable {
 
     private PartyListMemberOverlay?[] partyMembers = new PartyListMemberOverlay[8];
 
-    private static WarningState SampleWarning => new() {
-        Message = "NoTankYou Sample Warning",
-        Priority = 100,
-        IconId = 786,
-        IconLabel = "Sample Action",
-        SourceEntityId = Service.ClientState.LocalPlayer?.EntityId ?? 0xE000000,
-        SourcePlayerName = "Sample Player",
-        SourceModule = ModuleName.Test,
-    };
-    
     public PartyListController() {
         var partyListAddon = (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
         if (partyListAddon is not null) {
@@ -59,11 +49,21 @@ public unsafe class PartyListController : IDisposable {
     public void Unload() {
         foreach (var member in partyMembers) {
             member?.Reset();
+        }
+        
+        var partyListAddon = (AddonPartyList*) Service.GameGui.GetAddonByName("_PartyList");
+        if (partyListAddon is not null) {
+            DetachFromNative(partyListAddon);
+        }
+        
+        foreach (var member in partyMembers) {
             member?.Dispose();
         }
     }
 
-
+    public void DrawConfigUi()
+        => Config.DrawConfigUi();
+    
     public void Update() {
         foreach (var member in partyMembers) {
             member?.Update();
@@ -78,7 +78,7 @@ public unsafe class PartyListController : IDisposable {
         }
         
         if (Config.SampleMode) {
-            partyMembers[0]?.DrawWarning(SampleWarning);
+            partyMembers[0]?.DrawWarning(ModuleController.SampleWarning);
             return;
         }
         
@@ -105,19 +105,10 @@ public unsafe class PartyListController : IDisposable {
         }
     }
     
-    private void OnPartyListFinalize(AddonEvent type, AddonArgs args) {
-        foreach (var node in partyMembers) {
-            node?.Dispose();
-        }
-    }
-
     private void OnPartyListSetup(AddonEvent type, AddonArgs args) {
         AttachToNative((AddonPartyList*)args.Addon);
     }
-
-    public void DrawConfigUi()
-        => Config.DrawConfigUi();
-
+    
     private void AttachToNative(AddonPartyList* addonPartyList) {
         Service.Framework.RunOnFrameworkThread(() => {
             partyMembers = new PartyListMemberOverlay[8];
@@ -125,16 +116,30 @@ public unsafe class PartyListController : IDisposable {
             foreach (var index in Enumerable.Range(0, 8)) {
                 var partyMemberData = addonPartyList->PartyMembers.GetPointer(index);
 
-                var partyMemberOverlay = new PartyListMemberOverlay(partyMemberData);
+                var partyMemberOverlay = new PartyListMemberOverlay(partyMemberData, addonPartyList);
                 
                 partyMemberOverlay.EnableTooltip(addonPartyList);
                 
                 partyMembers[index] = partyMemberOverlay;
             }
-        
-            addonPartyList->UpdateCollisionNodeList(false);
-            addonPartyList->UldManager.UpdateDrawNodeList();
         }); 
+    }
+    
+    private void OnPartyListFinalize(AddonEvent type, AddonArgs args) {
+        DetachFromNative((AddonPartyList*)args.Addon);
+    }
+    
+    private void DetachFromNative(AddonPartyList* addonPartyList) {
+        Service.Framework.RunOnFrameworkThread(() => {
+            foreach (var index in Enumerable.Range(0, 8)) {
+                var partyMemberData = addonPartyList->PartyMembers.GetPointer(index);
+                ref var overlayData = ref partyMembers[index];
+                
+                overlayData?.Detach(partyMemberData->PartyMemberComponent, addonPartyList);
+                overlayData?.Dispose();
+                overlayData = null;
+            }
+        });
     }
 }
 

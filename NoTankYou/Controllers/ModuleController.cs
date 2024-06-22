@@ -8,6 +8,16 @@ namespace NoTankYou.Controllers;
 
 public class ModuleController : IDisposable {
     public List<ModuleBase> Modules { get; } = [..Reflection.ActivateOfType<ModuleBase>()];
+    
+    public static WarningState SampleWarning => new() {
+        Message = "NoTankYou Sample Warning",
+        Priority = 100,
+        IconId = 786,
+        IconLabel = "Sample Action",
+        SourceEntityId = Service.ClientState.LocalPlayer?.EntityId ?? 0xE000000,
+        SourcePlayerName = "Sample Player",
+        SourceModule = ModuleName.Test,
+    };
 
     public void Dispose() {
         foreach (var module in Modules.OfType<IDisposable>()) {

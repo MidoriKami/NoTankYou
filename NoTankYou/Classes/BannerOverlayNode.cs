@@ -36,7 +36,7 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 		};
 		
 		warningImageNode.LoadIcon(76579);
-		warningImageNode.AttachNode(this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(warningImageNode, this, NodePosition.AsLastChild);
 
 		messageTextNode = new TextNode {
 			NodeID = 210000 + nodeId,
@@ -52,7 +52,7 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 			Text = "Warning Will Robinson This Is Super Long!",
 		};
 		
-		messageTextNode.AttachNode(this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(messageTextNode, this, NodePosition.AsLastChild);
 
 		playerTextNode = new TextNode {
 			NodeID = 220000 + nodeId,
@@ -68,7 +68,7 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 			Text = "Dumb Player Name",
 		};
 
-		playerTextNode.AttachNode(this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(playerTextNode, this, NodePosition.AsLastChild);
 
 		actionIconNode = new ImageNode {
 			NodeID = 230000 + nodeId,
@@ -78,7 +78,7 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 		};
 		
 		actionIconNode.LoadIcon(61502);
-		actionIconNode.AttachNode(this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(actionIconNode, this, NodePosition.AsLastChild);
 
 		actionNameNode = new TextNode {
 			NodeID = 240000 + nodeId,
@@ -95,7 +95,25 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 			Text = "Action Name",
 		};
 		
-		actionNameNode.AttachNode(this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(actionNameNode, this, NodePosition.AsLastChild);
+	}
+
+	protected override void Dispose(bool disposing) {
+		if (disposing) {
+			System.NativeController.DetachFromNode(warningImageNode);
+			System.NativeController.DetachFromNode(messageTextNode);
+			System.NativeController.DetachFromNode(playerTextNode);
+			System.NativeController.DetachFromNode(actionIconNode);
+			System.NativeController.DetachFromNode(actionNameNode);
+
+			warningImageNode.Dispose();
+			messageTextNode.Dispose();
+			playerTextNode.Dispose();
+			actionIconNode.Dispose();
+			actionNameNode.Dispose();
+			
+			base.Dispose(disposing);
+		}
 	}
 
 	private void SetWarning(WarningState? warning) {

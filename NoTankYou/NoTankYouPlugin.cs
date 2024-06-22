@@ -2,7 +2,7 @@
 using Dalamud.Plugin.Services;
 using KamiLib.CommandManager;
 using KamiLib.Window;
-using KamiToolKit.Nodes;
+using KamiToolKit;
 using NoTankYou.Classes;
 using NoTankYou.Controllers;
 using NoTankYou.Windows;
@@ -12,6 +12,8 @@ namespace NoTankYou;
 public sealed class NoTankYouPlugin : IDalamudPlugin {
     public NoTankYouPlugin(DalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
+
+        System.NativeController = new NativeController(Service.PluginInterface);
 
         System.SystemConfig = new SystemConfig();
         System.LocalizationController = new LocalizationController();
@@ -49,7 +51,7 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         Service.ClientState.Logout -= OnLogout;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
         
-        NodeBase.DisposeAllNodes();
+        System.NativeController.Dispose();
     }
     
      private void OnFrameworkUpdate(IFramework framework) {

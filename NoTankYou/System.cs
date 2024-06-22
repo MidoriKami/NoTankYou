@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using KamiLib.CommandManager;
 using KamiLib.Window;
+using KamiToolKit;
 using NoTankYou.Classes;
 using NoTankYou.Controllers;
 using NoTankYou.Windows;
@@ -18,6 +19,7 @@ public static class System {
 	public static LocalizationController LocalizationController { get; set; }
 	public static WindowManager WindowManager { get; set; }
 	public static CommandManager CommandManager { get; set; }
+	public static NativeController NativeController { get; set; }
 	
 	public static ConfigurationWindow ConfigurationWindow { get; set; }
 }
