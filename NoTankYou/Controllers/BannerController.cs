@@ -201,13 +201,13 @@ public unsafe class BannerController : IDisposable {
         bannerListNode.LayoutOrientation = Config.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical;
         bannerListNode.LayoutAnchor = Config.LayoutAnchor;
         
-        bannerListNode.RecalculateLayout();
-        
         foreach (var index in Enumerable.Range(0, 10)) {
             var node = bannerListNode[index];
 
             node.UpdateStyle();
         } 
+        
+        bannerListNode.RecalculateLayout();
     }
 }
 
