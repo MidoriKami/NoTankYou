@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Numerics;
 using Dalamud.Interface;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
@@ -14,6 +15,7 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 	private readonly TextNode playerTextNode;
 	private readonly ImageNode actionIconNode;
 	private readonly TextNode actionNameNode;
+	private readonly TextNode helpTextNode;
 
 	private WarningState? internalWarning;
 	
@@ -24,9 +26,10 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 
 	public BannerOverlayNode(uint nodeId) : base(NodeType.Res) {
 		NodeID = nodeId;
-		Width = 64.0f + 300.0f + 48.0f + 64.0f;
+		Width = 64.0f + 250.0f + 48.0f + 64.0f;
 		Height = 64.0f;
 		IsVisible = true;
+		Margin = new Spacing(5.0f);
 		
 		warningImageNode = new ImageNode {
 			NodeID = 200000 + nodeId,
@@ -41,9 +44,9 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 		messageTextNode = new TextNode {
 			NodeID = 210000 + nodeId,
 			Position = new Vector2(64.0f, 0.0f),
-			Size = new Vector2(300.0f, 32.0f),
+			Size = new Vector2(250.0f + 24.0f, 32.0f),
 			TextColor = KnownColor.White.Vector(),
-			OutlineColor = KnownColor.Black.Vector(),
+			TextOutlineColor = KnownColor.Black.Vector(),
 			IsVisible = true,
 			FontSize = 26,
 			FontType = FontType.Axis, 
@@ -57,9 +60,9 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 		playerTextNode = new TextNode {
 			NodeID = 220000 + nodeId,
 			Position = new Vector2(64.0f, 32.0f),
-			Size = new Vector2(300.0f, 32.0f),
+			Size = new Vector2(250.0f + 24.0f, 32.0f),
 			TextColor = KnownColor.White.Vector() with { W = 0.66f },
-			OutlineColor = KnownColor.Black.Vector() with { W = 0.33f },
+			TextOutlineColor = KnownColor.Black.Vector() with { W = 0.33f },
 			IsVisible = true,
 			FontSize = 18,
 			FontType = FontType.Axis, 
@@ -72,7 +75,7 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 
 		actionIconNode = new ImageNode {
 			NodeID = 230000 + nodeId,
-			Position = new Vector2(300.0f + 64.0f + 32.0f, 0.0f),
+			Position = new Vector2(250.0f + 64.0f + 32.0f, 0.0f),
 			Size = new Vector2(48.0f, 48.0f),
 			IsVisible = true,
 		};
@@ -82,10 +85,10 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 
 		actionNameNode = new TextNode {
 			NodeID = 240000 + nodeId,
-			Position = new Vector2(300.0f + 64.0f, 32.0f),
+			Position = new Vector2(250.0f + 64.0f, 32.0f),
 			Size = new Vector2(64.0f + 48.0f, 48.0f),
 			TextColor = KnownColor.White.Vector(),
-			OutlineColor = KnownColor.Black.Vector(),
+			TextOutlineColor = KnownColor.Black.Vector(),
 			IsVisible = true,
 			FontSize = 12,
 			FontType = FontType.Axis, 
@@ -96,6 +99,27 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 		};
 		
 		System.NativeController.AttachToNode(actionNameNode, this, NodePosition.AsLastChild);
+
+		helpTextNode = new TextNode {
+			NodeID = 250000 + nodeId,
+			Position = new Vector2(Width - 24.0f, Height / 2.0f - 8.0f),
+			Size = new Vector2(16.0f, 16.0f),
+			TextColor = KnownColor.White.Vector(),
+			TextOutlineColor = KnownColor.Black.Vector(),
+			IsVisible = true,
+			FontSize = 16,
+			FontType = FontType.Axis,
+			TextFlags = TextFlags.Edge,
+			AlignmentType = AlignmentType.BottomRight,
+			Text = "?",
+			Tooltip = "Overlay from NoTankYou",
+		};
+		
+		System.NativeController.AttachToNode(helpTextNode, this, NodePosition.AsLastChild);
+	}
+
+	public unsafe void EnableTooltip(AddonNamePlate* addon) {
+		System.NativeController.UpdateEvents(helpTextNode, (AtkUnitBase*)addon);
 	}
 
 	protected override void Dispose(bool disposing) {
