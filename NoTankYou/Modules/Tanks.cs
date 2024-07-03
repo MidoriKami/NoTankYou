@@ -37,7 +37,7 @@ public unsafe class Tanks : ModuleBase<TankConfiguration> {
     }
     
     protected override void EvaluateWarnings(IPlayerData playerData) {
-        if (GroupManager.Instance()->MemberCount is 0) {
+        if (GroupManager.Instance()->MainGroup.MemberCount is 0) {
             if (playerData.MissingStatus(tankStanceIdArray)) {
                 AddActiveWarning(GetActionIdForClass(playerData.GetClassJob()), playerData);
             }
@@ -65,7 +65,7 @@ public unsafe class Tanks : ModuleBase<TankConfiguration> {
     }
 
     private bool AllianceHasStance() {
-        foreach (var partyMember in GroupManager.Instance()->AllianceMembers.PointerEnumerator()) {
+        foreach (var partyMember in GroupManager.Instance()->MainGroup.AllianceMembers.PointerEnumerator()) {
             if (partyMember->EntityId is 0xE0000000) continue;
             
             IPlayerData playerData = new PartyMemberPlayerData(partyMember);

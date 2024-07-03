@@ -13,8 +13,8 @@ using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using FFXIVClientStructs.Interop;
 using ImGuiNET;
+using KamiLib.Classes;
 using KamiLib.CommandManager;
-using KamiLib.Components;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using NoTankYou.Localization;
@@ -91,7 +91,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
 
         var groupManager = GroupManager.Instance();
         
-        if (Config.SoloMode || groupManager->MemberCount is 0) {
+        if (Config.SoloMode || groupManager->MainGroup.MemberCount is 0) {
             if (Service.ClientState.LocalPlayer is not { } player) return;
             
             var localPlayer = (Character*) player.Address;
@@ -169,7 +169,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
         => suppressedObjectIds.Clear();
 
     protected static Span<PartyMember> PartyMemberSpan 
-        => GroupManager.Instance()->PartyMembers[..GroupManager.Instance()->MemberCount];
+        => GroupManager.Instance()->MainGroup.PartyMembers[..GroupManager.Instance()->MainGroup.MemberCount];
 
     protected void AddActiveWarning(uint actionId, IPlayerData playerData) => ActiveWarningStates.Add(new WarningState {
         Priority = Config.Priority,

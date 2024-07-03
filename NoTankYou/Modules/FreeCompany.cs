@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
-using KamiLib.Components;
+using KamiLib.Classes;
 using KamiLib.Extensions;
 using KamiLib.Window;
 using Lumina.Excel.GeneratedSheets;

@@ -23,7 +23,7 @@ public unsafe class BlueMage : ModuleBase<BlueMageConfiguration> {
     }
     
     protected override void EvaluateWarnings(IPlayerData playerData) {
-        if (GroupManager.Instance()->MemberCount is 0) {
+        if (GroupManager.Instance()->MainGroup.MemberCount is 0) {
             if (playerData.MissingStatus(MightyGuardStatusId)) {
                 AddActiveWarning(MightyGuardActionId, playerData);
             }

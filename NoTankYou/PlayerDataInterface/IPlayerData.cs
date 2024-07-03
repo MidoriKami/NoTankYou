@@ -58,11 +58,11 @@ public unsafe interface IPlayerData {
     bool HasPet()
         => Service.ObjectTable
             .Where(obj => obj.OwnerId == GetEntityId())
-            .Where(obj => obj is BattleNpc { SubKind: (byte) BattleNpcSubKind.Pet })
+            .Where(obj => obj is IBattleNpc { SubKind: (byte) BattleNpcSubKind.Pet })
             .Any();
     
     // Internal Helpers
-    protected GameObject? GetGameObject() 
+    protected IGameObject? GetGameObject() 
         => Service.ObjectTable.SearchById(GetEntityId());
     
     protected Character* GetCharacterGameObject() {

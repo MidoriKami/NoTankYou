@@ -4,7 +4,7 @@ using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using ImGuiNET;
 using KamiLib.Extensions;
-using Lumina.Excel.GeneratedSheets2;
+using Lumina.Excel.GeneratedSheets;
 using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 

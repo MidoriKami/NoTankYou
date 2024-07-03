@@ -15,7 +15,7 @@ public unsafe class Dancer : ModuleBase<DancerConfiguration> {
     private const int ClosedPositionActionId = 16006;
 
     protected override bool ShouldEvaluate(IPlayerData playerData) {
-        if (GroupManager.Instance()->MemberCount < 2) return false;
+        if (GroupManager.Instance()->MainGroup.MemberCount < 2) return false;
         if (playerData.MissingClassJob(DancerClassJobId)) return false;
         if (playerData.GetLevel() < MinimumLevel) return false;
 

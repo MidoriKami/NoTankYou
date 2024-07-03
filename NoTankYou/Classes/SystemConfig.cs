@@ -1,6 +1,6 @@
 ﻿using Dalamud.Interface.Utility;
 using ImGuiNET;
-using KamiLib.Components;
+using KamiLib.Classes;
 using KamiLib.Configuration;
 using NoTankYou.Localization;
 

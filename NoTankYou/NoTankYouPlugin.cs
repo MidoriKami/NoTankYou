@@ -1,6 +1,7 @@
 ﻿using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using KamiLib.CommandManager;
+using KamiLib.Extensions;
 using KamiLib.Window;
 using KamiToolKit;
 using NoTankYou.Classes;
@@ -10,7 +11,7 @@ using NoTankYou.Windows;
 namespace NoTankYou;
 
 public sealed class NoTankYouPlugin : IDalamudPlugin {
-    public NoTankYouPlugin(DalamudPluginInterface pluginInterface) {
+    public NoTankYouPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
 
         System.NativeController = new NativeController(Service.PluginInterface);

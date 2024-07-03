@@ -16,7 +16,7 @@ public class Sage : ModuleBase<SageConfiguration> {
     private const int KardiaActionId = 24285;
     
     protected override unsafe bool ShouldEvaluate(IPlayerData playerData) {
-        if (Config.DisableWhileSolo && GroupManager.Instance()->MemberCount is 0) return false;
+        if (Config.DisableWhileSolo && GroupManager.Instance()->MainGroup.MemberCount is 0) return false;
         if (playerData.MissingClassJob(SageClassJob)) return false;
         if (playerData.GetLevel() < MinimumLevel) return false;
 
