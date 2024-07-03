@@ -105,18 +105,20 @@ public unsafe class BannerController : IDisposable {
                 IsVisible = Config.Enabled,
                 LayoutOrientation = Config.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical,
                 NodeID = 200_000,
-                // Tooltip = "Overlay from NoTankYou Plugin",
                 Color = KnownColor.White.Vector(),
                 BackgroundVisible = Config.ShowListBackground,
                 BackgroundColor = Config.ListBackgroundColor,
             };
         
             foreach(uint index in Enumerable.Range(0, 10)) {
-                bannerListNode.Add(new BannerOverlayNode(200_100u + index) {
-                    IsVisible = false,
-                });
+                var newOverlayNode = new BannerOverlayNode(200_100u + index);
+                bannerListNode.Add(newOverlayNode);
+                
+                newOverlayNode.EnableTooltip(addonNamePlate);
             }
             
+            UpdateStyle();
+
             System.NativeController.AttachToAddon(bannerListNode, (AtkUnitBase*)addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
         });
     }
