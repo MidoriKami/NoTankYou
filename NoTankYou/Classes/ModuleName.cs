@@ -47,7 +47,7 @@ public enum ModuleName {
     Summoner,
     
     [Description("Chocobo")]
-    [ModuleIcon(62141, 62041)]
+    [ModuleIcon(62143, 62043)]
     Chocobo,
         
     [Description("Gatherers")]
