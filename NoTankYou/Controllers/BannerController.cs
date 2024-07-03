@@ -11,7 +11,7 @@ using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
-using KamiLib.Components;
+using KamiLib.Classes;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;
@@ -26,28 +26,26 @@ public unsafe class BannerController : IDisposable {
 
     private ListNode<BannerOverlayNode>? bannerListNode;
     
-    public BannerController() {
-        var nameplateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
-        if (nameplateAddon is not null) {
-            AttachToNative(nameplateAddon);
-        }
-        
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", OnNamePlateSetup);
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", OnNamePlateFinalize);
-    }
-    
     public void Dispose() {
         Unload();
-        
-        Service.AddonLifecycle.UnregisterListener(OnNamePlateSetup);
-        Service.AddonLifecycle.UnregisterListener(OnNamePlateFinalize);
     }
         
     public void Load() {
         Config = BannerConfig.Load();
+
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", OnNamePlateSetup);
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", OnNamePlateFinalize);
+        
+        var nameplateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
+        if (nameplateAddon is not null) {
+            AttachToNative(nameplateAddon);
+        }
     }
 
     public void Unload() {
+        Service.AddonLifecycle.UnregisterListener(OnNamePlateSetup);
+        Service.AddonLifecycle.UnregisterListener(OnNamePlateFinalize);
+        
         var namePlateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
         if (namePlateAddon is not null) {
             DetachFromNative(namePlateAddon);
