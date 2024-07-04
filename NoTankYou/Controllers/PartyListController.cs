@@ -126,33 +126,31 @@ public unsafe class PartyListController : IDisposable {
                     NodeID = 20000 + partyMember.PartyMemberComponent->OwnerNode->NodeId,
                     NodeFlags = NodeFlags.Visible,
                     Size = new Vector2(24.0f, 24.0f),
-                    X = partyMember.ClassJobIcon->GetXFloat() + 16.0f,
-                    Y = partyMember.ClassJobIcon->GetYFloat(),
+                    X = partyMember.ClassJobIcon->GetXFloat() + 16.0f + partyMember.PartyMemberComponent->OwnerNode->GetXFloat(),
+                    Y = partyMember.ClassJobIcon->GetYFloat() + partyMember.PartyMemberComponent->OwnerNode->GetYFloat(),
                     IsVisible = false,
                 };
                 
-                System.NativeController.AttachToComponent(
+                System.NativeController.AttachToAddon(
                     warningTypeNodes[index],
                     (AtkUnitBase*)addonPartyList, 
-                    partyMember.PartyMemberComponent, 
-                    (AtkResNode*)partyMember.ClassJobIcon, 
+                    (AtkResNode*)partyMember.PartyMemberComponent->OwnerNode, 
                     NodePosition.AfterTarget);
                 
                 jobIconWarningNodes[index] = new IconImageNode {
 		            NodeID = 10000 + partyMember.PartyMemberComponent->OwnerNode->NodeId,
 		            NodeFlags = NodeFlags.Visible,
 		            Size = new Vector2(32.0f, 32.0f),
-		            X = partyMember.ClassJobIcon->GetXFloat(),
-		            Y = partyMember.ClassJobIcon->GetYFloat(),
+		            X = partyMember.ClassJobIcon->GetXFloat() + partyMember.PartyMemberComponent->OwnerNode->GetXFloat(),
+		            Y = partyMember.ClassJobIcon->GetYFloat() + partyMember.PartyMemberComponent->OwnerNode->GetYFloat(),
 		            IsVisible = false,
                     IconId = 60074,
                 };
                 
-                System.NativeController.AttachToComponent(
+                System.NativeController.AttachToAddon(
                     jobIconWarningNodes[index],
                     (AtkUnitBase*)addonPartyList, 
-                    partyMember.PartyMemberComponent, 
-                    (AtkResNode*)partyMember.ClassJobIcon, 
+                    (AtkResNode*)partyMember.PartyMemberComponent->OwnerNode, 
                     NodePosition.AfterTarget);
             }
 
@@ -172,13 +170,11 @@ public unsafe class PartyListController : IDisposable {
             }
 
             foreach (var index in Enumerable.Range(0, 8)) {
-                ref var partyMember = ref AddonPartyList->PartyMembers[index];
-                                
-                System.NativeController.DetachFromComponent(warningTypeNodes[index], (AtkUnitBase*)addonPartyList, partyMember.PartyMemberComponent);
-                warningTypeNodes[index].Dispose();
-                
-                System.NativeController.DetachFromComponent(jobIconWarningNodes[index], (AtkUnitBase*)addonPartyList, partyMember.PartyMemberComponent);
+                System.NativeController.DetachFromAddon(jobIconWarningNodes[index], (AtkUnitBase*)addonPartyList);
                 jobIconWarningNodes[index].Dispose();
+                
+                System.NativeController.DetachFromAddon(warningTypeNodes[index], (AtkUnitBase*)addonPartyList);
+                warningTypeNodes[index].Dispose();
             }
             
             ResetPartyMembers();
@@ -191,9 +187,22 @@ public unsafe class PartyListController : IDisposable {
 	    if (AddonPartyList is null) return;
 	    
         foreach (var index in Enumerable.Range(0, 8)) {
-            ref var memberComponent = ref AddonPartyList->PartyMembers[index];
+            ResetPartyMember(index);
+        }
+    }
 
-            memberComponent.Name->EdgeColor = originalOutlineColor;
+    private void ResetPartyMember(int index) {
+        ref var memberComponent = ref AddonPartyList->PartyMembers[index];
+
+        jobIconWarningNodes[index].IsVisible = false;
+        warningTypeNodes[index].IsVisible = false;
+        memberComponent.Name->EdgeColor = originalOutlineColor;
+
+        // Note, this probably doesn't work correctly. Awaiting feedback from users.
+        if (index > 1 && Service.Condition.IsCrossWorld()) {
+            memberComponent.ClassJobIcon->ToggleVisibility(false);
+        }
+        else {
             memberComponent.ClassJobIcon->ToggleVisibility(true);
         }
     }
