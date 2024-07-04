@@ -254,6 +254,7 @@ public unsafe class PartyListController : IDisposable {
             var warningIcon = warningState.SourceModule.GetAttribute<ModuleIconAttribute>()!.SimpleIcon;
             if (imageNode.LoadedIconId != warningIcon) {
                 imageNode.LoadIcon(warningIcon);
+                imageNode.ImageNodeFlags = ImageNodeFlags.AutoFit;
             }
         }
     }
