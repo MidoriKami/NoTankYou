@@ -1,34 +1,99 @@
 ﻿using Dalamud.Plugin;
-using KamiLib;
-using KamiLib.System;
-using NoTankYou.Localization;
-using NoTankYou.System;
-using NoTankYou.Views.Windows;
+using Dalamud.Plugin.Services;
+using KamiLib.CommandManager;
+using KamiLib.Extensions;
+using KamiLib.Window;
+using KamiToolKit;
+using NoTankYou.Classes;
+using NoTankYou.Controllers;
+using NoTankYou.Windows;
 
 namespace NoTankYou;
 
-public sealed class NoTankYouPlugin : IDalamudPlugin
-{
-    public static NoTankYouSystem System = null!;
-
-    public NoTankYouPlugin(DalamudPluginInterface pluginInterface)
-    {
+public sealed class NoTankYouPlugin : IDalamudPlugin {
+    public NoTankYouPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
 
-        KamiCommon.Initialize(pluginInterface, "NoTankYou");
-        KamiCommon.RegisterLocalizationHandler(key => Strings.ResourceManager.GetString(key, Strings.Culture));
+        System.NativeController = new NativeController(Service.PluginInterface);
 
-        System = new NoTankYouSystem();
+        System.SystemConfig = new SystemConfig();
+        System.LocalizationController = new LocalizationController();
+        System.CommandManager = new CommandManager(Service.PluginInterface, "notankyou", "nty");
+
+        System.BlacklistController = new BlacklistController();
+        System.ModuleController = new ModuleController();
+        System.BannerController = new BannerController();
+        System.PartyListController = new PartyListController();
+
+        System.ConfigurationWindow = new ConfigurationWindow();
+        System.WindowManager = new WindowManager(Service.PluginInterface);
         
-        CommandController.RegisterMainCommand("/nty", "/notankyou");
+        System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn);
         
-        KamiCommon.WindowManager.AddConfigurationWindow(new ConfigurationWindow());
+        if (Service.ClientState.IsLoggedIn) {
+            OnLogin();
+        }
+        
+        Service.Framework.Update += OnFrameworkUpdate;
+        Service.ClientState.Login += OnLogin;
+        Service.ClientState.Logout += OnLogout;
+        Service.ClientState.TerritoryChanged += OnZoneChange;
     }
         
-    public void Dispose()
-    {
-        KamiCommon.Dispose();
+    public void Dispose() {
+        System.LocalizationController.Dispose();
         
-        System.Dispose();
+        System.ModuleController.Dispose();
+        System.BannerController.Dispose();
+        System.PartyListController.Dispose();
+        
+        Service.Framework.Update -= OnFrameworkUpdate;
+        Service.ClientState.Login -= OnLogin;
+        Service.ClientState.Logout -= OnLogout;
+        Service.ClientState.TerritoryChanged -= OnZoneChange;
+        
+        System.NativeController.Dispose();
+    }
+    
+     private void OnFrameworkUpdate(IFramework framework) {
+        if (Service.ClientState.IsPvP) return;
+        if (!Service.ClientState.IsLoggedIn) return;
+        if (Service.Condition.IsBetweenAreas()) return;
+
+        // Process and Collect Warnings
+        System.ActiveWarnings = System.ModuleController.EvaluateWarnings();
+
+        // Update time-step for animations
+        System.PartyListController.Update();
+
+        // Draw Warnings
+        System.PartyListController.Draw(System.ActiveWarnings);
+        System.BannerController.Draw(System.ActiveWarnings);
+    }
+    
+    private void OnLogin() {
+        System.SystemConfig = SystemConfig.Load();
+        if (System.SystemConfig.AutoSuppress) {
+            Service.Log.Warning($"User Enabled AutoSuppression. Warnings will automatically be silenced after being active for {System.SystemConfig.AutoSuppressTime} seconds");
+        }
+        
+        System.BlacklistController.Load();
+        System.ModuleController.Load();
+        System.BannerController.Load();
+        System.PartyListController.Load();
+    }
+    
+    private void OnLogout() {
+        System.BlacklistController.Unload();
+        System.ModuleController.Unload();
+        System.BannerController.Unload();
+        System.PartyListController.Unload();
+    }
+    
+    private void OnZoneChange(ushort newZoneId) {
+        if (Service.ClientState.IsPvP) return;
+        if (!Service.ClientState.IsLoggedIn) return;
+
+        System.ModuleController.ZoneChange(newZoneId);
     }
 }
