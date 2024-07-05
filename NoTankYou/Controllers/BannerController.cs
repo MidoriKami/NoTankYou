@@ -61,18 +61,13 @@ public unsafe class BannerController : IDisposable {
         if (!Config.Enabled) return;
         if (bannerListNode is null) return;
 
+        foreach (var index in Enumerable.Range(0, 10)) {
+            bannerListNode[index].IsVisible = false;
+        }
+        
         if (Config.SampleMode) {
-            foreach (var index in Enumerable.Range(0, 10)) {
-                var bannerNode = bannerListNode[index];
-                
-                if (index is 0) {
-                    bannerNode.AssociatedWarning = ModuleController.SampleWarning;
-                    bannerNode.IsVisible = true;
-                }
-                else {
-                    bannerNode.IsVisible = false;
-                }
-            }
+            bannerListNode[0].AssociatedWarning = ModuleController.SampleWarning;
+            bannerListNode[0].IsVisible = true; 
             return;
         }
 
@@ -147,11 +142,7 @@ public unsafe class BannerController : IDisposable {
 
         foreach (var index in Enumerable.Range(0, 10)) {
             var bannerNode = bannerListNode[index];
-            
-            if (index > Config.WarningCount || index >= orderedWarnings.Count) {
-                bannerNode.IsVisible = false;
-                continue;
-            }
+            if (index > Config.WarningCount || index >= orderedWarnings.Count) continue;
 
             bannerNode.AssociatedWarning = orderedWarnings[index];
             bannerNode.IsVisible = true;
@@ -166,18 +157,9 @@ public unsafe class BannerController : IDisposable {
             .MaxBy(warning => warning.Priority);
 
         if (highestWarning is null) return;
-        
-        foreach (var index in Enumerable.Range(0, 10)) {
-            var bannerNode = bannerListNode[index];
-                
-            if (index is 0) {
-                bannerNode.AssociatedWarning = highestWarning;
-                bannerNode.IsVisible = true;
-            }
-            else {
-                bannerNode.IsVisible = false;
-            }
-        }
+
+        bannerListNode[0].AssociatedWarning = highestWarning;
+        bannerListNode[0].IsVisible = true;
     }
 
     public void Reset() {
