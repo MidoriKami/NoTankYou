@@ -35,6 +35,7 @@ public unsafe class PartyListController : IDisposable {
 
     private readonly IconImageNode[] jobIconWarningNodes = new IconImageNode[8];
     private readonly ImageNode[] warningTypeNodes = new ImageNode[8];
+    private readonly bool[] isDirty = new bool[8];
     private ByteColor originalOutlineColor;
     private bool isAttached;
 
@@ -194,16 +195,13 @@ public unsafe class PartyListController : IDisposable {
     private void ResetPartyMember(int index) {
         ref var memberComponent = ref AddonPartyList->PartyMembers[index];
 
-        jobIconWarningNodes[index].IsVisible = false;
-        warningTypeNodes[index].IsVisible = false;
-        memberComponent.Name->EdgeColor = originalOutlineColor;
-
-        // Note, this probably doesn't work correctly. Awaiting feedback from users.
-        if (index > 1 && Service.Condition.IsCrossWorld()) {
-            memberComponent.ClassJobIcon->ToggleVisibility(false);
-        }
-        else {
+        if (isDirty[index]) {
+            jobIconWarningNodes[index].IsVisible = false;
+            warningTypeNodes[index].IsVisible = false;
             memberComponent.ClassJobIcon->ToggleVisibility(true);
+            memberComponent.Name->EdgeColor = originalOutlineColor;
+
+            isDirty[index] = false;
         }
     }
 
@@ -229,11 +227,13 @@ public unsafe class PartyListController : IDisposable {
             memberComponent.ClassJobIcon->ToggleVisibility(false);
             warningTypeNodes[index].IsVisible = true;
             SetWarningTypeTexture(warningTypeNodes[index], warning);
-	    }
+            isDirty[index] = true;
+        }
 	    else {
             jobIconWarningNodes[index].IsVisible = false;
             memberComponent.ClassJobIcon->ToggleVisibility(true);
             warningTypeNodes[index].IsVisible = false;
+            isDirty[index] = true;
         }
     }
 
@@ -242,10 +242,12 @@ public unsafe class PartyListController : IDisposable {
         ref var memberComponent = ref AddonPartyList->PartyMembers[index];
 
 	    if (AnimationState) {
-            memberComponent.Name->EdgeColor = Config.OutlineColor.ToByteColor();
+            memberComponent.Name->EdgeColor = (Config.OutlineColor with { W = memberComponent.Name->EdgeColor.A }).ToByteColor();
+            isDirty[index] = true;
 	    }
 	    else {
             memberComponent.Name->EdgeColor = originalOutlineColor;
+            isDirty[index] = true;
 	    }
 	}
 
