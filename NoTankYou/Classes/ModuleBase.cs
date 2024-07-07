@@ -149,11 +149,6 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
 
     public override void DrawConfigUi() {
         Config.DrawConfigUi();
-
-        if (Config.ConfigChanged) {
-            Config.Save();
-            Config.ConfigChanged = false;
-        }
     }
 
     public override void Load() {
@@ -302,6 +297,11 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
         using (var _ = ImRaii.PushIndent()) {
             ImGuiHelpers.ScaledDummy(5.0f);
             DrawModuleConfig();
+        }
+
+        if (ConfigChanged) {
+            Save();
+            ConfigChanged = false;
         }
     }
 
