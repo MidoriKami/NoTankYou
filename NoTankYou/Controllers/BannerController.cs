@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using Dalamud.Game.Addon.Lifecycle;
-using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
@@ -14,6 +12,7 @@ using ImGuiNET;
 using KamiLib.Classes;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
+using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using NoTankYou.Classes;
@@ -21,37 +20,46 @@ using NoTankYou.Localization;
 
 namespace NoTankYou.Controllers;
 
-public unsafe class BannerController : IDisposable {
+public unsafe class BannerController() : NativeUiOverlayController(Service.AddonLifecycle, Service.Framework, Service.GameGui) {
     public BannerConfig Config { get; private set; } = new();
 
     private ListNode<BannerOverlayNode>? bannerListNode;
     
-    public void Dispose() {
-        Unload();
-    }
-        
-    public void Load() {
+    protected override void LoadConfig() {
         Config = BannerConfig.Load();
-
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", OnNamePlateSetup);
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", OnNamePlateFinalize);
-        
-        var nameplateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
-        if (nameplateAddon is not null) {
-            AttachToNative(nameplateAddon);
-        }
     }
 
-    public void Unload() {
-        Service.AddonLifecycle.UnregisterListener(OnNamePlateSetup);
-        Service.AddonLifecycle.UnregisterListener(OnNamePlateFinalize);
+    protected override void AttachNodes(AddonNamePlate* addonNamePlate) {
+        bannerListNode = new ListNode<BannerOverlayNode> {
+            Size = Config.OverlaySize,
+            Position = Config.WindowPosition,
+            LayoutAnchor = Config.LayoutAnchor,
+            NodeFlags = NodeFlags.Clip,
+            IsVisible = Config.Enabled,
+            LayoutOrientation = Config.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical,
+            NodeID = 200_000,
+            Color = KnownColor.White.Vector(),
+            BackgroundVisible = Config.ShowListBackground,
+            BackgroundColor = Config.ListBackgroundColor,
+        };
         
-        var namePlateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
-        if (namePlateAddon is not null) {
-            DetachFromNative(namePlateAddon);
+        foreach(uint index in Enumerable.Range(0, 10)) {
+            var newOverlayNode = new BannerOverlayNode(200_100u + index);
+            bannerListNode.Add(newOverlayNode);
+            newOverlayNode.EnableEvents(Service.AddonEventManager, (AtkUnitBase*)addonNamePlate);
         }
-    
-        bannerListNode?.Dispose();
+            
+        UpdateStyle();
+        System.NativeController.AttachToAddon(bannerListNode, (AtkUnitBase*)addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+    }
+
+    protected override void DetachNodes(AddonNamePlate* addonNamePlate) {
+        if (bannerListNode is not null) {
+            System.NativeController.DetachFromAddon(bannerListNode, (AtkUnitBase*)addonNamePlate);
+                
+            bannerListNode.Dispose();
+            bannerListNode = null;
+        }
     }
     
     public void DrawConfigUi()
@@ -82,52 +90,6 @@ public unsafe class BannerController : IDisposable {
                 DrawListWarnings(filteredWarnings);
                 break;
         }
-    }
-
-    private void OnNamePlateSetup(AddonEvent type, AddonArgs args) {
-        AttachToNative((AddonNamePlate*)args.Addon);
-    }
-    
-    private void AttachToNative(AddonNamePlate* addonNamePlate) {
-        Service.Framework.RunOnFrameworkThread(() => {
-            bannerListNode = new ListNode<BannerOverlayNode> {
-                Size = Config.OverlaySize,
-                Position = Config.WindowPosition,
-                LayoutAnchor = Config.LayoutAnchor,
-                NodeFlags = NodeFlags.Clip,
-                IsVisible = Config.Enabled,
-                LayoutOrientation = Config.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical,
-                NodeID = 200_000,
-                Color = KnownColor.White.Vector(),
-                BackgroundVisible = Config.ShowListBackground,
-                BackgroundColor = Config.ListBackgroundColor,
-            };
-        
-            foreach(uint index in Enumerable.Range(0, 10)) {
-                var newOverlayNode = new BannerOverlayNode(200_100u + index);
-                bannerListNode.Add(newOverlayNode);
-                newOverlayNode.EnableEvents(Service.AddonEventManager, (AtkUnitBase*)addonNamePlate);
-            }
-            
-            UpdateStyle();
-
-            System.NativeController.AttachToAddon(bannerListNode, (AtkUnitBase*)addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
-        });
-    }
-    
-    private void OnNamePlateFinalize(AddonEvent type, AddonArgs args) {
-        DetachFromNative((AddonNamePlate*)args.Addon);
-    }
-
-    private void DetachFromNative(AddonNamePlate* addon) {
-        Service.Framework.RunOnFrameworkThread(() => {
-            if (bannerListNode is not null) {
-                System.NativeController.DetachFromAddon(bannerListNode, (AtkUnitBase*)addon);
-                
-                bannerListNode.Dispose();
-                bannerListNode = null;
-            }
-        });
     }
 
     private void DrawListWarnings(IEnumerable<WarningState> warnings) {
