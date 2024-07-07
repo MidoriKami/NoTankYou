@@ -54,6 +54,10 @@ public enum ModuleName {
     [ModuleIcon(62203, 62203, 62574)]
     Gatherers,
     
+    [Description("Monk")]
+    [ModuleIcon(62120, 62020)]
+    Monk,
+    
     [Description("Test")]
     [ModuleIcon(62144, 62144)]
     Test,
