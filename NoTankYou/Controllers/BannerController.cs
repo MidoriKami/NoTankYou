@@ -69,8 +69,8 @@ public unsafe class BannerController() : NativeUiOverlayController(Service.Addon
         if (!Config.Enabled) return;
         if (bannerListNode is null) return;
 
-        foreach (var index in Enumerable.Range(0, 10)) {
-            bannerListNode[index].IsVisible = false;
+        foreach (var bannerOverlayNode in bannerListNode) {
+            bannerOverlayNode.IsVisible = false;
         }
         
         if (Config.SampleMode) {
