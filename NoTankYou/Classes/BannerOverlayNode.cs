@@ -112,7 +112,7 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 			TextFlags = TextFlags.Edge,
 			AlignmentType = AlignmentType.BottomRight,
 			Text = "?",
-			Tooltip = "Overlay from NoTankYou",
+			Tooltip = "Overlay from NoTankYou plugin",
 		};
 		
 		System.NativeController.AttachToNode(helpTextNode, this, NodePosition.AsLastChild);
