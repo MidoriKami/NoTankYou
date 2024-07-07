@@ -242,7 +242,7 @@ public unsafe class PartyListController : IDisposable {
         ref var memberComponent = ref AddonPartyList->PartyMembers[index];
 
 	    if (AnimationState) {
-            memberComponent.Name->EdgeColor = (Config.OutlineColor with { W = memberComponent.Name->EdgeColor.A }).ToByteColor();
+            memberComponent.Name->EdgeColor = Config.OutlineColor.ToByteColor();
             isDirty[index] = true;
 	    }
 	    else {

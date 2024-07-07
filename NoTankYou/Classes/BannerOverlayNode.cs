@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Numerics;
 using Dalamud.Interface;
-using FFXIVClientStructs.FFXIV.Client.UI;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
@@ -118,8 +118,16 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 		System.NativeController.AttachToNode(helpTextNode, this, NodePosition.AsLastChild);
 	}
 
-	public unsafe void EnableTooltip(AddonNamePlate* addon) {
-		System.NativeController.UpdateEvents(helpTextNode, (AtkUnitBase*)addon);
+	public override unsafe void EnableEvents(IAddonEventManager eventManager, AtkUnitBase* addon) {
+		base.EnableEvents(eventManager, addon);
+		
+		helpTextNode.EnableEvents(eventManager, addon);
+	}
+
+	public override void DisableEvents(IAddonEventManager eventManager) {
+		base.DisableEvents(eventManager);
+		
+		helpTextNode.DisableEvents(eventManager);
 	}
 
 	protected override void Dispose(bool disposing) {

@@ -106,8 +106,7 @@ public unsafe class BannerController : IDisposable {
             foreach(uint index in Enumerable.Range(0, 10)) {
                 var newOverlayNode = new BannerOverlayNode(200_100u + index);
                 bannerListNode.Add(newOverlayNode);
-                
-                newOverlayNode.EnableTooltip(addonNamePlate);
+                newOverlayNode.EnableEvents(Service.AddonEventManager, (AtkUnitBase*)addonNamePlate);
             }
             
             UpdateStyle();
