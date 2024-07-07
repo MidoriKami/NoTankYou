@@ -19,4 +19,5 @@ public class Service {
     [PluginService] public static IChatGui Chat { get; set; }
     [PluginService] public static IAddonLifecycle AddonLifecycle { get; set; }
     [PluginService] public static IAddonEventManager AddonEventManager { get; set; }
+    [PluginService] public static IJobGauges JobGauges { get; set; }
 }
