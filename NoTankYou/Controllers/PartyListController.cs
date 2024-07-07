@@ -254,6 +254,7 @@ public unsafe class PartyListController : IDisposable {
     private void SetWarningTypeTexture(ImageNode imageNode, WarningState warningState) {
         if (warningState.SourceModule is ModuleName.Tanks) {
             if (imageNode.LoadedIconId is not uint.MaxValue) {
+                imageNode.UnloadTexture();
                 imageNode.LoadTexture("ui/uld/fourth/LFG_hr1.tex");
                 imageNode.TextureCoordinates = new Vector2(0.0f, 216.0f);
                 imageNode.ImageNodeFlags = 0;
@@ -264,6 +265,7 @@ public unsafe class PartyListController : IDisposable {
         else {
             var warningIcon = warningState.SourceModule.GetAttribute<ModuleIconAttribute>()!.SimpleIcon;
             if (imageNode.LoadedIconId != warningIcon) {
+                imageNode.UnloadTexture();
                 imageNode.LoadIcon(warningIcon);
                 imageNode.ImageNodeFlags = ImageNodeFlags.AutoFit;
             }
