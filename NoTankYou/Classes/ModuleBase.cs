@@ -244,7 +244,7 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
     public bool CustomWarning;
     public string CustomWarningText = string.Empty;
     
-    [JsonIgnore] public bool ConfigChanged { get; set; }
+    [JsonIgnore] protected bool ConfigChanged { get; set; }
     [JsonIgnore] protected virtual OptionDisableFlags OptionDisableFlags => OptionDisableFlags.None;
 
     public virtual void DrawConfigUi() {
@@ -300,6 +300,7 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
         }
 
         if (ConfigChanged) {
+            Service.Log.Verbose($"Saving config for {moduleName}");
             Save();
             ConfigChanged = false;
         }
