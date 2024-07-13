@@ -9,6 +9,7 @@ using Dalamud.Utility;
 using ImGuiNET;
 using KamiLib.Classes;
 using KamiLib.CommandManager;
+using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.Window;
 using KamiLib.Window.SelectionWindows;
@@ -35,6 +36,13 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
 
     public ConfigurationWindow() : base("NoTankYou - Configuration Window", new Vector2(500.0f, 475.0f)) {
         Options = System.ModuleController.Modules;
+        
+        TitleBarButtons.Add(new TitleBarButton {
+            Click = _ => System.WindowManager.AddWindow(new ConfigurationManagerWindow(), WindowFlags.OpenImmediately),
+            Icon = FontAwesomeIcon.Cog,
+            ShowTooltip = () => ImGui.SetTooltip("Open Configuration Manager"),
+            IconOffset = new Vector2(2.0f, 1.0f),
+        });
         
         System.CommandManager.RegisterCommand(new CommandHandler {
             Delegate = OpenConfigWindow,

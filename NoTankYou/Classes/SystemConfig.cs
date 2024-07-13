@@ -12,15 +12,15 @@ public class SystemConfig : CharacterConfiguration {
 	public int AutoSuppressTime = 60;
 
 	public static SystemConfig Load() 
-		=> Service.PluginInterface.LoadConfigFile("System.config.json", () => {
+		=> Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "System.config.json", () => {
 			var newConfig = new SystemConfig();
 			newConfig.UpdateCharacterData(Service.ClientState);
 
 			return newConfig;
 		});
 
-	private void Save()
-		=> Service.PluginInterface.SaveConfigFile("System.config.json", this);
+	public void Save()
+		=> Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId,"System.config.json", this);
 
 	public void DrawConfigUi() {
 		var configChanged = ImGuiTweaks.Checkbox(Strings.WaitForDutyStart, ref WaitUntilDutyStart, Strings.WaitForDutyStartHelp);
