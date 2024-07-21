@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Globalization;
+using KamiLib.Extensions;
 using NoTankYou.Localization;
 
 namespace NoTankYou.Controllers;
 
 public class LocalizationController : IDisposable {
-    public void Initialize() {
-        Strings.Culture = new CultureInfo(Service.PluginInterface.UiLanguage);
-
+    public LocalizationController() {
+        OnLanguageChange(Service.PluginInterface.UiLanguage);
         Service.PluginInterface.LanguageChanged += OnLanguageChange;
+
+        EnumExtensions.GetCultureInfoFunc = () => Strings.Culture;
+        EnumExtensions.GetResourceManagerFunc = () => Strings.ResourceManager;
     }
     
     public void Dispose() {
