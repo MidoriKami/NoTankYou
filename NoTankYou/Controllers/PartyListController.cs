@@ -265,6 +265,16 @@ public unsafe class PartyListController : IDisposable {
             imageNode.ImageNodeFlags = ImageNodeFlags.AutoFit;
         }
     }
+
+    public void Hide() {
+        foreach (var node in jobIconWarningNodes) {
+            node.IsVisible = false;
+        }
+
+        foreach (var node in warningTypeNodes) {
+            node.IsVisible = false;
+        }
+    }
 }
 
 public class PartyListConfig {

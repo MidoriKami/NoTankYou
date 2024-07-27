@@ -56,7 +56,11 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
     }
     
      private void OnFrameworkUpdate(IFramework framework) {
-        if (Service.ClientState.IsPvP) return;
+         if (Service.ClientState.IsPvP) {
+             System.PartyListController.Hide();
+             System.BannerController.Hide();
+             return;
+         }
         if (!Service.ClientState.IsLoggedIn) return;
         if (Service.Condition.IsBetweenAreas()) return;
 

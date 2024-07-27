@@ -152,6 +152,14 @@ public unsafe class BannerController() : NativeUiOverlayController(Service.Addon
         
         bannerListNode.RecalculateLayout();
     }
+
+    public void Hide() {
+        if (bannerListNode is not null) {
+            foreach (var bannerOverlayNode in bannerListNode) {
+                bannerOverlayNode.IsVisible = false;
+            }
+        }
+    }
 }
 
 public enum BannerOverlayDisplayMode {
