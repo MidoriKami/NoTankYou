@@ -58,6 +58,10 @@ public enum ModuleName {
     [ModuleIcon(62120, 62020)]
     Monk,
     
+    [Description("Pictomancer")]
+    [ModuleIcon(62142, 62422)]
+    Pictomancer,
+    
     [Description("Test")]
     [ModuleIcon(62144, 62144)]
     Test,

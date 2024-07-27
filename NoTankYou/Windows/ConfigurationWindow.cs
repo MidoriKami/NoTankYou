@@ -34,7 +34,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
     protected override float SelectionItemHeight { get; } = 32.0f * ImGuiHelpers.GlobalScale;
     protected override string SelectionListTabName => Strings.Modules;
 
-    public ConfigurationWindow() : base("NoTankYou - Configuration Window", new Vector2(500.0f, 475.0f)) {
+    public ConfigurationWindow() : base("NoTankYou - Configuration Window", new Vector2(500.0f, 550.0f)) {
         Options = System.ModuleController.Modules;
         
         TitleBarButtons.Add(new TitleBarButton {
