@@ -88,6 +88,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
         if (Config.DutiesOnly && !Service.Condition.IsBoundByDuty()) return;
         if (Config.DisableInSanctuary && GameMain.IsInSanctuary()) return;
         if (Service.Condition.IsCrossWorld()) return;
+        if (System.SystemConfig.HideInQuestEvent && Service.Condition.IsInCutsceneOrQuestEvent()) return;
 
         var groupManager = GroupManager.Instance();
         
