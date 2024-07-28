@@ -10,7 +10,7 @@ namespace NoTankYou.Modules;
 
 public class Monk : ModuleBase<MonkConfiguration> {
 	public override ModuleName ModuleName => ModuleName.Monk;
-	protected override string DefaultWarningText => "Monk Chakra";
+	protected override string DefaultWarningText => "Monk Warning";
 
 	private const byte MinimumLevel = 40;
 	private const byte MonkClassJob = 20;
