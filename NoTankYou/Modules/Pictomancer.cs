@@ -27,6 +27,7 @@ public class Pictomancer : ModuleBase<PictomancerConfiguration> {
     private DateTime lastCombatTime = DateTime.UtcNow;
     
     protected override bool ShouldEvaluate(IPlayerData playerData) {
+        if (Service.ClientState.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
         if (playerData.GetClassJob() != PictoClassJobId) return false;
         if (playerData.GetLevel() < MinimumLevel) return false;
 
