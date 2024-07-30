@@ -29,12 +29,12 @@ public class Gatherers : ModuleBase<GatherersConfig> {
 
     protected override void EvaluateWarnings(IPlayerData playerData) {
         foreach (var (classJob, minLevel, statusId, actionId) in data) {
-            if (!Config.Miner && classJob is 16) continue;
-            if (!Config.Botanist && classJob is 17) continue;
-            if (!Config.Fisher && classJob is 18) continue;
-            
+            if (!Config.Miner && classJob is MinerClassJobId) continue;
+            if (!Config.Botanist && classJob is BotanistClassJobId) continue;
+            if (!Config.Fisher && classJob is FisherClassJobId) continue;
+
             // Collectors Glove
-            if (statusId is 805 && !Config.CollectorsGlove) continue;
+            if (statusId is 805 && (!Config.CollectorsGlove || !playerData.HasClassJob(FisherClassJobId))) continue;
 
             if (playerData.GetLevel() >= minLevel && playerData.MissingStatus(statusId)) {
                 AddActiveWarning(actionId, playerData);
@@ -55,6 +55,9 @@ public class GatherersConfig() : ModuleConfigBase(ModuleName.Gatherers) {
         ConfigChanged |= ImGui.Checkbox(Strings.Miner, ref Miner);
         ConfigChanged |= ImGui.Checkbox(Strings.Botanist, ref Botanist);
         ConfigChanged |= ImGui.Checkbox(Strings.Fisher, ref Fisher);
-        ConfigChanged |= ImGui.Checkbox(Strings.CollectorsGlove, ref CollectorsGlove);
+
+        if (Fisher) {
+            ConfigChanged |= ImGui.Checkbox(Strings.CollectorsGlove, ref CollectorsGlove);
+        }
     }
 }
