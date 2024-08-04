@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Interface.Utility;
@@ -24,6 +24,6 @@ public class FreeCompanyStatusSelectionWindow : SelectionWindowBase<Status> {
 		ImGui.Text(option.Name.ToString());
 	}
 
-	protected override bool FilterResults(Status option, string filter)
-		=> option.Name.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase);
+	protected override IEnumerable<string> GetFilterStrings(Status option)
+		=> [option.Name.ToString()];
 }
