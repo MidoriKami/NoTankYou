@@ -49,7 +49,7 @@ public class Monk : ModuleBase<MonkConfiguration> {
 }
 
 public class MonkConfiguration() : ModuleConfigBase(ModuleName.Monk) {
-	protected override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.SoloMode;
+	public override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.SoloMode;
 
 	public int WarningDelay = 5;
 

@@ -44,7 +44,7 @@ public class Gatherers : ModuleBase<GatherersConfig> {
 }
 
 public class GatherersConfig() : ModuleConfigBase(ModuleName.Gatherers) {
-    protected override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.SoloMode | OptionDisableFlags.DutiesOnly;
+    public override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.SoloMode | OptionDisableFlags.DutiesOnly;
 
     public bool Miner = true;
     public bool Botanist = true;

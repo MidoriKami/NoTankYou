@@ -59,7 +59,7 @@ public class Pictomancer : ModuleBase<PictomancerConfiguration> {
 }
 
 public class PictomancerConfiguration() : ModuleConfigBase(ModuleName.Pictomancer) {
-    protected override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.SoloMode;
+    public override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.SoloMode;
     
     public int WarningDelay = 5;
 

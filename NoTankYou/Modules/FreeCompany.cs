@@ -52,7 +52,7 @@ public enum FreeCompanyMode {
 }
 
 public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompany) {
-    protected override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.Sanctuary | OptionDisableFlags.DutiesOnly | OptionDisableFlags.SoloMode;
+    public override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.Sanctuary | OptionDisableFlags.DutiesOnly | OptionDisableFlags.SoloMode;
     
     public FreeCompanyMode Mode = FreeCompanyMode.Any;
     public uint PrimaryBuff;

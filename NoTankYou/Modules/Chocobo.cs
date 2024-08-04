@@ -39,7 +39,7 @@ public unsafe class Chocobo : ModuleBase<ChocoboConfiguration> {
 }
 
 public class ChocoboConfiguration() : ModuleConfigBase(ModuleName.Chocobo) {
-    protected override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.Sanctuary | OptionDisableFlags.DutiesOnly | OptionDisableFlags.SoloMode;
+    public override OptionDisableFlags OptionDisableFlags => OptionDisableFlags.Sanctuary | OptionDisableFlags.DutiesOnly | OptionDisableFlags.SoloMode;
 
     public bool DisableInCombat = true;
     public bool EarlyWarning = true;
