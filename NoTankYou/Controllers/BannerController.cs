@@ -221,6 +221,8 @@ public class BannerConfig {
             
             configChanged |= ImGui.Checkbox("Show Background", ref ShowListBackground);
             configChanged |= ImGui.Checkbox("Show Border", ref ShowListBorder);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
             configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref ListBackgroundColor, KnownColor.Aqua.Vector() with { W = 0.15f });
         }
         
