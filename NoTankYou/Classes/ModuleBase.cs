@@ -85,8 +85,8 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
         if (!NameplateAddon->IsVisible) return;
         if (System.BlacklistController.IsZoneBlacklisted(Service.ClientState.TerritoryType)) return;
         if (System.SystemConfig.WaitUntilDutyStart && Service.Condition.IsBoundByDuty() && !Service.DutyState.IsDutyStarted) return;
-        if (Config.DutiesOnly && !Service.Condition.IsBoundByDuty()) return;
-        if (Config.DisableInSanctuary && GameMain.IsInSanctuary()) return;
+        if (Config.DutiesOnly && !Service.Condition.IsBoundByDuty() && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.DutiesOnly)) return;
+        if (Config.DisableInSanctuary && GameMain.IsInSanctuary() && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.Sanctuary)) return;
         if (Service.Condition.IsCrossWorld()) return;
         if (System.SystemConfig.HideInQuestEvent && Service.Condition.IsInCutsceneOrQuestEvent()) return;
 
@@ -246,7 +246,7 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
     public string CustomWarningText = string.Empty;
     
     [JsonIgnore] protected bool ConfigChanged { get; set; }
-    [JsonIgnore] protected virtual OptionDisableFlags OptionDisableFlags => OptionDisableFlags.None;
+    [JsonIgnore] public virtual OptionDisableFlags OptionDisableFlags => OptionDisableFlags.None;
 
     public virtual void DrawConfigUi() {
         ImGui.Text(Strings.General);
