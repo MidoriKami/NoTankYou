@@ -22,6 +22,7 @@ using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
+using KamiToolKit.Nodes.Parts;
 using NoTankYou.Classes;
 using NoTankYou.Localization;
 
@@ -131,6 +132,24 @@ public unsafe class PartyListController : IDisposable {
                     Y = partyMember.ClassJobIcon->GetYFloat() + partyMember.PartyMemberComponent->OwnerNode->GetYFloat(),
                     IsVisible = false,
                 };
+
+                foreach (var module in Enum.GetValues<ModuleName>()) {
+                    var attributeData = module.GetAttribute<ModuleIconAttribute>()!;
+                    
+                    var warningIcon = module switch {
+                        ModuleName.Tanks => attributeData.ModuleIcon,
+                        _ => attributeData.SimpleIcon,
+                    };
+                    
+                    var testPart = new Part {
+                        Width = 24.0f,
+                        Height = 24.0f,
+                        TextureCoordinates = new Vector2(0.0f, 0.0f),
+                    };
+                
+                    testPart.LoadIcon(warningIcon);
+                    warningTypeNodes[index].AddPart(testPart);
+                }
                 
                 System.NativeController.AttachToAddon(
                     warningTypeNodes[index],
@@ -251,20 +270,8 @@ public unsafe class PartyListController : IDisposable {
 	    }
 	}
 
-    private void SetWarningTypeTexture(ImageNode imageNode, WarningState warningState) {
-        var warningIconAttribute = warningState.SourceModule.GetAttribute<ModuleIconAttribute>()!;
-
-        var warningIcon = warningState.SourceModule switch {
-            ModuleName.Tanks => warningIconAttribute.ModuleIcon,
-            _ => warningIconAttribute.SimpleIcon,
-        };
-
-        if (imageNode.LoadedIconId != warningIcon) {
-            imageNode.UnloadTexture();
-            imageNode.LoadIcon(warningIcon);
-            imageNode.ImageNodeFlags = ImageNodeFlags.AutoFit;
-        }
-    }
+    private void SetWarningTypeTexture(ImageNode imageNode, WarningState warningState)
+        => imageNode.PartId = (uint) warningState.SourceModule;
 
     public void Hide() {
         foreach (var node in jobIconWarningNodes) {

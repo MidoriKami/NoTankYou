@@ -10,10 +10,10 @@ namespace NoTankYou.Classes;
 
 public class BannerOverlayNode : NodeBase<AtkResNode> {
 
-	private readonly ImageNode warningImageNode;
+	private readonly IconImageNode warningImageNode;
 	private readonly TextNode messageTextNode;
 	private readonly TextNode playerTextNode;
-	private readonly ImageNode actionIconNode;
+	private readonly IconImageNode actionIconNode;
 	private readonly TextNode actionNameNode;
 	private readonly TextNode helpTextNode;
 
@@ -31,14 +31,14 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 		IsVisible = true;
 		Margin = new Spacing(5.0f);
 		
-		warningImageNode = new ImageNode {
+		warningImageNode = new IconImageNode {
 			NodeID = 200000 + nodeId,
 			Position = Vector2.Zero,
 			Size = new Vector2(64.0f, 64.0f),
 			IsVisible = true,
+			IconId = 76579,
 		};
 		
-		warningImageNode.LoadIcon(76579);
 		System.NativeController.AttachToNode(warningImageNode, this, NodePosition.AsLastChild);
 
 		messageTextNode = new TextNode {
@@ -73,14 +73,14 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 
 		System.NativeController.AttachToNode(playerTextNode, this, NodePosition.AsLastChild);
 
-		actionIconNode = new ImageNode {
+		actionIconNode = new IconImageNode {
 			NodeID = 230000 + nodeId,
 			Position = new Vector2(250.0f + 64.0f + 32.0f, 0.0f),
 			Size = new Vector2(48.0f, 48.0f),
 			IsVisible = true,
+			IconId = 61502,
 		};
 		
-		actionIconNode.LoadIcon(61502);
 		System.NativeController.AttachToNode(actionIconNode, this, NodePosition.AsLastChild);
 
 		actionNameNode = new TextNode {
@@ -159,7 +159,7 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 
 			messageTextNode.Text = warning.Message;
 			playerTextNode.Text = warning.SourcePlayerName;
-			actionIconNode.LoadIcon(warning.IconId);
+			actionIconNode.IconId = warning.IconId;
 			actionNameNode.Text = warning.IconLabel;
 		}
 	}
