@@ -41,6 +41,7 @@ public unsafe class BannerController() : NativeUiOverlayController(Service.Addon
             Color = KnownColor.White.Vector(),
             BackgroundVisible = Config.ShowListBackground,
             BackgroundColor = Config.ListBackgroundColor,
+            BorderVisible = Config.ShowListBorder,
         };
         
         foreach(uint index in Enumerable.Range(0, 10)) {
@@ -141,6 +142,7 @@ public unsafe class BannerController() : NativeUiOverlayController(Service.Addon
         bannerListNode.Scale = new Vector2(Config.Scale, Config.Scale);
         bannerListNode.BackgroundColor = Config.ListBackgroundColor;
         bannerListNode.BackgroundVisible = Config.ShowListBackground;
+        bannerListNode.BorderVisible = Config.ShowListBorder;
         bannerListNode.LayoutOrientation = Config.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical;
         bannerListNode.LayoutAnchor = Config.LayoutAnchor;
         
@@ -181,6 +183,7 @@ public class BannerConfig {
     public bool SingleLine;
     public int WarningCount = 10;
     public bool ShowListBackground;
+    public bool ShowListBorder;
     public Vector4 ListBackgroundColor = KnownColor.Aqua.Vector() with { W = 0.15f };
     
     public bool WarningShield = true;
@@ -217,6 +220,7 @@ public class BannerConfig {
             ImGuiHelpers.ScaledDummy(5.0f);
             
             configChanged |= ImGui.Checkbox("Show Background", ref ShowListBackground);
+            configChanged |= ImGui.Checkbox("Show Border", ref ShowListBorder);
             configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref ListBackgroundColor, KnownColor.Aqua.Vector() with { W = 0.15f });
         }
         
