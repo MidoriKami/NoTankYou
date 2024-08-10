@@ -18,7 +18,6 @@ public class BlacklistController {
         => BlacklistConfig.Load();
 }
 
-
 public class BlacklistConfig {
     public HashSet<uint> BlacklistedZones { get; set; } = [];
 
