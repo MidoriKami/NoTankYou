@@ -249,11 +249,7 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
     [JsonIgnore] public virtual OptionDisableFlags OptionDisableFlags => OptionDisableFlags.None;
 
     public virtual void DrawConfigUi() {
-        ImGui.Text(Strings.General);
-        ImGui.Separator();
-        
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.General);
         using (var _ = ImRaii.PushIndent()) {
             ConfigChanged |= ImGui.Checkbox(Strings.Enable, ref Enabled);
             
@@ -276,13 +272,7 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
 
         }
 
-        ImGuiHelpers.ScaledDummy(10.0f);
-        
-        ImGui.Text(Strings.DisplayOptions);
-        ImGui.Separator();
-        
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.DisplayOptions);
         using (var _ = ImRaii.PushIndent()) {
             ConfigChanged |= ImGui.Checkbox(Strings.CustomWarning, ref CustomWarning);
             
@@ -290,11 +280,7 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
             ConfigChanged |= ImGui.InputTextWithHint("##Custom_Warning_Text", Strings.WarningText, ref CustomWarningText, 1024);
         } 
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        
-        ImGui.Text(Strings.ModuleOptions);
-        ImGui.Separator();
-
+        ImGuiTweaks.Header(Strings.ModuleOptions);
         using (var _ = ImRaii.PushIndent()) {
             ImGuiHelpers.ScaledDummy(5.0f);
             DrawModuleConfig();

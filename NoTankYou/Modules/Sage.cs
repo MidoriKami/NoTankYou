@@ -36,4 +36,4 @@ public class SageConfiguration() : ModuleConfigBase(ModuleName.Sage) {
     protected override void DrawModuleConfig() {
         ConfigChanged |= ImGui.Checkbox("Disable while Solo", ref DisableWhileSolo);
     }
-};
+}

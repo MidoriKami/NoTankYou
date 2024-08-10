@@ -197,21 +197,14 @@ public class BannerConfig {
     public void DrawConfigUi() {
            var configChanged = false;
         
-        ImGui.Text(Strings.DisplayOptions);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.DisplayOptions);
         using (var _ = ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref Enabled);
             configChanged |= ImGuiTweaks.Checkbox(Strings.SoloMode, ref SoloMode, Strings.SoloModeHelp);
             configChanged |= ImGui.Checkbox(Strings.SampleMode, ref SampleMode);
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.Text(Strings.Positioning);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.Positioning);
         using (var _ = ImRaii.PushIndent()) {
             configChanged |= ImGui.DragFloat2(Strings.Position, ref WindowPosition, 5.0f);
             configChanged |= ImGui.DragFloat2("Size", ref OverlaySize, 5.0f);
@@ -226,11 +219,7 @@ public class BannerConfig {
             configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref ListBackgroundColor, KnownColor.Aqua.Vector() with { W = 0.15f });
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.Text(Strings.DisplayMode);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.DisplayMode);
         using (var _ = ImRaii.PushIndent()) {
             configChanged |= ImGuiTweaks.EnumCombo(Strings.DisplayMode, ref DisplayMode);
             configChanged |= ImGui.SliderInt(Strings.MaxWarnings, ref WarningCount, 1, 10);
@@ -241,11 +230,7 @@ public class BannerConfig {
             configChanged |= ImGuiTweaks.EnumCombo("Layout Anchor", ref LayoutAnchor);
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.Text(Strings.DisplayStyle);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.DisplayStyle);
         using (var _ = ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.WarningShield, ref WarningShield);
             configChanged |= ImGui.Checkbox(Strings.WarningText, ref WarningText);
@@ -254,11 +239,7 @@ public class BannerConfig {
             configChanged |= ImGui.Checkbox(Strings.ActionIcon, ref Icon);
         }
 
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.Text(Strings.ModuleBlacklist);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.ModuleBlacklist);
         using (var _ = ImRaii.PushIndent()) {
             ImGui.Columns(2);
         

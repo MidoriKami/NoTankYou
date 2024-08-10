@@ -28,18 +28,12 @@ public class SystemConfig : CharacterConfiguration {
 	public void DrawConfigUi() {
 		var configChanged = false;
 		
-		ImGuiHelpers.ScaledDummy(10.0f);
-		ImGui.Text("Misc Options");
-		ImGui.Separator();
-		ImGuiHelpers.ScaledDummy(5.0f);
+		ImGuiTweaks.Header("Misc Options");
 		using (ImRaii.PushIndent()) {
 			configChanged |= ImGuiTweaks.Checkbox(Strings.WaitForDutyStart, ref WaitUntilDutyStart, Strings.WaitForDutyStartHelp);
 		}
 		
-		ImGuiHelpers.ScaledDummy(10.0f);
-		ImGui.Text("Warning Suppression");
-		ImGui.Separator();
-		ImGuiHelpers.ScaledDummy(5.0f);
+		ImGuiTweaks.Header("Warning Suppression");
 		using (ImRaii.PushIndent()) {
 			configChanged |= ImGuiTweaks.Checkbox("Auto Suppress", ref AutoSuppress, $"Automatically suppress warnings for other players after {AutoSuppressTime} Seconds");
 		
@@ -49,10 +43,7 @@ public class SystemConfig : CharacterConfiguration {
 			configChanged |= ImGui.InputInt("Suppression Time (Seconds)", ref AutoSuppressTime, 0, 0);
 		}
 		
-		ImGuiHelpers.ScaledDummy(10.0f);
-		ImGui.Text("Warning Display Options");
-		ImGui.Separator();
-		ImGuiHelpers.ScaledDummy(5.0f);
+		ImGuiTweaks.Header("Warning Display Options");
 		using (ImRaii.PushIndent()) {
 			configChanged |= ImGui.Checkbox("Hide in Quest Event", ref HideInQuestEvent);
 		}

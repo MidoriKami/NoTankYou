@@ -301,21 +301,14 @@ public class PartyListConfig {
     public void DrawConfigUi() {
         var configChanged = false;
         
-        ImGui.Text(Strings.DisplayOptions);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.DisplayOptions);
         using (var _ = ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref Enabled);
             configChanged |= ImGuiTweaks.Checkbox(Strings.SoloMode, ref SoloMode, Strings.SoloModeHelp);
             configChanged |= ImGui.Checkbox(Strings.SampleMode, ref SampleMode);
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.Text(Strings.DisplayStyle);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.DisplayStyle);
         using (var _ = ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.PlayerNames, ref PlayerName);
             configChanged |= ImGui.Checkbox(Strings.JobIcon, ref JobIcon);
@@ -326,20 +319,12 @@ public class PartyListConfig {
             configChanged |= ImGui.DragFloat(Strings.AnimationPeriod, ref AnimationPeriod, 5.0f, 1.0f, 30000.0f);
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.Text(Strings.DisplayColors);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.DisplayColors);
         using (var _ = ImRaii.PushIndent()) {
             configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.OutlineColor, ref OutlineColor, KnownColor.Red.Vector());
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.Text(Strings.ModuleBlacklist);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
+        ImGuiTweaks.Header(Strings.ModuleBlacklist);
         using (var _ = ImRaii.PushIndent()) {
             ImGui.Columns(2);
 
