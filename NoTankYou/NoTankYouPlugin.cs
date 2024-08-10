@@ -31,7 +31,7 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn);
         
         if (Service.ClientState.IsLoggedIn) {
-            OnLogin();
+            Service.Framework.RunOnFrameworkThread(OnLogin);
         }
         
         Service.Framework.Update += OnFrameworkUpdate;
