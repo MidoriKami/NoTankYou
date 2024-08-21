@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Numerics;
 using System.Text.Json.Serialization;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
@@ -149,6 +151,11 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
             ConditionFlag.InThisState89);
 
     public override void DrawConfigUi() {
+        var minDimension = MathF.Min(ImGui.GetContentRegionMax().X, ImGui.GetContentRegionMax().Y);
+        var moduleInfo = ModuleName.GetAttribute<ModuleIconAttribute>()!;
+        ImGui.Image(Service.TextureProvider.GetFromGameIcon(moduleInfo.ModuleIcon).GetWrapOrEmpty().ImGuiHandle, new Vector2(minDimension), Vector2.Zero, Vector2.One, KnownColor.White.Vector() with { W = 0.20f });
+        ImGui.SetCursorPos(Vector2.Zero);
+        
         Config.DrawConfigUi();
     }
 
