@@ -80,10 +80,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         System.SystemConfig.UpdateCharacterData(Service.ClientState);
         System.SystemConfig.Save();
         
-        if (System.SystemConfig.AutoSuppress) {
-            Service.Log.Warning($"User Enabled AutoSuppression. Warnings will automatically be silenced after being active for {System.SystemConfig.AutoSuppressTime} seconds");
-        }
-        
         System.BlacklistController.Load();
         System.ModuleController.Load();
         System.BannerController.Load();

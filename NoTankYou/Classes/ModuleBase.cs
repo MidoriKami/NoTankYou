@@ -122,7 +122,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     }
 
     private void EvaluateAutoSuppression(IPlayerData player) {
-        if (System.SystemConfig.AutoSuppress) {
+        if (Config.AutoSuppress) {
             if (Service.ClientState.LocalPlayer is { EntityId: var playerEntityId } && playerEntityId == player.GetEntityId()) {
                 return; // Do not allow auto suppression for the user.
             }
@@ -130,7 +130,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
             suppressionTimer.TryAdd(player.GetEntityId(), Stopwatch.StartNew());
             if (suppressionTimer.TryGetValue(player.GetEntityId(), out var timer)) {
                 if (HasWarnings) {
-                    if (timer.Elapsed.TotalSeconds >= System.SystemConfig.AutoSuppressTime) {
+                    if (timer.Elapsed.TotalSeconds >= Config.AutoSuppressTime) {
                         suppressedObjectIds.Add(player.GetEntityId());
                         Service.Log.Warning($"[{ModuleName}]: Adding {player.GetName()} to auto-suppression list");
                     }
@@ -145,7 +145,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     private bool HasDisallowedStatus(IPlayerData player)
         => player.HasStatus(1534);
 
-    private static bool HasDisallowedCondition() 
+    private static bool HasDisallowedCondition()
         => Service.Condition.Any(ConditionFlag.Jumping61,
             ConditionFlag.Transformed,
             ConditionFlag.InThisState89);
@@ -251,7 +251,9 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
     public int Priority;
     public bool CustomWarning;
     public string CustomWarningText = string.Empty;
-    
+    public bool AutoSuppress;
+    public int AutoSuppressTime = 60;
+
     [JsonIgnore] protected bool ConfigChanged { get; set; }
     [JsonIgnore] public virtual OptionDisableFlags OptionDisableFlags => OptionDisableFlags.None;
 
@@ -276,7 +278,16 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
             } 
             
             ConfigChanged |= ImGuiTweaks.PriorityInt(Service.PluginInterface, Strings.Priority, ref Priority);
+        }
 
+        if (!OptionDisableFlags.HasFlag(OptionDisableFlags.SoloMode)) {
+            ImGuiTweaks.Header("Warning Suppression");
+            using (ImRaii.PushIndent()) {
+                ConfigChanged |= ImGuiTweaks.Checkbox("Auto Suppress", ref AutoSuppress, $"Automatically suppress warnings for other players after {AutoSuppressTime} Seconds");
+
+                ImGui.PushItemWidth(50.0f * ImGuiHelpers.GlobalScale);
+                ConfigChanged |= ImGui.InputInt("Suppression Time (Seconds)", ref AutoSuppressTime, 0, 0);
+            }
         }
 
         ImGuiTweaks.Header(Strings.DisplayOptions);
