@@ -53,9 +53,6 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
     protected override void DrawListOption(ModuleBase option) {
         var cursorStart = ImGui.GetCursorPos();
         var iconInfo = option.ModuleName.GetAttribute<ModuleIconAttribute>()!;
-        if (iconInfo.BackgroundIcon is not 0) {
-            ImGui.Image(Service.TextureProvider.GetFromGameIcon(iconInfo.BackgroundIcon).GetWrapOrEmpty().ImGuiHandle, ImGuiHelpers.ScaledVector2(32.0f, 32.0f));
-        }
         
         ImGui.SetCursorPos(cursorStart);
         ImGui.Image(Service.TextureProvider.GetFromGameIcon(iconInfo.ModuleIcon).GetWrapOrEmpty().ImGuiHandle, ImGuiHelpers.ScaledVector2(32.0f, 32.0f));

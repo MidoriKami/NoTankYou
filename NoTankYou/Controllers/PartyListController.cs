@@ -136,19 +136,14 @@ public unsafe class PartyListController : IDisposable {
                 foreach (var module in Enum.GetValues<ModuleName>()) {
                     var attributeData = module.GetAttribute<ModuleIconAttribute>()!;
                     
-                    var warningIcon = module switch {
-                        ModuleName.Tanks => attributeData.ModuleIcon,
-                        _ => attributeData.SimpleIcon,
-                    };
-                    
-                    var testPart = new Part {
+                    var warningIconPart = new Part {
                         Width = 24.0f,
                         Height = 24.0f,
                         TextureCoordinates = new Vector2(0.0f, 0.0f),
                     };
                 
-                    testPart.LoadIcon(warningIcon);
-                    warningTypeNodes[index].AddPart(testPart);
+                    warningIconPart.LoadIcon(attributeData.ModuleIcon);
+                    warningTypeNodes[index].AddPart(warningIconPart);
                 }
                 
                 System.NativeController.AttachToAddon(
