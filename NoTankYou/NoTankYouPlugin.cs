@@ -1,5 +1,8 @@
-﻿using Dalamud.Plugin;
+﻿using System;
+using Dalamud.Interface.ImGuiNotification;
+using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using KamiLib.Window;
@@ -11,8 +14,23 @@ using NoTankYou.Windows;
 namespace NoTankYou;
 
 public sealed class NoTankYouPlugin : IDalamudPlugin {
-    public NoTankYouPlugin(IDalamudPluginInterface pluginInterface) {
+    public unsafe NoTankYouPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
+        
+        // Ensure required game settings are set
+        if (RaptureAtkModule.Instance()->AtkTextureResourceManager.DefaultTextureVersion is not 2) {
+            Service.Chat.PrintError("Plugin requires \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"");
+            Service.Log.Warning("Plugin requires \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"");
+            Service.NotificationManager.AddNotification(new Notification {
+                Type = NotificationType.Error,
+                Content = "Plugin requires \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"",
+                RespectUiHidden = false,
+                Minimized = false,
+                InitialDuration = TimeSpan.FromSeconds(30),
+            });
+
+            throw new Exception("Plugin unable to load, incompatible game settings.");
+        }
 
         System.NativeController = new NativeController(Service.PluginInterface);
 
