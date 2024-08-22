@@ -25,7 +25,7 @@ public unsafe class BannerController() : NativeUiOverlayController(Service.Addon
 
     private ListNode<BannerOverlayNode>? bannerListNode;
     
-    protected override void LoadConfig() {
+    protected override void PreAttach() {
         Config = BannerConfig.Load();
     }
 

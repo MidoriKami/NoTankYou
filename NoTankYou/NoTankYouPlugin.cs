@@ -100,14 +100,14 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         
         System.BlacklistController.Load();
         System.ModuleController.Load();
-        System.BannerController.Load();
+        System.BannerController.Enable();
         System.PartyListController.Load();
     }
     
     private void OnLogout() {
         System.BlacklistController.Unload();
         System.ModuleController.Unload();
-        System.BannerController.Unload();
+        System.BannerController.Disable();
         System.PartyListController.Unload();
     }
     
