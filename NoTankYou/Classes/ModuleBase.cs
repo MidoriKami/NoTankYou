@@ -85,6 +85,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
         if (NameplateAddon is null) return;
         if (!NameplateAddon->IsReady) return;
         if (!NameplateAddon->IsVisible) return;
+        if (Service.ClientState.IsPvPExcludingDen) return;
         if (System.BlacklistController.IsZoneBlacklisted(Service.ClientState.TerritoryType)) return;
         if (System.SystemConfig.WaitUntilDutyStart && Service.Condition.IsBoundByDuty() && !Service.DutyState.IsDutyStarted) return;
         if (Config.DutiesOnly && !Service.Condition.IsBoundByDuty() && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.DutiesOnly)) return;
@@ -196,7 +197,6 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     
     private void EnableModuleHandler(params string[] args) {
         if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.IsPvP) return;
         
         Config.Enabled = true;
         PrintConfirmation();
@@ -205,7 +205,6 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     
     private void DisableModuleHandler(params string[] args) {
         if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.IsPvP) return;
 
         Config.Enabled = false;
         PrintConfirmation();
@@ -214,7 +213,6 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     
     private void ToggleModuleHandler(params string[] args) {
         if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.IsPvP) return;
         
         Config.Enabled = !Config.Enabled;
         PrintConfirmation();
@@ -223,7 +221,6 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
 
     private void SuppressModuleHandler(params string[] args) {
         if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.IsPvP) return;
 
         foreach (var warningPlayer in ActiveWarningStates) {
             suppressedObjectIds.Add(warningPlayer.SourceEntityId);

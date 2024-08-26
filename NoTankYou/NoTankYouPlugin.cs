@@ -1,8 +1,5 @@
-﻿using System;
-using Dalamud.Interface.ImGuiNotification;
-using Dalamud.Plugin;
+﻿using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using KamiLib.Window;
@@ -14,27 +11,8 @@ using NoTankYou.Windows;
 namespace NoTankYou;
 
 public sealed class NoTankYouPlugin : IDalamudPlugin {
-    public unsafe NoTankYouPlugin(IDalamudPluginInterface pluginInterface) {
+    public NoTankYouPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
-        
-        // Ensure required game settings are set
-        if (RaptureAtkModule.Instance()->AtkTextureResourceManager.DefaultTextureVersion is not 2) {
-            const string warningString = "Plugin requires\"System Configuration\" \u2192 \"Graphics Setting\" \u2192 \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"\n\n" +
-                                         "This setting has nothing to do with your actual screen resolution.\n\n" +
-                                         "This setting does not effect your UI Scaling.";
-            
-            Service.Chat.PrintError(warningString);
-            Service.Log.Warning(warningString);
-            Service.NotificationManager.AddNotification(new Notification {
-                Type = NotificationType.Error,
-                Content = warningString,
-                RespectUiHidden = false,
-                Minimized = false,
-                InitialDuration = TimeSpan.FromSeconds(30),
-            });
-
-            throw new Exception("Plugin unable to load, incompatible game settings.");
-        }
 
         System.NativeController = new NativeController(Service.PluginInterface);
 
@@ -78,11 +56,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
     }
     
      private void OnFrameworkUpdate(IFramework framework) {
-         if (Service.ClientState.IsPvP) {
-             System.PartyListController.Hide();
-             System.BannerController.Hide();
-             return;
-         }
         if (!Service.ClientState.IsLoggedIn) return;
         if (Service.Condition.IsBetweenAreas()) return;
 
@@ -116,7 +89,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
     }
     
     private void OnZoneChange(ushort newZoneId) {
-        if (Service.ClientState.IsPvP) return;
         if (!Service.ClientState.IsLoggedIn) return;
 
         System.ModuleController.ZoneChange(newZoneId);

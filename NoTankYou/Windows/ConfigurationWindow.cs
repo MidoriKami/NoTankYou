@@ -68,7 +68,6 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
     
     private void OpenConfigWindow(params string[] args) {
         if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.IsPvP) return;
             
         Toggle();
     }
