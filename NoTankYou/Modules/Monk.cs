@@ -14,10 +14,13 @@ public class Monk : ModuleBase<MonkConfiguration> {
 
 	private const byte MinimumLevel = 40;
 	private const byte MonkClassJob = 20;
-	private const int MantraActionId = 36943;
-
+	
+	private const uint MantraActionId = 36943;
+	private const uint MantraMinimumLevel = 54;
+	
 	private const uint FormlessFistActionId = 4262;
 	private const uint FormlessFistStatusEffect = 2513;
+	private const uint FormlessFistMinimumLevel = 52;
 
 	private DateTime lastCombatTime = DateTime.UtcNow;
 	
@@ -34,13 +37,13 @@ public class Monk : ModuleBase<MonkConfiguration> {
 			lastCombatTime = DateTime.UtcNow;
 		}
 
-		if (DateTime.UtcNow - lastCombatTime > TimeSpan.FromSeconds(Config.WarningDelay)) {
+		if (DateTime.UtcNow - lastCombatTime > TimeSpan.FromSeconds(Config.WarningDelay) && playerData.GetLevel() >= MantraMinimumLevel) {
 			if (Service.JobGauges.Get<MNKGauge>().Chakra < 5) {
 				AddActiveWarning(MantraActionId, playerData);
 				return;
 			}
 
-			if (Config.FormlessFist && playerData.MissingStatus(FormlessFistStatusEffect)) {
+			if (Config.FormlessFist && playerData.MissingStatus(FormlessFistStatusEffect) && playerData.GetLevel() >= FormlessFistMinimumLevel) {
 				AddActiveWarning(FormlessFistActionId, playerData);
 				// return; // Redundant, for now?
 			}
