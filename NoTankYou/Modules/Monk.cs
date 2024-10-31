@@ -37,15 +37,22 @@ public class Monk : ModuleBase<MonkConfiguration> {
 			lastCombatTime = DateTime.UtcNow;
 		}
 
-		if (DateTime.UtcNow - lastCombatTime > TimeSpan.FromSeconds(Config.WarningDelay) && playerData.GetLevel() >= MantraMinimumLevel) {
-			if (Service.JobGauges.Get<MNKGauge>().Chakra < 5) {
-				AddActiveWarning(MantraActionId, playerData);
-				return;
+		if (DateTime.UtcNow - lastCombatTime > TimeSpan.FromSeconds(Config.WarningDelay)) {
+			
+			// Mantra
+			if (playerData.GetLevel() >= MantraMinimumLevel) {
+				if (Service.JobGauges.Get<MNKGauge>().Chakra < 5) {
+					AddActiveWarning(MantraActionId, playerData);
+					return;
+				}
 			}
-
-			if (Config.FormlessFist && playerData.MissingStatus(FormlessFistStatusEffect) && playerData.GetLevel() >= FormlessFistMinimumLevel) {
-				AddActiveWarning(FormlessFistActionId, playerData);
-				// return; // Redundant, for now?
+			
+			// Formless Fist
+			if (playerData.GetLevel() >= FormlessFistMinimumLevel) {
+				if (Config.FormlessFist && playerData.MissingStatus(FormlessFistStatusEffect)) {
+					AddActiveWarning(FormlessFistActionId, playerData);
+					return;
+				}
 			}
 		}
 	}
