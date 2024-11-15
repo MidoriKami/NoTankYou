@@ -72,7 +72,7 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
     
     private void OnLogin() {
         System.SystemConfig = SystemConfig.Load();
-        System.SystemConfig.UpdateCharacterData(Service.ClientState);
+        System.SystemConfig.UpdateCharacterData();
         System.SystemConfig.Save();
         
         System.BlacklistController.Load();
@@ -81,7 +81,7 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         System.PartyListController.Load();
     }
     
-    private void OnLogout() {
+    private void OnLogout(int type, int code) {
         System.BlacklistController.Unload();
         System.ModuleController.Unload();
         System.BannerController.Disable();

@@ -5,7 +5,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.Interop;
 using ImGuiNET;
 using KamiLib.Extensions;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using NoTankYou.Classes;
 using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
@@ -17,12 +17,12 @@ public unsafe class Tanks : ModuleBase<TankConfiguration> {
     public override ModuleName ModuleName => ModuleName.Tanks;
     protected override string DefaultWarningText => Strings.TankStance;
 
-    private readonly uint[] tankClassJobArray = Service.DataManager.GetExcelSheet<ClassJob>()!
+    private readonly uint[] tankClassJobArray = Service.DataManager.GetExcelSheet<ClassJob>()
         .Where(job => job.Role is 1)
         .Select(r => r.RowId)
         .ToArray();
 
-    private readonly uint[] tankStanceIdArray = Service.DataManager.GetExcelSheet<Status>()!
+    private readonly uint[] tankStanceIdArray = Service.DataManager.GetExcelSheet<Status>()
         .Where(status => status is { InflictedByActor: true, CanStatusOff: true, IsPermanent: true, ParamModifier: 500, PartyListPriority: 0})
         .Select(status => status.RowId)
         .ToArray();

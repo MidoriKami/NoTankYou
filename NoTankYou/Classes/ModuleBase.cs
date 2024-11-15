@@ -9,9 +9,9 @@ using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Utility;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using FFXIVClientStructs.Interop;
 using ImGuiNET;
@@ -21,7 +21,7 @@ using KamiLib.Configuration;
 using KamiLib.Extensions;
 using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
-using Action = Lumina.Excel.GeneratedSheets.Action;
+using Action = Lumina.Excel.Sheets.Action;
 
 namespace NoTankYou.Classes;
 
@@ -89,7 +89,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
         if (System.BlacklistController.IsZoneBlacklisted(Service.ClientState.TerritoryType)) return;
         if (System.SystemConfig.WaitUntilDutyStart && Service.Condition.IsBoundByDuty() && !Service.DutyState.IsDutyStarted) return;
         if (Config.DutiesOnly && !Service.Condition.IsBoundByDuty() && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.DutiesOnly)) return;
-        if (Config.DisableInSanctuary && GameMain.IsInSanctuary() && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.Sanctuary)) return;
+        if (Config.DisableInSanctuary && TerritoryInfo.Instance()->InSanctuary && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.Sanctuary)) return;
         if (Service.Condition.IsCrossWorld()) return;
         if (System.SystemConfig.HideInQuestEvent && Service.Condition.IsInCutsceneOrQuestEvent()) return;
 
@@ -177,8 +177,8 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
 
     protected void AddActiveWarning(uint actionId, IPlayerData playerData) => ActiveWarningStates.Add(new WarningState {
         Priority = Config.Priority,
-        IconId = Service.DataManager.GetExcelSheet<Action>()!.GetRow(actionId)!.Icon,
-        IconLabel = Service.DataManager.GetExcelSheet<Action>()!.GetRow(actionId)!.Name.ToString(),
+        IconId = Service.DataManager.GetExcelSheet<Action>().GetRow(actionId).Icon,
+        IconLabel = Service.DataManager.GetExcelSheet<Action>().GetRow(actionId).Name.ToString(),
         Message = (Config.CustomWarning ? Config.CustomWarningText : DefaultWarningText) + ExtraWarningText,
         SourcePlayerName = playerData.GetName(),
         SourceEntityId = playerData.GetEntityId(),

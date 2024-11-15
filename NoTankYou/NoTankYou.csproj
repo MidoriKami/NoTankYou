@@ -1,4 +1,4 @@
-﻿<Project Sdk="Dalamud.NET.Sdk/10.0.0">
+﻿<Project Sdk="Dalamud.NET.Sdk/11.0.0">
 	<PropertyGroup>
 		<AssemblyVersion>7.1.0.2</AssemblyVersion>
 		<Description>Dalamud Plugin to show a warning if no tanks have their tank stances on</Description>

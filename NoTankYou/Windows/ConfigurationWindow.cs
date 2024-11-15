@@ -13,7 +13,7 @@ using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.Window;
 using KamiLib.Window.SelectionWindows;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using NoTankYou.Classes;
 using Strings = NoTankYou.Localization.Strings;
 

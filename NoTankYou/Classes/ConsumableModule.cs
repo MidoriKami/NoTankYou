@@ -4,7 +4,7 @@ using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using ImGuiNET;
 using KamiLib.Extensions;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 
@@ -27,8 +27,8 @@ public abstract class ConsumableModule<T> : ModuleBase<T> where T : ConsumableCo
             if(Config.ExtremeUnrealFilter) allowedZones.Add(DutyType.Unreal);
             if(Config.CriterionFilter) allowedZones.Add(DutyType.Criterion);
 
-            var currentCfc = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!.GetRow(GameMain.Instance()->CurrentContentFinderConditionId);
-            if (currentCfc is null) return true;
+            var currentCfc = Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(GameMain.Instance()->CurrentContentFinderConditionId);
+            if (currentCfc.RowId is 0) return true;
 
             var currentDutyType = Service.DataManager.GetDutyType(currentCfc);
             if (!allowedZones.Contains(currentDutyType)) return false;

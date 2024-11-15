@@ -1,9 +1,8 @@
 ﻿using Dalamud.Interface.Utility;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using ImGuiNET;
 using KamiLib.Extensions;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using NoTankYou.Classes;
 using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
@@ -14,14 +13,14 @@ public unsafe class Chocobo : ModuleBase<ChocoboConfiguration> {
     public override ModuleName ModuleName => ModuleName.Chocobo;
     protected override string DefaultWarningText => Strings.ChocoboMissing;
 
-    private static Item GyshalGreensItem => Service.DataManager.GetExcelSheet<Item>()!.GetRow(GyshalGreensItemId)!;
+    private static Item GyshalGreensItem => Service.DataManager.GetExcelSheet<Item>().GetRow(GyshalGreensItemId);
 
     private const uint GyshalGreensItemId = 4868;
     private readonly uint gyshalGreensIconId = GyshalGreensItem.Icon;
     private readonly string gyshalGreensActionName = GyshalGreensItem.Name.ToString();
 
     protected override bool ShouldEvaluate(IPlayerData playerData) {
-        if (GameMain.IsInSanctuary()) return false;
+        if (TerritoryInfo.Instance()->InSanctuary) return false;
         if (Service.Condition.IsBoundByDuty()) return false;
         if (Config.DisableInCombat && Service.Condition.IsInCombat()) return false;
         if (playerData.GetEntityId() != Service.ClientState.LocalPlayer?.EntityId) return false;

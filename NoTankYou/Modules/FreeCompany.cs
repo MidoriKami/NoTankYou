@@ -7,11 +7,12 @@ using ImGuiNET;
 using KamiLib.Classes;
 using KamiLib.Extensions;
 using KamiLib.Window;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using NoTankYou.Classes;
 using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 using NoTankYou.Windows;
+using Action = System.Action;
 
 namespace NoTankYou.Modules;
 
@@ -20,9 +21,9 @@ public class FreeCompany : ModuleBase<FreeCompanyConfiguration> {
     protected override string DefaultWarningText => Strings.FreeCompanyBuff;
 
     private const uint FreeCompanyActionId = 43;
-    private readonly int freeCompanyIconId = Service.DataManager.GetExcelSheet<CompanyAction>()!.GetRow(FreeCompanyActionId)!.Icon;
+    private readonly int freeCompanyIconId = Service.DataManager.GetExcelSheet<CompanyAction>().GetRow(FreeCompanyActionId).Icon;
     
-    private readonly uint[] statusList = Service.DataManager.GetExcelSheet<Status>()!
+    private readonly uint[] statusList = Service.DataManager.GetExcelSheet<Status>()
         .Where(status => status.IsFcBuff)
         .Select(status => status.RowId)
         .ToArray();
@@ -30,7 +31,7 @@ public class FreeCompany : ModuleBase<FreeCompanyConfiguration> {
     protected override bool ShouldEvaluate(IPlayerData playerData) {
         if (Service.Condition.IsBoundByDuty()) return false;
         if (Service.ClientState.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
-        if (Service.ClientState.LocalPlayer?.HomeWorld.Id != Service.ClientState.LocalPlayer?.CurrentWorld.Id) return false;
+        if (Service.ClientState.LocalPlayer?.HomeWorld.RowId != Service.ClientState.LocalPlayer?.CurrentWorld.RowId) return false;
 
         return true;
     }
@@ -83,7 +84,7 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
             ImGui.Text(Strings.FirstBuff);
         }
         else {
-            var status = Service.DataManager.GetExcelSheet<Status>()!.GetRow(PrimaryBuff)!;
+            var status = Service.DataManager.GetExcelSheet<Status>().GetRow(PrimaryBuff);
             if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.ExchangeAlt, "ChangePrimaryBuff", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
                 OpenPrimaryStatusSelect();
             }
@@ -112,7 +113,7 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
             ImGui.Text(Strings.SecondBuff);
         }
         else {
-            var status = Service.DataManager.GetExcelSheet<Status>()!.GetRow(SecondaryBuff)!;
+            var status = Service.DataManager.GetExcelSheet<Status>()!.GetRow(SecondaryBuff);
             if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.ExchangeAlt, "ChangeSecondaryBuff", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
                 OpenSecondaryStatusSelect();
             }
@@ -135,7 +136,7 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
 
     private void OpenPrimaryStatusSelect()
         => OpenStatusSelect(result => {
-            if (result is not null) {
+            if (result.RowId is not 0) {
                 PrimaryBuff = result.RowId;
                 ConfigChanged = true;
             }
@@ -143,13 +144,13 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
 
     private void OpenSecondaryStatusSelect()
         => OpenStatusSelect(result => {
-            if (result is not null) {
+            if (result.RowId is not 0) {
                 SecondaryBuff = result.RowId;
                 ConfigChanged = true;
             }
         });
 
-    private void OpenStatusSelect(Action<Status?> callback) {
+    private void OpenStatusSelect(Action<Status> callback) {
         System.WindowManager.AddWindow(new FreeCompanyStatusSelectionWindow {
             SingleSelectionCallback = callback,
         }, WindowFlags.OpenImmediately);
