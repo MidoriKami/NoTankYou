@@ -82,7 +82,7 @@ public unsafe class PartyListController : IDisposable {
         ResetPartyMembers();
         
         if (Config.SampleMode) {
-            DrawWarning(0, ModuleController.SampleWarning);
+            DrawWarning(AgentHUD.Instance()->PartyMembers[0].Index, ModuleController.SampleWarning);
             return;
         }
         
@@ -92,7 +92,7 @@ public unsafe class PartyListController : IDisposable {
                 .Where(warning => warning.SourceEntityId == Service.ClientState.LocalPlayer?.EntityId)
                 .MaxBy(warning => warning.Priority);
             
-            DrawWarning(0, warning);
+            DrawWarning(AgentHUD.Instance()->PartyMembers[0].Index , warning);
         }
         else {
             foreach(var index in Enumerable.Range(0, 8)) {
@@ -103,7 +103,7 @@ public unsafe class PartyListController : IDisposable {
                     .Where(warning => warning.SourceEntityId == hudPartyMember->EntityId)
                     .MaxBy(warning => warning.Priority);
                 
-                DrawWarning(index, warning);
+                DrawWarning(hudPartyMember->Index, warning);
             }
         }
     }
@@ -241,14 +241,14 @@ public unsafe class PartyListController : IDisposable {
             memberComponent.ClassJobIcon->ToggleVisibility(false);
             warningTypeNodes[index].IsVisible = true;
             SetWarningTypeTexture(warningTypeNodes[index], warning);
-            isDirty[index] = true;
         }
 	    else {
             jobIconWarningNodes[index].IsVisible = false;
             memberComponent.ClassJobIcon->ToggleVisibility(true);
             warningTypeNodes[index].IsVisible = false;
-            isDirty[index] = true;
         }
+        
+        isDirty[index] = true;
     }
 
     private void AnimePlayerNameColor(int index) {
@@ -257,13 +257,13 @@ public unsafe class PartyListController : IDisposable {
 
 	    if (AnimationState) {
             memberComponent.Name->EdgeColor = Config.OutlineColor.ToByteColor();
-            isDirty[index] = true;
-	    }
+        }
 	    else {
             memberComponent.Name->EdgeColor = originalOutlineColor;
-            isDirty[index] = true;
-	    }
-	}
+        }
+        
+        isDirty[index] = true;
+    }
 
     private void SetWarningTypeTexture(ImageNode imageNode, WarningState warningState)
         => imageNode.PartId = (uint) warningState.SourceModule;
