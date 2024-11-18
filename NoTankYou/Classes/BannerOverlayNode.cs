@@ -36,7 +36,7 @@ public class BannerOverlayNode : NodeBase<AtkResNode> {
 			Position = Vector2.Zero,
 			Size = new Vector2(64.0f, 64.0f),
 			IsVisible = true,
-			IconId = 76579,
+			IconId = 230424,
 		};
 		
 		System.NativeController.AttachToNode(warningImageNode, this, NodePosition.AsLastChild);

@@ -12,7 +12,6 @@ using NoTankYou.Classes;
 using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 using NoTankYou.Windows;
-using Action = System.Action;
 
 namespace NoTankYou.Modules;
 
@@ -113,7 +112,7 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
             ImGui.Text(Strings.SecondBuff);
         }
         else {
-            var status = Service.DataManager.GetExcelSheet<Status>()!.GetRow(SecondaryBuff);
+            var status = Service.DataManager.GetExcelSheet<Status>().GetRow(SecondaryBuff);
             if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.ExchangeAlt, "ChangeSecondaryBuff", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
                 OpenSecondaryStatusSelect();
             }
