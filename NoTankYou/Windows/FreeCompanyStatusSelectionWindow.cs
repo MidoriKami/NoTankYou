@@ -26,4 +26,7 @@ public class FreeCompanyStatusSelectionWindow : SelectionWindowBase<Status> {
 
 	protected override IEnumerable<string> GetFilterStrings(Status option)
 		=> [option.Name.ToString()];
+
+	protected override string GetElementKey(Status element)
+		=> element.RowId.ToString();
 }
