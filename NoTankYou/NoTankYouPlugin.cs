@@ -1,6 +1,7 @@
 ﻿using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using KamiLib.CommandManager;
+using KamiLib.DebugWindows;
 using KamiLib.Extensions;
 using KamiLib.Window;
 using KamiToolKit;
@@ -26,9 +27,16 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         System.PartyListController = new PartyListController();
 
         System.ConfigurationWindow = new ConfigurationWindow();
+        System.DutyTypeDebugWindow = new DutyTypeDebugWindow(Service.DataManager);
         System.WindowManager = new WindowManager(Service.PluginInterface);
         
         System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn);
+        System.WindowManager.AddWindow(System.DutyTypeDebugWindow);
+        
+        System.CommandManager.RegisterCommand(new CommandHandler {
+            Delegate = _ => System.DutyTypeDebugWindow.UnCollapseOrToggle(),
+            ActivationPath = "/dutytypedebug",
+        });
         
         if (Service.ClientState.IsLoggedIn) {
             Service.Framework.RunOnFrameworkThread(OnLogin);

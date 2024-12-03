@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using KamiLib.CommandManager;
+using KamiLib.DebugWindows;
 using KamiLib.Window;
 using KamiToolKit;
 using NoTankYou.Classes;
@@ -22,4 +23,5 @@ public static class System {
 	public static NativeController NativeController { get; set; }
 	
 	public static ConfigurationWindow ConfigurationWindow { get; set; }
+	public static DutyTypeDebugWindow DutyTypeDebugWindow { get; set; }
 }
