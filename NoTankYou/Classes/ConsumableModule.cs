@@ -28,7 +28,7 @@ public abstract class ConsumableModule<T> : ModuleBase<T> where T : ConsumableCo
             if(Config.CriterionFilter) allowedZones.Add(DutyType.Criterion);
 
             var currentCfc = Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(GameMain.Instance()->CurrentContentFinderConditionId);
-            if (currentCfc.RowId is 0) return true;
+            if (currentCfc.RowId is 0) return false;
 
             var currentDutyType = Service.DataManager.GetDutyType(currentCfc);
             if (!allowedZones.Contains(currentDutyType)) return false;
