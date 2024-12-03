@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Dalamud.NET.Sdk/11.0.0">
 	<PropertyGroup>
-		<AssemblyVersion>7.2.0.2</AssemblyVersion>
+		<AssemblyVersion>7.2.0.3</AssemblyVersion>
 		<PackageProjectUrl>https://github.com/MidoriKami/NoTankYou.git</PackageProjectUrl>
 	</PropertyGroup>
 	
