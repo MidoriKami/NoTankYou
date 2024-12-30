@@ -18,7 +18,7 @@ public abstract class ConsumableModule<T> : ModuleBase<T> where T : ConsumableCo
     protected override unsafe bool ShouldEvaluate(IPlayerData playerData) {
         if (Config.SuppressInCombat && Service.Condition.IsInCombat()) return false;
 
-        if (Config.SavageFilter || Config.UltimateFilter || Config.ExtremeUnrealFilter || Config.CriterionFilter) {
+        if (Config.SavageFilter || Config.UltimateFilter || Config.ExtremeUnrealFilter || Config.CriterionFilter || Config.ChaoticFilter) {
             var allowedZones = new List<DutyType>();
             
             if(Config.SavageFilter) allowedZones.Add(DutyType.Savage);
@@ -26,6 +26,7 @@ public abstract class ConsumableModule<T> : ModuleBase<T> where T : ConsumableCo
             if(Config.ExtremeUnrealFilter) allowedZones.Add(DutyType.Extreme);
             if(Config.ExtremeUnrealFilter) allowedZones.Add(DutyType.Unreal);
             if(Config.CriterionFilter) allowedZones.Add(DutyType.Criterion);
+            if(Config.ChaoticFilter) allowedZones.Add(DutyType.ChaoticAlliance);
 
             var currentCfc = Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(GameMain.Instance()->CurrentContentFinderConditionId);
             if (currentCfc.RowId is 0) return false;
@@ -62,6 +63,7 @@ public abstract class ConsumableConfiguration(ModuleName moduleName) : ModuleCon
     public bool UltimateFilter;
     public bool ExtremeUnrealFilter;
     public bool CriterionFilter;
+    public bool ChaoticFilter;
 
     protected override void DrawModuleConfig() {
         ConfigChanged |= ImGui.Checkbox(Strings.SuppressInCombat, ref SuppressInCombat);
@@ -82,5 +84,6 @@ public abstract class ConsumableConfiguration(ModuleName moduleName) : ModuleCon
         ConfigChanged |= ImGui.Checkbox(Strings.Ultimate, ref UltimateFilter);
         ConfigChanged |= ImGui.Checkbox(Strings.ExtremeUnreal, ref ExtremeUnrealFilter);
         ConfigChanged |= ImGui.Checkbox(Strings.Criterion, ref CriterionFilter);
+        ConfigChanged |= ImGui.Checkbox("Chaotic", ref ChaoticFilter);
     }
 }
