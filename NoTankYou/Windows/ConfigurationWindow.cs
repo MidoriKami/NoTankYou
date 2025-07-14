@@ -106,7 +106,7 @@ public class BlacklistTab : ITabItem {
     public bool Disabled => false;
 
     public void Draw() {
-        using (var _ = ImRaii.PushColor(ImGuiCol.ChildBg, KnownColor.OrangeRed.Vector() with { W = 0.15f }, System.BlacklistController.config.BlacklistedZones.Contains(Service.ClientState.TerritoryType))) {
+        using (var _ = ImRaii.PushColor(ImGuiCol.ChildBg, KnownColor.OrangeRed.Vector() with { W = 0.15f }, System.BlacklistController.Config.BlacklistedZones.Contains(Service.ClientState.TerritoryType))) {
             DrawAddRemovableTerritory(GetCurrentTerritory());
         }
         
@@ -119,16 +119,16 @@ public class BlacklistTab : ITabItem {
     
     private void DrawAddRemovableTerritory(TerritoryType territory) {
         using (var _ = ImRaii.PushFont(UiBuilder.IconFont)) {
-            if (System.BlacklistController.config.BlacklistedZones.Contains(territory.RowId)) {
-                if (ImGui.Button($"{FontAwesomeIcon.Trash.ToIconString()}##removeZone{territory.RowId}", new Vector2(25.0f, 75.0f))) {
-                    System.BlacklistController.config.BlacklistedZones.Remove(territory.RowId);
-                    System.BlacklistController.config.Save();
+            if (System.BlacklistController.Config.BlacklistedZones.Contains(territory.RowId)) {
+                if (ImGui.Button($"{FontAwesomeIcon.Trash.ToIconString()}##removeZone{territory.RowId}", ImGuiHelpers.ScaledVector2(25.0f, 75.0f))) {
+                    System.BlacklistController.Config.BlacklistedZones.Remove(territory.RowId);
+                    System.BlacklistController.Config.Save();
                 }
             }
             else {
-                if (ImGui.Button($"{FontAwesomeIcon.Plus.ToIconString()}##addZone{territory.RowId}", new Vector2(25.0f, 75.0f))) {
-                    System.BlacklistController.config.BlacklistedZones.Add(territory.RowId);
-                    System.BlacklistController.config.Save();
+                if (ImGui.Button($"{FontAwesomeIcon.Plus.ToIconString()}##addZone{territory.RowId}", ImGuiHelpers.ScaledVector2(25.0f, 75.0f))) {
+                    System.BlacklistController.Config.BlacklistedZones.Add(territory.RowId);
+                    System.BlacklistController.Config.Save();
                 }
             }
         }
@@ -142,8 +142,8 @@ public class BlacklistTab : ITabItem {
         using var child = ImRaii.Child("blacklist_frame", new Vector2(ImGui.GetContentRegionAvail().X, ImGui.GetContentRegionAvail().Y - 25.0f * ImGuiHelpers.GlobalScale));
         if (!child) return;
 
-        ImGuiClip.ClippedDraw(System.BlacklistController.config.BlacklistedZones.ToList(), zoneId => {
-            if (Service.DataManager.GetExcelSheet<TerritoryType>()?.GetRow(zoneId) is { } territory) {
+        ImGuiClip.ClippedDraw(System.BlacklistController.Config.BlacklistedZones.ToList(), zoneId => {
+            if (Service.DataManager.GetExcelSheet<TerritoryType>().GetRow(zoneId) is var territory) {
                 DrawAddRemovableTerritory(territory);
             }
         }, 75.0f);
@@ -158,14 +158,14 @@ public class BlacklistTab : ITabItem {
             System.WindowManager.AddWindow(new TerritorySelectionWindow(Service.PluginInterface) {
                 MultiSelectionCallback = selections => {
                     foreach (var selection in selections) {
-                        System.BlacklistController.config.BlacklistedZones.Add(selection.RowId);
-                        System.BlacklistController.config.Save();
+                        System.BlacklistController.Config.BlacklistedZones.Add(selection.RowId);
+                        System.BlacklistController.Config.Save();
                     }
-                }
+                },
             });
         }
     }
 
     private static TerritoryType GetCurrentTerritory() 
-        => Service.DataManager.GetExcelSheet<TerritoryType>()!.GetRow(Service.ClientState.TerritoryType)!;
+        => Service.DataManager.GetExcelSheet<TerritoryType>().GetRow(Service.ClientState.TerritoryType);
 }
