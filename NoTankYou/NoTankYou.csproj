@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<AssemblyVersion>7.2.1.1</AssemblyVersion>
 		<PackageProjectUrl>https://github.com/MidoriKami/NoTankYou.git</PackageProjectUrl>
+		<LangVersion>Preview</LangVersion>
 	</PropertyGroup>
 	
 	<ItemGroup>
