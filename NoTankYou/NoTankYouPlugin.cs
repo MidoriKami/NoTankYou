@@ -5,7 +5,7 @@ using KamiLib.DebugWindows;
 using KamiLib.Extensions;
 using KamiLib.Window;
 using KamiToolKit;
-using NoTankYou.Classes;
+using NoTankYou.Configuration;
 using NoTankYou.Controllers;
 using NoTankYou.Windows;
 
@@ -45,21 +45,18 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         Service.Framework.Update += OnFrameworkUpdate;
         Service.ClientState.Login += OnLogin;
         Service.ClientState.Logout += OnLogout;
-        Service.ClientState.TerritoryChanged += OnZoneChange;
     }
-        
+
     public void Dispose() {
         System.LocalizationController.Dispose();
-        
+
         System.ModuleController.Dispose();
         System.BannerController.Dispose();
         System.PartyListController.Dispose();
-        
+
         Service.Framework.Update -= OnFrameworkUpdate;
         Service.ClientState.Login -= OnLogin;
-        Service.ClientState.Logout -= OnLogout;
-        Service.ClientState.TerritoryChanged -= OnZoneChange;
-        
+
         System.NativeController.Dispose();
     }
     
@@ -70,35 +67,24 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         // Process and Collect Warnings
         System.ActiveWarnings = System.ModuleController.EvaluateWarnings();
 
-        // Update time-step for animations
-        System.PartyListController.Update();
-
         // Draw Warnings
-        System.PartyListController.Draw(System.ActiveWarnings);
-        System.BannerController.Draw(System.ActiveWarnings);
+        System.PartyListController.UpdateWarnings(System.ActiveWarnings);
+        System.BannerController.UpdateWarnings(System.ActiveWarnings);
     }
     
     private void OnLogin() {
         System.SystemConfig = SystemConfig.Load();
         System.SystemConfig.UpdateCharacterData();
         System.SystemConfig.Save();
-        
+
         System.BlacklistController.Load();
         System.ModuleController.Load();
         System.BannerController.Enable();
-        System.PartyListController.Load();
+        System.PartyListController.Enable();
     }
     
     private void OnLogout(int type, int code) {
-        System.BlacklistController.Unload();
-        System.ModuleController.Unload();
         System.BannerController.Disable();
-        System.PartyListController.Unload();
-    }
-    
-    private void OnZoneChange(ushort newZoneId) {
-        if (!Service.ClientState.IsLoggedIn) return;
-
-        System.ModuleController.ZoneChange(newZoneId);
+        System.PartyListController.Disable();
     }
 }
