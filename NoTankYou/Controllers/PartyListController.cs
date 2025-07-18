@@ -75,14 +75,19 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
     }
 
     private void SyncWarnings(List<WarningState> warningStates) {
-        var toRemove =  partyMemberNodes.Where(node => !warningStates.Any(warning => node.Warning == warning)).ToList();
-        foreach (var node in toRemove) {
-            RemoveNode(node);
+        if (warningStates.Count is 0) {
+            RemoveAllNodes();
         }
+        else {
+            var toRemove =  partyMemberNodes.Where(node => !warningStates.Any(warning => node.Warning == warning)).ToList();
+            foreach (var node in toRemove) {
+                RemoveNode(node);
+            }
         
-        var toAdd = warningStates.Where(warning => !partyMemberNodes.Any(node => node.Warning == warning)).ToList();
-        foreach (var warning in toAdd) {
-            AddNode(warning);
+            var toAdd = warningStates.Where(warning => !partyMemberNodes.Any(node => node.Warning == warning)).ToList();
+            foreach (var warning in toAdd) {
+                AddNode(warning);
+            }
         }
     }
 
