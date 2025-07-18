@@ -100,9 +100,9 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
         if (memberNode is null) return;
         
         var newPartyMemberNode = new PartyListOverlayNode {
+            Position = new Vector2(memberNode->X, memberNode->Y),
             Size = new Vector2(memberNode->Width, memberNode->Height),
             IsVisible = true,
-            NameText = memberStruct.Name->GetText().ToString(),
             Priority = 1,
         };
         

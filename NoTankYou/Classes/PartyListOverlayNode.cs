@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using Dalamud.Game.Text.SeStringHandling;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -66,6 +67,8 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 
 		Timeline?.PlayAnimation(System.PartyListController.Config.Animation ? 1 : 2);
 	}
+
+	protected override List<string> OnLoadOmittedProperties => [ "Position" ];
 
 	public WarningState? Warning {
 		get;
