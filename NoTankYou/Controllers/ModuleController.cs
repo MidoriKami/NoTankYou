@@ -9,7 +9,7 @@ namespace NoTankYou.Controllers;
 public class ModuleController : IDisposable {
     public List<ModuleBase> Modules { get; } = [..Reflection.ActivateOfType<ModuleBase>()];
     
-    public static WarningState SampleWarning => new() {
+    public static WarningState SampleWarning = new() {
         Message = "NoTankYou Sample Warning",
         Priority = 100,
         IconId = 786,
@@ -31,12 +31,6 @@ public class ModuleController : IDisposable {
         }
     }
     
-    public void Unload() {
-        foreach (var module in Modules) {
-            module.Unload();
-        }
-    }
-    
     public List<WarningState> EvaluateWarnings() {
         var warningList = new List<WarningState>();
         
@@ -49,11 +43,5 @@ public class ModuleController : IDisposable {
         }
 
         return warningList;
-    }
-    
-    public void ZoneChange(ushort newZoneId) {
-        foreach (var module in Modules) {
-            module.ZoneChange(newZoneId);
-        }
     }
 }
