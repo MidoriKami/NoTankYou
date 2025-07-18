@@ -4,6 +4,7 @@ using KamiLib.DebugWindows;
 using KamiLib.Window;
 using KamiToolKit;
 using NoTankYou.Classes;
+using NoTankYou.Configuration;
 using NoTankYou.Controllers;
 using NoTankYou.Windows;
 
