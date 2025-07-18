@@ -4,15 +4,13 @@ using KamiLib.Configuration;
 namespace NoTankYou.Controllers;
 
 public class BlacklistController {
-    public BlacklistConfig config = new();
+    public BlacklistConfig Config = new();
 
     public bool IsZoneBlacklisted(uint zoneId)
-        => config.BlacklistedZones.Contains(zoneId);
+        => Config.BlacklistedZones.Contains(zoneId);
     
     public void Load() 
-        => config = LoadConfig();
-    
-    public void Unload() { }
+        => Config = LoadConfig();
     
     private BlacklistConfig LoadConfig() 
         => BlacklistConfig.Load();

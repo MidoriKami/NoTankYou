@@ -5,7 +5,7 @@ using KamiLib.Classes;
 using KamiLib.Configuration;
 using NoTankYou.Localization;
 
-namespace NoTankYou.Classes;
+namespace NoTankYou.Configuration;
 
 public unsafe class SystemConfig : CharacterConfiguration {
 	public bool WaitUntilDutyStart = true;

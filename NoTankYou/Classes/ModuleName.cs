@@ -3,6 +3,7 @@ using System.ComponentModel;
 
 namespace NoTankYou.Classes;
 
+[AttributeUsage(AttributeTargets.Field)]
 public class ModuleIconAttribute(uint moduleIcon) : Attribute {
     public uint ModuleIcon { get; } = moduleIcon;
 }

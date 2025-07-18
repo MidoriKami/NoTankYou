@@ -14,9 +14,8 @@ public class LocalizationController : IDisposable {
         EnumExtensions.GetResourceManagerFunc = () => Strings.ResourceManager;
     }
     
-    public void Dispose() {
-        Service.PluginInterface.LanguageChanged -= OnLanguageChange;
-    }
+    public void Dispose()
+        => Service.PluginInterface.LanguageChanged -= OnLanguageChange;
 
     private void OnLanguageChange(string languageCode) {
         try {
