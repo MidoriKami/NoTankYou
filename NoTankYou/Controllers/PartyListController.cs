@@ -104,6 +104,7 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
             Size = new Vector2(memberNode->Width, memberNode->Height),
             IsVisible = true,
             Priority = 1,
+            MemberStruct = memberStruct,
         };
         
         newPartyMemberNode.Load();
@@ -119,10 +120,9 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
 
     private void RemoveNode(PartyListOverlayNode node) {
         if (node.Warning is null) return;
-        if (GetPartyMemberStruct(node.Warning) is not {} memberStruct) return;
-        
-        memberStruct.ClassJobIcon->ToggleVisibility(true);
-        memberStruct.Name->FontSize = 14;
+
+        node.MemberStruct.ClassJobIcon->ToggleVisibility(true);
+        node.MemberStruct.Name->FontSize = 14;
         
         System.NativeController.DetachNode(node, node.Dispose);
         partyMemberNodes.Remove(node);
