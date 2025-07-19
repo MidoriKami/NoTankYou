@@ -11,7 +11,7 @@ using KamiToolKit.Nodes;
 
 namespace NoTankYou.Classes;
 
-public unsafe class PartyListOverlayNode : ResNode {
+public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 
 	private readonly IconImageNode warningIconImageNode;
 	private readonly IconImageNode iconDecoratorImageNode;
@@ -23,6 +23,7 @@ public unsafe class PartyListOverlayNode : ResNode {
 
 	public PartyListOverlayNode() {
 		warningIconImageNode = new IconImageNode {
+			NodeId = 2,
 			Size = new Vector2(40.0f, 40.0f),
 			Position = new Vector2(20.0f, 14.0f),
 			IconId = 60074,
@@ -32,6 +33,7 @@ public unsafe class PartyListOverlayNode : ResNode {
 		System.NativeController.AttachNode(warningIconImageNode, this);
 		
 		iconDecoratorImageNode = new IconImageNode {
+			NodeId = 3,
 			Size = new Vector2(32.0f, 32.0f),
 			Position = new Vector2(24.0f, 18.0f),
 			IconId = 62145,
@@ -41,6 +43,7 @@ public unsafe class PartyListOverlayNode : ResNode {
 		System.NativeController.AttachNode(iconDecoratorImageNode, this);
 
 		nameTextNode = new TextNode {
+			NodeId = 4,
 			Size = new Vector2(184.0f, 24.0f),
 			Position = new Vector2(76.0f, 22.0f),
 			FontType = FontType.Axis,
