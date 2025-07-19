@@ -56,6 +56,7 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
 
         Service.Framework.Update -= OnFrameworkUpdate;
         Service.ClientState.Login -= OnLogin;
+        Service.ClientState.Logout -= OnLogout;
 
         System.NativeController.Dispose();
     }
