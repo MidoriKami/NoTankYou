@@ -24,8 +24,8 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 	public PartyListOverlayNode() {
 		jobIconNode = new IconImageNode {
 			NodeId = 2,
-			Size = new Vector2(40.0f, 40.0f),
-			Position = new Vector2(20.0f, 14.0f),
+			Size = new Vector2(32.0f, 32.0f),
+			Position = new Vector2(24.0f, 18.0f),
 			WrapMode = 1,
 			IsVisible = true,
 		};
