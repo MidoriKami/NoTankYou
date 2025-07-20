@@ -150,7 +150,6 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
     
     public void Save() {
         SampleNode?.Save();
-        RemoveAllNodes();
     }
 
     public void UpdateOutlineColors() {
