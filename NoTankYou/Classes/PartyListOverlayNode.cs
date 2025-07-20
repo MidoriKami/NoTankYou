@@ -34,6 +34,7 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 		warningIconNode = new IconImageNode {
 			NodeId = 3,
 			Size = new Vector2(32.0f, 32.0f),
+			Origin = new Vector2(16.0f, 16.0f),
 			Position = new Vector2(24.0f, 18.0f),
 			IconId = 60074,
 			WrapMode = 1,
@@ -110,29 +111,16 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 			.EndFrameSet()
 			.Build());
 		
-		jobIconNode.AddTimeline(new TimelineBuilder()
-			.BeginFrameSet(1, 60)
-			.AddFrame(1, alpha: 255)
-			.AddFrame(20, alpha: 255)
-			.AddFrame(30, alpha: 0)
-			.AddFrame(50, alpha: 0)
-			.AddFrame(60, alpha: 255)
-			.EndFrameSet()
-			.BeginFrameSet(61, 120)
-			.AddFrame(61, alpha: 255)
-			.EndFrameSet()
-			.Build());
-				
 		warningIconNode.AddTimeline(new TimelineBuilder()
 			.BeginFrameSet(1, 60)
-			.AddFrame(1, alpha: 0)
-			.AddFrame(20, alpha: 0)
-			.AddFrame(30, alpha: 255)
-			.AddFrame(50, alpha: 255)
-			.AddFrame(60, alpha: 0)
+			.AddFrame(1, scale: new Vector2(0.66f, 0.66f), alpha: 100)
+			.AddFrame(20, scale: new Vector2(0.66f, 0.66f), alpha: 100)
+			.AddFrame(30, scale: new Vector2(1.4f, 1.4f), alpha: 255)
+			.AddFrame(50, scale: new Vector2(1.4f, 1.4f), alpha: 255)
+			.AddFrame(60, scale: new Vector2(0.66f, 0.66f), alpha: 100)
 			.EndFrameSet()
 			.BeginFrameSet(61, 120)
-			.AddFrame(61, alpha: 0)
+			.AddFrame(61, scale: new Vector2(0.66f, 0.66f), alpha: 255)
 			.EndFrameSet()
 			.Build());
 		
