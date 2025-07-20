@@ -113,14 +113,14 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 		
 		warningIconNode.AddTimeline(new TimelineBuilder()
 			.BeginFrameSet(1, 60)
-			.AddFrame(1, scale: new Vector2(0.75f, 0.75f), alpha: 0)
+			.AddFrame(1, scale: new Vector2(0.75f, 0.75f), alpha: 0, position: new Vector2(24.0f, 18.0f))
 			.AddFrame(20, scale: new Vector2(0.75f, 0.75f), alpha: 0)
 			.AddFrame(30, scale: new Vector2(1.4f, 1.4f), alpha: 255)
 			.AddFrame(55, scale: new Vector2(1.4f, 1.4f), alpha: 255)
 			.AddFrame(60, scale: new Vector2(0.75f, 0.75f), alpha: 0)
 			.EndFrameSet()
 			.BeginFrameSet(61, 120)
-			.AddFrame(61, scale: new Vector2(0.66f, 0.66f), alpha: 255)
+			.AddFrame(61, scale: new Vector2(0.66f, 0.66f), alpha: 255, position: new Vector2(24.0f, 18.0f) + new Vector2(8.0f, 8.0f))
 			.EndFrameSet()
 			.Build());
 		
