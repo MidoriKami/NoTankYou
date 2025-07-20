@@ -1,46 +1,45 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using Dalamud.Game.Text.SeStringHandling;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Configuration;
 using KamiToolKit.Classes.TimelineBuilding;
-using KamiToolKit.NodeParts;
 using KamiToolKit.Nodes;
+using KamiToolKit.Extensions;
 
 namespace NoTankYou.Classes;
 
 public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 
-	private readonly IconImageNode warningIconImageNode;
-	private readonly IconImageNode iconDecoratorImageNode;
+	private readonly IconImageNode jobIconNode;
+	private readonly IconImageNode warningIconNode;
 	private readonly TextNode nameTextNode;
+	private readonly TextNode warningTextNode;
 
 	private Vector4 defaultOutlineColor = new Vector4(8.0f, 80.0f, 152.0f, 255.0f) / 255.0f;
 	
     private static string PartyListNodePath => Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "PartyListNode.style.json").FullName;
 
 	public PartyListOverlayNode() {
-		warningIconImageNode = new IconImageNode {
+		jobIconNode = new IconImageNode {
 			NodeId = 2,
 			Size = new Vector2(40.0f, 40.0f),
 			Position = new Vector2(20.0f, 14.0f),
+			WrapMode = 1,
+			IsVisible = true,
+		};
+		System.NativeController.AttachNode(jobIconNode, this);
+		
+		warningIconNode = new IconImageNode {
+			NodeId = 3,
+			Size = new Vector2(32.0f, 32.0f),
+			Position = new Vector2(24.0f, 18.0f),
 			IconId = 60074,
 			WrapMode = 1,
 			IsVisible = true,
 		};
-		System.NativeController.AttachNode(warningIconImageNode, this);
-		
-		iconDecoratorImageNode = new IconImageNode {
-			NodeId = 3,
-			Size = new Vector2(32.0f, 32.0f),
-			Position = new Vector2(24.0f, 18.0f),
-			IconId = 62145,
-			WrapMode = 1,
-			IsVisible = true,
-		};
-		System.NativeController.AttachNode(iconDecoratorImageNode, this);
+		System.NativeController.AttachNode(warningIconNode, this);
 
 		nameTextNode = new TextNode {
 			NodeId = 4,
@@ -49,19 +48,35 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 			FontType = FontType.Axis,
 			FontSize = 14,
 			LineSpacing = 14,
+			TextOutlineColor = System.PartyListController.Config.OutlineColor,
 			AlignmentType = AlignmentType.Left,
 			TextColor = new Vector4(232.0f, 255.0f, 254.0f, 255.0f) / 255.0f,
 			TextFlags = TextFlags.Edge,
 			TextFlags2 = TextFlags2.Ellipsis,
 			Text = "Your Name Here",
 		};
+		System.NativeController.AttachNode(nameTextNode, this);
+
+		warningTextNode = new TextNode {
+			NodeId = 5,
+			Size = new Vector2(184.0f, 24.0f),
+			Position = new Vector2(76.0f, 22.0f),
+			FontType = FontType.Axis,
+			FontSize = 14,
+			LineSpacing = 14,
+			AlignmentType = AlignmentType.Left,
+			TextOutlineColor = System.PartyListController.Config.OutlineColor,
+			TextColor = new Vector4(232.0f, 255.0f, 254.0f, 255.0f) / 255.0f,
+			TextFlags = TextFlags.Edge,
+			TextFlags2 = TextFlags2.Ellipsis,
+			Text = "Your Warning Here",
+		};
 
 		if (PlayerState.Instance()->IsLevelSynced is not 0) {
-			nameTextNode.Size -= new Vector2(18.0f, 0.0f);
-			nameTextNode.Position += new Vector2(18.0f, 0.0f);
+			warningTextNode.Size -= new Vector2(18.0f, 0.0f);
+			warningTextNode.Position += new Vector2(18.0f, 0.0f);
 		}
-		
-		System.NativeController.AttachNode(nameTextNode, this);
+		System.NativeController.AttachNode(warningTextNode, this);
 
 		BuildTimelines();
 
@@ -76,25 +91,11 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 			field = value;
 
 			if (value is not null) {
-				iconDecoratorImageNode.IconId = value.IconId;
-				nameTextNode.Text = value.Message;
+				warningTextNode.Text = value.Message;
+				jobIconNode.IconId = MemberStruct.ClassJobIcon->GetIconId();
+				nameTextNode.Text = MemberStruct.Name->GetText().ToString();
 			}
 		}
-	}
-
-	public SeString NameText {
-		get => nameTextNode.Text;
-		set => nameTextNode.Text = value;
-	}
-
-	public bool ShowName {
-		get => nameTextNode.IsVisible;
-		set => nameTextNode.IsVisible = value;
-	}
-	
-	public bool ShowIcon {
-		get => iconDecoratorImageNode.IsVisible;
-		set => iconDecoratorImageNode.IsVisible = value;
 	}
 
 	public AddonPartyList.PartyListMemberStruct MemberStruct { get; set; }
@@ -109,22 +110,26 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 			.EndFrameSet()
 			.Build());
 		
-		warningIconImageNode.AddTimeline(new TimelineBuilder()
+		jobIconNode.AddTimeline(new TimelineBuilder()
 			.BeginFrameSet(1, 60)
-			.AddFrame(1, alpha: 0)
-			.AddFrame(30, alpha: 255)
-			.AddFrame(60, alpha: 0)
+			.AddFrame(1, alpha: 255)
+			.AddFrame(20, alpha: 255)
+			.AddFrame(30, alpha: 0)
+			.AddFrame(50, alpha: 0)
+			.AddFrame(60, alpha: 255)
 			.EndFrameSet()
 			.BeginFrameSet(61, 120)
 			.AddFrame(61, alpha: 255)
 			.EndFrameSet()
 			.Build());
-		
-		iconDecoratorImageNode.AddTimeline(new TimelineBuilder()
+				
+		warningIconNode.AddTimeline(new TimelineBuilder()
 			.BeginFrameSet(1, 60)
-			.AddFrame(15, alpha: 255)
-			.AddFrame(30, alpha: 0)
-			.AddFrame(45, alpha: 255)
+			.AddFrame(1, alpha: 0)
+			.AddFrame(20, alpha: 0)
+			.AddFrame(30, alpha: 255)
+			.AddFrame(50, alpha: 255)
+			.AddFrame(60, alpha: 0)
 			.EndFrameSet()
 			.BeginFrameSet(61, 120)
 			.AddFrame(61, alpha: 0)
@@ -133,19 +138,34 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 		
 		nameTextNode.AddTimeline(new TimelineBuilder()
 			.BeginFrameSet(1, 60)
-			.AddFrame(1, textOutlineColor: defaultOutlineColor.AsVector3())
-			.AddFrame(30, textOutlineColor: System.PartyListController.Config.OutlineColor.AsVector3())
-			.AddFrame(60, textOutlineColor: defaultOutlineColor.AsVector3())
+			.AddFrame(1, alpha: 255)
+			.AddFrame(20, alpha: 255)
+			.AddFrame(30, alpha: 0)
+			.AddFrame(50, alpha: 0)
+			.AddFrame(60, alpha: 255)
 			.EndFrameSet()
 			.BeginFrameSet(61, 120)
-			.AddFrame(61, textOutlineColor: System.PartyListController.Config.OutlineColor.AsVector3())
+			.AddFrame(61, alpha: 255)
+			.EndFrameSet()
+			.Build());
+		
+		warningTextNode.AddTimeline(new TimelineBuilder()
+			.BeginFrameSet(1, 60)
+			.AddFrame(1, alpha: 0)
+			.AddFrame(20, alpha: 0)
+			.AddFrame(30, alpha: 255)
+			.AddFrame(50, alpha: 255)
+			.AddFrame(60, alpha: 0)
+			.EndFrameSet()
+			.BeginFrameSet(61, 120)
+			.AddFrame(61, alpha: 0)
 			.EndFrameSet()
 			.Build());
 	}
 
 	public void UpdateNameColor() {
-		nameTextNode.Timeline?.UpdateKeyFrame(30, KeyFrameGroupType.TextEdge, textOutlineColor: System.PartyListController.Config.OutlineColor.AsVector3());
-		nameTextNode.Timeline?.UpdateKeyFrame(61, KeyFrameGroupType.TextEdge, textOutlineColor: System.PartyListController.Config.OutlineColor.AsVector3());
+		nameTextNode.TextOutlineColor = System.PartyListController.Config.OutlineColor;
+		warningTextNode.TextOutlineColor = System.PartyListController.Config.OutlineColor;
 	}
 
 	public void Save()
