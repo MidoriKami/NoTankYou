@@ -157,4 +157,10 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
             node.UpdateNameColor();
         }
     }
+
+    public void PlayAnimation(int label) {
+        foreach (var node in partyMemberNodes) {
+            node.Timeline?.PlayAnimation(label);
+        }
+    }
 }

@@ -40,8 +40,11 @@ public class PartyListConfig {
         
         ImGuiTweaks.Header(Strings.DisplayStyle);
         using (var _ = ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox("Play Animations", ref Animation);
-            
+            if (ImGui.Checkbox("Play Animations", ref Animation)) {
+                System.PartyListController.PlayAnimation(Animation ? 1 : 2);
+                configChanged = true;
+            }
+
             ImGuiHelpers.ScaledDummy(5.0f);
             
             if (ImGuiTweaks.ColorEditWithDefault(Strings.OutlineColor, ref OutlineColor, KnownColor.Red.Vector())) {
