@@ -184,7 +184,6 @@ public sealed class BannerOverlayNode : SimpleComponentNode {
 	public void Load()
 		=> Load(WarningNodePath);
 	
-	
 	private void BuildTimelines() {
 		AddTimeline(new TimelineBuilder()
 			.BeginFrameSet(1, 30)
