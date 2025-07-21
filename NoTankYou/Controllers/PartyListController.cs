@@ -103,7 +103,6 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
             Position = new Vector2(memberNode->X, memberNode->Y),
             Size = new Vector2(memberNode->Width, memberNode->Height),
             IsVisible = true,
-            Priority = 1,
             MemberStruct = memberStruct,
         };
         
