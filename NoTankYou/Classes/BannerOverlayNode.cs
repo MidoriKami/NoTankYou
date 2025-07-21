@@ -151,7 +151,7 @@ public sealed class BannerOverlayNode : SimpleComponentNode {
 		}
 	}
 
-	protected override List<string> OnLoadOmittedProperties => [ "Position" ];
+	public override List<string> OnLoadOmittedProperties => [ "Position" ];
 
 	public bool ShowWarningImage {
 		get => warningImageNode.IsVisible;

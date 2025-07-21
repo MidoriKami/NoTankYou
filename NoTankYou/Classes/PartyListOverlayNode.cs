@@ -84,7 +84,7 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 		Timeline?.PlayAnimation(System.PartyListController.Config.Animation ? 1 : 2);
 	}
 
-	protected override List<string> OnLoadOmittedProperties => [ "Position" ];
+	public override List<string> OnLoadOmittedProperties => [ "Position" ];
 
 	public WarningState? Warning {
 		get;
