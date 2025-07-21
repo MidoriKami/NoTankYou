@@ -30,8 +30,8 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
         new BlacklistTab(),
     ];
 
-    protected override float SelectionListWidth { get; set; } = 175.0f * ImGuiHelpers.GlobalScale;
-    protected override float SelectionItemHeight { get; } = 32.0f * ImGuiHelpers.GlobalScale;
+    protected override float SelectionListWidth => 175.0f;
+    protected override float SelectionItemHeight => 32.0f;
     protected override string SelectionListTabName => Strings.Modules;
 
     public ConfigurationWindow() : base("NoTankYou - Configuration Window", new Vector2(500.0f, 580.0f)) {
