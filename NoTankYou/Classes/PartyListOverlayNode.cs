@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -95,6 +96,12 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 				warningTextNode.Text = value.Message;
 				jobIconNode.IconId = MemberStruct.ClassJobIcon->GetIconId();
 				nameTextNode.Text = MemberStruct.Name->GetText().ToString();
+
+				if (System.PartyListController.Config.UseModuleIcons) {
+					if (value.SourceModule.GetAttribute<ModuleIconAttribute>() is { } iconInfo) {
+						warningIconNode.IconId = iconInfo.ModuleIcon;
+					}
+				}
 			}
 		}
 	}

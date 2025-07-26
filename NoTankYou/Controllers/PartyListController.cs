@@ -151,11 +151,6 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
         SampleNode?.Save();
     }
 
-    public void DiablePreviewMode() {
-        Config.SampleMode = false;
-        Config.Save();
-    }
-
     public void UpdateOutlineColors() {
         foreach (var node in partyMemberNodes) {
             node.UpdateNameColor();

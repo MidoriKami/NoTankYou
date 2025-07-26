@@ -73,8 +73,11 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
     }
 
     public override void OnClose() {
-        System.BannerController.DisablePreviewMode();
-        System.PartyListController.DiablePreviewMode();
+        System.BannerController.Config.SampleMode = false;
+        System.BannerController.Save();
+        
+        System.PartyListController.Config.SampleMode = false;
+        System.PartyListController.Save();
     }
 }
 

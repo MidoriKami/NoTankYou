@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
@@ -20,6 +21,7 @@ public class PartyListConfig {
     public bool SampleMode;
     
     public bool Animation = true;
+    public bool UseModuleIcons = false;
     
     public Vector4 OutlineColor  = KnownColor.Red.Vector();
     
@@ -45,6 +47,10 @@ public class PartyListConfig {
                 configChanged = true;
             }
 
+            ImGuiHelpers.ScaledDummy(5.0f);
+
+            configChanged |= ImGui.Checkbox("Use Module Icon", ref UseModuleIcons);
+            
             ImGuiHelpers.ScaledDummy(5.0f);
             
             if (ImGuiTweaks.ColorEditWithDefault(Strings.OutlineColor, ref OutlineColor, KnownColor.Red.Vector())) {

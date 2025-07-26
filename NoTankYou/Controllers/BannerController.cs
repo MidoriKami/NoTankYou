@@ -18,7 +18,7 @@ using KamiToolKit.System;
 namespace NoTankYou.Controllers;
 
 public unsafe class BannerController : NameplateAddonController {
-    private BannerConfig Config { get; set; } = new();
+    public BannerConfig Config { get; set; } = new();
 
     private SimpleOverlayNode? overlayRootNode;
     public ListBoxNode? BannerListNode;
@@ -159,11 +159,6 @@ public unsafe class BannerController : NameplateAddonController {
         SampleNode.Save();
 
         RemoveAllNodes();
-    }
-
-    public void DisablePreviewMode() {
-        Config.SampleMode = false;
-        SampleNode.Save();
     }
 
     private void SyncWarnings(List<WarningState> warningStates) {
