@@ -161,6 +161,11 @@ public unsafe class BannerController : NameplateAddonController {
         RemoveAllNodes();
     }
 
+    public void DisablePreviewMode() {
+        Config.SampleMode = false;
+        SampleNode.Save();
+    }
+
     private void SyncWarnings(List<WarningState> warningStates) {
         if (BannerListNode is null) return;
         

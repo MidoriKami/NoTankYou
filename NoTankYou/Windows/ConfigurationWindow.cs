@@ -71,6 +71,11 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
             
         Toggle();
     }
+
+    public override void OnClose() {
+        System.BannerController.DisablePreviewMode();
+        System.PartyListController.DiablePreviewMode();
+    }
 }
 
 public class GeneralSettingsTab : ITabItem {
