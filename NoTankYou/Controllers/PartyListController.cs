@@ -109,7 +109,7 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
         newPartyMemberNode.Load();
         newPartyMemberNode.Warning = warning;
 
-        System.NativeController.AttachNode(newPartyMemberNode, memberNode, NodePosition.BeforeTarget);
+        System.NativeController.AttachNode(newPartyMemberNode, memberNode, NodePosition.AfterTarget);
         
         memberStruct.ClassJobIcon->ToggleVisibility(false);
         memberStruct.Name->FontSize = 0;
