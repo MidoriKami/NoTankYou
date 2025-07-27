@@ -92,10 +92,10 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 		set {
 			field = value;
 
-			if (value is not null) {
+			if (value is not null && MemberStruct is not null) {
 				warningTextNode.Text = value.Message;
-				jobIconNode.IconId = MemberStruct.ClassJobIcon->GetIconId();
-				nameTextNode.Text = MemberStruct.Name->GetText().ToString();
+				jobIconNode.IconId = MemberStruct->ClassJobIcon->GetIconId();
+				nameTextNode.Text = MemberStruct->Name->GetText().ToString();
 
 				if (System.PartyListController.Config.UseModuleIcons) {
 					if (value.SourceModule.GetAttribute<ModuleIconAttribute>() is { } iconInfo) {
@@ -106,7 +106,14 @@ public unsafe class PartyListOverlayNode : SimpleOverlayNode {
 		}
 	}
 
-	public AddonPartyList.PartyListMemberStruct MemberStruct { get; set; }
+	public void UpdateNameString() {
+		if (MemberStruct is null) return;
+		if (nameTextNode.Text.ToString() != MemberStruct->Name->ToString()) {
+			nameTextNode.Text = MemberStruct->Name->GetText().ToString();
+		}
+	}
+
+	public AddonPartyList.PartyListMemberStruct* MemberStruct { get; set; }
 
 	private void BuildTimelines() {
 		AddTimeline(new TimelineBuilder()

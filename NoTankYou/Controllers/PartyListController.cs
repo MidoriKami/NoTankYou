@@ -4,6 +4,7 @@ using System.Numerics;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using FFXIVClientStructs.Interop;
 using KamiLib.Extensions;
 using KamiToolKit;
 using KamiToolKit.Classes;
@@ -88,13 +89,18 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
             foreach (var warning in toAdd) {
                 AddNode(warning);
             }
+
+            foreach (var remainingWarning in partyMemberNodes) {
+                remainingWarning.UpdateNameString();
+            }
         }
     }
 
     private void AddNode(WarningState warning) {
         if (PartyList is null) return;
 
-        if (GetPartyMemberStruct(warning) is not {} memberStruct) return;
+        var memberStruct = GetPartyMemberStruct(warning);
+        if (memberStruct is null) return;
         
         var memberNode = GetPartyMemberNode(warning);
         if (memberNode is null) return;
@@ -111,8 +117,8 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
 
         System.NativeController.AttachNode(newPartyMemberNode, memberNode, NodePosition.AfterTarget);
         
-        memberStruct.ClassJobIcon->ToggleVisibility(false);
-        memberStruct.Name->FontSize = 0;
+        memberStruct->ClassJobIcon->ToggleVisibility(false);
+        memberStruct->Name->FontSize = 0;
 
         partyMemberNodes.Add(newPartyMemberNode);
     }
@@ -120,8 +126,8 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
     private void RemoveNode(PartyListOverlayNode node) {
         if (node.Warning is null) return;
 
-        node.MemberStruct.ClassJobIcon->ToggleVisibility(true);
-        node.MemberStruct.Name->FontSize = 14;
+        node.MemberStruct->ClassJobIcon->ToggleVisibility(true);
+        node.MemberStruct->Name->FontSize = 14;
         
         System.NativeController.DetachNode(node, node.Dispose);
         partyMemberNodes.Remove(node);
@@ -133,18 +139,20 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
     private HudPartyMember? GetHudMember(WarningState warningState)
         => AgentHUD.Instance()->GetMember(warningState.SourceEntityId);
 
-    private AddonPartyList.PartyListMemberStruct? GetPartyMemberStruct(WarningState warningState) {
+    private AddonPartyList.PartyListMemberStruct* GetPartyMemberStruct(WarningState warningState) {
         if (PartyList is null) return null;
         if (GetHudMemberIndex(warningState) is not {} memberIndex) return null;
 
-        return PartyList->PartyMembers[memberIndex];
+        return PartyList->PartyMembers.GetPointer(memberIndex);
     }
 
     private AtkComponentNode* GetPartyMemberNode(WarningState warningState) {
         if (PartyList is null) return null;
-        if (GetPartyMemberStruct(warningState) is not {} memberStruct) return null;
+        
+        var memberStruct = GetPartyMemberStruct(warningState);
+        if (memberStruct is null) return null;
 
-        return memberStruct.PartyMemberComponent->OwnerNode;
+        return memberStruct->PartyMemberComponent->OwnerNode;
     }
     
     public void Save() {
