@@ -118,12 +118,12 @@ public unsafe class BannerController : NameplateAddonController {
                 SyncWarnings([ topWarning ]);
                 break;
 
-            case BannerOverlayDisplayMode.TopPriority:
-                SyncWarnings([]);
-                break;
-
             case BannerOverlayDisplayMode.List:
                 SyncWarnings(filteredWarningStates);
+                break;
+            
+            default:
+                SyncWarnings([]);
                 break;
         }
     }
