@@ -117,7 +117,11 @@ public unsafe class BannerController : NameplateAddonController {
             case BannerOverlayDisplayMode.TopPriority when filteredWarningStates.MaxBy(warning => warning.Priority) is { } topWarning:
                 SyncWarnings([ topWarning ]);
                 break;
-            
+
+            case BannerOverlayDisplayMode.TopPriority:
+                SyncWarnings([]);
+                break;
+
             case BannerOverlayDisplayMode.List:
                 SyncWarnings(filteredWarningStates);
                 break;
