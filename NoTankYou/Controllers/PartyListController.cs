@@ -89,10 +89,6 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
             foreach (var warning in toAdd) {
                 AddNode(warning);
             }
-
-            foreach (var remainingWarning in partyMemberNodes) {
-                remainingWarning.UpdateNameString();
-            }
         }
     }
 
@@ -116,18 +112,12 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
         newPartyMemberNode.Warning = warning;
 
         System.NativeController.AttachNode(newPartyMemberNode, memberNode, NodePosition.AfterTarget);
-        
-        memberStruct->ClassJobIcon->ToggleVisibility(false);
-        memberStruct->Name->FontSize = 0;
 
         partyMemberNodes.Add(newPartyMemberNode);
     }
 
     private void RemoveNode(PartyListOverlayNode node) {
         if (node.Warning is null) return;
-
-        node.MemberStruct->ClassJobIcon->ToggleVisibility(true);
-        node.MemberStruct->Name->FontSize = 14;
         
         System.NativeController.DetachNode(node, node.Dispose);
         partyMemberNodes.Remove(node);
@@ -157,12 +147,6 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
     
     public void Save() {
         SampleNode?.Save();
-    }
-
-    public void UpdateOutlineColors() {
-        foreach (var node in partyMemberNodes) {
-            node.UpdateNameColor();
-        }
     }
 
     public void PlayAnimation(int label) {
