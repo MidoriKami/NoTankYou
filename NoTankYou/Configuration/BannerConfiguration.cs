@@ -93,12 +93,20 @@ public class BannerConfig {
             }
             
             ImGuiHelpers.ScaledDummy(5.0f);
-            
+
             var showBackground = listNode.ShowBackground;
             if (ImGui.Checkbox("Show Background", ref showBackground)) {
                 listNode.ShowBackground = showBackground;
                 configChanged = true;
             }
+
+            var backgroundColor= listNode.BackgroundColor;
+            if (ImGuiTweaks.ColorEditWithDefault("Background Color", ref backgroundColor, KnownColor.Aqua.Vector() with { W = 0.15f })) {
+                listNode.BackgroundColor =  backgroundColor;
+                configChanged = true;
+            }
+
+            ImGuiHelpers.ScaledDummy(5.0f);
             
             var showBorder = listNode.ShowBorder;
             if (ImGui.Checkbox("Show Border", ref showBorder)) {
@@ -154,14 +162,6 @@ public class BannerConfig {
             
             if (ImGui.Checkbox("Play Animations", ref EnableAnimation)) {
                 System.BannerController.PlayAnimation(EnableAnimation ? 1 : 2);
-                configChanged = true;
-            }
-                        
-            ImGuiHelpers.ScaledDummy(5.0f);
-
-            var backgroundColor= listNode.BackgroundColor;
-            if (ImGuiTweaks.ColorEditWithDefault("Background Color", ref backgroundColor, KnownColor.Aqua.Vector() with { W = 0.15f })) {
-                listNode.BackgroundColor =  backgroundColor;
                 configChanged = true;
             }
         }
