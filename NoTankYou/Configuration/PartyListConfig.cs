@@ -38,7 +38,6 @@ public class PartyListConfig {
         
         ImGuiTweaks.Header(Strings.DisplayStyle);
         using (var _ = ImRaii.PushIndent()) {
-            ImGuiHelpers.ScaledDummy(5.0f);
             configChanged |= ImGui.ColorEdit4("Background Color", ref GlowColor, ImGuiColorEditFlags.AlphaPreviewHalf | ImGuiColorEditFlags.AlphaBar);
             configChanged |= ImGui.Checkbox("Show Background Glow", ref ShowGlow);
             ImGuiHelpers.ScaledDummy(5.0f);
