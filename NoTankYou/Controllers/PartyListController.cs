@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using FFXIVClientStructs.Interop;
 using KamiLib.Extensions;
 using KamiToolKit;
-using KamiToolKit.Classes;
 using NoTankYou.Classes;
 using NoTankYou.Configuration;
 using NoTankYou.Extensions;
@@ -17,12 +14,10 @@ namespace NoTankYou.Controllers;
 public unsafe class PartyListController : AddonController<AddonPartyList> {
     public PartyListConfig Config { get; set; } = new();
 
-    private readonly List<PartyListOverlayNode> partyMemberNodes = [];
+    private readonly List<PartyListOverlay> partyMemberNodes = [];
 
     private static AddonPartyList* PartyList => Service.GameGui.GetAddonByName<AddonPartyList>("_PartyList");
-
-    public PartyListOverlayNode? SampleNode;
-
+    
     public PartyListController() : base(Service.PluginInterface) {
         PreEnable += LoadConfig;
         PostDisable += UnloadNodes;
@@ -31,14 +26,8 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
     private void UnloadNodes(AddonPartyList* addon)
         => RemoveAllNodes();
 
-    private void LoadConfig(AddonPartyList* addon) {
-        Config = PartyListConfig.Load();
-
-        SampleNode = new PartyListOverlayNode {
-            Size = new Vector2(448.0f, 64.0f), 
-            IsVisible = true,
-        };
-    }
+    private void LoadConfig(AddonPartyList* addon)
+        => Config = PartyListConfig.Load();
 
     public void DrawConfigUi()
         => Config.DrawConfigUi();
@@ -98,28 +87,18 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
         var memberStruct = GetPartyMemberStruct(warning);
         if (memberStruct is null) return;
         
-        var memberNode = GetPartyMemberNode(warning);
-        if (memberNode is null) return;
-        
-        var newPartyMemberNode = new PartyListOverlayNode {
-            Position = new Vector2(memberNode->X, memberNode->Y),
-            Size = new Vector2(memberNode->Width, memberNode->Height),
-            IsVisible = true,
+        var newPartyMemberNode = new PartyListOverlay {
+            Warning = warning,
             MemberStruct = memberStruct,
+            EnableAnimation = Config.Animation,
         };
         
-        newPartyMemberNode.Load();
-        newPartyMemberNode.Warning = warning;
-
-        System.NativeController.AttachNode(newPartyMemberNode, memberNode, NodePosition.AfterTarget);
-
+        newPartyMemberNode.Attach();
         partyMemberNodes.Add(newPartyMemberNode);
     }
 
-    private void RemoveNode(PartyListOverlayNode node) {
-        if (node.Warning is null) return;
-        
-        System.NativeController.DetachNode(node, node.Dispose);
+    private void RemoveNode(PartyListOverlay node) {
+        node.Detach();
         partyMemberNodes.Remove(node);
     }
 
@@ -134,24 +113,5 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
         if (GetHudMemberIndex(warningState) is not {} memberIndex) return null;
 
         return PartyList->PartyMembers.GetPointer(memberIndex);
-    }
-
-    private AtkComponentNode* GetPartyMemberNode(WarningState warningState) {
-        if (PartyList is null) return null;
-        
-        var memberStruct = GetPartyMemberStruct(warningState);
-        if (memberStruct is null) return null;
-
-        return memberStruct->PartyMemberComponent->OwnerNode;
-    }
-    
-    public void Save() {
-        SampleNode?.Save();
-    }
-
-    public void PlayAnimation(int label) {
-        foreach (var node in partyMemberNodes) {
-            node.Timeline?.PlayAnimation(label);
-        }
     }
 }

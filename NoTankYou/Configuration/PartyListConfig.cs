@@ -18,13 +18,12 @@ public class PartyListConfig {
     
     public bool Animation = true;
     public bool UseModuleIcons;
+    public bool ShowGlow = true;
+    public bool ShowIcon = true;
     
     public HashSet<ModuleName> BlacklistedModules = [];
 
     public void DrawConfigUi() {
-        var sampleNode = System.PartyListController.SampleNode;
-        if (sampleNode is null) return;
-        
         var configChanged = false;
         
         ImGuiTweaks.Header(Strings.DisplayOptions);
@@ -35,9 +34,20 @@ public class PartyListConfig {
         }
         
         ImGuiTweaks.Header(Strings.DisplayStyle);
+        ImGui.Text("Changes won't be reflected until UI is refreshed");
+        ImGui.Text("Toggle 'Enable' above to force refresh");
+        ImGuiHelpers.ScaledDummy(5.0f);
+        
         using (var _ = ImRaii.PushIndent()) {
             if (ImGui.Checkbox("Play Animations", ref Animation)) {
-                System.PartyListController.PlayAnimation(Animation ? 1 : 2);
+                configChanged = true;
+            }
+            
+            if (ImGui.Checkbox("Show Background Glow", ref ShowGlow)) {
+                configChanged = true;
+            }
+            
+            if (ImGui.Checkbox("Show Icon", ref ShowIcon)) {
                 configChanged = true;
             }
 
@@ -65,7 +75,6 @@ public class PartyListConfig {
 
         if (configChanged) {
             Save();
-            System.PartyListController.Save();
         }
     }
     

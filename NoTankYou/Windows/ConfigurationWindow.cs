@@ -77,7 +77,6 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
         System.BannerController.Save();
         
         System.PartyListController.Config.SampleMode = false;
-        System.PartyListController.Save();
     }
 }
 
