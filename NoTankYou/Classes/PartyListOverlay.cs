@@ -62,6 +62,7 @@ public unsafe class PartyListOverlay {
 			IsVisible = true,
 			WrapMode = 2,
 			ImageNodeFlags = 0,
+			EnableEventFlags = true,
 		};
 		System.NativeController.AttachNode(warningIconNode, foregroundContainer);
 
@@ -129,16 +130,15 @@ public unsafe class PartyListOverlay {
 
 	public void ApplyConfigurationOptions() {
 		if (warningIconNode is not null) {
-			if (System.PartyListController.Config.UseModuleIcons) {
-				if (Warning.SourceModule.GetAttribute<ModuleIconAttribute>() is { } iconInfo) {
-					warningIconNode.IconId = iconInfo.ModuleIcon;
-				}
-				
-				warningIconNode.EnableEventFlags = true;
-				warningIconNode.Tooltip = Warning.Message;
+			if (System.PartyListController.Config.UseModuleIcons && Warning.SourceModule.GetAttribute<ModuleIconAttribute>() is { } iconInfo) {
+				warningIconNode.IconId = iconInfo.ModuleIcon;
+				warningIconNode.EnableEventFlags = false;
+				warningIconNode.Tooltip = null;
 			}
 			else {
 				warningIconNode.IconId = 60074;
+				warningIconNode.EnableEventFlags = true;
+				warningIconNode.Tooltip = Warning.Message;
 			}
 		}
 
