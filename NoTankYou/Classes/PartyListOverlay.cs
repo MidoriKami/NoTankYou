@@ -11,7 +11,6 @@ namespace NoTankYou.Classes;
 public unsafe class PartyListOverlay {
 	public required WarningState Warning { get; init; }
 	public required AddonPartyList.PartyListMemberStruct* MemberStruct { get; init; }
-	public required bool EnableAnimation { get; init; }
 
 	private SimpleComponentNode? backgroundContainer;
 	private SimpleComponentNode? foregroundContainer;
@@ -31,7 +30,6 @@ public unsafe class PartyListOverlay {
 		backgroundContainer = new SimpleOverlayNode {
 			Size = componentNodeSize,
 			Position = componentNodePosition,
-			IsVisible = System.PartyListController.Config.ShowGlow,
 		};
 		System.NativeController.AttachNode(backgroundContainer, componentNode, NodePosition.BeforeTarget);
 
@@ -53,7 +51,6 @@ public unsafe class PartyListOverlay {
 		foregroundContainer = new SimpleOverlayNode {
 			Size = componentNodeSize, 
 			Position = componentNodePosition,
-			IsVisible = System.PartyListController.Config.ShowIcon,
 		};
 		System.NativeController.AttachNode(foregroundContainer, componentNode, NodePosition.AfterTarget);
 
@@ -61,22 +58,17 @@ public unsafe class PartyListOverlay {
 			Size = new Vector2(16.0f, 16.0f),
 			Origin = new Vector2(8.0f, 8.0f),
 			Position = new Vector2(24.0f, 18.0f) + new Vector2(16.0f, 0.0f),
-			IconId = GetWarningModuleIcon(),
 			TextureSize = new Vector2(28.0f, 28.0f),
 			IsVisible = true,
 			WrapMode = 2,
 			ImageNodeFlags = 0,
 		};
-
-		if (!System.PartyListController.Config.UseModuleIcons) {
-			warningIconNode.EnableEventFlags = true;
-			warningIconNode.Tooltip = Warning.Message;
-		}
-		
 		System.NativeController.AttachNode(warningIconNode, foregroundContainer);
 
 		BuildBackgroundAnimations();
 		BuildForegroundAnimations();
+		
+		ApplyConfigurationOptions();
 	}
 
 	public void Detach() {
@@ -111,8 +103,6 @@ public unsafe class PartyListOverlay {
 			.AddFrame(61, scale: new Vector2(1.0f, 1.0f), alpha: 255)
 			.EndFrameSet()
 			.Build());
-		
-		backgroundContainer?.Timeline?.PlayAnimation(EnableAnimation ? 1 : 2);
 	}
 
 	private void BuildForegroundAnimations() {
@@ -135,17 +125,39 @@ public unsafe class PartyListOverlay {
 			.AddFrame(61, scale: new Vector2(1.55f, 1.55f), alpha: 255)
 			.EndFrameSet()
 			.Build());
-		
-		foregroundContainer?.Timeline?.PlayAnimation(EnableAnimation ? 1 : 2);
 	}
-	
-	private uint GetWarningModuleIcon() {
-		if (System.PartyListController.Config.UseModuleIcons) {
-			if (Warning.SourceModule.GetAttribute<ModuleIconAttribute>() is { } iconInfo) {
-				return iconInfo.ModuleIcon;
+
+	public void ApplyConfigurationOptions() {
+		if (warningIconNode is not null) {
+			if (System.PartyListController.Config.UseModuleIcons) {
+				if (Warning.SourceModule.GetAttribute<ModuleIconAttribute>() is { } iconInfo) {
+					warningIconNode.IconId = iconInfo.ModuleIcon;
+				}
+				
+				warningIconNode.EnableEventFlags = true;
+				warningIconNode.Tooltip = Warning.Message;
+			}
+			else {
+				warningIconNode.IconId = 60074;
 			}
 		}
 
-		return 60074;
+		if (backgroundContainer is not null) {
+			backgroundContainer.IsVisible = System.PartyListController.Config.ShowGlow;
+		}
+
+		if (foregroundContainer is not null) {
+			foregroundContainer.IsVisible = System.PartyListController.Config.ShowIcon;
+		}
+
+		if (glowNode is not null) {
+			var color = System.PartyListController.Config.GlowColor;
+			
+			glowNode.AddColor = color.AsVector3();
+			glowNode.Alpha = color.W;
+		}
+		
+		backgroundContainer?.Timeline?.PlayAnimation(System.PartyListController.Config.Animation ? 1 : 2);
+		foregroundContainer?.Timeline?.PlayAnimation(System.PartyListController.Config.Animation ? 1 : 2);
 	}
 }

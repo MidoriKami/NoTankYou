@@ -90,7 +90,6 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
         var newPartyMemberNode = new PartyListOverlay {
             Warning = warning,
             MemberStruct = memberStruct,
-            EnableAnimation = Config.Animation,
         };
         
         newPartyMemberNode.Attach();
@@ -113,5 +112,11 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
         if (GetHudMemberIndex(warningState) is not {} memberIndex) return null;
 
         return PartyList->PartyMembers.GetPointer(memberIndex);
+    }
+
+    public void OnConfigChanged() {
+        foreach (var node in partyMemberNodes) {
+            node.ApplyConfigurationOptions();
+        }
     }
 }

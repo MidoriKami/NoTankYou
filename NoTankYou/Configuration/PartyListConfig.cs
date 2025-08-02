@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
@@ -20,6 +21,8 @@ public class PartyListConfig {
     public bool UseModuleIcons;
     public bool ShowGlow = true;
     public bool ShowIcon = true;
+
+    public Vector4 GlowColor = new(0.90f, 0.5f, 0.5f, 1.0f);
     
     public HashSet<ModuleName> BlacklistedModules = [];
 
@@ -34,25 +37,13 @@ public class PartyListConfig {
         }
         
         ImGuiTweaks.Header(Strings.DisplayStyle);
-        ImGui.Text("Changes won't be reflected until UI is refreshed");
-        ImGui.Text("Toggle 'Enable' above to force refresh");
-        ImGuiHelpers.ScaledDummy(5.0f);
-        
         using (var _ = ImRaii.PushIndent()) {
-            if (ImGui.Checkbox("Play Animations", ref Animation)) {
-                configChanged = true;
-            }
-            
-            if (ImGui.Checkbox("Show Background Glow", ref ShowGlow)) {
-                configChanged = true;
-            }
-            
-            if (ImGui.Checkbox("Show Icon", ref ShowIcon)) {
-                configChanged = true;
-            }
-
             ImGuiHelpers.ScaledDummy(5.0f);
-
+            configChanged |= ImGui.ColorEdit4("Background Color", ref GlowColor, ImGuiColorEditFlags.AlphaPreviewHalf | ImGuiColorEditFlags.AlphaBar);
+            configChanged |= ImGui.Checkbox("Show Background Glow", ref ShowGlow);
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGui.Checkbox("Play Animations", ref Animation);
+            configChanged |= ImGui.Checkbox("Show Icon", ref ShowIcon);
             configChanged |= ImGui.Checkbox("Use Module Icon", ref UseModuleIcons);
         }
         
@@ -75,6 +66,7 @@ public class PartyListConfig {
 
         if (configChanged) {
             Save();
+            System.PartyListController.OnConfigChanged();
         }
     }
     
