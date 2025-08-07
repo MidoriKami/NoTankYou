@@ -32,7 +32,7 @@ public unsafe class BannerController : NameplateAddonController {
     private static string BannerListPath => Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "BannerList.style.json").FullName;
 
     public BannerController() : base(Service.PluginInterface) {
-        PreEnable += LoadConfig;
+        OnPreEnable += LoadConfig;
         OnAttach += AttachNodes;
         OnDetach += DetachNodes;
     }

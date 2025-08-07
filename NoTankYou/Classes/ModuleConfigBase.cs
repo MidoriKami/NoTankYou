@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.Text.Json.Serialization;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
-using ImGuiNET;
 using KamiLib.Classes;
 using KamiLib.Configuration;
 using NoTankYou.Localization;

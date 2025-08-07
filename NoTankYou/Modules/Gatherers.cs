@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 using NoTankYou.Classes;
 using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;

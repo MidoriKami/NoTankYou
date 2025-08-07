@@ -1,5 +1,5 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.Group;
-using ImGuiNET;
+﻿using Dalamud.Bindings.ImGui;
+using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using NoTankYou.Classes;
 using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;

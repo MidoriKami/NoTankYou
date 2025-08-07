@@ -1,6 +1,6 @@
-﻿using Dalamud.Interface.Utility;
+﻿using Dalamud.Bindings.ImGui;
+using Dalamud.Interface.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using ImGuiNET;
 using KamiLib.Extensions;
 using Lumina.Excel.Sheets;
 using NoTankYou.Classes;

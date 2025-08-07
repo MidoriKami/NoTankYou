@@ -1,6 +1,6 @@
-﻿using Dalamud.Interface.Utility.Raii;
+﻿using Dalamud.Bindings.ImGui;
+using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using ImGuiNET;
 using KamiLib.Classes;
 using KamiLib.Configuration;
 using NoTankYou.Localization;

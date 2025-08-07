@@ -37,8 +37,7 @@ public sealed class BannerOverlayNode : SimpleComponentNode {
 			IsVisible = true,
 			FontSize = 26,
 			FontType = FontType.Axis, 
-			TextFlags = TextFlags.Edge,
-			TextFlags2 = TextFlags2.Ellipsis,
+			TextFlags = TextFlags.Edge | TextFlags.Ellipsis,
 			AlignmentType = AlignmentType.Left,
 			Text = "Long Default Message Text",
 		};
@@ -51,8 +50,7 @@ public sealed class BannerOverlayNode : SimpleComponentNode {
 			IsVisible = true,
 			FontSize = 18,
 			FontType = FontType.Axis, 
-			TextFlags = TextFlags.Edge,
-			TextFlags2 = TextFlags2.Ellipsis,
+			TextFlags = TextFlags.Edge | TextFlags.Ellipsis,
 			AlignmentType = AlignmentType.Left,
 			Text = "PlayerName Here",
 		};
@@ -72,8 +70,7 @@ public sealed class BannerOverlayNode : SimpleComponentNode {
 			IsVisible = true,
 			FontSize = 12,
 			FontType = FontType.Axis, 
-			TextFlags = TextFlags.Edge,
-			TextFlags2 = TextFlags2.Ellipsis,
+			TextFlags = TextFlags.Edge | TextFlags.Ellipsis,
 			AlignmentType = AlignmentType.Top,
 			Text = "Action Name",
 		};

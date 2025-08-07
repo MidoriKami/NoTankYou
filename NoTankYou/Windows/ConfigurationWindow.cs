@@ -2,11 +2,11 @@
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Utility;
-using ImGuiNET;
 using KamiLib.Classes;
 using KamiLib.CommandManager;
 using KamiLib.Configuration;
@@ -55,7 +55,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
         var iconInfo = option.ModuleName.GetAttribute<ModuleIconAttribute>()!;
         
         ImGui.SetCursorPos(cursorStart);
-        ImGui.Image(Service.TextureProvider.GetFromGameIcon(iconInfo.ModuleIcon).GetWrapOrEmpty().ImGuiHandle, ImGuiHelpers.ScaledVector2(32.0f, 32.0f));
+        ImGui.Image(Service.TextureProvider.GetFromGameIcon(iconInfo.ModuleIcon).GetWrapOrEmpty().Handle, ImGuiHelpers.ScaledVector2(32.0f, 32.0f));
         
         ImGui.SameLine();
         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 8.0f * ImGuiHelpers.GlobalScale);

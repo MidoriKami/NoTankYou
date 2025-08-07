@@ -1,7 +1,7 @@
 ﻿using System;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Game.ClientState.JobGauge.Types;
 using Dalamud.Interface.Utility;
-using ImGuiNET;
 using KamiLib.Extensions;
 using NoTankYou.Classes;
 using NoTankYou.PlayerDataInterface;

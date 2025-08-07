@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
-using ImGuiNET;
 using KamiLib.Classes;
 using KamiLib.Extensions;
 using KamiLib.Window;
@@ -97,7 +97,7 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
             ImGui.SameLine();
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 3.0f * ImGuiHelpers.GlobalScale);
 
-            ImGui.Image(Service.TextureProvider.GetFromGameIcon(status.Icon).GetWrapOrEmpty().ImGuiHandle, ImGuiHelpers.ScaledVector2(24.0f, 32.0f));
+            ImGui.Image(Service.TextureProvider.GetFromGameIcon(status.Icon).GetWrapOrEmpty().Handle, ImGuiHelpers.ScaledVector2(24.0f, 32.0f));
             ImGui.SameLine();
             ImGui.AlignTextToFramePadding();
             ImGui.Text(status.Name.ToString());
@@ -126,7 +126,7 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
             ImGui.SameLine();
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 3.0f * ImGuiHelpers.GlobalScale);
 
-            ImGui.Image(Service.TextureProvider.GetFromGameIcon(status.Icon).GetWrapOrEmpty().ImGuiHandle, ImGuiHelpers.ScaledVector2(24.0f, 32.0f));
+            ImGui.Image(Service.TextureProvider.GetFromGameIcon(status.Icon).GetWrapOrEmpty().Handle, ImGuiHelpers.ScaledVector2(24.0f, 32.0f));
             ImGui.SameLine();
             ImGui.AlignTextToFramePadding();
             ImGui.Text(status.Name.ToString());

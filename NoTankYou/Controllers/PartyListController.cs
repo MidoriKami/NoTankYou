@@ -19,8 +19,8 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
     private static AddonPartyList* PartyList => Service.GameGui.GetAddonByName<AddonPartyList>("_PartyList");
     
     public PartyListController() : base(Service.PluginInterface) {
-        PreEnable += LoadConfig;
-        PostDisable += UnloadNodes;
+        OnPreEnable += LoadConfig;
+        OnPostDisable += UnloadNodes;
     }
 
     private void UnloadNodes(AddonPartyList* addon)

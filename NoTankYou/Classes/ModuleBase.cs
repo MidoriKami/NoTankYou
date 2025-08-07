@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface;
 using Dalamud.Utility;
@@ -10,7 +11,6 @@ using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.Interop;
-using ImGuiNET;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using NoTankYou.Localization;
@@ -140,7 +140,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     public override void DrawConfigUi() {
         var minDimension = MathF.Min(ImGui.GetContentRegionMax().X, ImGui.GetContentRegionMax().Y);
         var moduleInfo = ModuleName.GetAttribute<ModuleIconAttribute>()!;
-        ImGui.Image(Service.TextureProvider.GetFromGameIcon(moduleInfo.ModuleIcon).GetWrapOrEmpty().ImGuiHandle, new Vector2(minDimension), Vector2.Zero, Vector2.One, KnownColor.White.Vector() with { W = 0.20f });
+        ImGui.Image(Service.TextureProvider.GetFromGameIcon(moduleInfo.ModuleIcon).GetWrapOrEmpty().Handle, new Vector2(minDimension), Vector2.Zero, Vector2.One, KnownColor.White.Vector() with { W = 0.20f });
         ImGui.SetCursorPos(Vector2.Zero);
         
         Config.DrawConfigUi();
