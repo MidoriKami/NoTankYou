@@ -60,7 +60,7 @@ public class PartyListConfig {
                 ImGui.NextColumn();
             }
         
-            ImGui.Columns(1);
+            ImGui.Columns();
         }
 
         if (configChanged) {
@@ -70,7 +70,7 @@ public class PartyListConfig {
     }
     
     public static PartyListConfig Load() 
-        => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "PartyListOverlay.config.json", () => new PartyListConfig());
+        => Service.PluginInterface.LoadCharacterFile<PartyListConfig>(Service.ClientState.LocalContentId, "PartyListOverlay.config.json");
 
     public void Save()
         => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, "PartyListOverlay.config.json", this);

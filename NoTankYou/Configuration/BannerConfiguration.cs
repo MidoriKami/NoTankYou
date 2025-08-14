@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Numerics;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using KamiLib.Classes;
@@ -19,6 +20,7 @@ public class BannerConfig {
     public bool SoloMode;
     public bool SampleMode; 
     public bool EnableAnimation = true;
+    public bool EnableActionTooltip = true;
 
     public BannerOverlayDisplayMode DisplayMode = BannerOverlayDisplayMode.List;
 
@@ -164,6 +166,13 @@ public class BannerConfig {
                 System.BannerController.PlayAnimation(EnableAnimation ? 1 : 2);
                 configChanged = true;
             }
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            
+            if (ImGui.Checkbox("Show Action Tooltip", ref EnableActionTooltip)) {
+                configChanged = true;
+            }
+            ImGuiComponents.HelpMarker("Note, this feature can't be previewed by sample mode.");
         }
 
         ImGuiTweaks.Header(Strings.ModuleBlacklist);
@@ -180,7 +189,7 @@ public class BannerConfig {
                 ImGui.NextColumn();
             }
         
-            ImGui.Columns(1);
+            ImGui.Columns();
         }
 
         if (configChanged) {
@@ -190,7 +199,7 @@ public class BannerConfig {
     }
     
     public static BannerConfig Load() 
-        => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "BannerDisplay.config.json", () => new BannerConfig());
+        => Service.PluginInterface.LoadCharacterFile<BannerConfig>(Service.ClientState.LocalContentId, "BannerDisplay.config.json");
 
     private void Save()
         => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, "BannerDisplay.config.json", this);

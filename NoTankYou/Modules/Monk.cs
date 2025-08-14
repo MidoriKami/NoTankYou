@@ -71,6 +71,6 @@ public class MonkConfiguration() : ModuleConfigBase(ModuleName.Monk) {
 		ImGuiHelpers.ScaledDummy(5.0f);
 		
 		ImGui.PushItemWidth(50.0f * ImGuiHelpers.GlobalScale);
-		ConfigChanged |= ImGui.InputInt("Warning Delay Time (seconds)", ref WarningDelay, 0, 0);
+		ConfigChanged |= ImGui.InputInt("Warning Delay Time (seconds)", ref WarningDelay);
 	}
 }

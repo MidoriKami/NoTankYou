@@ -157,6 +157,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     protected void AddActiveWarning(uint actionId, IPlayerData playerData) => ActiveWarningStates.Add(new WarningState {
         Priority = Config.Priority,
         IconId = Service.DataManager.GetExcelSheet<Action>().GetRow(actionId).Icon,
+        ActionId = actionId,
         IconLabel = Service.DataManager.GetExcelSheet<Action>().GetRow(actionId).Name.ToString(),
         Message = (Config.CustomWarning ? Config.CustomWarningText : DefaultWarningText) + ExtraWarningText,
         SourcePlayerName = playerData.GetName(),
@@ -167,6 +168,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     protected void AddActiveWarning(uint iconId, string iconLabel, IPlayerData playerData) => ActiveWarningStates.Add(new WarningState {
         Priority = Config.Priority,
         IconId = iconId,
+        ActionId = 0,
         IconLabel = iconLabel,
         Message = (Config.CustomWarning ? Config.CustomWarningText : DefaultWarningText) + ExtraWarningText,
         SourcePlayerName = playerData.GetName(),

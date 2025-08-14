@@ -11,13 +11,16 @@ public unsafe class SystemConfig : CharacterConfiguration {
 	public bool WaitUntilDutyStart = true;
 	public bool HideInQuestEvent = true;
 
-	public static SystemConfig Load() 
-		=> Service.PluginInterface.LoadCharacterFile(PlayerState.Instance()->ContentId, "System.config.json", () => {
-			var newConfig = new SystemConfig();
-			newConfig.UpdateCharacterData();
+	public static SystemConfig Load() {
+		var config = Service.PluginInterface.LoadCharacterFile<SystemConfig>(PlayerState.Instance()->ContentId, "System.config.json");
 
-			return newConfig;
-		});
+		if (config.ContentId is 0) {
+			config.UpdateCharacterData();
+			config.Save();
+		}
+		
+		return config;
+	}
 
 	public void Save()
 		=> Service.PluginInterface.SaveCharacterFile(PlayerState.Instance()->ContentId,"System.config.json", this);

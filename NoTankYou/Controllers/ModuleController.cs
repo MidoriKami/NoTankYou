@@ -11,6 +11,7 @@ public class ModuleController : IDisposable {
     
     public static WarningState SampleWarning = new() {
         Message = "NoTankYou Sample Warning",
+        ActionId = 0,
         Priority = 100,
         IconId = 786,
         IconLabel = "Sample Action",

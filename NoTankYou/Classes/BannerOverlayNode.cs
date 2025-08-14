@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using Dalamud.Game.Addon.Events;
+using Dalamud.Game.Addon.Events.EventDataTypes;
 using Dalamud.Interface;
+using FFXIVClientStructs.FFXIV.Client.Enums;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Configuration;
 using KamiToolKit.Classes.TimelineBuilding;
@@ -11,7 +15,7 @@ using Newtonsoft.Json;
 namespace NoTankYou.Classes;
 
 [JsonObject(MemberSerialization.OptIn)]
-public sealed class BannerOverlayNode : SimpleComponentNode {
+public sealed unsafe class BannerOverlayNode : SimpleComponentNode {
 
 	[JsonProperty] private readonly IconImageNode warningImageNode;
 	[JsonProperty] private readonly TextNode messageTextNode;
@@ -94,6 +98,28 @@ public sealed class BannerOverlayNode : SimpleComponentNode {
 		BuildTimelines();
 	}
 
+	private void OnIconMouseOver(AddonEventData obj) {
+		if (Warning is not { ActionId: not 0 }) return;
+
+		var parentAddon = RaptureAtkUnitManager.Instance()->GetAddonByNode((AtkResNode*) actionIconNode);
+			
+		if (parentAddon is not null) {
+			var tooltipArgs = stackalloc AtkTooltipManager.AtkTooltipArgs[1];
+			tooltipArgs->ActionArgs = new AtkTooltipManager.AtkTooltipArgs.AtkTooltipActionArgs {
+				Id = (int) Warning.ActionId,
+				Kind = DetailKind.Action,
+				Flags = 1,
+			};
+			
+			AtkStage.Instance()->TooltipManager.ShowTooltip(
+				AtkTooltipManager.AtkTooltipType.Action,
+				parentAddon->Id,
+				(AtkResNode*) actionIconNode,
+				tooltipArgs
+			);
+		}
+	}
+
 	public override float Height {
 		get => base.Height;
 		set {
@@ -144,6 +170,12 @@ public sealed class BannerOverlayNode : SimpleComponentNode {
 				playerTextNode.Text = value.SourcePlayerName;
 				actionIconNode.IconId = value.IconId;
 				actionNameNode.Text = value.IconLabel;
+
+				if (System.BannerController.Config.EnableActionTooltip) {
+					actionIconNode.EnableEventFlags = true;
+					actionIconNode.AddEvent(AddonEventType.MouseOver, OnIconMouseOver);
+					actionIconNode.AddEvent(AddonEventType.MouseOut, _ => actionIconNode.HideTooltip());
+				}
 			}
 		}
 	}

@@ -65,6 +65,6 @@ public class PictomancerConfiguration() : ModuleConfigBase(ModuleName.Pictomance
 
     protected override void DrawModuleConfig() {
         ImGui.PushItemWidth(50.0f * ImGuiHelpers.GlobalScale);
-        ConfigChanged |= ImGui.InputInt("Warning Delay Time (seconds)", ref WarningDelay, 0, 0);
+        ConfigChanged |= ImGui.InputInt("Warning Delay Time (seconds)", ref WarningDelay);
     }
 }

@@ -154,6 +154,8 @@ public unsafe class BannerController : NameplateAddonController {
     private void RemoveNode(BannerOverlayNode node) {
         if (BannerListNode is null) return;
         
+        node.HideTooltip();
+        
         BannerListNode.RemoveNode(node);
         nodeList.Remove(node);
     }

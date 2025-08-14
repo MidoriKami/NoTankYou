@@ -69,7 +69,7 @@ public abstract class ConsumableConfiguration(ModuleName moduleName) : ModuleCon
         ConfigChanged |= ImGui.Checkbox(Strings.SuppressInCombat, ref SuppressInCombat);
         
         ImGui.PushItemWidth(50.0f * ImGuiHelpers.GlobalScale);
-        ConfigChanged |= ImGui.InputInt(Strings.EarlyWarningTime, ref EarlyWarningTime, 0, 0);
+        ConfigChanged |= ImGui.InputInt(Strings.EarlyWarningTime, ref EarlyWarningTime);
         ConfigChanged |= ImGui.Checkbox(Strings.ShowTimeRemaining, ref ShowTimeRemaining);
         
         ImGuiHelpers.ScaledDummy(10.0f);

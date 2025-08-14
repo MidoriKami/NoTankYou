@@ -24,7 +24,7 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
 	[JsonIgnore] protected bool ConfigChanged { get; set; }
 	[JsonIgnore] public virtual OptionDisableFlags OptionDisableFlags => OptionDisableFlags.None;
 
-	public virtual void DrawConfigUi() {
+	public void DrawConfigUi() {
 		ImGuiTweaks.Header(Strings.General);
 		using (var _ = ImRaii.PushIndent()) {
 			ConfigChanged |= ImGui.Checkbox(Strings.Enable, ref Enabled);
@@ -53,7 +53,7 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
 				ConfigChanged |= ImGuiTweaks.Checkbox("Auto Suppress", ref AutoSuppress, $"Automatically suppress warnings for other players after {AutoSuppressTime} Seconds");
 
 				ImGui.PushItemWidth(50.0f * ImGuiHelpers.GlobalScale);
-				ConfigChanged |= ImGui.InputInt("Suppression Time (Seconds)", ref AutoSuppressTime, 0, 0);
+				ConfigChanged |= ImGui.InputInt("Suppression Time (Seconds)", ref AutoSuppressTime);
 			}
 		}
 
@@ -89,7 +89,7 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
 		=> ImGui.TextColored(KnownColor.Orange.Vector(), "No additional options for this module");
 
 	public static T Load<T>(ModuleName moduleName) where T : new()
-		=> Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, $"{moduleName}.config.json", () => new T());
+		=> Service.PluginInterface.LoadCharacterFile<T>(Service.ClientState.LocalContentId, $"{moduleName}.config.json");
 	
 	public void Save()
 		=> Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, $"{moduleName}.config.json", this);

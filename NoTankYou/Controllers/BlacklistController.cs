@@ -20,7 +20,7 @@ public class BlacklistConfig {
     public HashSet<uint> BlacklistedZones { get; set; } = [];
 
     public static BlacklistConfig Load() 
-        => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "Blacklist.config.json", () => new BlacklistConfig());
+        => Service.PluginInterface.LoadCharacterFile<BlacklistConfig>(Service.ClientState.LocalContentId, "Blacklist.config.json");
 
     public void Save()
         => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, "Blacklist.config.json", this);

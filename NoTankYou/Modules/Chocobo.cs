@@ -49,6 +49,6 @@ public class ChocoboConfiguration() : ModuleConfigBase(ModuleName.Chocobo) {
         ConfigChanged |= ImGui.Checkbox(Strings.EarlyWarning, ref EarlyWarning);
         
         ImGui.PushItemWidth(50.0f * ImGuiHelpers.GlobalScale);
-        ConfigChanged |= ImGui.InputInt(Strings.EarlyWarningTime, ref EarlyWarningTime, 0, 0);
+        ConfigChanged |= ImGui.InputInt(Strings.EarlyWarningTime, ref EarlyWarningTime);
     }
 }
