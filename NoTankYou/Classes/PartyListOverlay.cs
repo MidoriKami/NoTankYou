@@ -60,8 +60,7 @@ public unsafe class PartyListOverlay {
 			Position = new Vector2(24.0f, 18.0f) + new Vector2(16.0f, 0.0f),
 			TextureSize = new Vector2(28.0f, 28.0f),
 			IsVisible = true,
-			WrapMode = 2,
-			ImageNodeFlags = 0,
+			FitTexture = true,
 			EnableEventFlags = true,
 		};
 		System.NativeController.AttachNode(warningIconNode, foregroundContainer);

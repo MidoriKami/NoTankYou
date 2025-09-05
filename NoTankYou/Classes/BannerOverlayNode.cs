@@ -31,6 +31,7 @@ public sealed unsafe class BannerOverlayNode : SimpleComponentNode {
 			NodeId = 2,
 			IsVisible = true,
 			IconId = 230424,
+			FitTexture = true,
 		};
 		System.NativeController.AttachNode(warningImageNode, this);
 
@@ -43,7 +44,7 @@ public sealed unsafe class BannerOverlayNode : SimpleComponentNode {
 			FontType = FontType.Axis, 
 			TextFlags = TextFlags.Edge | TextFlags.Ellipsis,
 			AlignmentType = AlignmentType.Left,
-			Text = "Long Default Message Text",
+			String = "Long Default Message Text",
 		};
 		System.NativeController.AttachNode(messageTextNode, this);
 
@@ -56,7 +57,7 @@ public sealed unsafe class BannerOverlayNode : SimpleComponentNode {
 			FontType = FontType.Axis, 
 			TextFlags = TextFlags.Edge | TextFlags.Ellipsis,
 			AlignmentType = AlignmentType.Left,
-			Text = "PlayerName Here",
+			String = "PlayerName Here",
 		};
 		System.NativeController.AttachNode(playerTextNode, this);
 
@@ -64,6 +65,7 @@ public sealed unsafe class BannerOverlayNode : SimpleComponentNode {
 			NodeId = 5,
 			IsVisible = true,
 			IconId = 61502,
+			FitTexture = true,
 		};
 		System.NativeController.AttachNode(actionIconNode, this);
 
@@ -76,7 +78,7 @@ public sealed unsafe class BannerOverlayNode : SimpleComponentNode {
 			FontType = FontType.Axis, 
 			TextFlags = TextFlags.Edge | TextFlags.Ellipsis,
 			AlignmentType = AlignmentType.Top,
-			Text = "Action Name",
+			String = "Action Name",
 		};
 		System.NativeController.AttachNode(actionNameNode, this);
 
@@ -90,7 +92,7 @@ public sealed unsafe class BannerOverlayNode : SimpleComponentNode {
 			TextFlags = TextFlags.Edge,
 			AlignmentType = AlignmentType.Center,
 			EnableEventFlags = true,
-			Text = "?",
+			String = "?",
 			Tooltip = "Overlay from NoTankYou plugin",
 		};
 		System.NativeController.AttachNode(helpTextNode, this);
@@ -166,10 +168,10 @@ public sealed unsafe class BannerOverlayNode : SimpleComponentNode {
 				IsVisible = false;
 			}
 			else {
-				messageTextNode.Text = value.Message;
-				playerTextNode.Text = value.SourcePlayerName;
+				messageTextNode.String = value.Message;
+				playerTextNode.String = value.SourcePlayerName;
 				actionIconNode.IconId = value.IconId;
-				actionNameNode.Text = value.IconLabel;
+				actionNameNode.String = value.IconLabel;
 
 				if (System.BannerController.Config.EnableActionTooltip) {
 					actionIconNode.EnableEventFlags = true;
