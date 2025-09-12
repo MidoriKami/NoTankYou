@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.Interop;
-using KamiLib.Extensions;
 using KamiToolKit;
 using NoTankYou.Classes;
 using NoTankYou.Configuration;
@@ -11,17 +11,33 @@ using NoTankYou.Extensions;
 
 namespace NoTankYou.Controllers;
 
-public unsafe class PartyListController : AddonController<AddonPartyList> {
+public unsafe class PartyListController : IDisposable {
     public PartyListConfig Config { get; set; } = new();
 
     private readonly List<PartyListOverlay> partyMemberNodes = [];
 
     private static AddonPartyList* PartyList => Service.GameGui.GetAddonByName<AddonPartyList>("_PartyList");
     
-    public PartyListController() : base(Service.PluginInterface) {
-        OnPreEnable += LoadConfig;
-        OnPostDisable += UnloadNodes;
+    private readonly AddonController<AddonPartyList> partyListController;
+
+    private int lastMemberCount;
+    
+    public PartyListController() {
+        partyListController = new AddonController<AddonPartyList>("_PartyList");
+        
+        partyListController.OnPreEnable += LoadConfig;
+        partyListController.OnPostDisable += UnloadNodes;
+        partyListController.OnUpdate += OnUpdate;
     }
+
+    public void Dispose()
+        => partyListController.Dispose();
+
+    public void Enable()
+        => partyListController.Enable();
+
+    public void Disable()
+        => partyListController.Disable();
 
     private void UnloadNodes(AddonPartyList* addon)
         => RemoveAllNodes();
@@ -31,7 +47,15 @@ public unsafe class PartyListController : AddonController<AddonPartyList> {
 
     public void DrawConfigUi()
         => Config.DrawConfigUi();
-    
+
+    private void OnUpdate(AddonPartyList* addon) {
+        if (lastMemberCount != addon->MemberCount) {
+            RemoveAllNodes();
+        }
+        
+        lastMemberCount = addon->MemberCount;
+    }
+
     public void UpdateWarnings(IEnumerable<WarningState> warningStates) {
         if (!Config.Enabled) {
             RemoveAllNodes();
