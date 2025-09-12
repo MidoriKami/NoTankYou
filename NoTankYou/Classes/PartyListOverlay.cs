@@ -72,15 +72,8 @@ public unsafe class PartyListOverlay {
 	}
 
 	public void Detach() {
-		System.NativeController.DetachNode(backgroundContainer, () => {
-			backgroundContainer?.Dispose();
-			backgroundContainer	= null;
-		});
-		
-		System.NativeController.DetachNode(foregroundContainer, () => {
-			foregroundContainer?.Dispose();
-			foregroundContainer	= null;
-		});
+		System.NativeController.DisposeNode(ref backgroundContainer);
+		System.NativeController.DisposeNode(ref foregroundContainer);
 	}
 	
 	private void BuildBackgroundAnimations() {
