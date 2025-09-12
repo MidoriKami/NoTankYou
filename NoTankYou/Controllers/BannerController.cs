@@ -19,7 +19,7 @@ using KamiToolKit.System;
 namespace NoTankYou.Controllers;
 
 public unsafe class BannerController : IDisposable {
-    public BannerConfig Config { get; set; } = new();
+    public BannerConfig Config { get; private set; } = new();
 
     private SimpleOverlayNode? overlayRootNode;
     public ListBoxNode? BannerListNode;
