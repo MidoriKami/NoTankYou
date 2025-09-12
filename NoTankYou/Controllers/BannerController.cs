@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -17,7 +18,7 @@ using KamiToolKit.System;
 
 namespace NoTankYou.Controllers;
 
-public unsafe class BannerController : NameplateAddonController {
+public unsafe class BannerController : IDisposable {
     public BannerConfig Config { get; set; } = new();
 
     private SimpleOverlayNode? overlayRootNode;
@@ -29,13 +30,26 @@ public unsafe class BannerController : NameplateAddonController {
         IsVisible = true,
     };
 
+    private readonly NameplateAddonController nameplateAddonController;
+
     private static string BannerListPath => Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "BannerList.style.json").FullName;
 
-    public BannerController() : base(Service.PluginInterface) {
-        OnPreEnable += LoadConfig;
-        OnAttach += AttachNodes;
-        OnDetach += DetachNodes;
+    public BannerController() {
+        nameplateAddonController = new NameplateAddonController(Service.PluginInterface);
+        
+        nameplateAddonController.OnPreEnable += LoadConfig;
+        nameplateAddonController.OnAttach += AttachNodes;
+        nameplateAddonController.OnDetach += DetachNodes;
     }
+
+    public void Dispose()
+        => nameplateAddonController.Dispose();
+
+    public void Enable()
+        => nameplateAddonController.Enable();
+
+    public void Disable()
+        => nameplateAddonController.Disable();
 
     private void LoadConfig(AddonNamePlate* addon)
         => Config = BannerConfig.Load();
