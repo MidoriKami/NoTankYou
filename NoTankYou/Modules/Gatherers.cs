@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Bindings.ImGui;
 using NoTankYou.Classes;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 
 namespace NoTankYou.Modules;
 
 public class Gatherers : ModuleBase<GatherersConfig> {
     public override ModuleName ModuleName => ModuleName.Gatherers;
-    protected override string DefaultWarningText => Strings.StatusMissing;
+    protected override string DefaultWarningText => "Status Missing";
 
     private const uint MinerClassJobId = 16;
     private const uint BotanistClassJobId = 17;
@@ -54,12 +53,12 @@ public class GatherersConfig() : ModuleConfigBase(ModuleName.Gatherers) {
     public bool CollectorsGlove = true;
 
     protected override void DrawModuleConfig() {
-        ConfigChanged |= ImGui.Checkbox(Strings.Miner, ref Miner);
-        ConfigChanged |= ImGui.Checkbox(Strings.Botanist, ref Botanist);
-        ConfigChanged |= ImGui.Checkbox(Strings.Fisher, ref Fisher);
+        ConfigChanged |= ImGui.Checkbox("Miner", ref Miner);
+        ConfigChanged |= ImGui.Checkbox("Botanist", ref Botanist);
+        ConfigChanged |= ImGui.Checkbox("Fisher", ref Fisher);
 
         if (Fisher) {
-            ConfigChanged |= ImGui.Checkbox(Strings.CollectorsGlove, ref CollectorsGlove);
+            ConfigChanged |= ImGui.Checkbox("Collectors Glove", ref CollectorsGlove);
         }
     }
 }

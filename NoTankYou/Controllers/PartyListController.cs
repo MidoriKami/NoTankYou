@@ -4,7 +4,7 @@ using System.Linq;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.Interop;
-using KamiToolKit;
+using KamiToolKit.Classes.Controllers;
 using NoTankYou.Classes;
 using NoTankYou.Configuration;
 using NoTankYou.Extensions;
@@ -12,11 +12,11 @@ using NoTankYou.Extensions;
 namespace NoTankYou.Controllers;
 
 public unsafe class PartyListController : IDisposable {
-    public PartyListConfig Config { get; set; } = new();
+    public PartyListConfig Config { get; private set; } = new();
 
     private readonly List<PartyListOverlay> partyMemberNodes = [];
 
-    private static AddonPartyList* PartyList => Service.GameGui.GetAddonByName<AddonPartyList>("_PartyList");
+    private static AddonPartyList* PartyList => Services.GameGui.GetAddonByName<AddonPartyList>("_PartyList");
     
     private readonly AddonController<AddonPartyList> partyListController;
 
@@ -75,7 +75,7 @@ public unsafe class PartyListController : IDisposable {
         
         if (Config.SoloMode) {
             filteredWarningStates = filteredWarningStates
-                .Where(warning => warning.SourceEntityId == Service.ClientState.LocalPlayer?.EntityId)
+                .Where(warning => warning.SourceEntityId == Services.ObjectTable.LocalPlayer?.EntityId)
                 .ToList();
         }
         

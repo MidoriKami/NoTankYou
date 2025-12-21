@@ -13,7 +13,6 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.Interop;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 using Action = Lumina.Excel.Sheets.Action;
 
@@ -70,19 +69,20 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     public override void EvaluateWarnings() {
         ActiveWarningStates.Clear();
 
+        if (System.SystemConfig is null) return;
         if (!Config.Enabled) return;
-        if (Service.ClientState.IsPvPExcludingDen) return;
-        if (System.BlacklistController.IsZoneBlacklisted(Service.ClientState.TerritoryType)) return;
-        if (System.SystemConfig.WaitUntilDutyStart && Service.Condition.IsBoundByDuty() && !Service.DutyState.IsDutyStarted) return;
-        if (Config.DutiesOnly && !Service.Condition.IsBoundByDuty() && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.DutiesOnly)) return;
+        if (Services.ClientState.IsPvPExcludingDen) return;
+        if (System.BlacklistController.IsZoneBlacklisted(Services.ClientState.TerritoryType)) return;
+        if (System.SystemConfig.WaitUntilDutyStart && Services.Condition.IsBoundByDuty() && !Services.DutyState.IsDutyStarted) return;
+        if (Config.DutiesOnly && !Services.Condition.IsBoundByDuty() && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.DutiesOnly)) return;
         if (Config.DisableInSanctuary && TerritoryInfo.Instance()->InSanctuary && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.Sanctuary)) return;
-        if (Service.Condition.IsCrossWorld()) return;
-        if (System.SystemConfig.HideInQuestEvent && Service.Condition.IsInCutsceneOrQuestEvent()) return;
+        if (Services.Condition.IsCrossWorld()) return;
+        if (System.SystemConfig.HideInQuestEvent && Services.Condition.IsInCutsceneOrQuestEvent()) return;
 
         var groupManager = GroupManager.Instance();
         
         if (Config.SoloMode || groupManager->MainGroup.MemberCount is 0) {
-            if (Service.ClientState.LocalPlayer is not { } player) return;
+            if (Services.ObjectTable.LocalPlayer is not { } player) return;
             
             var localPlayer = (Character*) player.Address;
             if (localPlayer is null) return;
@@ -110,7 +110,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
 
     private void EvaluateAutoSuppression(IPlayerData player) {
         if (Config.AutoSuppress) {
-            if (Service.ClientState.LocalPlayer is { EntityId: var playerEntityId } && playerEntityId == player.GetEntityId()) {
+            if (Services.ObjectTable.LocalPlayer is { EntityId: var playerEntityId } && playerEntityId == player.GetEntityId()) {
                 return; // Do not allow auto suppression for the user.
             }
             
@@ -119,7 +119,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
                 if (HasWarnings) {
                     if (timer.Elapsed.TotalSeconds >= Config.AutoSuppressTime) {
                         suppressedObjectIds.Add(player.GetEntityId());
-                        Service.Log.Warning($"[{ModuleName}]: Adding {player.GetName()} to auto-suppression list");
+                        Services.PluginLog.Warning($"[{ModuleName}]: Adding {player.GetName()} to auto-suppression list");
                     }
                 }
                 else {
@@ -133,21 +133,21 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
         => player.HasStatus(1534);
 
     private static bool HasDisallowedCondition()
-        => Service.Condition.Any(ConditionFlag.Jumping61,
+        => Services.Condition.Any(ConditionFlag.Jumping61,
             ConditionFlag.Transformed,
             ConditionFlag.InThisState89);
 
     public override void DrawConfigUi() {
         var minDimension = MathF.Min(ImGui.GetContentRegionMax().X, ImGui.GetContentRegionMax().Y);
         var moduleInfo = ModuleName.GetAttribute<ModuleIconAttribute>()!;
-        ImGui.Image(Service.TextureProvider.GetFromGameIcon(moduleInfo.ModuleIcon).GetWrapOrEmpty().Handle, new Vector2(minDimension), Vector2.Zero, Vector2.One, KnownColor.White.Vector() with { W = 0.20f });
+        ImGui.Image(Services.TextureProvider.GetFromGameIcon(moduleInfo.ModuleIcon).GetWrapOrEmpty().Handle, new Vector2(minDimension), Vector2.Zero, Vector2.One, KnownColor.White.Vector() with { W = 0.20f });
         ImGui.SetCursorPos(Vector2.Zero);
         
         Config.DrawConfigUi();
     }
 
     public override void Load() {
-        Service.Log.Debug($"[{ModuleName}] Loading Module");
+        Services.PluginLog.Debug($"[{ModuleName}] Loading Module");
         Config = ModuleConfigBase.Load<T>(ModuleName);
     }
 
@@ -156,9 +156,9 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
 
     protected void AddActiveWarning(uint actionId, IPlayerData playerData) => ActiveWarningStates.Add(new WarningState {
         Priority = Config.Priority,
-        IconId = Service.DataManager.GetExcelSheet<Action>().GetRow(actionId).Icon,
+        IconId = Services.DataManager.GetExcelSheet<Action>().GetRow(actionId).Icon,
         ActionId = actionId,
-        IconLabel = Service.DataManager.GetExcelSheet<Action>().GetRow(actionId).Name.ToString(),
+        IconLabel = Services.DataManager.GetExcelSheet<Action>().GetRow(actionId).Name.ToString(),
         Message = (Config.CustomWarning ? Config.CustomWarningText : DefaultWarningText) + ExtraWarningText,
         SourcePlayerName = playerData.GetName(),
         SourceEntityId = playerData.GetEntityId(),
@@ -177,7 +177,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     });
     
     private void EnableModuleHandler(params string[] args) {
-        if (!Service.ClientState.IsLoggedIn) return;
+        if (!Services.ClientState.IsLoggedIn) return;
         
         Config.Enabled = true;
         PrintConfirmation();
@@ -185,7 +185,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     }
     
     private void DisableModuleHandler(params string[] args) {
-        if (!Service.ClientState.IsLoggedIn) return;
+        if (!Services.ClientState.IsLoggedIn) return;
 
         Config.Enabled = false;
         PrintConfirmation();
@@ -193,7 +193,7 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     }
     
     private void ToggleModuleHandler(params string[] args) {
-        if (!Service.ClientState.IsLoggedIn) return;
+        if (!Services.ClientState.IsLoggedIn) return;
         
         Config.Enabled = !Config.Enabled;
         PrintConfirmation();
@@ -201,14 +201,14 @@ public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : M
     }
 
     private void SuppressModuleHandler(params string[] args) {
-        if (!Service.ClientState.IsLoggedIn) return;
+        if (!Services.ClientState.IsLoggedIn) return;
 
         foreach (var warningPlayer in ActiveWarningStates) {
             suppressedObjectIds.Add(warningPlayer.SourceEntityId);
-            Service.Chat.Print(Strings.Command, string.Format(Strings.SuppressingWarnings, ModuleName.GetDescription(), warningPlayer.SourcePlayerName));
+            Services.Chat.Print("Command", $"Suppressing {ModuleName.GetDescription()} Warnings for: {warningPlayer.SourcePlayerName}");
         }
     }
 
     private void PrintConfirmation() 
-        => Service.Chat.Print(Strings.Command, Config.Enabled ? $"{Strings.Enabling} {ModuleName.GetDescription()}" : $"{Strings.Disabling} {ModuleName.GetDescription()}");
+        => Services.Chat.Print("Command", Config.Enabled ? $"Enabling {ModuleName.GetDescription()}" : $"Disabling {ModuleName.GetDescription()}");
 }

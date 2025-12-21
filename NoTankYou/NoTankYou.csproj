@@ -1,4 +1,4 @@
-﻿<Project Sdk="Dalamud.NET.Sdk/13.0.0">
+﻿<Project Sdk="Dalamud.NET.Sdk/14.0.1">
 	<PropertyGroup>
 		<AssemblyVersion>7.2.2.11</AssemblyVersion>
 		<PackageProjectUrl>https://github.com/MidoriKami/NoTankYou.git</PackageProjectUrl>
@@ -8,20 +8,5 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\KamiLib\KamiLib.csproj" />
 	  <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Localization\Strings.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Strings.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="Localization\Strings.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Strings.resx</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 </Project>

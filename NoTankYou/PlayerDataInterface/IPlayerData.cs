@@ -56,14 +56,14 @@ public unsafe interface IPlayerData {
     }
     
     bool HasPet()
-        => Service.ObjectTable
+        => Services.ObjectTable
             .Where(obj => obj.OwnerId == GetEntityId())
             .Where(obj => obj is IBattleNpc { SubKind: (byte) BattleNpcSubKind.Pet })
             .Any();
     
     // Internal Helpers
     protected IGameObject? GetGameObject() 
-        => Service.ObjectTable.SearchById(GetEntityId());
+        => Services.ObjectTable.SearchById(GetEntityId());
     
     protected Character* GetCharacterGameObject() {
         var gameObject = GetGameObject();

@@ -21,7 +21,7 @@ public class Reaper : ModuleBase<ReaperConfiguration> {
     private DateTime lastCombatTime = DateTime.UtcNow;
     
     protected override bool ShouldEvaluate(IPlayerData playerData) {
-        if (Service.ClientState.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
+        if (Services.ObjectTable.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
         if (playerData.GetClassJob() != ReaperClassJobId) return false;
         if (playerData.GetLevel() < MinimumLevel) return false;
 
@@ -29,7 +29,7 @@ public class Reaper : ModuleBase<ReaperConfiguration> {
     }
 
     protected override void EvaluateWarnings(IPlayerData playerData) {
-        if (Service.Condition.IsInCombat()) {
+        if (Services.Condition.IsInCombat()) {
             lastCombatTime = DateTime.UtcNow;
         }
 

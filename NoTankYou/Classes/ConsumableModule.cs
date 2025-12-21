@@ -5,7 +5,6 @@ using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiLib.Extensions;
 using Lumina.Excel.Sheets;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 
 namespace NoTankYou.Classes;
@@ -16,7 +15,7 @@ public abstract class ConsumableModule<T> : ModuleBase<T> where T : ConsumableCo
     protected abstract uint StatusId { get; }
     
     protected override unsafe bool ShouldEvaluate(IPlayerData playerData) {
-        if (Config.SuppressInCombat && Service.Condition.IsInCombat()) return false;
+        if (Config.SuppressInCombat && Services.Condition.IsInCombat()) return false;
 
         if (Config.SavageFilter || Config.UltimateFilter || Config.ExtremeUnrealFilter || Config.CriterionFilter || Config.ChaoticFilter) {
             var allowedZones = new List<DutyType>();
@@ -28,10 +27,10 @@ public abstract class ConsumableModule<T> : ModuleBase<T> where T : ConsumableCo
             if(Config.CriterionFilter) allowedZones.Add(DutyType.Criterion);
             if(Config.ChaoticFilter) allowedZones.Add(DutyType.ChaoticAlliance);
 
-            var currentCfc = Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(GameMain.Instance()->CurrentContentFinderConditionId);
+            var currentCfc = Services.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(GameMain.Instance()->CurrentContentFinderConditionId);
             if (currentCfc.RowId is 0) return false;
 
-            var currentDutyType = Service.DataManager.GetDutyType(currentCfc);
+            var currentDutyType = Services.DataManager.GetDutyType(currentCfc);
             if (!allowedZones.Contains(currentDutyType)) return false;
         }
         
@@ -66,24 +65,24 @@ public abstract class ConsumableConfiguration(ModuleName moduleName) : ModuleCon
     public bool ChaoticFilter;
 
     protected override void DrawModuleConfig() {
-        ConfigChanged |= ImGui.Checkbox(Strings.SuppressInCombat, ref SuppressInCombat);
+        ConfigChanged |= ImGui.Checkbox("Suppress in Combat", ref SuppressInCombat);
         
         ImGui.PushItemWidth(50.0f * ImGuiHelpers.GlobalScale);
-        ConfigChanged |= ImGui.InputInt(Strings.EarlyWarningTime, ref EarlyWarningTime);
-        ConfigChanged |= ImGui.Checkbox(Strings.ShowTimeRemaining, ref ShowTimeRemaining);
+        ConfigChanged |= ImGui.InputInt("Early Warning Time", ref EarlyWarningTime);
+        ConfigChanged |= ImGui.Checkbox("Show Time Remaining", ref ShowTimeRemaining);
         
         ImGuiHelpers.ScaledDummy(10.0f);
 
         using (var _ = ImRaii.PushIndent(-1)) {
-            ImGui.Text(Strings.ZoneFilter);
+            ImGui.Text("Zone Filter");
             ImGui.Separator();
         }
         
         ImGuiHelpers.ScaledDummy(5.0f);
-        ConfigChanged |= ImGui.Checkbox(Strings.Savage, ref SavageFilter);
-        ConfigChanged |= ImGui.Checkbox(Strings.Ultimate, ref UltimateFilter);
-        ConfigChanged |= ImGui.Checkbox(Strings.ExtremeUnreal, ref ExtremeUnrealFilter);
-        ConfigChanged |= ImGui.Checkbox(Strings.Criterion, ref CriterionFilter);
+        ConfigChanged |= ImGui.Checkbox("Savage", ref SavageFilter);
+        ConfigChanged |= ImGui.Checkbox("Ultimate", ref UltimateFilter);
+        ConfigChanged |= ImGui.Checkbox("Extreme/Unreal", ref ExtremeUnrealFilter);
+        ConfigChanged |= ImGui.Checkbox("Criterion", ref CriterionFilter);
         ConfigChanged |= ImGui.Checkbox("Chaotic", ref ChaoticFilter);
     }
 }

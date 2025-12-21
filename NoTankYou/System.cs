@@ -2,7 +2,6 @@
 using KamiLib.CommandManager;
 using KamiLib.DebugWindows;
 using KamiLib.Window;
-using KamiToolKit;
 using NoTankYou.Classes;
 using NoTankYou.Configuration;
 using NoTankYou.Controllers;
@@ -10,19 +9,18 @@ using NoTankYou.Windows;
 
 namespace NoTankYou;
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 public static class System {
-	public static ModuleController ModuleController { get; set; }
-	public static BannerController BannerController { get; set; }
-	public static PartyListController PartyListController { get; set; }
-	public static SystemConfig SystemConfig { get; set; }
-	public static BlacklistController BlacklistController { get; set; }
+	public static ModuleController ModuleController { get; set; } = null!;
+	public static BannerController BannerController { get; set; } = null!;
+	public static PartyListController PartyListController { get; set; } = null!;
+	public static SystemConfig? SystemConfig { get; set; }
+	public static BannerConfig? BannerConfig { get; set; }
+	public static BannerListStyle? BannerListStyle { get; set; }
+	public static BannerStyle? BannerStyle { get; set; }
+	public static BlacklistController BlacklistController { get; set; } = null!;
 	public static List<WarningState> ActiveWarnings { get; set; } = [];
-	public static LocalizationController LocalizationController { get; set; }
-	public static WindowManager WindowManager { get; set; }
-	public static CommandManager CommandManager { get; set; }
-	public static NativeController NativeController { get; set; }
-	
-	public static ConfigurationWindow ConfigurationWindow { get; set; }
-	public static DutyTypeDebugWindow DutyTypeDebugWindow { get; set; }
+	public static WindowManager WindowManager { get; set; } = null!;
+	public static CommandManager CommandManager { get; set; } = null!;
+	public static ConfigurationWindow ConfigurationWindow { get; set; } = null!;
+	public static DutyTypeDebugWindow DutyTypeDebugWindow { get; set; } = null!;
 }

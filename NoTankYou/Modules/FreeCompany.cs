@@ -9,7 +9,6 @@ using KamiLib.Extensions;
 using KamiLib.Window;
 using Lumina.Excel.Sheets;
 using NoTankYou.Classes;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 using NoTankYou.Windows;
 
@@ -17,20 +16,20 @@ namespace NoTankYou.Modules;
 
 public class FreeCompany : ModuleBase<FreeCompanyConfiguration> {
     public override ModuleName ModuleName => ModuleName.FreeCompany;
-    protected override string DefaultWarningText => Strings.FreeCompanyBuff;
+    protected override string DefaultWarningText => "Free Company Buff";
 
     private const uint FreeCompanyActionId = 43;
-    private readonly int freeCompanyIconId = Service.DataManager.GetExcelSheet<CompanyAction>().GetRow(FreeCompanyActionId).Icon;
+    private readonly int freeCompanyIconId = Services.DataManager.GetExcelSheet<CompanyAction>().GetRow(FreeCompanyActionId).Icon;
     
-    private readonly uint[] statusList = Service.DataManager.GetExcelSheet<Status>()
+    private readonly uint[] statusList = Services.DataManager.GetExcelSheet<Status>()
         .Where(status => status.IsFcBuff)
         .Select(status => status.RowId)
         .ToArray();
 
     protected override bool ShouldEvaluate(IPlayerData playerData) {
-        if (Service.Condition.IsBoundByDuty()) return false;
-        if (Service.ClientState.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
-        if (Service.ClientState.LocalPlayer?.HomeWorld.RowId != Service.ClientState.LocalPlayer?.CurrentWorld.RowId) return false;
+        if (Services.Condition.IsBoundByDuty()) return false;
+        if (Services.ObjectTable.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
+        if (Services.ObjectTable.LocalPlayer?.HomeWorld.RowId != Services.ObjectTable.LocalPlayer?.CurrentWorld.RowId) return false;
 
         return true;
     }
@@ -68,28 +67,28 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
     // todo: this is kinda messy? Maybe rework it entirely?
     protected override void DrawModuleConfig() {
         ImGui.SetNextItemWidth(100.0f * ImGuiHelpers.GlobalScale);
-        ConfigChanged |= ImGuiTweaks.EnumCombo(Strings.ModeSelect, ref Mode);
+        ConfigChanged |= ImGuiTweaks.EnumCombo("Mode Select", ref Mode);
 
         // Any mode doesn't care about Primary/Secondary
         if (Mode is FreeCompanyMode.Any) return;
         
         ImGuiHelpers.ScaledDummy(3.0f);
         if (PrimaryBuff is 0) {
-            if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Plus, "PrimaryBuffSelect", ImGuiHelpers.ScaledVector2(150.0f, 23.0f))) {
+            if (ImGuiTweaks.IconButtonWithSize(Services.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Plus, "PrimaryBuffSelect", ImGuiHelpers.ScaledVector2(150.0f, 23.0f))) {
                 OpenPrimaryStatusSelect();
             }
             
             ImGui.SameLine();
-            ImGui.Text(Strings.FirstBuff);
+            ImGui.Text("First Buff");
         }
         else {
-            var status = Service.DataManager.GetExcelSheet<Status>().GetRow(PrimaryBuff);
-            if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.ExchangeAlt, "ChangePrimaryBuff", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
+            var status = Services.DataManager.GetExcelSheet<Status>().GetRow(PrimaryBuff);
+            if (ImGuiTweaks.IconButtonWithSize(Services.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.ExchangeAlt, "ChangePrimaryBuff", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
                 OpenPrimaryStatusSelect();
             }
             
             ImGui.SameLine();
-            if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Trash, "PrimaryReset", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
+            if (ImGuiTweaks.IconButtonWithSize(Services.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Trash, "PrimaryReset", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
                 PrimaryBuff = 0;
                 ConfigChanged = true;
             }
@@ -97,28 +96,28 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
             ImGui.SameLine();
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 3.0f * ImGuiHelpers.GlobalScale);
 
-            ImGui.Image(Service.TextureProvider.GetFromGameIcon(status.Icon).GetWrapOrEmpty().Handle, ImGuiHelpers.ScaledVector2(24.0f, 32.0f));
+            ImGui.Image(Services.TextureProvider.GetFromGameIcon(status.Icon).GetWrapOrEmpty().Handle, ImGuiHelpers.ScaledVector2(24.0f, 32.0f));
             ImGui.SameLine();
             ImGui.AlignTextToFramePadding();
             ImGui.Text(status.Name.ToString());
         }
         
         if (SecondaryBuff is 0) {
-            if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Plus, "SecondaryBuffSelect", ImGuiHelpers.ScaledVector2(150.0f, 23.0f))) {
+            if (ImGuiTweaks.IconButtonWithSize(Services.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Plus, "SecondaryBuffSelect", ImGuiHelpers.ScaledVector2(150.0f, 23.0f))) {
                 OpenSecondaryStatusSelect();
             }
             
             ImGui.SameLine();
-            ImGui.Text(Strings.SecondBuff);
+            ImGui.Text("Second Buff");
         }
         else {
-            var status = Service.DataManager.GetExcelSheet<Status>().GetRow(SecondaryBuff);
-            if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.ExchangeAlt, "ChangeSecondaryBuff", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
+            var status = Services.DataManager.GetExcelSheet<Status>().GetRow(SecondaryBuff);
+            if (ImGuiTweaks.IconButtonWithSize(Services.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.ExchangeAlt, "ChangeSecondaryBuff", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
                 OpenSecondaryStatusSelect();
             }
 
             ImGui.SameLine();
-            if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Trash, "SecondaryReset", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
+            if (ImGuiTweaks.IconButtonWithSize(Services.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Trash, "SecondaryReset", ImGuiHelpers.ScaledVector2(24.0f, 24.0f))) {
                 SecondaryBuff = 0;
                 ConfigChanged = true;
             }
@@ -126,7 +125,7 @@ public class FreeCompanyConfiguration() : ModuleConfigBase(ModuleName.FreeCompan
             ImGui.SameLine();
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() - 3.0f * ImGuiHelpers.GlobalScale);
 
-            ImGui.Image(Service.TextureProvider.GetFromGameIcon(status.Icon).GetWrapOrEmpty().Handle, ImGuiHelpers.ScaledVector2(24.0f, 32.0f));
+            ImGui.Image(Services.TextureProvider.GetFromGameIcon(status.Icon).GetWrapOrEmpty().Handle, ImGuiHelpers.ScaledVector2(24.0f, 32.0f));
             ImGui.SameLine();
             ImGui.AlignTextToFramePadding();
             ImGui.Text(status.Name.ToString());

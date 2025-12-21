@@ -1,14 +1,13 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.Interop;
 using NoTankYou.Classes;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 
 namespace NoTankYou.Modules;
 
 public unsafe class BlueMage : ModuleBase<BlueMageConfiguration> {
     public override ModuleName ModuleName => ModuleName.BlueMage;
-    protected override string DefaultWarningText => Strings.MightyGuard;
+    protected override string DefaultWarningText => "Mighty Guard";
 
     private const uint MightyGuardStatusId = 1719;
     private const uint AetherialMimicryTankStatusId = 2124;

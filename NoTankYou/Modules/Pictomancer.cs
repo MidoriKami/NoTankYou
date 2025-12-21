@@ -27,7 +27,7 @@ public class Pictomancer : ModuleBase<PictomancerConfiguration> {
     private DateTime lastCombatTime = DateTime.UtcNow;
     
     protected override bool ShouldEvaluate(IPlayerData playerData) {
-        if (Service.ClientState.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
+        if (Services.ObjectTable.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
         if (playerData.GetClassJob() != PictoClassJobId) return false;
         if (playerData.GetLevel() < MinimumLevel) return false;
 
@@ -35,22 +35,22 @@ public class Pictomancer : ModuleBase<PictomancerConfiguration> {
     }
 
     protected override void EvaluateWarnings(IPlayerData playerData) {
-        if (Service.Condition.IsInCombat()) {
+        if (Services.Condition.IsInCombat()) {
             lastCombatTime = DateTime.UtcNow;
         }
 
         if (DateTime.UtcNow - lastCombatTime > TimeSpan.FromSeconds(Config.WarningDelay)) {
-            if (playerData.GetLevel() >= CreatureMinimumLevel && !Service.JobGauges.Get<PCTGauge>().CreatureMotifDrawn) {
+            if (playerData.GetLevel() >= CreatureMinimumLevel && !Services.JobGauges.Get<PCTGauge>().CreatureMotifDrawn) {
                 AddActiveWarning(CreatureActionId, playerData);
                 return;
             }
         
-            if (playerData.GetLevel() >= WeaponMinimumLevel && !Service.JobGauges.Get<PCTGauge>().WeaponMotifDrawn) {
+            if (playerData.GetLevel() >= WeaponMinimumLevel && !Services.JobGauges.Get<PCTGauge>().WeaponMotifDrawn) {
                 AddActiveWarning(WeaponActionId, playerData);
                 return;
             }
         
-            if (playerData.GetLevel() >= LandscapeMinimumLevel && !Service.JobGauges.Get<PCTGauge>().LandscapeMotifDrawn) {
+            if (playerData.GetLevel() >= LandscapeMinimumLevel && !Services.JobGauges.Get<PCTGauge>().LandscapeMotifDrawn) {
                 AddActiveWarning(LandscapeActionId, playerData);
                 // return; // Redundant for now?
             }

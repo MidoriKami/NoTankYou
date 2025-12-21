@@ -6,7 +6,6 @@ using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using KamiLib.Classes;
 using KamiLib.Configuration;
-using NoTankYou.Localization;
 
 namespace NoTankYou.Classes;
 
@@ -25,26 +24,26 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
 	[JsonIgnore] public virtual OptionDisableFlags OptionDisableFlags => OptionDisableFlags.None;
 
 	public void DrawConfigUi() {
-		ImGuiTweaks.Header(Strings.General);
+		ImGuiTweaks.Header("General");
 		using (var _ = ImRaii.PushIndent()) {
-			ConfigChanged |= ImGui.Checkbox(Strings.Enable, ref Enabled);
+			ConfigChanged |= ImGui.Checkbox("Enable", ref Enabled);
             
 			using (var disable = ImRaii.Disabled(OptionDisableFlags.HasFlag(OptionDisableFlags.SoloMode))) {
-				ConfigChanged |= ImGuiTweaks.Checkbox(Strings.SoloMode, ref SoloMode, Strings.SoloModeHelp);
+				ConfigChanged |= ImGuiTweaks.Checkbox("Solo Mode", ref SoloMode, "Only generate warnings for you");
 				DisabledSettingTooltip(disable);
 			}
             
 			using (var disable = ImRaii.Disabled(OptionDisableFlags.HasFlag(OptionDisableFlags.DutiesOnly))) {
-				ConfigChanged |= ImGuiTweaks.Checkbox(Strings.DutiesOnly, ref DutiesOnly, Strings.DutiesOnlyHelp);
+				ConfigChanged |= ImGuiTweaks.Checkbox("Duties Only", ref DutiesOnly, "Only generate warnings while in a duty");
 				DisabledSettingTooltip(disable);
 			} 
             
 			using (var disable = ImRaii.Disabled(OptionDisableFlags.HasFlag(OptionDisableFlags.Sanctuary))) {
-				ConfigChanged |= ImGuiTweaks.Checkbox(Strings.HideInSanctuary, ref DisableInSanctuary, Strings.HideInSanctuaryHelp);
+				ConfigChanged |= ImGuiTweaks.Checkbox("Hide in Sanctuary", ref DisableInSanctuary, "Prevents warnings from showing while you are in a sanctuary");
 				DisabledSettingTooltip(disable);
 			} 
             
-			ConfigChanged |= ImGuiTweaks.PriorityInt(Service.PluginInterface, Strings.Priority, ref Priority);
+			ConfigChanged |= ImGuiTweaks.PriorityInt(Services.PluginInterface, "Priority", ref Priority);
 		}
 
 		if (!OptionDisableFlags.HasFlag(OptionDisableFlags.SoloMode)) {
@@ -57,22 +56,22 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
 			}
 		}
 
-		ImGuiTweaks.Header(Strings.DisplayOptions);
+		ImGuiTweaks.Header("Display Options");
 		using (var _ = ImRaii.PushIndent()) {
-			ConfigChanged |= ImGui.Checkbox(Strings.CustomWarning, ref CustomWarning);
+			ConfigChanged |= ImGui.Checkbox("Custom Warning", ref CustomWarning);
             
 			ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
-			ConfigChanged |= ImGui.InputTextWithHint("##Custom_Warning_Text", Strings.WarningText, ref CustomWarningText, 1024);
+			ConfigChanged |= ImGui.InputTextWithHint("##Custom_Warning_Text", "Warning Text", ref CustomWarningText, 1024);
 		} 
         
-		ImGuiTweaks.Header(Strings.ModuleOptions);
+		ImGuiTweaks.Header("Module Options");
 		using (var _ = ImRaii.PushIndent()) {
 			ImGuiHelpers.ScaledDummy(5.0f);
 			DrawModuleConfig();
 		}
 
 		if (ConfigChanged) {
-			Service.Log.Verbose($"Saving config for {moduleName}");
+			Services.PluginLog.Verbose($"Saving config for {moduleName}");
 			Save();
 			ConfigChanged = false;
 		}
@@ -89,8 +88,8 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
 		=> ImGui.TextColored(KnownColor.Orange.Vector(), "No additional options for this module");
 
 	public static T Load<T>(ModuleName moduleName) where T : new()
-		=> Service.PluginInterface.LoadCharacterFile<T>(Service.ClientState.LocalContentId, $"{moduleName}.config.json");
+		=> Services.PluginInterface.LoadCharacterFile<T>(Services.PlayerState.ContentId, $"{moduleName}.config.json");
 	
 	public void Save()
-		=> Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, $"{moduleName}.config.json", this);
+		=> Services.PluginInterface.SaveCharacterFile(Services.PlayerState.ContentId, $"{moduleName}.config.json", this);
 }

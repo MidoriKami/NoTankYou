@@ -15,7 +15,7 @@ public class ModuleController : IDisposable {
         Priority = 100,
         IconId = 786,
         IconLabel = "Sample Action",
-        SourceEntityId = Service.ClientState.LocalPlayer?.EntityId ?? 0xE000000,
+        SourceEntityId = Services.ObjectTable.LocalPlayer?.EntityId ?? 0xE000000,
         SourcePlayerName = "Sample Player",
         SourceModule = ModuleName.Test,
     };

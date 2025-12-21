@@ -1,232 +1,106 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Immutable;
 using System.Drawing;
 using System.Numerics;
-using Dalamud.Game.Addon.Events;
-using Dalamud.Game.Addon.Events.EventDataTypes;
 using Dalamud.Interface;
-using FFXIVClientStructs.FFXIV.Client.Enums;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.Configuration;
-using KamiToolKit.Classes.TimelineBuilding;
+using KamiToolKit.Classes;
+using KamiToolKit.Classes.Timelines;
 using KamiToolKit.Nodes;
-using Newtonsoft.Json;
+using KamiToolKit.Overlay;
 
 namespace NoTankYou.Classes;
 
-[JsonObject(MemberSerialization.OptIn)]
-public sealed unsafe class BannerOverlayNode : SimpleComponentNode {
+public class BannerOverlayNode : OverlayNode {
+	public override OverlayLayer OverlayLayer => OverlayLayer.Background;
 
-	[JsonProperty] private readonly IconImageNode warningImageNode;
-	[JsonProperty] private readonly TextNode messageTextNode;
-	[JsonProperty] private readonly TextNode playerTextNode;
-	[JsonProperty] private readonly IconImageNode actionIconNode;
-	[JsonProperty] private readonly TextNode actionNameNode;
-	[JsonProperty] private readonly TextNode helpTextNode;
+	private readonly ListBoxNode bannerListNode;
 
-    private static string WarningNodePath => Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "BannerNode.style.json").FullName;
-	
 	public BannerOverlayNode() {
-		warningImageNode = new IconImageNode {
-			NodeId = 2,
-			IsVisible = true,
-			IconId = 230424,
-			FitTexture = true,
+		bannerListNode = new ListBoxNode {
+			LayoutAnchor = LayoutAnchor.TopLeft,
+			LayoutOrientation = LayoutOrientation.Vertical,
+			BackgroundColor = KnownColor.Aqua.Vector() with { W = 0.15f },
+			ShowBackground = false,
+			ClipListContents = true,
+			OnEditComplete = UpdateSizePosition,
+			DisableCollisionNode = true,
 		};
-		System.NativeController.AttachNode(warningImageNode, this);
-
-		messageTextNode = new TextNode {
-			NodeId = 3,
-			TextColor = KnownColor.White.Vector(),
-			TextOutlineColor = KnownColor.Black.Vector(),
-			IsVisible = true,
-			FontSize = 26,
-			FontType = FontType.Axis, 
-			TextFlags = TextFlags.Edge | TextFlags.Ellipsis,
-			AlignmentType = AlignmentType.Left,
-			String = "Long Default Message Text",
-		};
-		System.NativeController.AttachNode(messageTextNode, this);
-
-		playerTextNode = new TextNode {
-			NodeId = 4,
-			TextColor = KnownColor.White.Vector() with { W = 0.66f },
-			TextOutlineColor = KnownColor.Black.Vector() with { W = 0.33f },
-			IsVisible = true,
-			FontSize = 18,
-			FontType = FontType.Axis, 
-			TextFlags = TextFlags.Edge | TextFlags.Ellipsis,
-			AlignmentType = AlignmentType.Left,
-			String = "PlayerName Here",
-		};
-		System.NativeController.AttachNode(playerTextNode, this);
-
-		actionIconNode = new IconImageNode {
-			NodeId = 5,
-			IsVisible = true,
-			IconId = 61502,
-			FitTexture = true,
-		};
-		System.NativeController.AttachNode(actionIconNode, this);
-
-		actionNameNode = new TextNode {
-			NodeId = 6,
-			TextColor = KnownColor.White.Vector(),
-			TextOutlineColor = KnownColor.Black.Vector(),
-			IsVisible = true,
-			FontSize = 12,
-			FontType = FontType.Axis, 
-			TextFlags = TextFlags.Edge | TextFlags.Ellipsis,
-			AlignmentType = AlignmentType.Top,
-			String = "Action Name",
-		};
-		System.NativeController.AttachNode(actionNameNode, this);
-
-		helpTextNode = new TextNode {
-			NodeId = 7,
-			TextColor = KnownColor.White.Vector(),
-			TextOutlineColor = KnownColor.Black.Vector(),
-			IsVisible = true,
-			FontSize = 16,
-			FontType = FontType.Axis,
-			TextFlags = TextFlags.Edge,
-			AlignmentType = AlignmentType.Center,
-			EnableEventFlags = true,
-			String = "?",
-			Tooltip = "Overlay from NoTankYou plugin",
-		};
-		System.NativeController.AttachNode(helpTextNode, this);
-
-		BuildTimelines();
+		bannerListNode.AttachNode(this);
+		
+		bannerListNode.AddTimeline(new TimelineBuilder()
+          .BeginFrameSet(1, 60)
+          .AddLabel(1, 1, AtkTimelineJumpBehavior.Start, 0) // Label 1: Pulsing Animation
+          .AddLabel(30, 0, AtkTimelineJumpBehavior.LoopForever, 1)
+          .AddLabel(31, 2, AtkTimelineJumpBehavior.Start, 0) // Label 2: No Animation
+          .AddLabel(60, 0, AtkTimelineJumpBehavior.LoopForever, 2)
+          .EndFrameSet()
+          .Build());
 	}
 
-	private void OnIconMouseOver(AddonEventData obj) {
-		if (Warning is not { ActionId: not 0 }) return;
+	protected override void OnSizeChanged() {
+		base.OnSizeChanged();
 
-		var parentAddon = RaptureAtkUnitManager.Instance()->GetAddonByNode((AtkResNode*) actionIconNode);
-			
-		if (parentAddon is not null) {
-			var tooltipArgs = stackalloc AtkTooltipManager.AtkTooltipArgs[1];
-			tooltipArgs->ActionArgs = new AtkTooltipManager.AtkTooltipArgs.AtkTooltipActionArgs {
-				Id = (int) Warning.ActionId,
-				Kind = DetailKind.Action,
-				Flags = 1,
-			};
-			
-			AtkStage.Instance()->TooltipManager.ShowTooltip(
-				AtkTooltipManager.AtkTooltipType.Action,
-				parentAddon->Id,
-				(AtkResNode*) actionIconNode,
-				tooltipArgs
-			);
+		bannerListNode.Size = Size;
+	}
+
+	public void AddNode(BannerNode node) {
+		bannerListNode.AddNode(node);
+	}
+	
+	public void RemoveNode(BannerNode node) {
+		bannerListNode.RemoveNode(node);
+	}
+
+	public void RemoveAll() {
+		bannerListNode.Clear();
+	}
+
+	public ImmutableList<BannerNode> Nodes => bannerListNode.GetNodes<BannerNode>().ToImmutableList();
+
+	public override void Update() {
+		base.Update();
+
+		if (System.BannerConfig is { } config) {
+			IsVisible = config.Enabled;
 		}
-	}
 
-	public override float Height {
-		get => base.Height;
-		set {
-			base.Height = value;
-			warningImageNode.Height = value;
-			messageTextNode.Height = value / 2.0f;
-			playerTextNode.Height = value / 2.0f;
-			playerTextNode.Y = value / 2.0f;
-			actionIconNode.Height = value * 3.0f / 4.0f;
-			actionIconNode.Width = value * 3.0f / 4.0f;
-			actionNameNode.X = actionIconNode.X - actionNameNode.Width / 2.0f + actionIconNode.Width / 2.0f;
-			actionNameNode.Height = value / 3.0f;
-			actionNameNode.Y = actionIconNode.Height;
-			helpTextNode.Height = 16.0f;
-			helpTextNode.Y = value / 2.0f - helpTextNode.Height / 2.0f;
-			OriginY = value / 2.0f;
-		}
-	}
-
-	public override float Width {
-		get => base.Width;
-		set {
-			base.Width = value;
-			warningImageNode.Width = value / 7.0f;
-			messageTextNode.Width = value * 5.0f / 7.0f;
-			messageTextNode.X = value / 7.0f;
-			playerTextNode.Width = value * 5.0f / 7.0f;
-			playerTextNode.X = value / 7.0f;
-			actionIconNode.X = value * 6.0f / 7.0f;
-			actionNameNode.Width = value * 2.0f / 7.0f;
-			actionNameNode.X = actionIconNode.X - actionNameNode.Width / 2.0f + actionIconNode.Width / 2.0f;
-			helpTextNode.Width = 16.0f;
-			helpTextNode.X = value - helpTextNode.Width;
-			OriginX = value / 2.0f;
-		}
-	}
-
-	public WarningState? Warning {
-		get;
-		set {
-			field = value;
-
-			if (value is null) {
-				IsVisible = false;
+		if (System.BannerListStyle is { } listConfig) {
+			if (Position == Vector2.Zero) {
+				Position = listConfig.Position;
 			}
-			else {
-				messageTextNode.String = value.Message;
-				playerTextNode.String = value.SourcePlayerName;
-				actionIconNode.IconId = value.IconId;
-				actionNameNode.String = value.IconLabel;
 
-				if (System.BannerController.Config.EnableActionTooltip) {
-					actionIconNode.EnableEventFlags = true;
-					actionIconNode.AddEvent(AddonEventType.MouseOver, OnIconMouseOver);
-					actionIconNode.AddEvent(AddonEventType.MouseOut, _ => actionIconNode.HideTooltip());
-				}
+			EnableMoving = listConfig.EnableMoving;
+			EnableResizing = listConfig.EnableResizing;
+		
+			bannerListNode.LayoutOrientation = listConfig.Orientation;
+			bannerListNode.LayoutAnchor = listConfig.Anchor;
+			bannerListNode.ShowBackground = listConfig.ShowBackground;
+			bannerListNode.BackgroundColor = listConfig.BackgroundColor;
+		}
+
+		if (System.BannerStyle is { } style) {
+			bannerListNode.Timeline?.PlayAnimation(style.EnableAnimation ? 1 : 2);
+			
+			foreach (var node in Nodes) {
+				node.ShowWarningImage = style.ShowWarningIcon;
+				node.ShowMessageText = style.ShowMessageText;
+				node.ShowPlayerText = style.ShowPlayerText;
+				node.ShowActionName = style.ShowActionName;
+				node.ShowActionIcon = style.ShowActionIcon;
 			}
 		}
 	}
-
-	public override List<string> OnLoadOmittedProperties => [ "Position" ];
-
-	public bool ShowWarningImage {
-		get => warningImageNode.IsVisible;
-		set => warningImageNode.IsVisible = value;
-	}
-
-	public bool ShowMessageText {
-		get => messageTextNode.IsVisible;
-		set => messageTextNode.IsVisible = value;
-	}
-
-	public bool ShowPlayerText {
-		get => playerTextNode.IsVisible;
-		set => playerTextNode.IsVisible = value;
-	}
-
-	public bool ShowActionIcon {
-		get => actionIconNode.IsVisible;
-		set => actionIconNode.IsVisible = value;
-	}
-
-	public bool ShowActionName {
-		get => actionNameNode.IsVisible;
-		set => actionNameNode.IsVisible = value;
-	}
-
-	public void Save()
-		=> Save(WarningNodePath);
 	
-	public void Load()
-		=> Load(WarningNodePath);
-	
-	private void BuildTimelines() {
-		AddTimeline(new TimelineBuilder()
-			.BeginFrameSet(1, 30)
-			.AddFrame(1, scale: new Vector2(0.95f, 0.95f), alpha: 175)
-			.AddFrame(10, scale: new Vector2(0.95f, 0.95f), alpha: 175)
-			.AddFrame(15, scale: new Vector2(1.0f, 1.0f), alpha: 255)
-			.AddFrame(25, scale: new Vector2(0.95f, 0.95f), alpha: 175)
-			.AddFrame(30, scale: new Vector2(0.95f, 0.95f), alpha: 175)
-			.EndFrameSet()
-			.BeginFrameSet(31, 60)
-			.AddFrame(31, alpha: 255, scale: new Vector2(1.0f, 1.0f))
-			.EndFrameSet()
-			.Build());
+	private void UpdateSizePosition() {
+		if (System.BannerListStyle is not {} config) return;
+
+		var configChanged = Position != config.Position || Size != config.Size;
+
+		config.Position = Position;
+		config.Size = Size;
+
+		if (configChanged) {
+			Utilities.Config.SaveCharacterConfig(config, "BannerList.style.json");
+		}
 	}
 }

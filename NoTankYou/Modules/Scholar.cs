@@ -1,12 +1,11 @@
 ﻿using NoTankYou.Classes;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 
 namespace NoTankYou.Modules;
 
 public class Scholar : ModuleBase<ScholarConfiguration> {
     public override ModuleName ModuleName => ModuleName.Scholar;
-    protected override string DefaultWarningText { get; } = Strings.ScholarFaerie;
+    protected override string DefaultWarningText => "Scholar Faerie";
 
     private const int DissipationStatusId = 791;
     private const byte ScholarJobId = 28;

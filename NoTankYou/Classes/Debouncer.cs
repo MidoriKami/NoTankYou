@@ -14,7 +14,7 @@ public class Debouncer(TimeSpan delay) {
         if (lastState && !state) {
             characterWaitList.Add(objectId);
 
-            Service.Framework.RunOnTick(() => {
+            Services.Framework.RunOnTick(() => {
                 characterWaitList.Remove(objectId);
             }, delay);
         }

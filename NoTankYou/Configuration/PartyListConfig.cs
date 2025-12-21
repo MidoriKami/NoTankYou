@@ -8,7 +8,6 @@ using KamiLib.Classes;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using NoTankYou.Classes;
-using NoTankYou.Localization;
 
 namespace NoTankYou.Configuration;
 
@@ -29,14 +28,14 @@ public class PartyListConfig {
     public void DrawConfigUi() {
         var configChanged = false;
         
-        ImGuiTweaks.Header(Strings.DisplayOptions);
+        ImGuiTweaks.Header("Display Options");
         using (var _ = ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox(Strings.Enable, ref Enabled);
-            configChanged |= ImGuiTweaks.Checkbox(Strings.SoloMode, ref SoloMode, Strings.SoloModeHelp);
-            configChanged |= ImGui.Checkbox(Strings.SampleMode, ref SampleMode);
+            configChanged |= ImGui.Checkbox("Enable", ref Enabled);
+            configChanged |= ImGuiTweaks.Checkbox("Solo Mode", ref SoloMode, "Only show warnings for you");
+            configChanged |= ImGui.Checkbox("Sample Mode", ref SampleMode);
         }
         
-        ImGuiTweaks.Header(Strings.DisplayStyle);
+        ImGuiTweaks.Header("Display Style");
         using (var _ = ImRaii.PushIndent()) {
             configChanged |= ImGui.ColorEdit4("Background Color", ref GlowColor, ImGuiColorEditFlags.AlphaPreviewHalf | ImGuiColorEditFlags.AlphaBar);
             configChanged |= ImGui.Checkbox("Show Background Glow", ref ShowGlow);
@@ -46,7 +45,7 @@ public class PartyListConfig {
             configChanged |= ImGui.Checkbox("Use Module Icon", ref UseModuleIcons);
         }
         
-        ImGuiTweaks.Header(Strings.ModuleBlacklist);
+        ImGuiTweaks.Header("Module Blacklist");
         using (var _ = ImRaii.PushIndent()) {
             ImGui.Columns(2);
 
@@ -70,8 +69,8 @@ public class PartyListConfig {
     }
     
     public static PartyListConfig Load() 
-        => Service.PluginInterface.LoadCharacterFile<PartyListConfig>(Service.ClientState.LocalContentId, "PartyListOverlay.config.json");
+        => Services.PluginInterface.LoadCharacterFile<PartyListConfig>(Services.PlayerState.ContentId, "PartyListOverlay.config.json");
 
     public void Save()
-        => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, "PartyListOverlay.config.json", this);
+        => Services.PluginInterface.SaveCharacterFile(Services.PlayerState.ContentId, "PartyListOverlay.config.json", this);
 }

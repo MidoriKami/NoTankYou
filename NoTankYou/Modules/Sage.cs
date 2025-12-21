@@ -1,14 +1,13 @@
 ﻿using Dalamud.Bindings.ImGui;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using NoTankYou.Classes;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 
 namespace NoTankYou.Modules;
 
 public class Sage : ModuleBase<SageConfiguration> {
     public override ModuleName ModuleName => ModuleName.Sage;
-    protected override string DefaultWarningText { get; } = Strings.SageKardion;
+    protected override string DefaultWarningText => "Sage Kardion";
 
     private const byte MinimumLevel = 4;
     private const byte SageClassJob = 40;

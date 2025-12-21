@@ -3,7 +3,7 @@ using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
-using KamiToolKit.Classes.TimelineBuilding;
+using KamiToolKit.Classes.Timelines;
 using KamiToolKit.Nodes;
 
 namespace NoTankYou.Classes;
@@ -31,7 +31,7 @@ public unsafe class PartyListOverlay {
 			Size = componentNodeSize,
 			Position = componentNodePosition,
 		};
-		System.NativeController.AttachNode(backgroundContainer, componentNode, NodePosition.BeforeTarget);
+		backgroundContainer.AttachNode(componentNode, NodePosition.BeforeTarget);
 
 		glowNode = new SimpleNineGridNode {
 			Size = collisionNodeSize,
@@ -46,13 +46,13 @@ public unsafe class PartyListOverlay {
 			Alpha = 1.0f,
 			AddColor = new Vector3(0.70f, 0.4f, 0.4f),
 		};
-		System.NativeController.AttachNode(glowNode, backgroundContainer);
+		glowNode.AttachNode(backgroundContainer);
 		
 		foregroundContainer = new SimpleOverlayNode {
 			Size = componentNodeSize, 
 			Position = componentNodePosition,
 		};
-		System.NativeController.AttachNode(foregroundContainer, componentNode, NodePosition.AfterTarget);
+		foregroundContainer.AttachNode(componentNode, NodePosition.AfterTarget);
 
 		warningIconNode = new IconImageNode {
 			Size = new Vector2(16.0f, 16.0f),
@@ -61,9 +61,8 @@ public unsafe class PartyListOverlay {
 			TextureSize = new Vector2(28.0f, 28.0f),
 			IsVisible = true,
 			FitTexture = true,
-			EnableEventFlags = true,
 		};
-		System.NativeController.AttachNode(warningIconNode, foregroundContainer);
+		warningIconNode.AttachNode(foregroundContainer);
 
 		BuildBackgroundAnimations();
 		BuildForegroundAnimations();
@@ -72,8 +71,8 @@ public unsafe class PartyListOverlay {
 	}
 
 	public void Detach() {
-		System.NativeController.DisposeNode(ref backgroundContainer);
-		System.NativeController.DisposeNode(ref foregroundContainer);
+		backgroundContainer?.Dispose();
+		foregroundContainer?.Dispose();
 	}
 	
 	private void BuildBackgroundAnimations() {
@@ -124,23 +123,16 @@ public unsafe class PartyListOverlay {
 		if (warningIconNode is not null) {
 			if (System.PartyListController.Config.UseModuleIcons && Warning.SourceModule.GetAttribute<ModuleIconAttribute>() is { } iconInfo) {
 				warningIconNode.IconId = iconInfo.ModuleIcon;
-				warningIconNode.EnableEventFlags = false;
 				warningIconNode.Tooltip = null;
 			}
 			else {
 				warningIconNode.IconId = 60074;
-				warningIconNode.EnableEventFlags = true;
 				warningIconNode.Tooltip = Warning.Message;
 			}
 		}
 
-		if (backgroundContainer is not null) {
-			backgroundContainer.IsVisible = System.PartyListController.Config.ShowGlow;
-		}
-
-		if (foregroundContainer is not null) {
-			foregroundContainer.IsVisible = System.PartyListController.Config.ShowIcon;
-		}
+		backgroundContainer?.IsVisible = System.PartyListController.Config.ShowGlow;
+		foregroundContainer?.IsVisible = System.PartyListController.Config.ShowIcon;
 
 		if (glowNode is not null) {
 			var color = System.PartyListController.Config.GlowColor;

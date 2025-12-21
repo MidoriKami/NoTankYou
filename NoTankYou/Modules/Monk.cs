@@ -25,7 +25,7 @@ public class Monk : ModuleBase<MonkConfiguration> {
 	private DateTime lastCombatTime = DateTime.UtcNow;
 	
 	protected override bool ShouldEvaluate(IPlayerData playerData) {
-		if (Service.ClientState.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
+		if (Services.ObjectTable.LocalPlayer?.EntityId != playerData.GetEntityId()) return false;
 		if (!playerData.HasClassJob(MonkClassJob)) return false;
 		if (playerData.GetLevel() < MinimumLevel) return false;
 
@@ -33,7 +33,7 @@ public class Monk : ModuleBase<MonkConfiguration> {
 	}
 
 	protected override void EvaluateWarnings(IPlayerData playerData) {
-		if (Service.Condition.IsInCombat()) {
+		if (Services.Condition.IsInCombat()) {
 			lastCombatTime = DateTime.UtcNow;
 		}
 
@@ -41,7 +41,7 @@ public class Monk : ModuleBase<MonkConfiguration> {
 			
 			// Mantra
 			if (playerData.GetLevel() >= MantraMinimumLevel) {
-				if (Service.JobGauges.Get<MNKGauge>().Chakra < 5) {
+				if (Services.JobGauges.Get<MNKGauge>().Chakra < 5) {
 					AddActiveWarning(MantraActionId, playerData);
 					return;
 				}

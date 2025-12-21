@@ -1,12 +1,11 @@
 ﻿using NoTankYou.Classes;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 
 namespace NoTankYou.Modules;
 
 public class Summoner : ModuleBase<SummonerConfiguration> {
     public override ModuleName ModuleName => ModuleName.Summoner;
-    protected override string DefaultWarningText => Strings.SummonerPet;
+    protected override string DefaultWarningText => "Summoner Pet";
 
     private const uint SummonCarbuncleActionId = 25798;
     private const byte MinimumLevel = 2;

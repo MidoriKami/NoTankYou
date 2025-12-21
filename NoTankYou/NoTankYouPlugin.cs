@@ -13,13 +13,12 @@ namespace NoTankYou;
 
 public sealed class NoTankYouPlugin : IDalamudPlugin {
     public NoTankYouPlugin(IDalamudPluginInterface pluginInterface) {
-        pluginInterface.Create<Service>();
+        pluginInterface.Create<Services>();
 
-        System.NativeController = new NativeController(Service.PluginInterface);
+        KamiToolKitLibrary.Initialize(pluginInterface);
 
         System.SystemConfig = new SystemConfig();
-        System.LocalizationController = new LocalizationController();
-        System.CommandManager = new CommandManager(Service.PluginInterface, "notankyou", "nty");
+        System.CommandManager = new CommandManager(Services.PluginInterface, "notankyou", "nty");
 
         System.BlacklistController = new BlacklistController();
         System.ModuleController = new ModuleController();
@@ -27,8 +26,8 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         System.PartyListController = new PartyListController();
 
         System.ConfigurationWindow = new ConfigurationWindow();
-        System.DutyTypeDebugWindow = new DutyTypeDebugWindow(Service.DataManager);
-        System.WindowManager = new WindowManager(Service.PluginInterface);
+        System.DutyTypeDebugWindow = new DutyTypeDebugWindow(Services.DataManager);
+        System.WindowManager = new WindowManager(Services.PluginInterface);
         
         System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn);
         System.WindowManager.AddWindow(System.DutyTypeDebugWindow);
@@ -38,32 +37,30 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
             ActivationPath = "/dutytypedebug",
         });
         
-        if (Service.ClientState.IsLoggedIn) {
-            Service.Framework.RunOnFrameworkThread(OnLogin);
+        if (Services.ClientState.IsLoggedIn) {
+            Services.Framework.RunOnFrameworkThread(OnLogin);
         }
         
-        Service.Framework.Update += OnFrameworkUpdate;
-        Service.ClientState.Login += OnLogin;
-        Service.ClientState.Logout += OnLogout;
+        Services.Framework.Update += OnFrameworkUpdate;
+        Services.ClientState.Login += OnLogin;
+        Services.ClientState.Logout += OnLogout;
     }
 
     public void Dispose() {
-        System.LocalizationController.Dispose();
-
         System.ModuleController.Dispose();
         System.BannerController.Dispose();
         System.PartyListController.Dispose();
 
-        Service.Framework.Update -= OnFrameworkUpdate;
-        Service.ClientState.Login -= OnLogin;
-        Service.ClientState.Logout -= OnLogout;
+        Services.Framework.Update -= OnFrameworkUpdate;
+        Services.ClientState.Login -= OnLogin;
+        Services.ClientState.Logout -= OnLogout;
 
-        System.NativeController.Dispose();
+        KamiToolKitLibrary.Dispose();
     }
     
      private void OnFrameworkUpdate(IFramework framework) {
-        if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.Condition.IsBetweenAreas()) return;
+        if (!Services.ClientState.IsLoggedIn) return;
+        if (Services.Condition.IsBetweenAreas()) return;
 
         // Process and Collect Warnings
         System.ActiveWarnings = System.ModuleController.EvaluateWarnings();
@@ -72,20 +69,24 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         System.PartyListController.UpdateWarnings(System.ActiveWarnings);
         System.BannerController.UpdateWarnings(System.ActiveWarnings);
     }
-    
-    private void OnLogin() {
-        System.SystemConfig = SystemConfig.Load();
-        System.SystemConfig.UpdateCharacterData();
-        System.SystemConfig.Save();
+
+     private void OnLogin() {
+        System.SystemConfig = Utilities.Config.LoadCharacterConfig<SystemConfig>("System.config.json");
+        System.BannerConfig = Utilities.Config.LoadCharacterConfig<BannerConfig>("BannerDisplay.config.json");
+        System.BannerListStyle = Utilities.Config.LoadCharacterConfig<BannerListStyle>("BannerList.style.json");
+        System.BannerStyle = Utilities.Config.LoadCharacterConfig<BannerStyle>("BannerNode.style.json");
 
         System.BlacklistController.Load();
         System.ModuleController.Load();
-        System.BannerController.Enable();
         System.PartyListController.Enable();
     }
     
     private void OnLogout(int type, int code) {
-        System.BannerController.Disable();
+        System.SystemConfig = null;
+        System.BannerConfig = null;
+        System.BannerListStyle = null;
+        System.BannerStyle = null;
+        
         System.PartyListController.Disable();
     }
 }

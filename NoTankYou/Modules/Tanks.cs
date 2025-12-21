@@ -7,7 +7,6 @@ using FFXIVClientStructs.Interop;
 using KamiLib.Extensions;
 using Lumina.Excel.Sheets;
 using NoTankYou.Classes;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 using DutyType = KamiLib.Extensions.DutyType;
 
@@ -15,14 +14,14 @@ namespace NoTankYou.Modules;
 
 public unsafe class Tanks : ModuleBase<TankConfiguration> {
     public override ModuleName ModuleName => ModuleName.Tanks;
-    protected override string DefaultWarningText => Strings.TankStance;
+    protected override string DefaultWarningText => "Tank Stance";
 
-    private readonly uint[] tankClassJobArray = Service.DataManager.GetExcelSheet<ClassJob>()
+    private readonly uint[] tankClassJobArray = Services.DataManager.GetExcelSheet<ClassJob>()
         .Where(job => job.Role is 1)
         .Select(r => r.RowId)
         .ToArray();
 
-    private readonly uint[] tankStanceIdArray = Service.DataManager.GetExcelSheet<Status>()
+    private readonly uint[] tankStanceIdArray = Services.DataManager.GetExcelSheet<Status>()
         .Where(status => status is { InflictedByActor: true, CanStatusOff: true, IsPermanent: true, ParamModifier: 500, PartyListPriority: 0})
         .Select(status => status.RowId)
         .ToArray();
@@ -85,7 +84,7 @@ public unsafe class Tanks : ModuleBase<TankConfiguration> {
     }
 
     private static bool IsInAllianceRaid()
-        => Service.DataManager.GetCurrentDutyType() is DutyType.Alliance;
+        => Services.DataManager.GetCurrentDutyType() is DutyType.Alliance;
 
     private static uint GetActionIdForClass(byte classJob) => classJob switch {
         1 or 19 => 28u,
@@ -101,10 +100,10 @@ public class TankConfiguration() : ModuleConfigBase(ModuleName.Tanks) {
     public bool CheckAllianceTanks = true;
 
     protected override void DrawModuleConfig() {
-        ConfigChanged |= ImGui.Checkbox(Strings.DisableInAllianceRaid, ref DisableInAlliance);
+        ConfigChanged |= ImGui.Checkbox("Disable in Alliance Raid", ref DisableInAlliance);
 
         using var disabled = ImRaii.Disabled(DisableInAlliance);
-        ConfigChanged |= ImGui.Checkbox(Strings.CheckAllianceTanks, ref CheckAllianceTanks);
+        ConfigChanged |= ImGui.Checkbox("Check Alliance Tanks", ref CheckAllianceTanks);
         DisabledSettingTooltip(disabled);
     }
 }

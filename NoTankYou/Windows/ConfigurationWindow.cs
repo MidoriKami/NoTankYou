@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Security.Authentication.ExtendedProtection;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
@@ -15,7 +16,6 @@ using KamiLib.Window;
 using KamiLib.Window.SelectionWindows;
 using Lumina.Excel.Sheets;
 using NoTankYou.Classes;
-using Strings = NoTankYou.Localization.Strings;
 
 namespace NoTankYou.Windows;
 
@@ -32,7 +32,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
 
     protected override float SelectionListWidth => 175.0f;
     protected override float SelectionItemHeight => 32.0f;
-    protected override string SelectionListTabName => Strings.Modules;
+    protected override string SelectionListTabName => "Modules";
 
     public ConfigurationWindow() : base("NoTankYou - Configuration Window", new Vector2(500.0f, 580.0f)) {
         Options = System.ModuleController.Modules;
@@ -55,7 +55,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
         var iconInfo = option.ModuleName.GetAttribute<ModuleIconAttribute>()!;
         
         ImGui.SetCursorPos(cursorStart);
-        ImGui.Image(Service.TextureProvider.GetFromGameIcon(iconInfo.ModuleIcon).GetWrapOrEmpty().Handle, ImGuiHelpers.ScaledVector2(32.0f, 32.0f));
+        ImGui.Image(Services.TextureProvider.GetFromGameIcon(iconInfo.ModuleIcon).GetWrapOrEmpty().Handle, ImGuiHelpers.ScaledVector2(32.0f, 32.0f));
         
         ImGui.SameLine();
         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 8.0f * ImGuiHelpers.GlobalScale);
@@ -67,26 +67,44 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
     }
     
     private void OpenConfigWindow(params string[] args) {
-        if (!Service.ClientState.IsLoggedIn) return;
+        if (!Services.ClientState.IsLoggedIn) return;
             
         Toggle();
     }
 
     public override void OnClose() {
-        System.BannerController.Config.SampleMode = false;
-        System.BannerController.Save();
-        
         System.PartyListController.Config.SampleMode = false;
     }
 }
 
 public class GeneralSettingsTab : ITabItem {
-    public string Name => Strings.GeneralOptions;
+    public string Name => "General Options";
     
     public bool Disabled => false;
 
-    public void Draw()
-        => System.SystemConfig.DrawConfigUi();
+    public void Draw() {
+        var config = System.SystemConfig;
+        if (config is null) {
+            ImGui.TextColored(KnownColor.Orange.Vector(), "System Config Failed to Load.");
+            return;
+        }
+            
+        var configChanged = false;
+		
+        ImGuiTweaks.Header("Misc Options");
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGuiTweaks.Checkbox("Wait for Duty Start", ref config.WaitUntilDutyStart, "Waits for the starting ring to dissipate before showing warnings");
+        }
+		
+        ImGuiTweaks.Header("Warning Display Options");
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox("Hide in Quest Event", ref config.HideInQuestEvent);
+        }
+
+        if (configChanged) {
+            Utilities.Config.SaveCharacterConfig(config,"System.config.json");
+        }
+    }
 }
 
 public class PartListSettingsTab : ITabItem {
@@ -98,22 +116,13 @@ public class PartListSettingsTab : ITabItem {
         => System.PartyListController.DrawConfigUi();
 }
 
-public class BannerSettingsTab : ITabItem {
-    public string Name => "Banner";
-    
-    public bool Disabled => false;
-
-    public void Draw()
-        => System.BannerController.DrawConfigUi(); 
-}
-
 public class BlacklistTab : ITabItem {
     public string Name => "Zone Blacklist";
     
     public bool Disabled => false;
 
     public void Draw() {
-        using (var _ = ImRaii.PushColor(ImGuiCol.ChildBg, KnownColor.OrangeRed.Vector() with { W = 0.15f }, System.BlacklistController.Config.BlacklistedZones.Contains(Service.ClientState.TerritoryType))) {
+        using (var _ = ImRaii.PushColor(ImGuiCol.ChildBg, KnownColor.OrangeRed.Vector() with { W = 0.15f }, System.BlacklistController.Config.BlacklistedZones.Contains(Services.ClientState.TerritoryType))) {
             DrawAddRemovableTerritory(GetCurrentTerritory());
         }
         
@@ -142,7 +151,7 @@ public class BlacklistTab : ITabItem {
         
         ImGui.SameLine();
         
-        territory.Draw(Service.DataManager, Service.TextureProvider);
+        territory.Draw(Services.DataManager, Services.TextureProvider);
     }
     
     private void DrawCurrentlyBlacklisted() {
@@ -150,7 +159,7 @@ public class BlacklistTab : ITabItem {
         if (!child) return;
 
         ImGuiClip.ClippedDraw(System.BlacklistController.Config.BlacklistedZones.ToList(), zoneId => {
-            if (Service.DataManager.GetExcelSheet<TerritoryType>().GetRow(zoneId) is var territory) {
+            if (Services.DataManager.GetExcelSheet<TerritoryType>().GetRow(zoneId) is var territory) {
                 DrawAddRemovableTerritory(territory);
             }
         }, 75.0f);
@@ -162,7 +171,7 @@ public class BlacklistTab : ITabItem {
 
         using var _ = ImRaii.PushFont(UiBuilder.IconFont);
         if (ImGui.Button($"{FontAwesomeIcon.Plus.ToIconString()}", ImGui.GetContentRegionAvail())) {
-            System.WindowManager.AddWindow(new TerritorySelectionWindow(Service.PluginInterface) {
+            System.WindowManager.AddWindow(new TerritorySelectionWindow(Services.PluginInterface) {
                 MultiSelectionCallback = selections => {
                     foreach (var selection in selections) {
                         System.BlacklistController.Config.BlacklistedZones.Add(selection.RowId);
@@ -174,5 +183,5 @@ public class BlacklistTab : ITabItem {
     }
 
     private static TerritoryType GetCurrentTerritory() 
-        => Service.DataManager.GetExcelSheet<TerritoryType>().GetRow(Service.ClientState.TerritoryType);
+        => Services.DataManager.GetExcelSheet<TerritoryType>().GetRow(Services.ClientState.TerritoryType);
 }

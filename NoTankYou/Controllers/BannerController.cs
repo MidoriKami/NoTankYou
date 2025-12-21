@@ -1,133 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using Dalamud.Interface;
-using FFXIVClientStructs.FFXIV.Client.UI;
-using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.Configuration;
-using KamiToolKit;
-using KamiToolKit.Classes;
-using KamiToolKit.Classes.TimelineBuilding;
-using KamiToolKit.Nodes;
 using NoTankYou.Classes;
-using NoTankYou.Configuration;
-using KamiToolKit.Extensions;
-using KamiToolKit.System;
+using KamiToolKit.Overlay;
 
 namespace NoTankYou.Controllers;
 
-public unsafe class BannerController : IDisposable {
-    public BannerConfig Config { get; private set; } = new();
+public class BannerController : IDisposable {
+    private BannerOverlayNode? overlayNode;
+    private BannerNode? sampleNode;
 
-    private SimpleOverlayNode? overlayRootNode;
-    public ListBoxNode? BannerListNode;
-    private readonly List<BannerOverlayNode> nodeList = [];
-
-    public readonly BannerOverlayNode SampleNode = new() {
-        Size = new Vector2(448.0f, 64.0f), 
-        IsVisible = true,
-    };
-
-    private readonly NameplateAddonController nameplateAddonController;
-
-    private static string BannerListPath => Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "BannerList.style.json").FullName;
+    private readonly OverlayController overlayController;
 
     public BannerController() {
-        nameplateAddonController = new NameplateAddonController(Service.PluginInterface);
+        overlayController = new OverlayController();
         
-        nameplateAddonController.OnPreEnable += LoadConfig;
-        nameplateAddonController.OnAttach += AttachNodes;
-        nameplateAddonController.OnDetach += DetachNodes;
+        overlayController.CreateNode(() => overlayNode = new BannerOverlayNode {
+            Position = new Vector2(700.0f, 400.0f),
+            Size = new Vector2(448.0f, 320.0f),
+        });
     }
 
     public void Dispose()
-        => nameplateAddonController.Dispose();
-
-    public void Enable()
-        => nameplateAddonController.Enable();
-
-    public void Disable()
-        => nameplateAddonController.Disable();
-
-    private void LoadConfig(AddonNamePlate* addon)
-        => Config = BannerConfig.Load();
-
-    private void AttachNodes(AddonNamePlate* addonNamePlate) {
-        overlayRootNode = new SimpleOverlayNode {
-            NodeId = 100000003,
-            Size = addonNamePlate->AtkUnitBase.Size(),
-            IsVisible = true,
-        };
-        System.NativeController.AttachNode(overlayRootNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
-
-        BannerListNode = new ListBoxNode {
-            Position = new Vector2(700.0f, 400.0f),
-            Size = new Vector2(448.0f, 320.0f),
-            LayoutAnchor = LayoutAnchor.TopLeft,
-            IsVisible = true,
-            LayoutOrientation = LayoutOrientation.Vertical,
-            NodeId = 2,
-            BackgroundColor = KnownColor.Aqua.Vector() with { W = 0.15f },
-            ShowBackground = false,
-            ItemMargin = new Spacing(5.0f),
-            OnEditComplete = () => BannerListNode?.Save(BannerListPath),
-            ClipListContents = true,
-        };
-        System.NativeController.AttachNode(BannerListNode, overlayRootNode);
-        BannerListNode.Load(BannerListPath);
-
-        BannerListNode.AddTimeline(new TimelineBuilder()
-            .BeginFrameSet(1, 60)
-            .AddLabel(1, 1, AtkTimelineJumpBehavior.Start, 0) // Label 1: Pulsing Animation
-            .AddLabel(30, 0, AtkTimelineJumpBehavior.LoopForever, 1)
-            .AddLabel(31, 2, AtkTimelineJumpBehavior.Start, 0) // Label 2: No Animation
-            .AddLabel(60, 0, AtkTimelineJumpBehavior.LoopForever, 2)
-            .EndFrameSet()
-            .Build());
-        
-        BannerListNode.Timeline?.PlayAnimation(Config.EnableAnimation ? 1 : 2);
-    }
-
-    private void DetachNodes(AddonNamePlate* addonNamePlate) {
-        System.NativeController.DetachNode(BannerListNode, () => {
-            BannerListNode?.Dispose();
-            BannerListNode = null;
-        });
-        
-        System.NativeController.DetachNode(overlayRootNode, () => {
-            overlayRootNode?.Dispose();
-            overlayRootNode = null;
-        });
-    }
-
-    public void DrawConfigUi()
-        => Config.DrawConfigUi();
-
+        => overlayController.Dispose();
+    
     public void UpdateWarnings(List<WarningState> warningStates) {
-        if (BannerListNode is null) return;
-        if (!Config.Enabled) {
+        if (overlayNode is null) return;
+        if (System.BannerConfig is not {} config) return;
+        if (!config.Enabled) {
             RemoveAllNodes();
             return;
         }
         
         var filteredWarningStates = warningStates
-            .Where(warning => !Config.BlacklistedModules.Contains(warning.SourceModule))
+            .Where(warning => !config.BlacklistedModules.Contains(warning.SourceModule))
             .OrderByDescending(warning => warning.Priority)
             .ToList();
 
-        if (Config.SoloMode) {
+        if (config.SoloMode) {
             filteredWarningStates = filteredWarningStates
-                .Where(warning => warning.SourceEntityId == Service.ClientState.LocalPlayer?.EntityId)
+                .Where(warning => warning.SourceEntityId == Services.ObjectTable.LocalPlayer?.EntityId)
                 .ToList();
         }
 
-        if (Config.SampleMode) {
+        if (config.SampleMode) {
+            sampleNode ??= new BannerNode {
+                Size = new Vector2(448.0f, 64.0f), 
+            };
+            
             filteredWarningStates.Add(ModuleController.SampleWarning);
         }
 
-        switch (Config.DisplayMode) {
+        switch (config.DisplayMode) {
             case BannerOverlayDisplayMode.TopPriority when filteredWarningStates.MaxBy(warning => warning.Priority) is { } topWarning:
                 SyncWarnings([ topWarning ]);
                 break;
@@ -143,59 +68,39 @@ public unsafe class BannerController : IDisposable {
     }
 
     private void AddNode(WarningState warningState) {
-        if (BannerListNode is null) return;
-        
-        var newBannerNode = new BannerOverlayNode {
+        var newBannerNode = new BannerNode {
             Size = new Vector2(448.0f, 64.0f),
             IsVisible = true,
         };
-                
-        newBannerNode.Load();
-        newBannerNode.Warning = warningState;
 
-        BannerListNode.AddNode(newBannerNode);
-        nodeList.Add(newBannerNode);
+        newBannerNode.Warning = warningState;
+        overlayNode?.AddNode(newBannerNode);
     }
 
     private void RemoveAllNodes() {
-        if (BannerListNode is null) return;
-       
-        foreach (var node in nodeList.ToList()) {
-            RemoveNode(node);
-        }
+        overlayNode?.RemoveAll();
     }
     
-    private void RemoveNode(BannerOverlayNode node) {
-        if (BannerListNode is null) return;
-        
+    private void RemoveNode(BannerNode node) {
         node.HideTooltip();
-        
-        BannerListNode.RemoveNode(node);
-        nodeList.Remove(node);
-    }
-
-    public void Save() {
-        BannerListNode?.Save(BannerListPath);
-        SampleNode.Save();
-
-        RemoveAllNodes();
+        overlayNode?.RemoveNode(node);
     }
 
     private void SyncWarnings(List<WarningState> warningStates) {
-        if (BannerListNode is null) return;
+        if (overlayNode is null) return;
         
         if (warningStates.Count is 0) {
             RemoveAllNodes();
         }
         else {
             // Get a list of nodes that need to be removed
-            var toRemove = nodeList.Where(node => !warningStates.Any(warning => node.Warning == warning)).ToList();
+            var toRemove = overlayNode.Nodes.Where(node => !warningStates.Any(warning => node.Warning == warning)).ToList();
             foreach (var node in toRemove) {
                 RemoveNode(node);
             }
             
             // Generate list of warnings we need to add
-            var toAdd = warningStates.Where(warning => !nodeList.Any(node => node.Warning == warning)).ToList();
+            var toAdd = warningStates.Where(warning => !overlayNode.Nodes.Any(node => node.Warning == warning)).ToList();
             foreach (var warning in toAdd) {
                 AddWarning(warning);
             }
@@ -203,15 +108,12 @@ public unsafe class BannerController : IDisposable {
     }
 
     private void AddWarning(WarningState warning) {
-        if (BannerListNode is null) return;
+        if (overlayNode is null) return;
         if (NodeListHasWarning(warning)) return;
         
         AddNode(warning);
     }
 
     private bool NodeListHasWarning(WarningState warning)
-        => nodeList.Any(node => node.Warning == warning);
-
-    public void PlayAnimation(int label)
-        => BannerListNode?.Timeline?.PlayAnimation(label);
+        => overlayNode?.Nodes.Any(node => node.Warning == warning) ?? false;
 }

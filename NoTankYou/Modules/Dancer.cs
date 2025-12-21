@@ -1,13 +1,12 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using NoTankYou.Classes;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 
 namespace NoTankYou.Modules;
 
 public unsafe class Dancer : ModuleBase<DancerConfiguration> {
     public override ModuleName ModuleName => ModuleName.Dancer;
-    protected override string DefaultWarningText => Strings.DancePartner;
+    protected override string DefaultWarningText => "Dance Partner";
 
     private const uint DancerClassJobId = 38;
     private const uint MinimumLevel = 60;

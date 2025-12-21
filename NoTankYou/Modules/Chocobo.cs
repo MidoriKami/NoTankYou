@@ -4,16 +4,15 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiLib.Extensions;
 using Lumina.Excel.Sheets;
 using NoTankYou.Classes;
-using NoTankYou.Localization;
 using NoTankYou.PlayerDataInterface;
 
 namespace NoTankYou.Modules;
 
 public unsafe class Chocobo : ModuleBase<ChocoboConfiguration> {
     public override ModuleName ModuleName => ModuleName.Chocobo;
-    protected override string DefaultWarningText => Strings.ChocoboMissing;
+    protected override string DefaultWarningText => "Chocobo Missing";
 
-    private static Item GyshalGreensItem => Service.DataManager.GetExcelSheet<Item>().GetRow(GyshalGreensItemId);
+    private static Item GyshalGreensItem => Services.DataManager.GetExcelSheet<Item>().GetRow(GyshalGreensItemId);
 
     private const uint GyshalGreensItemId = 4868;
     private readonly uint gyshalGreensIconId = GyshalGreensItem.Icon;
@@ -21,9 +20,9 @@ public unsafe class Chocobo : ModuleBase<ChocoboConfiguration> {
 
     protected override bool ShouldEvaluate(IPlayerData playerData) {
         if (TerritoryInfo.Instance()->InSanctuary) return false;
-        if (Service.Condition.IsBoundByDuty()) return false;
-        if (Config.DisableInCombat && Service.Condition.IsInCombat()) return false;
-        if (playerData.GetEntityId() != Service.ClientState.LocalPlayer?.EntityId) return false;
+        if (Services.Condition.IsBoundByDuty()) return false;
+        if (Config.DisableInCombat && Services.Condition.IsInCombat()) return false;
+        if (playerData.GetEntityId() != Services.ObjectTable.LocalPlayer?.EntityId) return false;
 
         return true;
     }
@@ -45,10 +44,10 @@ public class ChocoboConfiguration() : ModuleConfigBase(ModuleName.Chocobo) {
     public int EarlyWarningTime = 300;
 
     protected override void DrawModuleConfig() {
-        ConfigChanged |= ImGui.Checkbox(Strings.SuppressInCombat, ref DisableInCombat);
-        ConfigChanged |= ImGui.Checkbox(Strings.EarlyWarning, ref EarlyWarning);
+        ConfigChanged |= ImGui.Checkbox("Suppress in Combat", ref DisableInCombat);
+        ConfigChanged |= ImGui.Checkbox("Early Warning", ref EarlyWarning);
         
         ImGui.PushItemWidth(50.0f * ImGuiHelpers.GlobalScale);
-        ConfigChanged |= ImGui.InputInt(Strings.EarlyWarningTime, ref EarlyWarningTime);
+        ConfigChanged |= ImGui.InputInt("Early Warning Time", ref EarlyWarningTime);
     }
 }
