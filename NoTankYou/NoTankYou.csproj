@@ -1,10 +1,19 @@
 ﻿<Project Sdk="Dalamud.NET.Sdk/14.0.1">
 	<PropertyGroup>
-		<AssemblyVersion>7.2.2.11</AssemblyVersion>
-		<PackageProjectUrl>https://github.com/MidoriKami/NoTankYou.git</PackageProjectUrl>
-		<LangVersion>Preview</LangVersion>
+		<AssemblyVersion>7.2.0.0</AssemblyVersion>
 	</PropertyGroup>
-	
+
+    <PropertyGroup>
+        <Author>MidoriKami</Author>
+        <Name>NoTankYou</Name>
+        <InternalName>NoTankYou</InternalName>
+        <Punchline>Warns you when yourself or others are missing role-specific actions</Punchline>
+        <Description>Displays warnings when you or any party members are missing role specific actions such as partner buffs, pets, and tank stances.</Description>
+        <RepoUrl>https://github.com/MidoriKami/NoTankYou</RepoUrl>
+        <Tags>tanking;alerts;reminder;food;chocobo;spiritbond;gathering;warning</Tags>
+        <AcceptsFeedback>false</AcceptsFeedback>
+    </PropertyGroup>
+    
 	<ItemGroup>
 	  <ProjectReference Include="..\KamiLib\KamiLib.csproj" />
 	  <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
