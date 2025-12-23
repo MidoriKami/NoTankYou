@@ -13,4 +13,10 @@ public class BannerConfig {
     public BannerOverlayDisplayMode DisplayMode = BannerOverlayDisplayMode.List;
 
     public HashSet<ModuleName> BlacklistedModules = [];
+    
+    public static BannerConfig Load()
+        => Utilities.Config.LoadCharacterConfig<BannerConfig>("BannerDisplay.config.json");
+    
+    public void Save()
+        => Utilities.Config.SaveCharacterConfig(this, "BannerDisplay.config.json"); 
 }

@@ -41,7 +41,7 @@ public class BannerSettingsTab : ITabItem {
         }
 
         if (configChanged) {
-            Utilities.Config.SaveCharacterConfig(config, "System.config.json");
+            config.Save();
         }
     }
 
@@ -74,7 +74,7 @@ public class BannerSettingsTab : ITabItem {
         }
 
         if (configChanged) {
-            Utilities.Config.SaveCharacterConfig(config, "BannerList.style.json");
+            config.Save();
         }
 	}
 
@@ -101,7 +101,7 @@ public class BannerSettingsTab : ITabItem {
         }
 
         if (configChanged) {
-            Utilities.Config.SaveCharacterConfig(config, "BannerNode.style.json");
+            config.Save();
         }
     }
     
@@ -132,7 +132,7 @@ public class BannerSettingsTab : ITabItem {
         }
 
         if (configChanged) {
-            Utilities.Config.SaveCharacterConfig(config, "System.config.json");
+            config.Save();
         }
     }
 }

@@ -88,8 +88,8 @@ public abstract class ModuleConfigBase(ModuleName moduleName) {
 		=> ImGui.TextColored(KnownColor.Orange.Vector(), "No additional options for this module");
 
 	public static T Load<T>(ModuleName moduleName) where T : new()
-		=> Services.PluginInterface.LoadCharacterFile<T>(Services.PlayerState.ContentId, $"{moduleName}.config.json");
-	
+		=> Utilities.Config.LoadCharacterConfig<T>($"{moduleName}.config.json");
+
 	public void Save()
-		=> Services.PluginInterface.SaveCharacterFile(Services.PlayerState.ContentId, $"{moduleName}.config.json", this);
+		=> Utilities.Config.SaveCharacterConfig(this, $"{moduleName}.config.json");
 }

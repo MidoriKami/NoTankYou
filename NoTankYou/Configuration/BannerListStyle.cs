@@ -17,4 +17,10 @@ public class BannerListStyle {
 	public LayoutAnchor Anchor = LayoutAnchor.TopLeft;
 	public bool ShowBackground = false;
 	public Vector4 BackgroundColor = KnownColor.LightBlue.Vector();
+	
+	public static BannerListStyle Load()
+		=> Utilities.Config.LoadCharacterConfig<BannerListStyle>("BannerList.style.json");
+    
+	public void Save()
+		=> Utilities.Config.SaveCharacterConfig(this, "BannerList.style.json"); 
 }

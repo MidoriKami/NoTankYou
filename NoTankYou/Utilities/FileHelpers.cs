@@ -73,6 +73,6 @@ public static class FileHelpers {
             throw new Exception("Character is not logged in.");
         }
         
-        return Services.PlayerState.ContentId.ToString("X");
+        return Services.PlayerState.ContentId.ToString();
     }
 }

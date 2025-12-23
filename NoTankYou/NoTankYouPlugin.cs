@@ -71,10 +71,10 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
     }
 
      private void OnLogin() {
-        System.SystemConfig = Utilities.Config.LoadCharacterConfig<SystemConfig>("System.config.json");
-        System.BannerConfig = Utilities.Config.LoadCharacterConfig<BannerConfig>("BannerDisplay.config.json");
-        System.BannerListStyle = Utilities.Config.LoadCharacterConfig<BannerListStyle>("BannerList.style.json");
-        System.BannerStyle = Utilities.Config.LoadCharacterConfig<BannerStyle>("BannerNode.style.json");
+        System.SystemConfig = SystemConfig.Load();
+        System.BannerConfig = BannerConfig.Load();
+        System.BannerListStyle = BannerListStyle.Load();
+        System.BannerStyle = BannerStyle.Load();
 
         System.BlacklistController.Load();
         System.ModuleController.Load();

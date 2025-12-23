@@ -68,9 +68,9 @@ public class PartyListConfig {
         }
     }
     
-    public static PartyListConfig Load() 
-        => Services.PluginInterface.LoadCharacterFile<PartyListConfig>(Services.PlayerState.ContentId, "PartyListOverlay.config.json");
-
+    public static PartyListConfig Load()
+        => Utilities.Config.LoadCharacterConfig<PartyListConfig>("PartyListOverlay.config.json");
+    
     public void Save()
-        => Services.PluginInterface.SaveCharacterFile(Services.PlayerState.ContentId, "PartyListOverlay.config.json", this);
+        => Utilities.Config.SaveCharacterConfig(this, "PartyListOverlay.config.json"); 
 }

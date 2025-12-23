@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using KamiLib.Configuration;
 
 namespace NoTankYou.Controllers;
 
@@ -20,8 +19,8 @@ public class BlacklistConfig {
     public HashSet<uint> BlacklistedZones { get; set; } = [];
 
     public static BlacklistConfig Load() 
-        => Services.PluginInterface.LoadCharacterFile<BlacklistConfig>(Services.PlayerState.ContentId, "Blacklist.config.json");
+        => Utilities.Config.LoadCharacterConfig<BlacklistConfig>("Blacklist.config.json");
 
     public void Save()
-        => Services.PluginInterface.SaveCharacterFile(Services.PlayerState.ContentId, "Blacklist.config.json", this);
+        => Utilities.Config.SaveCharacterConfig(this, "Blacklist.config.json");
 }
