@@ -18,4 +18,6 @@ public class Services {
     [PluginService] public static IChatGui Chat { get; set; } = null!;
     [PluginService] public static IJobGauges JobGauges { get; set; } = null!;
     [PluginService] public static IPlayerState PlayerState { get; set; } = null!;
+    [PluginService] public static ICommandManager CommandManager { get; set; } = null!;
+    [PluginService] public static IUnlockState UnlockState { get; set; } = null!;
 }

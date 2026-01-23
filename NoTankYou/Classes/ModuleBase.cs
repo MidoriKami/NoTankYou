@@ -1,214 +1,253 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Numerics;
-using Dalamud.Bindings.ImGui;
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Interface;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
-using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using FFXIVClientStructs.Interop;
-using KamiLib.CommandManager;
-using KamiLib.Extensions;
-using NoTankYou.PlayerDataInterface;
+using KamiToolKit;
+using KamiToolKit.Enums;
+using KamiToolKit.Nodes;
+using NoTankYou.CustomNodes;
+using NoTankYou.Extensions;
 using Action = Lumina.Excel.Sheets.Action;
 
 namespace NoTankYou.Classes;
 
-public abstract class ModuleBase {
-    public abstract ModuleName ModuleName { get; }
-    public abstract void Load();
-    public abstract void DrawConfigUi();
-    public abstract void EvaluateWarnings();
-    public List<WarningState> ActiveWarningStates { get; } = [];
-    public bool HasWarnings => ActiveWarningStates.Count != 0;
+public abstract unsafe class ModuleBase : FeatureBase {
     
-    public abstract bool IsEnabled { get; }
-}
+    public abstract ConfigBase ConfigBase { get; }
 
-public abstract unsafe class ModuleBase<T> : ModuleBase, IDisposable where T : ModuleConfigBase, new() {
-    protected T Config { get; private set; } = new();
+    public readonly List<WarningInfo> ActiveWarnings = [];
+
+    public bool HasWarnings => ActiveWarnings.Count is not 0;
+
+    protected List<Pointer<BattleChara>> BattleCharacters = [];
+    protected List<Pointer<BattleChara>> PartyMembers = [];
     
-    public override bool IsEnabled => Config.Enabled;
-    
-    protected abstract string DefaultWarningText { get; }
-    
-    protected string ExtraWarningText { get; set; } = string.Empty;
-    
+    protected sealed override void OnFeatureEnable() { }
+    protected sealed override void OnFeatureDisable() { }
+        
+    protected abstract bool ShouldEvaluateWarnings(BattleChara* character);
+    protected abstract void EvaluateWarnings(BattleChara* character);
+    protected abstract ICollection<NodeBase> GetConfigEntries();
+
     private readonly HashSet<ulong> suppressedObjectIds = [];
-    
     private readonly Dictionary<ulong, Stopwatch> suppressionTimer = new();
-    
     private readonly DeathTracker deathTracker = new();
 
-    public virtual void Dispose() { }
-    
-    private string ModuleCommand => ModuleName.ToString();
+    protected sealed override void OnFeatureUpdate() {
+        if (ConfigBase.SavePending) {
+            Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
+            ConfigBase.Save();
+        }
 
-    protected ModuleBase() {
-        System.CommandManager.RegisterCommand(new ToggleCommandHandler {
-            DisableDelegate = DisableModuleHandler,
-            EnableDelegate = EnableModuleHandler,
-            ToggleDelegate = ToggleModuleHandler,
-            BaseActivationPath = $"/{ModuleCommand}",
-        });
-        
-        System.CommandManager.RegisterCommand(new CommandHandler {
-            Delegate = SuppressModuleHandler,
-            ActivationPath = $"/{ModuleCommand}/suppress",
-        });
-    }
-    
-    protected abstract bool ShouldEvaluate(IPlayerData playerData);
-    
-    protected abstract void EvaluateWarnings(IPlayerData playerData);
+        ActiveWarnings.Clear();
+        BattleCharacters.Clear();
+        PartyMembers.Clear();
 
-    public override void EvaluateWarnings() {
-        ActiveWarningStates.Clear();
-
-        if (System.SystemConfig is null) return;
-        if (!Config.Enabled) return;
+        if (!IsEnabled) return;
         if (Services.ClientState.IsPvPExcludingDen) return;
-        if (System.BlacklistController.IsZoneBlacklisted(Services.ClientState.TerritoryType)) return;
-        if (System.SystemConfig.WaitUntilDutyStart && Services.Condition.IsBoundByDuty() && !Services.DutyState.IsDutyStarted) return;
-        if (Config.DutiesOnly && !Services.Condition.IsBoundByDuty() && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.DutiesOnly)) return;
-        if (Config.DisableInSanctuary && TerritoryInfo.Instance()->InSanctuary && !Config.OptionDisableFlags.HasFlag(OptionDisableFlags.Sanctuary)) return;
-        if (Services.Condition.IsCrossWorld()) return;
-        if (System.SystemConfig.HideInQuestEvent && Services.Condition.IsInCutsceneOrQuestEvent()) return;
+        if (Services.Condition.IsCrossWorld) return;
+        if (Services.Condition.IsInCutsceneOrQuestEvent) return;
+        if (ConfigBase.BlacklistedZones.Contains(Services.ClientState.TerritoryType)) return;
+        if (ConfigBase.DisableInSanctuary && TerritoryInfo.Instance()->InSanctuary) return;
+        if (ConfigBase.WaitForDutyStart && Services.Condition.IsBoundByDuty && !Services.DutyState.IsDutyStarted) return;
+        if (ConfigBase.DutiesOnly && !Services.Condition.IsBoundByDuty) return;
 
-        var groupManager = GroupManager.Instance();
-        
-        if (Config.SoloMode || groupManager->MainGroup.MemberCount is 0) {
-            if (Services.ObjectTable.LocalPlayer is not { } player) return;
-            
-            var localPlayer = (Character*) player.Address;
-            if (localPlayer is null) return;
-            
-            ProcessPlayer(new CharacterPlayerData(localPlayer));
-        }
-        else {
-            foreach (var partyMember in PartyMemberSpan.PointerEnumerator()) {
-                ProcessPlayer(new PartyMemberPlayerData(partyMember));
+        // Collect the battle character pointers for use in each module's logic.
+        foreach (var characterEntry in CharacterManager.Instance()->BattleCharas) {
+            if (characterEntry.Value is null) continue;
+
+            BattleCharacters.Add(characterEntry);
+
+            if (characterEntry.Value->IsPartyMember) {
+                PartyMembers.Add(characterEntry);
             }
         }
+
+        foreach (var characterEntry in BattleCharacters) {
+            var battleCharacter = characterEntry.Value;
+            if (battleCharacter is null) continue;
+            
+            if (ConfigBase.SoloMode && battleCharacter->ObjectIndex is not 0) continue;
+            if (ConfigBase.PartyMembersOnly && !battleCharacter->IsPartyMember && battleCharacter->ObjectIndex is not 0) continue;
+
+            ProcessPlayer(battleCharacter);
+        }
+    }
+
+    private void ProcessPlayer(BattleChara* character) {
+        if (character->EntityId is 0xE0000000 or 0) return;
+        if (HasDisallowedCondition()) return;
+        if (character->HasStatus(1534)) return; // Is Role-Playing Status
+        if (deathTracker.IsDead(character)) return;
+        if (!ShouldEvaluateWarnings(character)) return;
+        if (suppressedObjectIds.Contains(character->EntityId)) return;
+
+        EvaluateWarnings(character);
+        EvaluateAutoSuppression(character);
     }
     
-    private void ProcessPlayer(IPlayerData player) {
-        if (player.GetEntityId() is 0xE0000000 or 0) return;
-        if (HasDisallowedCondition()) return;
-        if (HasDisallowedStatus(player)) return;
-        if (deathTracker.IsDead(player)) return;
-        if (!ShouldEvaluate(player)) return;
-        if (suppressedObjectIds.Contains(player.GetEntityId())) return;
-
-        EvaluateWarnings(player);
-        EvaluateAutoSuppression(player);
-    }
-
-    private void EvaluateAutoSuppression(IPlayerData player) {
-        if (Config.AutoSuppress) {
-            if (Services.ObjectTable.LocalPlayer is { EntityId: var playerEntityId } && playerEntityId == player.GetEntityId()) {
-                return; // Do not allow auto suppression for the user.
-            }
-            
-            suppressionTimer.TryAdd(player.GetEntityId(), Stopwatch.StartNew());
-            if (suppressionTimer.TryGetValue(player.GetEntityId(), out var timer)) {
-                if (HasWarnings) {
-                    if (timer.Elapsed.TotalSeconds >= Config.AutoSuppressTime) {
-                        suppressedObjectIds.Add(player.GetEntityId());
-                        Services.PluginLog.Warning($"[{ModuleName}]: Adding {player.GetName()} to auto-suppression list");
-                    }
-                }
-                else {
-                    timer.Restart();
-                }
-            }
-        }
-    }
-
-    private bool HasDisallowedStatus(IPlayerData player)
-        => player.HasStatus(1534);
-
-    private static bool HasDisallowedCondition()
-        => Services.Condition.Any(ConditionFlag.Jumping61,
-            ConditionFlag.Transformed,
-            ConditionFlag.InThisState89);
-
-    public override void DrawConfigUi() {
-        var minDimension = MathF.Min(ImGui.GetContentRegionMax().X, ImGui.GetContentRegionMax().Y);
-        var moduleInfo = ModuleName.GetAttribute<ModuleIconAttribute>()!;
-        ImGui.Image(Services.TextureProvider.GetFromGameIcon(moduleInfo.ModuleIcon).GetWrapOrEmpty().Handle, new Vector2(minDimension), Vector2.Zero, Vector2.One, KnownColor.White.Vector() with { W = 0.20f });
-        ImGui.SetCursorPos(Vector2.Zero);
-        
-        Config.DrawConfigUi();
-    }
-
-    public override void Load() {
-        Services.PluginLog.Debug($"[{ModuleName}] Loading Module");
-        Config = ModuleConfigBase.Load<T>(ModuleName);
-    }
-
-    protected static Span<PartyMember> PartyMemberSpan 
-        => GroupManager.Instance()->MainGroup.PartyMembers[..GroupManager.Instance()->MainGroup.MemberCount];
-
-    protected void AddActiveWarning(uint actionId, IPlayerData playerData) => ActiveWarningStates.Add(new WarningState {
-        Priority = Config.Priority,
+    protected void GenerateWarning(uint actionId, string warningText, BattleChara* battleChara) => ActiveWarnings.Add(new WarningInfo {
+        Priority = ConfigBase.Priority,
         IconId = Services.DataManager.GetExcelSheet<Action>().GetRow(actionId).Icon,
         ActionId = actionId,
         IconLabel = Services.DataManager.GetExcelSheet<Action>().GetRow(actionId).Name.ToString(),
-        Message = (Config.CustomWarning ? Config.CustomWarningText : DefaultWarningText) + ExtraWarningText,
-        SourcePlayerName = playerData.GetName(),
-        SourceEntityId = playerData.GetEntityId(),
-        SourceModule = ModuleName,
+        Message = ConfigBase.CustomWarningText.IsNullOrEmpty() ? warningText : ConfigBase.CustomWarningText,
+        SourceCharacter = battleChara,
+        SourceModule = ModuleInfo.DisplayName,
     });
 
-    protected void AddActiveWarning(uint iconId, string iconLabel, IPlayerData playerData) => ActiveWarningStates.Add(new WarningState {
-        Priority = Config.Priority,
+    protected void GenerateWarning(uint iconId, string iconLabel, string warningText, BattleChara* battleChara) => ActiveWarnings.Add(new WarningInfo {
+        Priority = ConfigBase.Priority,
         IconId = iconId,
         ActionId = 0,
         IconLabel = iconLabel,
-        Message = (Config.CustomWarning ? Config.CustomWarningText : DefaultWarningText) + ExtraWarningText,
-        SourcePlayerName = playerData.GetName(),
-        SourceEntityId = playerData.GetEntityId(),
-        SourceModule = ModuleName,
+        Message = ConfigBase.CustomWarningText.IsNullOrEmpty() ? warningText : ConfigBase.CustomWarningText,
+        SourceCharacter = battleChara,
+        SourceModule = ModuleInfo.DisplayName,
     });
     
-    private void EnableModuleHandler(params string[] args) {
-        if (!Services.ClientState.IsLoggedIn) return;
-        
-        Config.Enabled = true;
-        PrintConfirmation();
-        Config.Save();
-    }
-    
-    private void DisableModuleHandler(params string[] args) {
-        if (!Services.ClientState.IsLoggedIn) return;
+    private void EvaluateAutoSuppression(BattleChara* character) {
+        if (!ConfigBase.AutoSuppress) return;
 
-        Config.Enabled = false;
-        PrintConfirmation();
-        Config.Save();
-    }
-    
-    private void ToggleModuleHandler(params string[] args) {
-        if (!Services.ClientState.IsLoggedIn) return;
-        
-        Config.Enabled = !Config.Enabled;
-        PrintConfirmation();
-        Config.Save();
-    }
+        // Do not allow auto suppression for the user.
+        if (character->ObjectIndex is 0) return;
 
-    private void SuppressModuleHandler(params string[] args) {
-        if (!Services.ClientState.IsLoggedIn) return;
+        suppressionTimer.TryAdd(character->EntityId, Stopwatch.StartNew());
+        if (!suppressionTimer.TryGetValue(character->EntityId, out var timer)) return;
 
-        foreach (var warningPlayer in ActiveWarningStates) {
-            suppressedObjectIds.Add(warningPlayer.SourceEntityId);
-            Services.Chat.Print("Command", $"Suppressing {ModuleName.GetDescription()} Warnings for: {warningPlayer.SourcePlayerName}");
+        if (HasWarnings) {
+            if (timer.Elapsed.TotalSeconds >= ConfigBase.AutoSuppressTime) {
+                suppressedObjectIds.Add(character->EntityId);
+                Services.PluginLog.Warning($"[{Name}]: Adding {character->GetName()} to auto-suppression list");
+            }
+        }
+        else {
+            timer.Restart();
         }
     }
 
-    private void PrintConfirmation() 
-        => Services.Chat.Print("Command", Config.Enabled ? $"Enabling {ModuleName.GetDescription()}" : $"Disabling {ModuleName.GetDescription()}");
+    private static bool HasDisallowedCondition()
+        => Services.Condition.Any(ConditionFlag.Jumping61, ConditionFlag.Transformed, ConditionFlag.InThisState89);
+    
+    public override NodeBase DisplayNode => new ScrollingListNode {
+        FitWidth = true,
+        ItemSpacing = 2.0f,
+        InitialNodes = [
+            new CategoryHeaderNode {
+                String = "General Settings",
+                Alignment = AlignmentType.Bottom,
+            },
+            new CheckboxNode {
+                Height = 32.0f,
+                String = "Wait for Duty Start",
+                IsChecked = ConfigBase.WaitForDutyStart,
+                OnClick = newValue => {
+                    ConfigBase.WaitForDutyStart = newValue;
+                    ConfigBase.MarkDirty();
+                },
+            },
+            new CheckboxNode {
+                Height = 32.0f,
+                String = "Show in Duties Only",
+                IsChecked = ConfigBase.DutiesOnly,
+                OnClick = newValue => {
+                    ConfigBase.DutiesOnly = newValue;
+                    ConfigBase.MarkDirty();
+                },
+            },
+            new CheckboxNode {
+                Height = 32.0f,
+                String = "Disable in Sanctuaries",
+                IsChecked = ConfigBase.DisableInSanctuary,
+                OnClick = newValue => {
+                    ConfigBase.DisableInSanctuary = newValue;
+                    ConfigBase.MarkDirty();
+                },
+            },
+            new CheckboxNode {
+                Height = 32.0f,
+                String = "Only Check Self",
+                IsChecked = ConfigBase.SoloMode,
+                OnClick = newValue => {
+                    ConfigBase.SoloMode = newValue;
+                    ConfigBase.MarkDirty();
+                },
+            },
+            new CheckboxNode {
+                Height = 32.0f,
+                String = "Exclude Non-Party Members",
+                IsChecked = ConfigBase.PartyMembersOnly,
+                OnClick = newValue => {
+                    ConfigBase.PartyMembersOnly = newValue;
+                    ConfigBase.MarkDirty();
+                },
+            },
+            new CheckboxNode {
+                Height = 32.0f,
+                String = "Enable Warning Auto-Suppression",
+                TextTooltip = "After the specified amount of time has elapsed, automatically suppresses warnings for players.",
+                IsChecked = ConfigBase.AutoSuppress,
+                OnClick = newValue => {
+                    ConfigBase.AutoSuppress = newValue;
+                    ConfigBase.MarkDirty();
+                },
+            },
+            new HorizontalFlexNode {
+                Height = 32.0f,
+                AlignmentFlags = FlexFlags.FitWidth | FlexFlags.FitHeight,
+                InitialNodes = [
+                    new TextNode {
+                        FontSize = 14,
+                        AlignmentType = AlignmentType.Left,
+                        String = "Auto-Suppression Time (s)",
+                    },
+                    new NumericInputNode {
+                        Value = ConfigBase.AutoSuppressTime,
+                        OnValueUpdate = newValue => {
+                            newValue = Math.Clamp(newValue, 5, 600);
+                            ConfigBase.AutoSuppressTime = newValue;
+                            ConfigBase.MarkDirty();
+                        },
+                    },
+                ],
+            },
+            new HorizontalFlexNode {
+                Height = 32.0f,
+                AlignmentFlags = FlexFlags.FitWidth | FlexFlags.FitHeight,
+                InitialNodes = [
+                    new TextNode {
+                        FontSize = 14,
+                        AlignmentType = AlignmentType.Left,
+                        String = "Priority",
+                    },
+                    new NumericInputNode {
+                        Value = ConfigBase.Priority,
+                        OnValueUpdate = newValue => {
+                            ConfigBase.Priority = newValue;
+                            ConfigBase.MarkDirty();
+                        },
+                    },
+                ],
+            },
+            new TextInputNode {
+                Height = 32.0f,
+                PlaceholderString = "Custom Warning Text",
+                String = ConfigBase.CustomWarningText,
+                OnInputReceived = newString => {
+                    ConfigBase.CustomWarningText = newString.ToString();
+                    ConfigBase.MarkDirty();
+                },
+            },
+            new CategoryHeaderNode {
+                String = "Module Settings",
+                Alignment = AlignmentType.Bottom,
+            },
+            ..GetConfigEntries(),
+        ],
+    };
 }
