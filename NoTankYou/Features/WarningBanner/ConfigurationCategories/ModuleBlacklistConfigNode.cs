@@ -19,8 +19,9 @@ public class ModuleSelectConfigNode : VerticalListNode {
         
         InitialNodes = [
             new CategoryHeaderNode {
-                String= "Module Select",
+                String= "Module Blacklist",
                 Alignment = AlignmentType.Bottom,
+                TextTooltip = "Warnings for the selected modules will not be shown in the Warning Banner overlay.",
             },
             ..GetModuleCheckBoxes(),
         ];
