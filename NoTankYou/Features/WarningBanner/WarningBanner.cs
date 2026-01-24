@@ -3,7 +3,6 @@ using KamiToolKit;
 using KamiToolKit.Overlay;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
-using NoTankYou.Windows;
 
 namespace NoTankYou.Features.WarningBanner;
 
@@ -15,14 +14,13 @@ public class WarningBanner : FeatureBase {
         Type = ModuleType.GeneralFeatures,
     };
 
-    private MultiSelectWindow? moduleSelectionWindow;
     private OverlayController? overlayController;
     
     public override NodeBase DisplayNode => new WarningBannerConfigNode(this);
 
     public WarningBannerConfig Config = null!;
 
-    public static WarningBannerConfig? WarningBannerConfig;
+    public static WarningBannerConfig? WarningBannerConfig { get; private set; }
 
     protected override void OnFeatureLoad() {
         Config = Utilities.Config.LoadCharacterConfig<WarningBannerConfig>($"{ModuleInfo.FileName}.config.json");
@@ -48,9 +46,6 @@ public class WarningBanner : FeatureBase {
     }
 
     protected override void OnFeatureDisable() {
-        moduleSelectionWindow?.Dispose();
-        moduleSelectionWindow = null;
-        
         overlayController?.Dispose();
         overlayController = null;
     }

@@ -11,7 +11,7 @@ using NoTankYou.Enums;
 
 namespace NoTankYou.Features.WarningBanner;
 
-public class WarningBannerOverlayNode : OverlayNode {
+public unsafe class WarningBannerOverlayNode : OverlayNode {
 	public override OverlayLayer OverlayLayer => OverlayLayer.Background;
 
 	private readonly ListNode<WarningInfo, WarningBannerListItemNode> bannerListNode;
@@ -50,21 +50,22 @@ public class WarningBannerOverlayNode : OverlayNode {
 
         Scale = new Vector2(Config.Scale, Config.Scale);
 
-        var filteredModules = System.WarningController.ActiveWarnings
-            .Where(module => !Config.BlacklistedModules.Contains(module.SourceModule))
+        var filteredWarning = System.WarningController.ActiveWarnings
+            .Where(warning => !Config.BlacklistedModules.Contains(warning.SourceModule))
+            .Where(warning => !Config.SoloMode || warning.SourceCharacter->ObjectIndex is 0)
             .ToList();
 
         switch (Config.DisplayMode) {
-            case BannerDisplayMode.TopPriority when filteredModules.Count is not 0:
-                bannerListNode.OptionsList = [ filteredModules.First() ];
+            case BannerDisplayMode.TopPriority when filteredWarning.Count is not 0:
+                bannerListNode.OptionsList = [ filteredWarning.First() ];
                 break;
             
-            case BannerDisplayMode.TopPriority when filteredModules.Count is 0:
+            case BannerDisplayMode.TopPriority when filteredWarning.Count is 0:
                 bannerListNode.OptionsList = [];
                 break;
             
             case BannerDisplayMode.List:
-                bannerListNode.OptionsList = filteredModules;
+                bannerListNode.OptionsList = filteredWarning;
                 break;
         }
 

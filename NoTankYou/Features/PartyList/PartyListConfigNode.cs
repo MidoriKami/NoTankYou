@@ -1,18 +1,18 @@
-﻿using KamiToolKit.Nodes;
-using NoTankYou.Features.WarningBanner.ConfigurationCategories;
+﻿
+using KamiToolKit.Nodes;
+using NoTankYou.Features.PartyList.ConfigurationCategories;
 
-namespace NoTankYou.Features.WarningBanner;
+namespace NoTankYou.Features.PartyList;
 
-public class WarningBannerConfigNode : SimpleComponentNode {
+public class PartyListConfigNode : SimpleComponentNode {
     private readonly ScrollingListNode listNode;
 
-    public WarningBannerConfigNode(WarningBanner module) {
+    public PartyListConfigNode(PartyList module) {
         listNode = new ScrollingListNode {
             FitWidth = true,
             ItemSpacing = 3.0f,
             InitialNodes = [
-                new FeatureConfigurationNode(module),
-                new PositioningConfigurationNode(module),
+                new FeatureConfigurationNode(module), 
                 new DisplayStyleConfigNode(module),
                 new ModuleSelectConfigNode(module),
             ],

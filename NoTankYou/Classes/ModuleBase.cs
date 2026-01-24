@@ -99,6 +99,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         Message = ConfigBase.CustomWarningText.IsNullOrEmpty() ? warningText : ConfigBase.CustomWarningText,
         SourceCharacter = battleChara,
         SourceModule = ModuleInfo.DisplayName,
+        ModuleIcon = ModuleInfo.IconId,
     });
 
     protected void GenerateWarning(uint iconId, string iconLabel, string warningText, BattleChara* battleChara) => ActiveWarnings.Add(new WarningInfo {
@@ -109,6 +110,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         Message = ConfigBase.CustomWarningText.IsNullOrEmpty() ? warningText : ConfigBase.CustomWarningText,
         SourceCharacter = battleChara,
         SourceModule = ModuleInfo.DisplayName,
+        ModuleIcon = ModuleInfo.IconId,
     });
     
     private void EvaluateAutoSuppression(BattleChara* character) {
