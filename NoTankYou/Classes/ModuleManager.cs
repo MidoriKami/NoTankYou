@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Dalamud.Plugin.Services;
-using KamiToolKit.Extensions;
 using NoTankYou.Enums;
 
 namespace NoTankYou.Classes;
@@ -17,24 +15,15 @@ public class ModuleManager : IDisposable {
     private List<ModuleBase>? warningGeneratingModules;
     private List<FeatureBase>? warningDisplayingModules;
 
-    private FrozenDictionary<string, LoadedModule>? loadedModulesByName;
-    public bool IsUnloading {get; private set; }
-    public bool IsLoadComplete { get; private set; }
-
-    public Action? OnLoadComplete { get; set; }
-
     public void Dispose() {
         UnloadModules();
     }
 
     public void LoadModules() {
-        IsUnloading = false;
-        
         var allModules = GetModuleTypes();
         LoadedModules = [];
         warningGeneratingModules = [];
         warningDisplayingModules = [];
-        
         
         foreach (var module in allModules.OrderBy(module => module.ModuleInfo.Type).ThenBy(module => module.Name)) {
             Services.PluginInterface.Inject(module);
@@ -56,18 +45,12 @@ public class ModuleManager : IDisposable {
             }
         }
 
-        loadedModulesByName = LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
-
-        IsLoadComplete = true;
-        OnLoadComplete?.Invoke();
+        LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
 
         Services.Framework.Update += OnFrameworkUpdate;
     }
 
     public void UnloadModules() {
-        IsUnloading = true;
-        IsLoadComplete = false;
-        
         if (LoadedModules is null) {
             Services.PluginLog.Debug("No modules loaded");
             return;
@@ -169,16 +152,6 @@ public class ModuleManager : IDisposable {
         foreach (var module in warningDisplayingModules ?? []) {
             module.Update();
         }
-    }
-
-    public static IEnumerable<LoadedModule> GetModules()
-        => System.ModuleManager.LoadedModules?
-               .Where(module => module.FeatureBase.ModuleInfo.Type is not (ModuleType.GeneralFeatures or ModuleType.Hidden)) ?? [];
-
-    public ModuleBase? GetModule(string name) {
-        if (loadedModulesByName is null) return null;
-        if (!loadedModulesByName.TryGetValue(name, out var module)) return null;
-        return module.FeatureBase as ModuleBase;
     }
 
     private static List<FeatureBase> GetModuleTypes() => Assembly

@@ -4,7 +4,6 @@ namespace NoTankYou.Classes;
 
 public class ConfigBase : Savable {
     public bool WaitForDutyStart = true;
-    public bool HideInQuestEvent = true;
     public bool SoloMode = false;
     public bool DutiesOnly = true;
     public bool DisableInSanctuary = true;
@@ -13,7 +12,8 @@ public class ConfigBase : Savable {
     public int AutoSuppressTime = 30;
     public int Priority = 0;
     public string CustomWarningText = string.Empty;
-    public HashSet<uint> BlacklistedZones = [];
+
+    public List<uint> BlacklistedZones = [];
     
     protected override string FileExtension => ".config.json";
 }

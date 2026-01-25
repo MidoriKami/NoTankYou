@@ -13,6 +13,17 @@ public static unsafe class BattleCharaExtensions {
         public int? HudIndex 
             => AgentHUD.Instance()->GetMember(battleChara.EntityId)?.Index;
 
+        public bool HasStatus(ICollection<uint> statuses) {
+            foreach (var status in statuses) {
+                if (battleChara.HasStatus(status)) return true;
+            }
+
+            return false;
+        }
+        
+        public bool MissingStatus(uint status)
+            => battleChara.MissingStatus([status]);
+        
         public bool MissingStatus(ICollection<uint> statuses) {
             foreach (var status in statuses) {
                 if (battleChara.StatusManager.HasStatus(status)) return false;

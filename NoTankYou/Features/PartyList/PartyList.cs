@@ -8,7 +8,6 @@ using KamiToolKit.Controllers;
 using KamiToolKit.Extensions;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
-using NoTankYou.Extensions;
 
 namespace NoTankYou.Features.PartyList;
 
@@ -17,7 +16,7 @@ public unsafe class PartyList : FeatureBase {
         DisplayName = "Party List",
         FileName = "PartyListOverlay",
         IconId = 0,
-        Type = ModuleType.GeneralFeatures,
+        Type = ModuleType.WarningDisplays,
     };
 
     private AddonController<AddonPartyList>? partyListController;
@@ -105,7 +104,7 @@ public unsafe class PartyList : FeatureBase {
         if (!IsEnabled) return;
         
         var filteredWarning = System.WarningController.ActiveWarnings
-            .Where(warning => !Config.BlacklistedModules.Contains(warning.SourceModule))
+            .Where(warning => !Config.DisabledModules.Contains(warning.SourceModule))
             .Where(warning => !Config.SoloMode || warning.SourceCharacter->ObjectIndex is 0)
             .Where(warning => warning.SourceCharacter->HudIndex is not null);
 

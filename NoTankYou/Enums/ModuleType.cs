@@ -3,12 +3,14 @@
 namespace NoTankYou.Enums;
 
 public enum ModuleType {
-
-    [Description("General Features")]
-    GeneralFeatures,
+    [Description("Warning Displays")]
+    WarningDisplays,
     
     [Description("Class Features")]
 	ClassFeatures,
     
+    [Description("Other Features")]
+    OtherFeatures,
+
     Hidden,
 }

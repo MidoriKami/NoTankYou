@@ -29,7 +29,7 @@ public class FeatureConfigurationNode : VerticalListNode {
                 String = "Sample Mode",
                 IsChecked = System.WarningController.SampleModeEnabled,
                 OnClick = newValue => System.WarningController.ToggleSampleMode(newValue),
-            }
+            },
         ];
     }
 }

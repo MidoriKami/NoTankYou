@@ -3,7 +3,6 @@ using Dalamud.Game.Command;
 using Dalamud.Plugin;
 using KamiToolKit;
 using NoTankYou.Classes;
-using NoTankYou.Extensions;
 using NoTankYou.Windows;
 
 namespace NoTankYou;

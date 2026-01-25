@@ -24,6 +24,7 @@ public unsafe class WarningBannerOverlayNode : OverlayNode {
 			DisableCollisionNode = true,
             OptionsList = [],
 		};
+        bannerListNode.ScrollBarNode.IsVisible = false;
 		bannerListNode.AttachNode(this);
 		
 		bannerListNode.AddTimeline(new TimelineBuilder()
@@ -51,7 +52,7 @@ public unsafe class WarningBannerOverlayNode : OverlayNode {
         Scale = new Vector2(Config.Scale, Config.Scale);
 
         var filteredWarning = System.WarningController.ActiveWarnings
-            .Where(warning => !Config.BlacklistedModules.Contains(warning.SourceModule))
+            .Where(warning => !Config.DisabledModules.Contains(warning.SourceModule))
             .Where(warning => !Config.SoloMode || warning.SourceCharacter->ObjectIndex is 0)
             .ToList();
 

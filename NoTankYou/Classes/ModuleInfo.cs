@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using NoTankYou.Enums;
-using NoTankYou.Extensions;
 
 namespace NoTankYou.Classes;
 

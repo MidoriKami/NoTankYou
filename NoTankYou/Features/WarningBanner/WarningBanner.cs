@@ -11,7 +11,7 @@ public class WarningBanner : FeatureBase {
         DisplayName = "Warning Banner",
         FileName = "BannerDisplay",
         IconId = 0,
-        Type = ModuleType.GeneralFeatures,
+        Type = ModuleType.WarningDisplays,
     };
 
     private OverlayController? overlayController;

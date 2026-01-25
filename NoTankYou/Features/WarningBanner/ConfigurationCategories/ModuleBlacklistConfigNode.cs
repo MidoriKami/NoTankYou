@@ -32,15 +32,15 @@ public class ModuleSelectConfigNode : VerticalListNode {
             yield return new CheckboxNode {
                 Height = 32.0f,
                 String = moduleName,
-                IsChecked = module.Config.BlacklistedModules.Contains(moduleName),
+                IsChecked = module.Config.DisabledModules.Contains(moduleName),
                 OnClick = newValue => {
                     if (newValue) {
-                        if (!module.Config.BlacklistedModules.Contains(moduleName)) {
-                            module.Config.BlacklistedModules.Add(moduleName);
+                        if (!module.Config.DisabledModules.Contains(moduleName)) {
+                            module.Config.DisabledModules.Add(moduleName);
                         }
                     }
                     else {
-                        module.Config.BlacklistedModules.Remove(moduleName);
+                        module.Config.DisabledModules.Remove(moduleName);
                     }
                     module.Config.MarkDirty();
                 },
@@ -50,7 +50,7 @@ public class ModuleSelectConfigNode : VerticalListNode {
     
     private static List<string> AllModules 
         => System.ModuleManager.LoadedModules?
-              .Where(loadedModule => loadedModule.FeatureBase.ModuleInfo.Type is not ModuleType.GeneralFeatures)
+              .Where(loadedModule => loadedModule.FeatureBase.ModuleInfo.Type is not ModuleType.WarningDisplays)
               .Select(loadedModule => loadedModule.Name)
               .ToList() ?? [];
 }

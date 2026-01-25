@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
+using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using KamiToolKit;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
-using NoTankYou.Extensions;
 
 namespace NoTankYou.Features.Tanks;
 
@@ -19,7 +19,6 @@ public class Tanks : Module<TanksConfig> {
         IconId = 62019,
     };
 
-    // todo: maybe map the ClassJob to the TankStance ActionId ?
     private readonly uint[] tankStanceIdArray = Services.DataManager.GetExcelSheet<Status>()
         .Where(status => status is { InflictedByActor: true, CanStatusOff: true, IsPermanent: true, ParamModifier: 500, PartyListPriority: 0})
         .Select(status => status.RowId)
@@ -36,8 +35,21 @@ public class Tanks : Module<TanksConfig> {
     }
 
     protected override unsafe void EvaluateWarnings(BattleChara* character) {
-        if (character->MissingStatus(tankStanceIdArray)) {
-            GenerateWarning(GetActionIdForClass(character->ClassJob), "Missing Tank Stance", character);
+        if (GroupManager.Instance()->MainGroup.MemberCount is 0) {
+            if (character->MissingStatus(tankStanceIdArray)) {
+                GenerateWarning(GetActionIdForClass(character->ClassJob), "Missing Tank Stance", character);
+            }
+        }
+        else {
+            if (ModuleConfig.CheckAllianceTanks && Services.DataManager.CurrentDutyType is DutyType.Alliance) {
+                if (!AllianceMembers.Any(member => member.Value->IsTank && member.Value->HasStatus(tankStanceIdArray))) {
+                    GenerateWarning(GetActionIdForClass(character->ClassJob), "Alliance Missing Tank Stance", character);
+                }
+            }
+
+            if (!PartyMembers.Any(member => member.Value->IsTank && member.Value->HasStatus(tankStanceIdArray))) {
+                GenerateWarning(GetActionIdForClass(character->ClassJob), "Party Missing Tank Stance", character);
+            }
         }
     }
     
@@ -49,7 +61,7 @@ public class Tanks : Module<TanksConfig> {
         _ => throw new ArgumentOutOfRangeException(nameof(classJob), classJob, null),
     };
 
-    protected override ICollection<NodeBase> GetConfigEntries() => [
+    protected override ICollection<NodeBase> ModuleConfigNodes => [
         new CheckboxNode {
             Height = 32.0f,
             String = "Disable in Alliance Raids",

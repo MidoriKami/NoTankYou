@@ -13,7 +13,7 @@ public class PartyListConfig : Savable {
     public bool ShowIcon = true;
     public Vector4 GlowColor = new(0.90f, 0.5f, 0.5f, 1.0f);
     
-    public List<string> BlacklistedModules = [];
+    public List<string> DisabledModules = [];
 
     protected override string FileExtension => ".config.json";
 }

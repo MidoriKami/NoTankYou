@@ -23,7 +23,7 @@ public class WarningBannerConfig : Savable {
     public bool EnableAnimation = true;
     public bool EnableActionTooltip = true;
 
-    public List<string> BlacklistedModules = [];
+    public List<string> DisabledModules = [];
 
     [JsonIgnore] public bool EnableMoving;
     [JsonIgnore] public bool EnableResizing;

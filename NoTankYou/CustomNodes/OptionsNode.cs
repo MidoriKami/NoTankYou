@@ -5,7 +5,6 @@ using System.Linq;
 using KamiToolKit.Nodes;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
-using NoTankYou.Extensions;
 
 namespace NoTankYou.CustomNodes;
 

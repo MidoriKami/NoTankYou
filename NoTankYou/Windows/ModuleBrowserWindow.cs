@@ -8,7 +8,6 @@ using Lumina.Text.ReadOnly;
 using NoTankYou.Classes;
 using NoTankYou.CustomNodes;
 using NoTankYou.Enums;
-using NoTankYou.Extensions;
 
 namespace NoTankYou.Windows;
 

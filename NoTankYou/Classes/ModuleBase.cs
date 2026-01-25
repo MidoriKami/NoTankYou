@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
+using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using FFXIVClientStructs.Interop;
@@ -11,7 +12,6 @@ using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 using NoTankYou.CustomNodes;
-using NoTankYou.Extensions;
 using Action = Lumina.Excel.Sheets.Action;
 
 namespace NoTankYou.Classes;
@@ -26,13 +26,13 @@ public abstract unsafe class ModuleBase : FeatureBase {
 
     protected List<Pointer<BattleChara>> BattleCharacters = [];
     protected List<Pointer<BattleChara>> PartyMembers = [];
+    protected List<Pointer<BattleChara>> AllianceMembers = [];
     
     protected sealed override void OnFeatureEnable() { }
     protected sealed override void OnFeatureDisable() { }
         
     protected abstract bool ShouldEvaluateWarnings(BattleChara* character);
     protected abstract void EvaluateWarnings(BattleChara* character);
-    protected abstract ICollection<NodeBase> GetConfigEntries();
 
     private readonly HashSet<ulong> suppressedObjectIds = [];
     private readonly Dictionary<ulong, Stopwatch> suppressionTimer = new();
@@ -60,11 +60,16 @@ public abstract unsafe class ModuleBase : FeatureBase {
         // Collect the battle character pointers for use in each module's logic.
         foreach (var characterEntry in CharacterManager.Instance()->BattleCharas) {
             if (characterEntry.Value is null) continue;
+            if (characterEntry.Value->ObjectKind is not ObjectKind.Pc) continue;
 
             BattleCharacters.Add(characterEntry);
 
             if (characterEntry.Value->IsPartyMember) {
                 PartyMembers.Add(characterEntry);
+            }
+
+            if (characterEntry.Value->IsAllianceMember) {
+                AllianceMembers.Add(characterEntry);
             }
         }
 
@@ -135,121 +140,139 @@ public abstract unsafe class ModuleBase : FeatureBase {
 
     private static bool HasDisallowedCondition()
         => Services.Condition.Any(ConditionFlag.Jumping61, ConditionFlag.Transformed, ConditionFlag.InThisState89);
-    
-    public override NodeBase DisplayNode => new ScrollingListNode {
+
+    public sealed override NodeBase DisplayNode => new ScrollingListNode {
         FitWidth = true,
         ItemSpacing = 2.0f,
         InitialNodes = [
-            new CategoryHeaderNode {
-                String = "General Settings",
-                Alignment = AlignmentType.Bottom,
-            },
-            new CheckboxNode {
-                Height = 32.0f,
-                String = "Wait for Duty Start",
-                IsChecked = ConfigBase.WaitForDutyStart,
-                OnClick = newValue => {
-                    ConfigBase.WaitForDutyStart = newValue;
-                    ConfigBase.MarkDirty();
-                },
-            },
-            new CheckboxNode {
-                Height = 32.0f,
-                String = "Show in Duties Only",
-                IsChecked = ConfigBase.DutiesOnly,
-                OnClick = newValue => {
-                    ConfigBase.DutiesOnly = newValue;
-                    ConfigBase.MarkDirty();
-                },
-            },
-            new CheckboxNode {
-                Height = 32.0f,
-                String = "Disable in Sanctuaries",
-                IsChecked = ConfigBase.DisableInSanctuary,
-                OnClick = newValue => {
-                    ConfigBase.DisableInSanctuary = newValue;
-                    ConfigBase.MarkDirty();
-                },
-            },
-            new CheckboxNode {
-                Height = 32.0f,
-                String = "Only Check Self",
-                IsChecked = ConfigBase.SoloMode,
-                OnClick = newValue => {
-                    ConfigBase.SoloMode = newValue;
-                    ConfigBase.MarkDirty();
-                },
-            },
-            new CheckboxNode {
-                Height = 32.0f,
-                String = "Exclude Non-Party Members",
-                IsChecked = ConfigBase.PartyMembersOnly,
-                OnClick = newValue => {
-                    ConfigBase.PartyMembersOnly = newValue;
-                    ConfigBase.MarkDirty();
-                },
-            },
-            new CheckboxNode {
-                Height = 32.0f,
-                String = "Enable Warning Auto-Suppression",
-                TextTooltip = "After the specified amount of time has elapsed, automatically suppresses warnings for players.",
-                IsChecked = ConfigBase.AutoSuppress,
-                OnClick = newValue => {
-                    ConfigBase.AutoSuppress = newValue;
-                    ConfigBase.MarkDirty();
-                },
-            },
-            new HorizontalFlexNode {
-                Height = 32.0f,
-                AlignmentFlags = FlexFlags.FitWidth | FlexFlags.FitHeight,
-                InitialNodes = [
-                    new TextNode {
-                        FontSize = 14,
-                        AlignmentType = AlignmentType.Left,
-                        String = "Auto-Suppression Time (s)",
-                    },
-                    new NumericInputNode {
-                        Value = ConfigBase.AutoSuppressTime,
-                        OnValueUpdate = newValue => {
-                            newValue = Math.Clamp(newValue, 5, 600);
-                            ConfigBase.AutoSuppressTime = newValue;
-                            ConfigBase.MarkDirty();
-                        },
-                    },
-                ],
-            },
-            new HorizontalFlexNode {
-                Height = 32.0f,
-                AlignmentFlags = FlexFlags.FitWidth | FlexFlags.FitHeight,
-                InitialNodes = [
-                    new TextNode {
-                        FontSize = 14,
-                        AlignmentType = AlignmentType.Left,
-                        String = "Priority",
-                    },
-                    new NumericInputNode {
-                        Value = ConfigBase.Priority,
-                        OnValueUpdate = newValue => {
-                            ConfigBase.Priority = newValue;
-                            ConfigBase.MarkDirty();
-                        },
-                    },
-                ],
-            },
-            new TextInputNode {
-                Height = 32.0f,
-                PlaceholderString = "Custom Warning Text",
-                String = ConfigBase.CustomWarningText,
-                OnInputReceived = newString => {
-                    ConfigBase.CustomWarningText = newString.ToString();
-                    ConfigBase.MarkDirty();
-                },
-            },
-            new CategoryHeaderNode {
-                String = "Module Settings",
-                Alignment = AlignmentType.Bottom,
-            },
-            ..GetConfigEntries(),
+            ..ConfigNodes,
+            ..GetModuleSpecificEntries(),
+            // Maybe Blacklist Features here?
         ],
     };
+
+    protected virtual ICollection<NodeBase> ConfigNodes => [
+        new CategoryHeaderNode {
+            String = "General Settings",
+            Alignment = AlignmentType.Bottom,
+        },
+        new CheckboxNode {
+            Height = 32.0f,
+            String = "Wait for Duty Start",
+            IsChecked = ConfigBase.WaitForDutyStart,
+            OnClick = newValue => {
+                ConfigBase.WaitForDutyStart = newValue;
+                ConfigBase.MarkDirty();
+            },
+        },
+        new CheckboxNode {
+            Height = 32.0f,
+            String = "Show in Duties Only",
+            IsChecked = ConfigBase.DutiesOnly,
+            OnClick = newValue => {
+                ConfigBase.DutiesOnly = newValue;
+                ConfigBase.MarkDirty();
+            },
+        },
+        new CheckboxNode {
+            Height = 32.0f,
+            String = "Disable in Sanctuaries",
+            IsChecked = ConfigBase.DisableInSanctuary,
+            OnClick = newValue => {
+                ConfigBase.DisableInSanctuary = newValue;
+                ConfigBase.MarkDirty();
+            },
+        },
+        new CheckboxNode {
+            Height = 32.0f,
+            String = "Only Check Self",
+            IsChecked = ConfigBase.SoloMode,
+            OnClick = newValue => {
+                ConfigBase.SoloMode = newValue;
+                ConfigBase.MarkDirty();
+            },
+        },
+        new CheckboxNode {
+            Height = 32.0f,
+            String = "Exclude Non-Party Members",
+            IsChecked = ConfigBase.PartyMembersOnly,
+            OnClick = newValue => {
+                ConfigBase.PartyMembersOnly = newValue;
+                ConfigBase.MarkDirty();
+            },
+        },
+        new CheckboxNode {
+            Height = 32.0f,
+            String = "Enable Warning Auto-Suppression",
+            TextTooltip = "After the specified amount of time has elapsed, automatically suppresses warnings for players.",
+            IsChecked = ConfigBase.AutoSuppress,
+            OnClick = newValue => {
+                ConfigBase.AutoSuppress = newValue;
+                ConfigBase.MarkDirty();
+            },
+        },
+        new HorizontalFlexNode {
+            Height = 32.0f,
+            AlignmentFlags = FlexFlags.FitWidth | FlexFlags.FitHeight,
+            InitialNodes = [
+                new TextNode {
+                    FontSize = 14,
+                    AlignmentType = AlignmentType.Left,
+                    String = "Auto-Suppression Time (s)",
+                },
+                new NumericInputNode {
+                    Value = ConfigBase.AutoSuppressTime,
+                    OnValueUpdate = newValue => {
+                        newValue = Math.Clamp(newValue, 5, 600);
+                        ConfigBase.AutoSuppressTime = newValue;
+                        ConfigBase.MarkDirty();
+                    },
+                },
+            ],
+        },
+        new HorizontalFlexNode {
+            Height = 32.0f,
+            AlignmentFlags = FlexFlags.FitWidth | FlexFlags.FitHeight,
+            InitialNodes = [
+                new TextNode {
+                    FontSize = 14,
+                    AlignmentType = AlignmentType.Left,
+                    String = "Priority",
+                },
+                new NumericInputNode {
+                    Value = ConfigBase.Priority,
+                    OnValueUpdate = newValue => {
+                        ConfigBase.Priority = newValue;
+                        ConfigBase.MarkDirty();
+                    },
+                },
+            ],
+        },
+        new TextInputNode {
+            Height = 32.0f,
+            PlaceholderString = "Custom Warning Text",
+            String = ConfigBase.CustomWarningText,
+            OnInputReceived = newString => {
+                ConfigBase.CustomWarningText = newString.ToString();
+                ConfigBase.MarkDirty();
+            },
+        },
+    ];
+
+    protected virtual ICollection<NodeBase> ModuleConfigNodes => [];
+    
+    private ICollection<NodeBase> GetModuleSpecificEntries() {
+        var configEntries = ModuleConfigNodes;
+        if (configEntries.Count is not 0) {
+            return [
+                new CategoryHeaderNode {
+                    String = "Module Settings",
+                    Alignment = AlignmentType.Bottom,
+                },
+                ..configEntries,
+            ];
+        }
+
+        return [];
+    }
 }
