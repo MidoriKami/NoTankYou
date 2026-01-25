@@ -113,6 +113,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
             String = "Status Selection",
             Alignment = AlignmentType.Bottom,
         },
+        new ResNode { Height = 4.0f },
         new HorizontalListNode {
             Height = 24.0f,
             FitHeight = true,
@@ -142,6 +143,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                 },
             ],
         },
+        new ResNode { Height = 4.0f },
         new HorizontalListNode {
             Height = 24.0f,
             FitHeight = true,
