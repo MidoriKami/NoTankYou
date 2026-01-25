@@ -60,8 +60,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
     private void OnLogin() {
         System.SystemConfig = SystemConfig.Load();
         System.ModuleManager.LoadModules();
-        
-        System.ConfigurationWindow.DebugOpen();
     }
     
     private void OnLogout(int type, int code) {
