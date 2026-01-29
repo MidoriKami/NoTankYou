@@ -1,6 +1,7 @@
 ﻿using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.MJI;
+using Lumina.Excel.Sheets;
 
 namespace NoTankYou.Extensions;
 
@@ -17,6 +18,7 @@ public static unsafe class ConditionExtensions {
         public bool IsInQuestEvent => condition.Any(ConditionFlag.OccupiedInQuestEvent) || IsIslandDoingSomethingMode;
         public bool IsInCutsceneOrQuestEvent => condition.IsInCutscene || condition.IsInQuestEvent;
         public bool IsDutyRecorderPlayback => condition.Any(ConditionFlag.DutyRecorderPlayback);
+        public bool CanSummonChocobo => Services.DataManager.GetExcelSheet<TerritoryType>().GetRow(Services.ClientState.TerritoryType).TerritoryIntendedUse.ValueNullable?.EnableCompanion ?? false;
     }
 
     public static bool IsIslandDoingSomethingMode => MJIManager.Instance()->CurrentMode is not 0 && MJIManager.Instance()->IsPlayerInSanctuary;
