@@ -41,7 +41,6 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         System.ConfigurationWindow.Dispose();
 
         System.ModuleManager.Dispose();
-        System.WarningController.Dispose();
         
         KamiToolKitLibrary.Dispose();
     }
