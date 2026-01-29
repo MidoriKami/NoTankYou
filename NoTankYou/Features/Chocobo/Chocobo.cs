@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
+using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -29,7 +31,7 @@ public class Chocobo : Module<ChocoboConfig> {
 
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
         if (character->ObjectIndex is not 0) return false;
-        if (TerritoryInfo.Instance()->InSanctuary) return false;
+        if (!Services.Condition.CanSummonChocobo) return false;
         if (Services.Condition.IsBoundByDuty) return false;
         if (ModuleConfig.DisableInCombat && Services.Condition.IsInCombat) return false;
 
