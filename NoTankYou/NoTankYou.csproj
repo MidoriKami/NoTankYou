@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Dalamud.NET.Sdk/14.0.1">
 	<PropertyGroup>
-		<AssemblyVersion>7.3.0.1</AssemblyVersion>
+		<AssemblyVersion>7.4.0.0</AssemblyVersion>
 	</PropertyGroup>
 
     <PropertyGroup>
@@ -15,7 +15,6 @@
     </PropertyGroup>
     
 	<ItemGroup>
-	  <ProjectReference Include="..\KamiLib\KamiLib.csproj" />
 	  <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
 	</ItemGroup>
 </Project>
