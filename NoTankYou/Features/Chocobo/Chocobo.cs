@@ -62,6 +62,8 @@ public class Chocobo : Module<ChocoboConfig> {
                     String = "Priority",
                 },
                 new NumericInputNode {
+                    Min = -64,
+                    Max = 64,
                     Value = ModuleConfig.Priority,
                     OnValueUpdate = newValue => {
                         ModuleConfig.Priority = newValue;

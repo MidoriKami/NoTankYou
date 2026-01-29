@@ -85,6 +85,8 @@ public class Gathererers : Module<GatherersConfig> {
                     String = "Priority",
                 },
                 new NumericInputNode {
+                    Min = -64,
+                    Max = 64,
                     Value = ConfigBase.Priority,
                     OnValueUpdate = newValue => {
                         ConfigBase.Priority = newValue;
