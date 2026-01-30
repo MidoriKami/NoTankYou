@@ -32,9 +32,15 @@ public sealed class NoTankYouPlugin : IDalamudPlugin {
         
         Services.ClientState.Login += OnLogin;
         Services.ClientState.Logout += OnLogout;
+
+        Services.PluginInterface.UiBuilder.OpenConfigUi += System.ConfigurationWindow.Toggle;
+        Services.PluginInterface.UiBuilder.OpenMainUi += System.ConfigurationWindow.Toggle;
     }
 
     public void Dispose() {
+        Services.PluginInterface.UiBuilder.OpenConfigUi -= System.ConfigurationWindow.Toggle;
+        Services.PluginInterface.UiBuilder.OpenMainUi -= System.ConfigurationWindow.Toggle;
+
         Services.ClientState.Login -= OnLogin;
         Services.ClientState.Logout -= OnLogout;
 
