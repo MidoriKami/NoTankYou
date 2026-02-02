@@ -61,6 +61,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         foreach (var characterEntry in CharacterManager.Instance()->BattleCharas) {
             if (characterEntry.Value is null) continue;
             if (characterEntry.Value->ObjectKind is not ObjectKind.Pc) continue;
+            if (!characterEntry.Value->GetIsTargetable()) continue;
 
             BattleCharacters.Add(characterEntry);
 
