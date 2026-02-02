@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
+using FFXIVClientStructs.Interop;
 using KamiToolKit;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
@@ -42,17 +43,20 @@ public class Tanks : Module<TanksConfig> {
         }
         else {
             if (ModuleConfig.CheckAllianceTanks && Services.DataManager.CurrentDutyType is DutyType.Alliance) {
-                if (!AllianceMembers.Any(member => member.Value->IsTank && member.Value->HasStatus(tankStanceIdArray))) {
+                if (!AllianceMembers.Any(MemberHasTankStance)) {
                     GenerateWarning(GetActionIdForClass(character->ClassJob), "Alliance Missing Tank Stance", character);
                 }
             }
 
-            if (!PartyMembers.Any(member => member.Value->IsTank && member.Value->HasStatus(tankStanceIdArray))) {
+            if (!PartyMembers.Any(MemberHasTankStance)) {
                 GenerateWarning(GetActionIdForClass(character->ClassJob), "Party Missing Tank Stance", character);
             }
         }
     }
-    
+
+    private unsafe bool MemberHasTankStance(Pointer<BattleChara> member)
+        => member.Value is not null && member.Value->IsTank && member.Value->HasStatus(tankStanceIdArray);
+
     private static uint GetActionIdForClass(byte classJob) => classJob switch {
         1 or 19 => 28u,
         3 or 21 => 48u,
