@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Dalamud.NET.Sdk/14.0.1">
 	<PropertyGroup>
-		<AssemblyVersion>7.4.0.2</AssemblyVersion>
+		<AssemblyVersion>7.4.0.3</AssemblyVersion>
 	</PropertyGroup>
 
     <PropertyGroup>
@@ -13,7 +13,7 @@
         <Tags>tanking;alerts;reminder;food;chocobo;spiritbond;gathering;warning</Tags>
         <AcceptsFeedback>false</AcceptsFeedback>
     </PropertyGroup>
-    
+
 	<ItemGroup>
 	  <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
 	</ItemGroup>
