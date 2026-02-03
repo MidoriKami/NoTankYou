@@ -74,7 +74,7 @@ public static class DataManagerExtensions {
 			{ ContentType.RowId: 5 } when !cfc.Name.ToString().Contains("Savage") => DutyType.NormalRaid,
 			{ ContentType.RowId: 28 } => DutyType.Ultimate,
 			{ ContentType.RowId: 4 } when cfc.Name.ToString().Contains("Extreme") || cfc.Name.ToString().Contains("Minstrel") => DutyType.Extreme,
-			{ ContentType.RowId: 4 } => DutyType.Unreal,
+			{ ContentType.RowId: 4, IsInDutyFinder: false, HighEndDuty: true } => DutyType.Unreal,
 			{ ContentType.RowId: 30, AllowUndersized: false } => DutyType.Criterion,
 			_ => DutyType.Unknown,
 		};
