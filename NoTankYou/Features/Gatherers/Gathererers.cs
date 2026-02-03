@@ -34,6 +34,12 @@ public class Gathererers : Module<GatherersConfig> {
         new (FisherClassJobId, 50, 805, 4101),
     ];
 
+    protected override void MigrateConfig() {
+        ModuleConfig.WaitForDutyStart = false;
+        ModuleConfig.DutiesOnly = false;
+        ModuleConfig.SoloMode = false;
+    }
+    
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character)
         => character->ClassJob is 16 or 17 or 18;
 

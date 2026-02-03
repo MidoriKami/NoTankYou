@@ -33,6 +33,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
         ModuleConfig.DisableInSanctuary = false;
         ModuleConfig.WaitForDutyStart = false;
         ModuleConfig.DutiesOnly = false;
+        ModuleConfig.SoloMode = false;
     }
 
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {

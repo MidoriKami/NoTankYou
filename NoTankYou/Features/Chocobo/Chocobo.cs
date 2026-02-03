@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
-using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -29,6 +27,13 @@ public class Chocobo : Module<ChocoboConfig> {
     private readonly uint gyshalGreensIconId = GyshalGreensItem.Icon;
     private readonly string gyshalGreensActionName = GyshalGreensItem.Name.ToString();
 
+    protected override void MigrateConfig() {
+        ModuleConfig.DisableInSanctuary = false;
+        ModuleConfig.WaitForDutyStart = false;
+        ModuleConfig.DutiesOnly = false;
+        ModuleConfig.SoloMode = false;
+    }
+    
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
         if (character->ObjectIndex is not 0) return false;
         if (!Services.Condition.CanSummonChocobo) return false;
