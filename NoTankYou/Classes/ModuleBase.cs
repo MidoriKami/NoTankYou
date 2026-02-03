@@ -37,6 +37,12 @@ public abstract unsafe class ModuleBase : FeatureBase {
     private readonly HashSet<ulong> suppressedObjectIds = [];
     private readonly Dictionary<ulong, Stopwatch> suppressionTimer = new();
     private readonly DeathTracker deathTracker = new();
+    
+    protected override void OnFeatureLoad()
+        => MigrateConfig();
+
+    // Optional method to fix certain config issues.
+    protected virtual void MigrateConfig() { }
 
     protected sealed override void OnFeatureUpdate() {
         if (ConfigBase.SavePending) {

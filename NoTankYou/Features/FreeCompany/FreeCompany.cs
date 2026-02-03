@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -30,7 +29,12 @@ public class FreeCompany : Module<FreeCompanyConfig> {
         .Select(status => status.RowId)
         .ToArray();
 
-    
+    protected override void MigrateConfig() {
+        ModuleConfig.DisableInSanctuary = false;
+        ModuleConfig.WaitForDutyStart = false;
+        ModuleConfig.DutiesOnly = false;
+    }
+
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
         if (Services.Condition.IsBoundByDuty) return false;
         if (character->ObjectIndex is not 0) return false;
@@ -48,7 +52,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                 break;
         }
     }
-    
+
     protected override ICollection<NodeBase> ConfigNodes => [
         new CategoryHeaderNode {
             String = "General Settings",

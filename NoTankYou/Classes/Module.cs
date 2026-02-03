@@ -8,14 +8,16 @@ public abstract class Module<T> : ModuleBase where T : ConfigBase, new() {
 
     public T ModuleConfig { get; private set; } = null!;
 
-    protected override void OnFeatureLoad() {
+    protected sealed override void OnFeatureLoad() {
         ModuleConfig = Config.LoadCharacterConfig<T>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
 
         ModuleConfig.FileName = ModuleInfo.FileName;
+        
+        base.OnFeatureLoad();
     }
 
-    protected override void OnFeatureUnload() {
+    protected sealed override void OnFeatureUnload() {
         ModuleConfig = null!;
     }
 }
