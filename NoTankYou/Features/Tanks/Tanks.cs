@@ -43,13 +43,14 @@ public class Tanks : Module<TanksConfig> {
         }
         else {
             if (ModuleConfig.CheckAllianceTanks && Services.DataManager.CurrentDutyType is DutyType.Alliance) {
-                if (!AllianceMembers.Any(MemberHasTankStance)) {
+                if (!AllianceMembers.Any(MemberHasTankStance) && !PartyMembers.Any(MemberHasTankStance)) {
                     GenerateWarning(GetActionIdForClass(character->ClassJob), "Alliance Missing Tank Stance", character);
                 }
             }
-
-            if (!PartyMembers.Any(MemberHasTankStance)) {
-                GenerateWarning(GetActionIdForClass(character->ClassJob), "Party Missing Tank Stance", character);
+            else {
+                if (!PartyMembers.Any(MemberHasTankStance)) {
+                    GenerateWarning(GetActionIdForClass(character->ClassJob), "Party Missing Tank Stance", character);
+                }
             }
         }
     }
