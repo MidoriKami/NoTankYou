@@ -24,24 +24,48 @@ Warnings will not show if there are no players with a role-specific action in th
 
 ## How to use it
 Using the ingame command `/nty` will bring up the main configuration window as seen below.
-Configuration is split into three categories, Display, Modules, Settings.
 
-You can use the command `/nty help` to view a list of all available commands.
+This interface is searchable, you can search by partial name or module type. 
+There are three types of modules currently available.
 
-![image](https://github.com/user-attachments/assets/0cba08a9-1824-41d4-a7a1-6c4f21ddffb1)
+NoTankYou's Configuration UI is built with KamiToolKit which allows it to be fully rendered by the game itself, instead of as an overlay.
 
-## Overlays
+This configuation window seamlessly integrates with the game and its window systems.
+
+<img width="696" height="588" alt="ffxiv_dx11_y1DWWZl2Vm" src="https://github.com/user-attachments/assets/545ec258-b71b-4bcd-88fb-08fcc6af75b2" />
+
+# Warning Displays
+
 NoTankYou has two overlays you can use to display the warnings, you can go for the subtle approach by integrating with the PartyList user interface, or you can go with the classic in-your-face warning banner in the middle of your screen.
 
 Party List Overlay Appearance            |  Warning Banner Appearance
 :-------------------------:|:-------------------------:
-![image](https://github.com/user-attachments/assets/ae0d23ce-25ce-4aa5-a243-074f9060de29) | ![image](https://github.com/user-attachments/assets/47a0956a-04de-482e-bbe5-2a3bb74852a1)
+<img width="431" height="100" alt="ffxiv_dx11_EG3vn4qvc6" src="https://github.com/user-attachments/assets/79d7448f-3a1a-40a2-8d66-06960bb17caf" />  | <img width="531" height="126" alt="ffxiv_dx11_aXiIRRAENl" src="https://github.com/user-attachments/assets/fcc987c8-95f9-4029-a0b1-1a2ddb26c6f2" />
 
+## Party List
 
-# Blacklist
+The party list feature by default animates to help grab your attention without being too obnoxious, this can be disabled in the settings.
 
-NoTankYou includes a zone blacklist that allows you to explicity state which zones you do not want **Any** warnings to appear. This is particularly useful for areas such as Bozja/Zadnor/Eureka
+https://github.com/user-attachments/assets/1c2a9399-5e74-4934-8598-43dfd8469b15
 
-Note: NoTankYou is entirely disabled while you are in PvP automatically
+This display mode also includes a handy mouse over tooltip to explain what is causing the warning to show.
 
-![image](https://github.com/user-attachments/assets/816ac82c-9b3a-4d6b-ad47-b13aed15102e)
+This will include a Action tooltip showing the details of the required action.
+
+<img width="487" height="279" alt="ffxiv_dx11_nofR6HTClA" src="https://github.com/user-attachments/assets/3b3894dc-8e8a-4209-bba3-9c94fb34e185" />
+
+## Warning Banner
+
+The warning banner is a overlay element that displays a list of warnings, ordered by warning priority.
+
+This list can be moved and resized allowing NoTankYou to show more, or less warnings at once depending on your preferences.
+
+<img width="558" height="552" alt="ffxiv_dx11_g1aOaOyOri" src="https://github.com/user-attachments/assets/13ee004a-0ed9-49f3-a828-2edd61349301" />
+
+This warning will also pulse to grab your attention, this can be disabled in the settings.
+
+https://github.com/user-attachments/assets/f0909687-cef0-4ab2-88cb-ef70a03ece5e
+
+Mousing over the action icon will display an Action tooltip showing the details of the required action.
+
+<img width="886" height="302" alt="ffxiv_dx11_VQkrzvB1PK" src="https://github.com/user-attachments/assets/f5657835-7c3a-4a4b-9d80-7f92991733b5" />
