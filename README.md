@@ -28,13 +28,14 @@ Using the ingame command `/nty` will bring up the main configuration window as s
 This interface is searchable, you can search by partial name or module type. 
 There are three types of modules currently available.
 
-### Warning Displays
+NoTankYou's Configuration UI is built with KamiToolKit which allows it to be fully rendered by the game itself, instead of as an overlay.
 
-This are how NoTankYou will present the warnings to you. Currently there are two display methods, Party List or Warning Banner you can use one or both!
+This configuation window seamlessly integrates with the game and its window systems.
 
 <img width="696" height="588" alt="ffxiv_dx11_y1DWWZl2Vm" src="https://github.com/user-attachments/assets/545ec258-b71b-4bcd-88fb-08fcc6af75b2" />
 
-## Overlays
+# Warning Displays
+
 NoTankYou has two overlays you can use to display the warnings, you can go for the subtle approach by integrating with the PartyList user interface, or you can go with the classic in-your-face warning banner in the middle of your screen.
 
 Party List Overlay Appearance            |  Warning Banner Appearance
