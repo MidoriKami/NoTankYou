@@ -53,6 +53,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         ActiveWarnings.Clear();
         BattleCharacters.Clear();
         PartyMembers.Clear();
+        AllianceMembers.Clear();
 
         if (!IsEnabled) return;
         if (Services.ClientState.IsPvPExcludingDen) return;
