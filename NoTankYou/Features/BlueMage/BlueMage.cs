@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
+using FFXIVClientStructs.Interop;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
 
@@ -33,10 +34,12 @@ public unsafe class BlueMage : Module<ConfigBase> {
             }
         }
         else {
-            // This is probably wrong, will wait for someone to complain first
-            if (PartyMembers.Any(member => member.Value->HasStatus(AetherialMimicryTankStatusId) && member.Value->HasStatus(MightyGuardStatusId))) {
+            if (!PartyMembers.Any(MemberHasTankStance)) {
                 GenerateWarning(MightyGuardActionId, "Mighty Guard", character);
             }
         }
     }
+    
+    private static bool MemberHasTankStance(Pointer<BattleChara> member)
+        => member.Value is not null && member.Value->HasStatus(AetherialMimicryTankStatusId) && member.Value->HasStatus(MightyGuardStatusId);
 }
