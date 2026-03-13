@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Utility;
+using FFXIVClientStructs.FFXIV.Client.Enums;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -59,7 +61,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         if (Services.ClientState.IsPvPExcludingDen) return;
         if (Services.Condition.IsCrossWorld) return;
         if (Services.Condition.IsInCutsceneOrQuestEvent) return;
-        if (ConfigBase.BlacklistedZones.Contains(Services.ClientState.TerritoryType)) return;
+        if (IsProhibitedTerritoryIntendedUse()) return;
         if (ConfigBase.DisableInSanctuary && TerritoryInfo.Instance()->InSanctuary) return;
         if (ConfigBase.WaitForDutyStart && Services.Condition.IsBoundByDuty && !Services.DutyState.IsDutyStarted) return;
         if (ConfigBase.DutiesOnly && !Services.Condition.IsBoundByDuty) return;
@@ -145,6 +147,13 @@ public abstract unsafe class ModuleBase : FeatureBase {
             timer.Restart();
         }
     }
+
+    private static bool IsProhibitedTerritoryIntendedUse() => GameMain.Instance()->CurrentTerritoryIntendedUseId switch {
+        TerritoryIntendedUse.Bozja => true,
+        TerritoryIntendedUse.OccultCrescent => true,
+        TerritoryIntendedUse.Eureka => true,
+        _ => false,
+    };
 
     private static bool HasDisallowedCondition()
         => Services.Condition.Any(ConditionFlag.Jumping61, ConditionFlag.Transformed, ConditionFlag.InThisState89);
