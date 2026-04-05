@@ -10,8 +10,8 @@ on:
       - master
 
 env:
-  INTERNAL_NAME: DailyDuty
-  PLUGIN_NAME: DailyDuty
+  INTERNAL_NAME: NoTankYou
+  PLUGIN_NAME: NoTankYou
 
 jobs:
   update-repo:
