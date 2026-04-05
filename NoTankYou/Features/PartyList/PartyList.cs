@@ -42,12 +42,12 @@ public unsafe class PartyList : FeatureBase {
     }
 
     protected override void OnFeatureEnable() {
-        partyListController = new AddonController<AddonPartyList>("_PartyList");
-
-        partyListController.OnAttach += AttachNodes;
-        partyListController.OnUpdate += OnPartyListUpdate;
-        partyListController.OnDetach += DetachNodes;
-        
+        partyListController = new AddonController<AddonPartyList> {
+            AddonName = "_PartyList",
+            OnSetup = AttachNodes,
+            OnUpdate = OnPartyListUpdate,
+            OnFinalize = DetachNodes,
+        };
         partyListController.Enable();
     }
 

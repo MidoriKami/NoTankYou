@@ -1,4 +1,5 @@
 ﻿using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 using NoTankYou.Features.WarningBanner.ConfigurationCategories;
 
 namespace NoTankYou.Features.WarningBanner;

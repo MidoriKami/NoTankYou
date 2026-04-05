@@ -1,5 +1,6 @@
 ﻿
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 using NoTankYou.Features.PartyList.ConfigurationCategories;
 
 namespace NoTankYou.Features.PartyList;

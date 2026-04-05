@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 using KamiToolKit.Timelines;
 using NoTankYou.Classes;
 using NoTankYou.CustomNodes;

@@ -3,6 +3,7 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using KamiToolKit;
-using KamiToolKit.Overlay;
+using KamiToolKit.Overlay.UiOverlay;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
 
