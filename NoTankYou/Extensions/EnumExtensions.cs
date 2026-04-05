@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using Dalamud.Utility;
-using Microsoft.VisualBasic;
 
 namespace NoTankYou.Extensions;
 
