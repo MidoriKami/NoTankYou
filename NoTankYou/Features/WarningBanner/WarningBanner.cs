@@ -37,8 +37,7 @@ public class WarningBanner : FeatureBase {
 
     protected override void OnFeatureEnable() {
         overlayController = new OverlayController();
-
-        overlayController.CreateNode(() => new WarningBannerOverlayNode {
+        overlayController.AddNode(new WarningBannerOverlayNode {
             Position = Config.Position,
             Size = Config.Size,
             Config = Config,

@@ -8,8 +8,8 @@ using NoTankYou.Classes;
 
 namespace NoTankYou.Features.WarningBanner;
 
-public sealed unsafe class WarningBannerListItemNode : ListItemNode<WarningInfo> {
-    public override float ItemHeight => 75.0f;
+public sealed unsafe class WarningBannerListItemNode : ListItemNode<WarningInfo>, IListItemNode {
+    public static float ItemHeight => 75.0f;
 
     private readonly IconImageNode warningImageNode;
 	private readonly TextNode messageTextNode;
