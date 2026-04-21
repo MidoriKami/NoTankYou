@@ -23,8 +23,8 @@ public unsafe class WarningBannerOverlayNode : OverlayNode {
             ItemSpacing = 8.0f,
 			DisableCollisionNode = true,
             OptionsList = [],
+            ScrollBarNode = { IsVisible = false },
 		};
-        bannerListNode.ScrollBarNode.IsVisible = false;
 		bannerListNode.AttachNode(this);
 		
 		bannerListNode.AddTimeline(new TimelineBuilder()
