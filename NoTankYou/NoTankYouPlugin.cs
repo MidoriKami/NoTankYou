@@ -51,8 +51,11 @@ public sealed class NoTankYouPlugin : IAsyncDalamudPlugin {
         Services.ClientState.Login -= OnLogin;
         Services.ClientState.Logout -= OnLogout;
 
-        await System.ConfigurationWindow.DisposeAsync();
-        await System.ModuleManager.DisposeAsync();
+        if (!Services.Framework.IsFrameworkUnloading) {
+            await System.ConfigurationWindow.DisposeAsync();
+            await System.ModuleManager.DisposeAsync();
+        }
+
         await Services.Framework.Run(KamiToolKitLibrary.Dispose);
     }
 
