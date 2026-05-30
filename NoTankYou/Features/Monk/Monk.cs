@@ -18,13 +18,13 @@ public class Monk : Module<MonkConfig> {
         IconId = 62020,
         Type = ModuleType.ClassFeatures,
     };
-    
+
     private const byte MinimumLevel = 40;
     private const byte MonkClassJob = 20;
-	
+
     private const uint MantraActionId = 36943;
     private const uint MantraMinimumLevel = 54;
-	
+
     private const uint FormlessFistActionId = 4262;
     private const uint FormlessFistStatusEffect = 2513;
     private const uint FormlessFistMinimumLevel = 52;

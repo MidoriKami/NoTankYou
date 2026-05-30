@@ -3,39 +3,44 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Dalamud.Plugin.Services;
 using NoTankYou.Enums;
 
 namespace NoTankYou.Classes;
 
-public class ModuleManager : IDisposable {
+public class ModuleManager : IAsyncDisposable {
 
     public List<LoadedModule>? LoadedModules { get; private set; }
 
     private List<ModuleBase>? warningGeneratingModules;
     private List<FeatureBase>? warningDisplayingModules;
 
-    public void Dispose() {
-        UnloadModules();
-    }
+    public async ValueTask DisposeAsync()
+        => await UnloadModules();
 
-    public void LoadModules() {
+    public async Task LoadModules() {
         var allModules = GetModuleTypes();
         LoadedModules = [];
         warningGeneratingModules = [];
         warningDisplayingModules = [];
-        
+
+        List<Task> loadTasks = [];
+
         foreach (var module in allModules.OrderBy(module => module.ModuleInfo.Type).ThenBy(module => module.Name)) {
             Services.PluginInterface.Inject(module);
 
             var newLoadedModule = new LoadedModule(module, LoadedState.Disabled);
 
             LoadedModules.Add(newLoadedModule);
-            module.Load();
 
-            if (System.SystemConfig?.EnabledModules.Contains(module.Name) ?? false) {
-                TryEnableModule(newLoadedModule);
-            }
+            loadTasks.Add(Task.Run(async () => {
+                await module.Load();
+
+                if (System.SystemConfig?.EnabledModules.Contains(module.Name) ?? false) {
+                    await TryEnableModule(newLoadedModule);
+                }
+            }));
 
             if (module is ModuleBase moduleBase) {
                 warningGeneratingModules.Add(moduleBase);
@@ -45,44 +50,52 @@ public class ModuleManager : IDisposable {
             }
         }
 
+        await Task.WhenAll(loadTasks);
+
         LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
 
         Services.Framework.Update += OnFrameworkUpdate;
     }
 
-    public void UnloadModules() {
+    public async Task UnloadModules() {
         if (LoadedModules is null) {
             Services.PluginLog.Debug("No modules loaded");
             return;
         }
-        
+
         Services.PluginLog.Debug("Disposing Module Manager, now disabling all Modules");
-        
+        Services.Framework.Update -= OnFrameworkUpdate;
+
+        List<Task> unloadTasks = [];
+
         foreach (var loadedModule in LoadedModules) {
-            if (loadedModule.State is LoadedState.Enabled) {
-                try {
-                    Services.PluginLog.Info($"Disabling {loadedModule.Name}");
-                    loadedModule.FeatureBase.Disable();
-                    Services.PluginLog.Info($"Successfully Disabled {loadedModule.Name}");
+            unloadTasks.Add(Task.Run(async () => {
+                if (loadedModule.State is LoadedState.Enabled) {
+                    try {
+                        Services.PluginLog.Info($"Disabling {loadedModule.Name}");
+                        await loadedModule.FeatureBase.Disable();
+                        Services.PluginLog.Info($"Successfully Disabled {loadedModule.Name}");
+                    }
+                    catch (Exception e) {
+                        Services.PluginLog.Error(e, $"Error while unloading modification {loadedModule.Name}");
+                    }
                 }
-                catch (Exception e) {
-                    Services.PluginLog.Error(e, $"Error while unloading modification {loadedModule.Name}");
-                }
-            }
-            
-            loadedModule.FeatureBase.Unload();
+
+                await loadedModule.FeatureBase.Unload();
+            }));
         }
 
+        await Task.WhenAll(unloadTasks);
+
         LoadedModules = null;
-        Services.Framework.Update -= OnFrameworkUpdate;
     }
 
-    public static void TryEnableModule(LoadedModule module) {
+    public static async Task TryEnableModule(LoadedModule module) {
         if (System.SystemConfig is null) {
             Services.PluginLog.Error("System Config Failed to Load.");
             return;
         }
-        
+
         if (module.State is LoadedState.Errored) {
             Services.PluginLog.Error($"[{module.Name}] Attempted to enable errored module");
             return;
@@ -90,19 +103,21 @@ public class ModuleManager : IDisposable {
 
         try {
             Services.PluginLog.Info($"Enabling {module.Name}");
-            module.FeatureBase.Enable();
+            await module.FeatureBase.Enable();
             module.State = LoadedState.Enabled;
             Services.PluginLog.Info($"Successfully Enabled {module.Name}");
-            System.SystemConfig.EnabledModules.Add(module.Name);
-            System.SystemConfig.Save();
+
+            if (System.SystemConfig.EnabledModules.Add(module.Name)) {
+                await System.SystemConfig.Save();
+            }
         }
         catch (Exception e) {
             module.State = LoadedState.Errored;
             module.ErrorMessage = "Failed to load, this module has been disabled.";
             Services.PluginLog.Error(e, $"Error while enabling {module.Name}, attempting to disable");
-            
+
             try {
-                module.FeatureBase.Disable();
+                await module.FeatureBase.Disable();
                 Services.PluginLog.Information($"Successfully disabled erroring module {module.Name}");
             }
             catch (Exception fatal) {
@@ -112,7 +127,7 @@ public class ModuleManager : IDisposable {
         }
     }
 
-    public static void TryDisableModification(LoadedModule modification, bool removeFromList = true) {
+    public static async Task TryDisableModification(LoadedModule modification, bool removeFromList = true) {
         if (System.SystemConfig is null) {
             Services.PluginLog.Error("System Config Failed to Load.");
             return;
@@ -125,7 +140,7 @@ public class ModuleManager : IDisposable {
 
         try {
             Services.PluginLog.Info($"Disabling {modification.Name}");
-            modification.FeatureBase.Disable();
+            await modification.FeatureBase.Disable();
             modification.FeatureBase.OpenConfigAction = null;
         }
         catch (Exception e) {
@@ -137,7 +152,7 @@ public class ModuleManager : IDisposable {
 
             if (removeFromList) {
                 System.SystemConfig.EnabledModules.Remove(modification.Name);
-                System.SystemConfig.Save();
+                await System.SystemConfig.Save();
             }
         }
     }
@@ -159,7 +174,7 @@ public class ModuleManager : IDisposable {
         .GetTypes()
         .Where(type => type.IsSubclassOf(typeof(FeatureBase)))
         .Where(type => !type.IsAbstract)
-        .Select(type => (FeatureBase?) Activator.CreateInstance(type))
+        .Select(type => (FeatureBase?)Activator.CreateInstance(type))
         .Where(modification => modification?.ModuleInfo.Type is not ModuleType.Hidden)
         .OfType<FeatureBase>()
         .ToList();

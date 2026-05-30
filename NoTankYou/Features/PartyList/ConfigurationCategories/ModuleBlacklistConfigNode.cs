@@ -16,17 +16,17 @@ public class ModuleSelectConfigNode : VerticalListNode {
         FitWidth = true;
         ItemSpacing = 3.0f;
         FitContents = true;
-        
+
         InitialNodes = [
             new CategoryHeaderNode {
-                String= "Module Blacklist",
+                String = "Module Blacklist",
                 Alignment = AlignmentType.Bottom,
                 TextTooltip = "Warnings for the selected modules will not be shown in the Party List overlay.",
             },
             ..GetModuleCheckBoxes(),
         ];
     }
-    
+
     private IEnumerable<NodeBase> GetModuleCheckBoxes() {
         foreach (var moduleName in AllModules) {
             yield return new CheckboxNode {
@@ -47,10 +47,10 @@ public class ModuleSelectConfigNode : VerticalListNode {
             };
         }
     }
-    
-    private static List<string> AllModules 
+
+    private static List<string> AllModules
         => System.ModuleManager.LoadedModules?
-              .Where(loadedModule => loadedModule.FeatureBase.ModuleInfo.Type is not ModuleType.WarningDisplays)
-              .Select(loadedModule => loadedModule.Name)
-              .ToList() ?? [];
+               .Where(loadedModule => loadedModule.FeatureBase.ModuleInfo.Type is not ModuleType.WarningDisplays)
+               .Select(loadedModule => loadedModule.Name)
+               .ToList() ?? [];
 }

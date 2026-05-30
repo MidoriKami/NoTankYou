@@ -13,7 +13,7 @@ public static class EnumExtensions {
             return attribute?.Description ?? enumValue.ToString();
         }
     }
-    
+
     public static T ParseAsEnum<T>(this string stringValue, T defaultValue) where T : Enum {
         foreach (Enum enumValue in Enum.GetValues(typeof(T))) {
             if (enumValue.Description == stringValue) {

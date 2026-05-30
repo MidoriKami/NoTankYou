@@ -15,7 +15,7 @@ public class Sage : Module<SageConfig> {
         IconId = 62040,
         Type = ModuleType.ClassFeatures,
     };
-    
+
     private const byte MinimumLevel = 4;
     private const byte SageClassJob = 40;
     private const int KardiaStatusId = 2604;
@@ -26,7 +26,7 @@ public class Sage : Module<SageConfig> {
         if (ModuleConfig.DisableWhileSolo && GroupManager.Instance()->MainGroup.MemberCount is 0) return false;
         if (character->Level < MinimumLevel) return false;
         if (character->ClassJob is not SageClassJob) return false;
-        
+
         return true;
     }
 

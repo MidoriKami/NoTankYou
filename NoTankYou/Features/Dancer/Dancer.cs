@@ -13,7 +13,7 @@ public unsafe class Dancer : Module<ConfigBase> {
         IconId = 62038,
         Type = ModuleType.ClassFeatures,
     };
-    
+
     private const byte DancerClassJobId = 38;
     private const uint MinimumLevel = 60;
     private const int ClosedPositionStatusId = 1823;

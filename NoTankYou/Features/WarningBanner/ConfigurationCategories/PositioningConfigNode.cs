@@ -11,7 +11,7 @@ public class PositioningConfigurationNode : VerticalListNode {
         ItemSpacing = 3.0f;
         FitContents = true;
 
-        InitialNodes = [ 
+        InitialNodes = [
             new CategoryHeaderNode {
                 String = "Positioning",
                 Alignment = AlignmentType.Bottom,

@@ -3,7 +3,7 @@ using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Enums;
-using KamiToolKit.Nodes; 
+using KamiToolKit.Nodes;
 using KamiToolKit.Overlay.UiOverlay;
 using KamiToolKit.Timelines;
 using NoTankYou.Classes;
@@ -12,40 +12,40 @@ using NoTankYou.Enums;
 namespace NoTankYou.Features.WarningBanner;
 
 public unsafe class WarningBannerOverlayNode : OverlayNode {
-	public override OverlayLayer OverlayLayer => OverlayLayer.Background;
+    public override OverlayLayer OverlayLayer => OverlayLayer.Background;
 
-	private readonly ListNode<WarningInfo, WarningBannerListItemNode> bannerListNode;
-    
+    private readonly ListNode<WarningInfo, WarningBannerListItemNode> bannerListNode;
+
     public required WarningBannerConfig Config { get; init; }
-    
-	public WarningBannerOverlayNode() {
-		bannerListNode = new ListNode<WarningInfo, WarningBannerListItemNode> {
+
+    public WarningBannerOverlayNode() {
+        bannerListNode = new ListNode<WarningInfo, WarningBannerListItemNode> {
             ItemSpacing = 8.0f,
-			DisableCollisionNode = true,
+            DisableCollisionNode = true,
             OptionsList = [],
             ScrollBarNode = { IsVisible = false },
-		};
-		bannerListNode.AttachNode(this);
-		
-		bannerListNode.AddTimeline(new TimelineBuilder()
-          .BeginFrameSet(1, 60)
-          .AddLabel(1, 1, AtkTimelineJumpBehavior.Start, 0) // Label 1: Pulsing Animation
-          .AddLabel(30, 0, AtkTimelineJumpBehavior.LoopForever, 1)
-          .AddLabel(31, 2, AtkTimelineJumpBehavior.Start, 0) // Label 2: No Animation
-          .AddLabel(60, 0, AtkTimelineJumpBehavior.LoopForever, 2)
-          .EndFrameSet()
-          .Build());
-        
+        };
+        bannerListNode.AttachNode(this);
+
+        bannerListNode.AddTimeline(new TimelineBuilder()
+            .BeginFrameSet(1, 60)
+            .AddLabel(1, 1, AtkTimelineJumpBehavior.Start, 0) // Label 1: Pulsing Animation
+            .AddLabel(30, 0, AtkTimelineJumpBehavior.LoopForever, 1)
+            .AddLabel(31, 2, AtkTimelineJumpBehavior.Start, 0) // Label 2: No Animation
+            .AddLabel(60, 0, AtkTimelineJumpBehavior.LoopForever, 2)
+            .EndFrameSet()
+            .Build());
+
         OnEditComplete += UpdateSizePosition;
-	}
+    }
 
-	protected override void OnSizeChanged() {
-		base.OnSizeChanged();
+    protected override void OnSizeChanged() {
+        base.OnSizeChanged();
 
-		bannerListNode.Size = Size;
-	}
+        bannerListNode.Size = Size;
+    }
 
-	protected override void OnUpdate() {
+    protected override void OnUpdate() {
         EnableMoving = Config.EnableMoving;
         EnableResizing = Config.EnableResizing;
 
@@ -58,13 +58,13 @@ public unsafe class WarningBannerOverlayNode : OverlayNode {
 
         switch (Config.DisplayMode) {
             case BannerDisplayMode.TopPriority when filteredWarning.Count is not 0:
-                bannerListNode.OptionsList = [ filteredWarning.First() ];
+                bannerListNode.OptionsList = [filteredWarning.First()];
                 break;
-            
+
             case BannerDisplayMode.TopPriority when filteredWarning.Count is 0:
                 bannerListNode.OptionsList = [];
                 break;
-            
+
             case BannerDisplayMode.List:
                 bannerListNode.OptionsList = filteredWarning;
                 break;

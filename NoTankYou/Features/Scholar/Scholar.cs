@@ -29,7 +29,7 @@ public unsafe class Sccholar : Module<ConfigBase> {
 
     protected override void EvaluateWarnings(BattleChara* character) {
         var hasDissipation = character->HasStatus(DissipationStatusId);
-        
+
         dissipationDebouncer.Update(character->EntityId, hasDissipation);
         if (dissipationDebouncer.IsLockedOut(character->EntityId)) return;
 

@@ -1,5 +1,4 @@
-﻿
-using KamiToolKit.Nodes;
+﻿using KamiToolKit.Nodes;
 using KamiToolKit.Premade.Node.Simple;
 using NoTankYou.Features.PartyList.ConfigurationCategories;
 
@@ -13,7 +12,7 @@ public class PartyListConfigNode : SimpleComponentNode {
             FitWidth = true,
             ItemSpacing = 3.0f,
             InitialNodes = [
-                new FeatureConfigurationNode(module), 
+                new FeatureConfigurationNode(module),
                 new DisplayStyleConfigNode(module),
                 new ModuleSelectConfigNode(module),
             ],

@@ -18,9 +18,9 @@ public class Reaper : Module<ReaperConfig> {
 
     private const uint SoulsowActionId = 24387;
     private const uint SoulsowStatusId = 2594;
-    
+
     private DateTime lastCombatTime = DateTime.UtcNow;
-    
+
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
         if (character->ObjectIndex is not 0) return false;
         if (character->ClassJob is not ReaperClassJobId) return false;

@@ -20,13 +20,13 @@ public abstract class ConsumableModuleBase : Module<ConsumableModuleConfig> {
 
         if (ModuleConfig.SavageFilter || ModuleConfig.UltimateFilter || ModuleConfig.ExtremeUnrealFilter || ModuleConfig.CriterionFilter || ModuleConfig.ChaoticFilter) {
             var allowedZones = new List<DutyType>();
-            
-            if(ModuleConfig.SavageFilter) allowedZones.Add(DutyType.Savage);
-            if(ModuleConfig.UltimateFilter) allowedZones.Add(DutyType.Ultimate);
-            if(ModuleConfig.ExtremeUnrealFilter) allowedZones.Add(DutyType.Extreme);
-            if(ModuleConfig.ExtremeUnrealFilter) allowedZones.Add(DutyType.Unreal);
-            if(ModuleConfig.CriterionFilter) allowedZones.Add(DutyType.Criterion);
-            if(ModuleConfig.ChaoticFilter) allowedZones.Add(DutyType.ChaoticAlliance);
+
+            if (ModuleConfig.SavageFilter) allowedZones.Add(DutyType.Savage);
+            if (ModuleConfig.UltimateFilter) allowedZones.Add(DutyType.Ultimate);
+            if (ModuleConfig.ExtremeUnrealFilter) allowedZones.Add(DutyType.Extreme);
+            if (ModuleConfig.ExtremeUnrealFilter) allowedZones.Add(DutyType.Unreal);
+            if (ModuleConfig.CriterionFilter) allowedZones.Add(DutyType.Criterion);
+            if (ModuleConfig.ChaoticFilter) allowedZones.Add(DutyType.ChaoticAlliance);
 
             var currentCfc = Services.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(GameMain.Instance()->CurrentContentFinderConditionId);
             if (currentCfc.RowId is 0) return false;
@@ -34,7 +34,7 @@ public abstract class ConsumableModuleBase : Module<ConsumableModuleConfig> {
             var currentDutyType = Services.DataManager.GetDutyType(currentCfc);
             if (!allowedZones.Contains(currentDutyType)) return false;
         }
-        
+
         return true;
     }
 
@@ -46,7 +46,7 @@ public abstract class ConsumableModuleBase : Module<ConsumableModuleConfig> {
         }
 
         var statusTimeRemaining = character->StatusManager.GetRemainingTime(wellFedStatusIndex);
-        
+
         if (statusTimeRemaining < ModuleConfig.EarlyWarningTime) {
             if (ModuleConfig is { ShowTimeRemaining: true } && statusTimeRemaining is not 0) {
                 GenerateWarning(IconId, IconLabel, $"{IconLabel} Expiring ({statusTimeRemaining:N0}s)", character);

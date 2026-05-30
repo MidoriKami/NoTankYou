@@ -12,7 +12,7 @@ public class PartyListBackgroundNode : UpdatableNode {
 
     public PartyListBackgroundNode() {
         DisableCollisionNode = true;
-        
+
         glowNode = new SimpleNineGridNode {
             TexturePath = "ui/uld/PartyListTargetBase.tex",
             TextureSize = new Vector2(48.0f, 48.0f),
@@ -24,7 +24,7 @@ public class PartyListBackgroundNode : UpdatableNode {
             AddColor = new Vector3(0.70f, 0.4f, 0.4f),
         };
         glowNode.AttachNode(this);
-        
+
         AddTimeline(new TimelineBuilder()
             .BeginFrameSet(1, 120)
             .AddLabel(1, 1, AtkTimelineJumpBehavior.Start, 0)
@@ -62,7 +62,7 @@ public class PartyListBackgroundNode : UpdatableNode {
 
         Timeline?.PlayAnimation(config.Animation ? 1 : 2);
     }
-    
+
     public WarningInfo? ActiveWarning {
         get;
         set {

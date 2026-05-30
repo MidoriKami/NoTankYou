@@ -5,10 +5,10 @@ namespace NoTankYou.Enums;
 public enum ModuleType {
     [Description("Warning Displays")]
     WarningDisplays,
-    
+
     [Description("Class Features")]
-	ClassFeatures,
-    
+    ClassFeatures,
+
     [Description("Other Features")]
     OtherFeatures,
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using KamiToolKit;
 using KamiToolKit.Overlay.UiOverlay;
 using NoTankYou.Classes;
@@ -15,44 +16,48 @@ public class WarningBanner : FeatureBase {
     };
 
     private OverlayController? overlayController;
-    
+
     public override NodeBase DisplayNode => new WarningBannerConfigNode(this);
 
     public WarningBannerConfig Config = null!;
 
     public static WarningBannerConfig? WarningBannerConfig { get; private set; }
 
-    protected override void OnFeatureLoad() {
-        Config = Utilities.Config.LoadCharacterConfig<WarningBannerConfig>($"{ModuleInfo.FileName}.config.json");
+    protected override async Task OnFeatureLoad() {
+        Config = await Utilities.Config.LoadCharacterConfig<WarningBannerConfig>($"{ModuleInfo.FileName}.config.json");
         if (Config is null) throw new Exception("Failed to load config file");
-        
+
         Config.FileName = ModuleInfo.FileName;
         WarningBannerConfig = Config;
     }
 
-    protected override void OnFeatureUnload() {
+    protected override Task OnFeatureUnload() {
         Config = null!;
         WarningBannerConfig = null;
+
+        return Task.CompletedTask;
     }
 
-    protected override void OnFeatureEnable() {
-        overlayController = new OverlayController();
-        overlayController.AddNode(new WarningBannerOverlayNode {
-            Position = Config.Position,
-            Size = Config.Size,
-            Config = Config,
+    protected override async Task OnFeatureEnable() {
+        await Services.Framework.Run(() => {
+            overlayController = new OverlayController();
+            overlayController.AddNode(new WarningBannerOverlayNode {
+                Position = Config.Position,
+                Size = Config.Size,
+                Config = Config,
+            });
         });
     }
 
-    protected override void OnFeatureDisable() {
-        overlayController?.Dispose();
+    protected override async Task OnFeatureDisable() {
+        await Services.Framework.Run(() => overlayController?.Dispose());
         overlayController = null;
     }
-    
+
     protected override void OnFeatureUpdate() {
         if (Config.SavePending) {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
-            Config.Save();
+            Task.Run(Config.Save);
         }
     }
 }

@@ -23,7 +23,7 @@ public unsafe class PartyListForegroundNode : UpdatableNode {
             FitTexture = true,
         };
         warningIconNode.AttachNode(this);
-        
+
         AddTimeline(new TimelineBuilder()
             .BeginFrameSet(1, 120)
             .AddLabel(1, 1, AtkTimelineJumpBehavior.Start, 0)
@@ -46,7 +46,7 @@ public unsafe class PartyListForegroundNode : UpdatableNode {
     }
 
     private bool? tooltipsEnabled;
-    
+
     public override void Update() {
         if (ActiveWarning is null) return;
         if (PartyList.PartyListConfig is not { } config) return;
@@ -57,7 +57,7 @@ public unsafe class PartyListForegroundNode : UpdatableNode {
         else {
             warningIconNode.IconId = 60074;
         }
-        
+
         if (config.Tooltips) {
             warningIconNode.TextTooltip = ActiveWarning.Message;
             warningIconNode.ActionTooltip = ActiveWarning.ActionId;
@@ -68,7 +68,7 @@ public unsafe class PartyListForegroundNode : UpdatableNode {
             warningIconNode.ActionTooltip = 0;
             warningIconNode.RemoveNodeFlags(NodeFlags.HasCollision);
         }
-        
+
         if (tooltipsEnabled is null || tooltipsEnabled != config.Tooltips) {
             var addon = RaptureAtkUnitManager.Instance()->GetAddonByNode(this);
             if (addon is not null) {
@@ -77,9 +77,9 @@ public unsafe class PartyListForegroundNode : UpdatableNode {
 
             tooltipsEnabled = config.Tooltips;
         }
-        
+
         warningIconNode.IsVisible = config.ShowIcon;
-        
+
         Timeline?.PlayAnimation(config.Animation ? 1 : 2);
     }
 

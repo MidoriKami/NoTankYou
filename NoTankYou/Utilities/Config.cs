@@ -1,4 +1,6 @@
-﻿namespace NoTankYou.Utilities;
+﻿using System.Threading.Tasks;
+
+namespace NoTankYou.Utilities;
 
 /// <summary>
 /// Configuration File Utilities
@@ -11,14 +13,13 @@ public static class Config {
     /// Creates a `new T()` or uses passed in defaultValue object if the file can't be loaded
     /// </summary>
     /// <remarks>Requires the character to be logged in</remarks>
-    public static T LoadCharacterConfig<T>(string fileName, T? defaultValue = null) where T : class, new()
-        => FileHelpers.LoadFile(FileHelpers.GetFileInfo(FileHelpers.GetCharacterPath(), fileName).FullName, defaultValue);
-    
+    public static async Task<T> LoadCharacterConfig<T>(string fileName, T? defaultValue = null) where T : class, new()
+        => await FileHelpers.LoadFile(FileHelpers.GetFileInfo(FileHelpers.GetCharacterPath(), fileName).FullName, defaultValue);
+
     /// <summary>
     /// Saves a character specific config file to PluginConfigs\NoTankYou\{ContentId}\{FileName}
     /// </summary>
     /// <remarks>Requires the character to be logged in</remarks>
-    public static void SaveCharacterConfig<T>(T modificationConfig, string fileName)
-        => FileHelpers.SaveFile(modificationConfig, FileHelpers.GetFileInfo(FileHelpers.GetCharacterPath(), fileName).FullName);
+    public static async Task SaveCharacterConfig<T>(T modificationConfig, string fileName)
+        => await FileHelpers.SaveFile(modificationConfig, FileHelpers.GetFileInfo(FileHelpers.GetCharacterPath(), fileName).FullName);
 }
-

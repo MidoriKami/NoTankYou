@@ -13,7 +13,7 @@ public class FeatureConfigurationNode : VerticalListNode {
         FitWidth = true;
         ItemSpacing = 3.0f;
         FitContents = true;
-        
+
         InitialNodes = [
             new CategoryHeaderNode {
                 String = "Feature Configuration",

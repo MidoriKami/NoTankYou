@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiToolKit;
 using KamiToolKit.Classes;
@@ -11,7 +12,7 @@ using NoTankYou.Enums;
 
 namespace NoTankYou.Features.PartyList;
 
-public unsafe class PartyList : FeatureBase {
+public class PartyList : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Party List",
         FileName = "PartyListOverlay",
@@ -23,47 +24,52 @@ public unsafe class PartyList : FeatureBase {
     private readonly List<PartyListMemberNode> partyListNodes = [];
 
     public override NodeBase DisplayNode => new PartyListConfigNode(this);
-    
+
     public PartyListConfig Config = null!;
-    
+
     public static PartyListConfig? PartyListConfig { get; private set; }
 
-    protected override void OnFeatureLoad() {
-        Config = Utilities.Config.LoadCharacterConfig<PartyListConfig>($"{ModuleInfo.FileName}.config.json");
+    protected override async Task OnFeatureLoad() {
+        Config = await Utilities.Config.LoadCharacterConfig<PartyListConfig>($"{ModuleInfo.FileName}.config.json");
         if (Config is null) throw new Exception("Failed to load config file");
-        
+
         Config.FileName = ModuleInfo.FileName;
         PartyListConfig = Config;
     }
 
-    protected override void OnFeatureUnload() {
+    protected override Task OnFeatureUnload() {
         Config = null!;
         PartyListConfig = null;
+
+        return Task.CompletedTask;
     }
 
-    protected override void OnFeatureEnable() {
-        partyListController = new AddonController<AddonPartyList> {
-            AddonName = "_PartyList",
-            OnSetup = AttachNodes,
-            OnUpdate = OnPartyListUpdate,
-            OnFinalize = DetachNodes,
-        };
-        partyListController.Enable();
+    protected override async Task OnFeatureEnable() {
+        unsafe {
+            partyListController = new AddonController<AddonPartyList> {
+                AddonName = "_PartyList",
+                OnSetup = AttachNodes,
+                OnUpdate = OnPartyListUpdate,
+                OnFinalize = DetachNodes,
+            };
+        }
+
+        await Services.Framework.Run(partyListController.Enable);
     }
 
-    protected override void OnFeatureDisable() {
-        partyListController?.Dispose();
+    protected override async Task OnFeatureDisable() {
+        await Services.Framework.Run(() => partyListController?.Dispose());
         partyListController = null;
     }
-        
+
     protected override void OnFeatureUpdate() {
         if (Config.SavePending) {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
-            Config.Save();
+            Task.Run(Config.Save);
         }
     }
 
-    private void AttachNodes(AddonPartyList* addon) {
+    private unsafe void AttachNodes(AddonPartyList* addon) {
         foreach (uint nodeId in Enumerable.Range(10, 8)) {
             var partyMemberNode = addon->GetComponentNodeById(nodeId);
             if (partyMemberNode is not null) {
@@ -82,7 +88,7 @@ public unsafe class PartyList : FeatureBase {
                     IsVisible = false,
                 };
                 foregroundNode.AttachNode(partyMemberNode, NodePosition.AfterTarget);
-                
+
                 partyListNodes.Add(new PartyListMemberNode {
                     Background = backgroundNode,
                     Foreground = foregroundNode,
@@ -91,7 +97,7 @@ public unsafe class PartyList : FeatureBase {
         }
     }
 
-    private void DetachNodes(AddonPartyList* addon) {
+    private unsafe void DetachNodes(AddonPartyList* addon) {
         foreach (var node in partyListNodes) {
             node.Background.Dispose();
             node.Foreground.Dispose();
@@ -99,10 +105,10 @@ public unsafe class PartyList : FeatureBase {
 
         partyListNodes.Clear();
     }
-    
-    private void OnPartyListUpdate(AddonPartyList* addon) {
+
+    private unsafe void OnPartyListUpdate(AddonPartyList* addon) {
         if (!IsEnabled) return;
-        
+
         var filteredWarning = System.WarningController.ActiveWarnings
             .Where(warning => !Config.DisabledModules.Contains(warning.SourceModule))
             .Where(warning => !Config.SoloMode || warning.SourceCharacter->ObjectIndex is 0)
@@ -119,7 +125,7 @@ public unsafe class PartyList : FeatureBase {
             else {
                 partyListNodes[index].ActiveWarning = null;
             }
-            
+
             partyListNodes[index].Update();
         }
     }

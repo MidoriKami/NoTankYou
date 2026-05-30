@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using KamiToolKit;
 
 namespace NoTankYou.Classes;
@@ -6,42 +7,42 @@ namespace NoTankYou.Classes;
 public abstract class FeatureBase {
     public abstract ModuleInfo ModuleInfo { get; }
     public string Name => ModuleInfo.DisplayName;
-    
+
     public Action? OpenConfigAction { get; set; }
     public abstract NodeBase DisplayNode { get; }
-    
+
     protected bool IsEnabled { get; private set; }
 
-    public void Load()
-        => OnFeatureLoad();
+    public async Task Load()
+        => await OnFeatureLoad();
 
-    public void Unload()
-        => OnFeatureUnload();
+    public async Task Unload()
+        => await OnFeatureUnload();
 
-    public void Enable() {
+    public async Task Enable() {
         IsEnabled = true;
-        
-        OnFeatureEnable();
+
+        await OnFeatureEnable();
     }
 
-    public void Disable() {
+    public async Task Disable() {
         IsEnabled = false;
-        
-        OnFeatureDisable();
+
+        await OnFeatureDisable();
     }
 
     public void Update()
         => OnFeatureUpdate();
-    
+
     private void TerritoryChanged(ushort obj)
         => OnTerritoryChanged();
 
     protected abstract void OnFeatureUpdate();
     protected virtual void OnTerritoryChanged() { }
 
-    protected abstract void OnFeatureLoad();
-    protected abstract void OnFeatureUnload();
-    
-    protected abstract void OnFeatureEnable();
-    protected abstract void OnFeatureDisable();
+    protected abstract Task OnFeatureLoad();
+    protected abstract Task OnFeatureUnload();
+
+    protected abstract Task OnFeatureEnable();
+    protected abstract Task OnFeatureDisable();
 }

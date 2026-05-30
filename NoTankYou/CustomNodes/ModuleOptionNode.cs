@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Threading.Tasks;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -16,7 +17,7 @@ public class ModuleOptionNode : SelectableNode {
 
     public ModuleOptionNode() {
         checkboxNode = new CheckboxNode {
-            OnClick = ToggleModification,
+            OnClick = newState => Task.Run(() => ToggleModification(newState)),
         };
         checkboxNode.AttachNode(this);
 
@@ -36,13 +37,13 @@ public class ModuleOptionNode : SelectableNode {
     }
 
     public ModuleInfo ModuleInfo => Module.FeatureBase.ModuleInfo;
-    
+
     public required LoadedModule Module {
         get;
         set {
             field = value;
             moduleNameNode.String = value.FeatureBase.Name;
-            
+
             checkboxNode.IsChecked = value.State is LoadedState.Enabled;
 
             if (value.FeatureBase.ModuleInfo.IconId is 0) {
@@ -55,18 +56,18 @@ public class ModuleOptionNode : SelectableNode {
             UpdateDisabledState();
         }
     }
-    
-    private void ToggleModification(bool shouldEnableModification) {
+
+    private async Task ToggleModification(bool shouldEnableModification) {
         if (shouldEnableModification && Module.State is LoadedState.Disabled) {
-            ModuleManager.TryEnableModule(Module);
+            await ModuleManager.TryEnableModule(Module);
         }
         else if (!shouldEnableModification && Module.State is LoadedState.Enabled) {
-            ModuleManager.TryDisableModification(Module);
+            await ModuleManager.TryDisableModification(Module);
         }
 
         UpdateDisabledState();
-        
-        OnClick?.Invoke(this);
+
+        await Services.Framework.Run(() => OnClick?.Invoke(this));
     }
 
     protected override void OnSizeChanged() {
@@ -74,7 +75,7 @@ public class ModuleOptionNode : SelectableNode {
 
         checkboxNode.Size = new Vector2(Height, Height) * 3.0f / 4.0f;
         checkboxNode.Position = new Vector2(Height, Height) / 8.0f;
-        
+
         iconImageNode.Size = new Vector2(Height - 4.0f, Height - 4.0f);
         iconImageNode.Position = new Vector2(checkboxNode.Bounds.Right + 6.0f, 2.0f);
 

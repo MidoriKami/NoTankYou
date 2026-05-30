@@ -18,7 +18,7 @@ public class Pictomancer : Module<PictomancerConfig> {
         IconId = 62042,
         Type = ModuleType.ClassFeatures,
     };
-    
+
     private const byte PictoClassJobId = 42;
     private const uint MinimumLevel = 30;
 
@@ -49,16 +49,16 @@ public class Pictomancer : Module<PictomancerConfig> {
         if (character->Level >= CreatureMinimumLevel && !Services.JobGauges.Get<PCTGauge>().CreatureMotifDrawn) {
             GenerateWarning(CreatureActionId, "Creature Motif", character);
         }
-        
+
         if (character->Level >= WeaponMinimumLevel && !Services.JobGauges.Get<PCTGauge>().WeaponMotifDrawn) {
             GenerateWarning(WeaponActionId, "Weapon Motif", character);
         }
-        
+
         if (character->Level >= LandscapeMinimumLevel && !Services.JobGauges.Get<PCTGauge>().LandscapeMotifDrawn) {
             GenerateWarning(LandscapeActionId, "Landscape Motif", character);
         }
     }
-    
+
     protected override ICollection<NodeBase> ModuleConfigNodes => [
         new HorizontalFlexNode {
             Height = 32.0f,

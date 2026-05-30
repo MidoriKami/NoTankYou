@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -17,23 +18,25 @@ public class Chocobo : Module<ChocoboConfig> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Chocobo",
         FileName = "Chocobo",
-        IconId = 62043,
+        IconId = (uint) (62000 + Services.DataManager.GetExcelSheet<ClassJob>().Count - 2),
         Type = ModuleType.OtherFeatures,
     };
-    
+
     private static Item GyshalGreensItem => Services.DataManager.GetExcelSheet<Item>().GetRow(GyshalGreensItemId);
 
     private const uint GyshalGreensItemId = 4868;
     private readonly uint gyshalGreensIconId = GyshalGreensItem.Icon;
     private readonly string gyshalGreensActionName = GyshalGreensItem.Name.ToString();
 
-    protected override void MigrateConfig() {
+    protected override Task MigrateConfig() {
         ModuleConfig.DisableInSanctuary = false;
         ModuleConfig.WaitForDutyStart = false;
         ModuleConfig.DutiesOnly = false;
         ModuleConfig.SoloMode = false;
+
+        return Task.CompletedTask;
     }
-    
+
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
         if (character->ObjectIndex is not 0) return false;
         if (!Services.Condition.CanSummonChocobo) return false;

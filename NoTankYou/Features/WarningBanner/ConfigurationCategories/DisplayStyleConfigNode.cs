@@ -12,7 +12,7 @@ public class DisplayStyleConfigNode : VerticalListNode {
 
         InitialNodes = [
             new CategoryHeaderNode {
-                String= "Display Mode",
+                String = "Display Mode",
                 Alignment = AlignmentType.Bottom,
             },
             new CheckboxNode {

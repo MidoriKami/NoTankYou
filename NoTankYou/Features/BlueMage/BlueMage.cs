@@ -19,7 +19,7 @@ public unsafe class BlueMage : Module<ConfigBase> {
     private const uint AetherialMimicryTankStatusId = 2124;
     private const uint MightyGuardActionId = 11417;
     private const byte BlueMageClassJob = 36;
-    
+
     protected override bool ShouldEvaluateWarnings(BattleChara* character) {
         if (character->ClassJob is not BlueMageClassJob) return false;
         if (character->MissingStatus(AetherialMimicryTankStatusId)) return false;
@@ -39,7 +39,7 @@ public unsafe class BlueMage : Module<ConfigBase> {
             }
         }
     }
-    
+
     private static bool MemberHasTankStance(Pointer<BattleChara> member)
         => member.Value is not null && member.Value->HasStatus(AetherialMimicryTankStatusId) && member.Value->HasStatus(MightyGuardStatusId);
 }

@@ -21,12 +21,12 @@ public class Tanks : Module<TanksConfig> {
     };
 
     private readonly uint[] tankStanceIdArray = Services.DataManager.GetExcelSheet<Status>()
-        .Where(status => status is { InflictedByActor: true, CanStatusOff: true, IsPermanent: true, ParamModifier: 500, PartyListPriority: 0})
+        .Where(status => status is { InflictedByActor: true, CanStatusOff: true, IsPermanent: true, ParamModifier: 500, PartyListPriority: 0 })
         .Select(status => status.RowId)
         .ToArray();
 
     private const byte MinimumLevel = 10;
-    
+
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
         if (ModuleConfig.DisableInAlliance && Services.DataManager.CurrentDutyType is DutyType.Alliance) return false;
         if (!character->IsTank) return false;

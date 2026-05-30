@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -17,33 +18,35 @@ public class Gathererers : Module<GatherersConfig> {
         IconId = 62017,
         Type = ModuleType.OtherFeatures,
     };
-    
+
     private const byte MinerClassJobId = 16;
     private const byte BotanistClassJobId = 17;
     private const byte FisherClassJobId = 18;
 
     private record GathererJobData(uint ClassJob, uint MinLevel, uint StatusId, uint ActionId);
-    
+
     private readonly List<GathererJobData> data = [
-        new (MinerClassJobId, 1, 225, 227),
-        new (MinerClassJobId, 46, 222, 238),
-        new (BotanistClassJobId, 1, 217, 210),
-        new (BotanistClassJobId, 46, 221, 221),
-        new (FisherClassJobId, 61, 1166, 7903),
-        new (FisherClassJobId, 65, 1173, 7911),
-        new (FisherClassJobId, 50, 805, 4101),
+        new(MinerClassJobId, 1, 225, 227),
+        new(MinerClassJobId, 46, 222, 238),
+        new(BotanistClassJobId, 1, 217, 210),
+        new(BotanistClassJobId, 46, 221, 221),
+        new(FisherClassJobId, 61, 1166, 7903),
+        new(FisherClassJobId, 65, 1173, 7911),
+        new(FisherClassJobId, 50, 805, 4101),
     ];
 
-    protected override void MigrateConfig() {
+    protected override Task MigrateConfig() {
         ModuleConfig.WaitForDutyStart = false;
         ModuleConfig.DutiesOnly = false;
         ModuleConfig.SoloMode = false;
+
+        return Task.CompletedTask;
     }
-    
+
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character)
         => character->ClassJob is 16 or 17 or 18;
 
-    protected override unsafe void EvaluateWarnings(BattleChara* character)  {
+    protected override unsafe void EvaluateWarnings(BattleChara* character) {
         foreach (var jobData in data) {
             if (!ModuleConfig.Miner && jobData.ClassJob is MinerClassJobId) continue;
             if (!ModuleConfig.Botanist && jobData.ClassJob is BotanistClassJobId) continue;

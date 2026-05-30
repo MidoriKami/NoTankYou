@@ -7,7 +7,7 @@ namespace NoTankYou.Classes;
 public unsafe class WarningController {
 
     public readonly List<WarningInfo> ActiveWarnings = [];
-    
+
     public void CollectWarnings(IEnumerable<ModuleBase>? modules) {
         ActiveWarnings.Clear();
         if (modules is null) return;
@@ -42,7 +42,7 @@ public unsafe class WarningController {
 
         return warnings;
     }
-    
+
     public void ToggleSampleMode(bool newValue)
         => SampleModeEnabled = newValue;
 

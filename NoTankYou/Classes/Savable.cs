@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace NoTankYou.Classes;
 
@@ -11,14 +12,15 @@ public abstract class Savable {
     public void MarkDirty()
         => SavePending = true;
 
-    public virtual void Save() {
+    public virtual async Task Save() {
         SavePending = false;
-        
+
         if (FileName == string.Empty) {
             Services.PluginLog.Error("Tried to save a config with no file name set");
             return;
         }
 
-        Utilities.Config.SaveCharacterConfig(this, $"{FileName}{FileExtension}");
+        Services.PluginLog.Debug($"Saving {FileName}{FileExtension}");
+        await Utilities.Config.SaveCharacterConfig(this, $"{FileName}{FileExtension}");
     }
 }

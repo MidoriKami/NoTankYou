@@ -7,10 +7,10 @@ namespace NoTankYou.Extensions;
 
 public static unsafe class BattleCharaExtensions {
     extension(ref BattleChara battleChara) {
-        public bool IsTank 
+        public bool IsTank
             => Services.DataManager.GetExcelSheet<ClassJob>().GetRow(battleChara.ClassJob).Role is 1;
 
-        public int? HudIndex 
+        public int? HudIndex
             => AgentHUD.Instance()->GetMember(battleChara.EntityId)?.Index;
 
         public bool HasStatus(ICollection<uint> statuses) {
@@ -20,10 +20,10 @@ public static unsafe class BattleCharaExtensions {
 
             return false;
         }
-        
+
         public bool MissingStatus(uint status)
             => battleChara.MissingStatus([status]);
-        
+
         public bool MissingStatus(ICollection<uint> statuses) {
             foreach (var status in statuses) {
                 if (battleChara.StatusManager.HasStatus(status)) return false;
@@ -36,7 +36,7 @@ public static unsafe class BattleCharaExtensions {
             get {
                 foreach (var characterEntry in CharacterManager.Instance()->BattleCharas) {
                     if (characterEntry.Value is null) continue;
-                    if (characterEntry.Value->OwnerId == battleChara.EntityId) 
+                    if (characterEntry.Value->OwnerId == battleChara.EntityId)
                         return characterEntry.Value;
                 }
 

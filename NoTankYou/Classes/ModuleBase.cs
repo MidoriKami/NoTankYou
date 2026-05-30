@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Enums;
@@ -18,8 +19,8 @@ using Action = Lumina.Excel.Sheets.Action;
 
 namespace NoTankYou.Classes;
 
-public abstract unsafe class ModuleBase : FeatureBase {
-    
+public abstract class ModuleBase : FeatureBase {
+
     public abstract ConfigBase ConfigBase { get; }
 
     public readonly List<WarningInfo> ActiveWarnings = [];
@@ -29,27 +30,27 @@ public abstract unsafe class ModuleBase : FeatureBase {
     protected List<Pointer<BattleChara>> BattleCharacters = [];
     protected List<Pointer<BattleChara>> PartyMembers = [];
     protected List<Pointer<BattleChara>> AllianceMembers = [];
-    
-    protected sealed override void OnFeatureEnable() { }
-    protected sealed override void OnFeatureDisable() { }
-        
-    protected abstract bool ShouldEvaluateWarnings(BattleChara* character);
-    protected abstract void EvaluateWarnings(BattleChara* character);
+
+    protected sealed override Task OnFeatureEnable() => Task.CompletedTask;
+    protected sealed override Task OnFeatureDisable() => Task.CompletedTask;
+
+    protected abstract unsafe bool ShouldEvaluateWarnings(BattleChara* character);
+    protected abstract unsafe void EvaluateWarnings(BattleChara* character);
 
     private readonly HashSet<ulong> suppressedObjectIds = [];
     private readonly Dictionary<ulong, Stopwatch> suppressionTimer = new();
     private readonly DeathTracker deathTracker = new();
-    
-    protected override void OnFeatureLoad()
-        => MigrateConfig();
+
+    protected override async Task OnFeatureLoad()
+        => await MigrateConfig();
 
     // Optional method to fix certain config issues.
-    protected virtual void MigrateConfig() { }
+    protected virtual Task MigrateConfig() => Task.CompletedTask;
 
-    protected sealed override void OnFeatureUpdate() {
+    protected sealed override unsafe void OnFeatureUpdate() {
         if (ConfigBase.SavePending) {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
-            ConfigBase.Save();
+            Task.Run(ConfigBase.Save);
         }
 
         ActiveWarnings.Clear();
@@ -86,7 +87,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         foreach (var characterEntry in BattleCharacters) {
             var battleCharacter = characterEntry.Value;
             if (battleCharacter is null) continue;
-            
+
             if (ConfigBase.SoloMode && battleCharacter->ObjectIndex is not 0) continue;
             if (ConfigBase.PartyMembersOnly && !battleCharacter->IsPartyMember && battleCharacter->ObjectIndex is not 0) continue;
 
@@ -94,7 +95,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         }
     }
 
-    private void ProcessPlayer(BattleChara* character) {
+    private unsafe void ProcessPlayer(BattleChara* character) {
         if (character->EntityId is 0xE0000000 or 0) return;
         if (HasDisallowedCondition()) return;
         if (character->HasStatus(1534)) return; // Is Role-Playing Status
@@ -105,8 +106,8 @@ public abstract unsafe class ModuleBase : FeatureBase {
         EvaluateWarnings(character);
         EvaluateAutoSuppression(character);
     }
-    
-    protected void GenerateWarning(uint actionId, string warningText, BattleChara* battleChara) => ActiveWarnings.Add(new WarningInfo {
+
+    protected unsafe void GenerateWarning(uint actionId, string warningText, BattleChara* battleChara) => ActiveWarnings.Add(new WarningInfo {
         Priority = ConfigBase.Priority,
         IconId = Services.DataManager.GetExcelSheet<Action>().GetRow(actionId).Icon,
         ActionId = actionId,
@@ -117,7 +118,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         ModuleIcon = ModuleInfo.IconId,
     });
 
-    protected void GenerateWarning(uint iconId, string iconLabel, string warningText, BattleChara* battleChara) => ActiveWarnings.Add(new WarningInfo {
+    protected unsafe void GenerateWarning(uint iconId, string iconLabel, string warningText, BattleChara* battleChara) => ActiveWarnings.Add(new WarningInfo {
         Priority = ConfigBase.Priority,
         IconId = iconId,
         ActionId = 0,
@@ -127,8 +128,8 @@ public abstract unsafe class ModuleBase : FeatureBase {
         SourceModule = ModuleInfo.DisplayName,
         ModuleIcon = ModuleInfo.IconId,
     });
-    
-    private void EvaluateAutoSuppression(BattleChara* character) {
+
+    private unsafe void EvaluateAutoSuppression(BattleChara* character) {
         if (!ConfigBase.AutoSuppress) return;
 
         // Do not allow auto suppression for the user.
@@ -148,7 +149,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         }
     }
 
-    private static bool IsProhibitedTerritoryIntendedUse() => GameMain.Instance()->CurrentTerritoryIntendedUseId switch {
+    private static unsafe bool IsProhibitedTerritoryIntendedUse() => GameMain.Instance()->CurrentTerritoryIntendedUseId switch {
         TerritoryIntendedUse.Bozja => true,
         TerritoryIntendedUse.OccultCrescent => true,
         TerritoryIntendedUse.Eureka => true,
@@ -279,7 +280,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
     ];
 
     protected virtual ICollection<NodeBase> ModuleConfigNodes => [];
-    
+
     private ICollection<NodeBase> GetModuleSpecificEntries() {
         var configEntries = ModuleConfigNodes;
         if (configEntries.Count is not 0) {

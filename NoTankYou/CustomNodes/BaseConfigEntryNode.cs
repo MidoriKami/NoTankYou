@@ -1,5 +1,3 @@
 ﻿namespace NoTankYou.CustomNodes;
 
-public class BaseConfigEntryNode {
-    
-}
+public class BaseConfigEntryNode { }

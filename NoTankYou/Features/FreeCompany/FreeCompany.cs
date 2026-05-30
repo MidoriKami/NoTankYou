@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -22,18 +23,20 @@ public class FreeCompany : Module<FreeCompanyConfig> {
     };
 
     private const uint FreeCompanyActionId = 43;
-    private readonly uint freeCompanyIconId = (uint) Services.DataManager.GetExcelSheet<CompanyAction>().GetRow(FreeCompanyActionId).Icon;
+    private readonly uint freeCompanyIconId = (uint)Services.DataManager.GetExcelSheet<CompanyAction>().GetRow(FreeCompanyActionId).Icon;
 
     private readonly uint[] statusList = Services.DataManager.GetExcelSheet<Status>()
         .Where(status => status.IsFcBuff)
         .Select(status => status.RowId)
         .ToArray();
 
-    protected override void MigrateConfig() {
+    protected override Task MigrateConfig() {
         ModuleConfig.DisableInSanctuary = false;
         ModuleConfig.WaitForDutyStart = false;
         ModuleConfig.DutiesOnly = false;
         ModuleConfig.SoloMode = false;
+
+        return Task.CompletedTask;
     }
 
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
@@ -94,12 +97,12 @@ public class FreeCompany : Module<FreeCompanyConfig> {
     private LuminaDropDownNode<Status>? firstBuffDropdown;
     private CheckboxNode? secondBuffCheckbox;
     private LuminaDropDownNode<Status>? secondBuffDropdown;
-    
+
     protected override ICollection<NodeBase> ModuleConfigNodes => [
         new HorizontalFlexNode {
             Height = 24.0f,
             AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
-            InitialNodes =  [
+            InitialNodes = [
                 new TextNode {
                     AlignmentType = AlignmentType.Left,
                     String = "Warning Mode",
@@ -124,7 +127,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
         new HorizontalListNode {
             Height = 24.0f,
             FitHeight = true,
-            InitialNodes =  [
+            InitialNodes = [
                 firstBuffCheckbox = new CheckboxNode {
                     Width = 24.0f,
                     IsChecked = ModuleConfig.PrimaryBuff is not 0,
@@ -154,7 +157,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
         new HorizontalListNode {
             Height = 24.0f,
             FitHeight = true,
-            InitialNodes =  [
+            InitialNodes = [
                 secondBuffCheckbox = new CheckboxNode {
                     Width = 24.0f,
                     IsChecked = ModuleConfig.SecondaryBuff is not 0,
