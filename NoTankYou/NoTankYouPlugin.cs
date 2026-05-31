@@ -56,7 +56,7 @@ public sealed class NoTankYouPlugin : IAsyncDalamudPlugin {
             await System.ModuleManager.DisposeAsync();
         }
 
-        await Services.Framework.Run(KamiToolKitLibrary.Dispose);
+        await Services.Framework.RunOnFrameworkThread(KamiToolKitLibrary.Dispose);
     }
 
     private static void OnCommand(string command, string arguments) {
