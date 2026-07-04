@@ -1,7 +1,7 @@
-﻿using KamiToolKit.Premade.Node.Simple;
+﻿using KamiToolKit.Nodes;
 
 namespace NoTankYou.CustomNodes;
 
-public abstract class UpdatableNode : SimpleComponentNode {
+public abstract class UpdatableNode : ResNode {
     public abstract void Update();
 }

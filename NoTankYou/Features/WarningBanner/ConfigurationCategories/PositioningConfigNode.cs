@@ -43,12 +43,12 @@ public class PositioningConfigurationNode : VerticalListNode {
                         AlignmentType = AlignmentType.Left,
                         String = "Scale",
                     },
-                    new SliderNode {
-                        Range = 50..300,
-                        DecimalPlaces = 2,
-                        Value = (int)(module.Config.Scale * 100),
+                    new FloatSliderNode {
+                        Min = 0.5f,
+                        Max = 3.0f,
+                        Value = module.Config.Scale,
                         OnValueChanged = newValue => {
-                            module.Config.Scale = newValue / 100.0f;
+                            module.Config.Scale = newValue;
                             module.Config.MarkDirty();
                         },
                     },

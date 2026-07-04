@@ -1,21 +1,23 @@
 ﻿using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Simple;
 using NoTankYou.Features.PartyList.ConfigurationCategories;
 
 namespace NoTankYou.Features.PartyList;
 
-public class PartyListConfigNode : SimpleComponentNode {
-    private readonly ScrollingListNode listNode;
+public class PartyListConfigNode : ResNode {
+    private readonly ScrollingNode<VerticalListNode> listNode;
 
     public PartyListConfigNode(PartyList module) {
-        listNode = new ScrollingListNode {
-            FitWidth = true,
-            ItemSpacing = 3.0f,
-            InitialNodes = [
-                new FeatureConfigurationNode(module),
-                new DisplayStyleConfigNode(module),
-                new ModuleSelectConfigNode(module),
-            ],
+        listNode = new ScrollingNode<VerticalListNode> {
+            ContentNode = {
+                FitWidth = true,
+                FitContents = true,
+                ItemSpacing = 3.0f,
+                InitialNodes = [
+                    new FeatureConfigurationNode(module),
+                    new DisplayStyleConfigNode(module),
+                    new ModuleSelectConfigNode(module),
+                ],
+            },
         };
         listNode.AttachNode(this);
     }
@@ -24,6 +26,6 @@ public class PartyListConfigNode : SimpleComponentNode {
         base.OnSizeChanged();
 
         listNode.Size = Size;
-        listNode.RecalculateLayout();
+        listNode.RecalculateSizes();
     }
 }

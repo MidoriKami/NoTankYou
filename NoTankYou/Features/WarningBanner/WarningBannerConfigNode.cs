@@ -1,22 +1,24 @@
 ﻿using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Simple;
 using NoTankYou.Features.WarningBanner.ConfigurationCategories;
 
 namespace NoTankYou.Features.WarningBanner;
 
-public class WarningBannerConfigNode : SimpleComponentNode {
-    private readonly ScrollingListNode listNode;
+public class WarningBannerConfigNode : ResNode {
+    private readonly ScrollingNode<VerticalListNode> listNode;
 
     public WarningBannerConfigNode(WarningBanner module) {
-        listNode = new ScrollingListNode {
-            FitWidth = true,
-            ItemSpacing = 3.0f,
-            InitialNodes = [
-                new FeatureConfigurationNode(module),
-                new PositioningConfigurationNode(module),
-                new DisplayStyleConfigNode(module),
-                new ModuleSelectConfigNode(module),
-            ],
+        listNode = new ScrollingNode<VerticalListNode> {
+            ContentNode = {
+                FitWidth = true,
+                FitContents = true,
+                ItemSpacing = 3.0f,
+                InitialNodes = [
+                    new FeatureConfigurationNode(module),
+                    new PositioningConfigurationNode(module),
+                    new DisplayStyleConfigNode(module),
+                    new ModuleSelectConfigNode(module),
+                ],
+            },
         };
         listNode.AttachNode(this);
     }
@@ -25,6 +27,6 @@ public class WarningBannerConfigNode : SimpleComponentNode {
         base.OnSizeChanged();
 
         listNode.Size = Size;
-        listNode.RecalculateLayout();
+        listNode.RecalculateSizes();
     }
 }

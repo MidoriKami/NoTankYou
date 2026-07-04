@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using KamiToolKit;
-using KamiToolKit.Overlay.UiOverlay;
+using KamiToolKit.BaseTypes;
+using KamiToolKit.UiOverlay;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
 

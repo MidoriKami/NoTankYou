@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 
 namespace NoTankYou.Classes;
 

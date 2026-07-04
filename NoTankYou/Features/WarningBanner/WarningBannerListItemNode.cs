@@ -2,6 +2,7 @@
 using System.Numerics;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 using KamiToolKit.Timelines;
 using NoTankYou.Classes;
@@ -109,5 +110,6 @@ public sealed unsafe class WarningBannerListItemNode : ListItemNode<WarningInfo>
         actionIconNode.IsVisible = config.ShowActionIcon;
 
         actionIconNode.ActionTooltip = config.EnableActionTooltip ? itemData.ActionId : 0;
+        actionIconNode.ShowClickableCursor = true;
     }
 }

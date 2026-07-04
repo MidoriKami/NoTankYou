@@ -11,7 +11,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using FFXIVClientStructs.Interop;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 using NoTankYou.CustomNodes;
@@ -159,14 +159,16 @@ public abstract class ModuleBase : FeatureBase {
     private static bool HasDisallowedCondition()
         => Services.Condition.Any(ConditionFlag.Jumping61, ConditionFlag.Transformed, ConditionFlag.InThisState89);
 
-    public sealed override NodeBase DisplayNode => new ScrollingListNode {
-        FitWidth = true,
-        ItemSpacing = 2.0f,
-        InitialNodes = [
-            ..ConfigNodes,
-            ..GetModuleSpecificEntries(),
-            // Maybe Blacklist Features here?
-        ],
+    public sealed override NodeBase DisplayNode => new ScrollingNode<VerticalListNode> {
+        ContentNode = {
+            FitWidth = true,
+            FitContents = true,
+            ItemSpacing = 2.0f,
+            InitialNodes = [
+                ..ConfigNodes,
+                ..GetModuleSpecificEntries(),
+            ],
+        },
     };
 
     protected virtual ICollection<NodeBase> ConfigNodes => [

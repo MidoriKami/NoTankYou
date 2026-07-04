@@ -12,8 +12,6 @@ public unsafe class PartyListForegroundNode : UpdatableNode {
     private readonly IconImageNode warningIconNode;
 
     public PartyListForegroundNode() {
-        DisableCollisionNode = true;
-
         warningIconNode = new IconImageNode {
             Size = new Vector2(16.0f, 16.0f),
             Origin = new Vector2(8.0f, 8.0f),

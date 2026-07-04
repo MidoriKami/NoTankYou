@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Color;
 using NoTankYou.CustomNodes;
 
 namespace NoTankYou.Features.PartyList.ConfigurationCategories;

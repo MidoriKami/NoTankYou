@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
@@ -94,9 +94,9 @@ public class FreeCompany : Module<FreeCompanyConfig> {
     ];
 
     private CheckboxNode? firstBuffCheckbox;
-    private LuminaDropDownNode<Status>? firstBuffDropdown;
+    private DropDownNode<Status>? firstBuffDropdown;
     private CheckboxNode? secondBuffCheckbox;
-    private LuminaDropDownNode<Status>? secondBuffDropdown;
+    private DropDownNode<Status>? secondBuffDropdown;
 
     protected override ICollection<NodeBase> ModuleConfigNodes => [
         new HorizontalFlexNode {
@@ -139,11 +139,11 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                         }
                     },
                 },
-                firstBuffDropdown = new LuminaDropDownNode<Status> {
+                firstBuffDropdown = new DropDownNode<Status> {
                     Width = 355.0f,
-                    FilterFunction = status => status.IsFcBuff,
-                    LabelFunction = status => status.Name.ToString(),
                     MaxListOptions = 10,
+                    GetLabelFunction = item => item.Name.ToString(),
+                    Options = Services.DataManager.GetExcelSheet<Status>().Where(status => status.IsFcBuff).ToList(),
                     SelectedOption = Services.DataManager.GetExcelSheet<Status>().GetRow(ModuleConfig.PrimaryBuff),
                     OnOptionSelected = newOption => {
                         ModuleConfig.PrimaryBuff = newOption.RowId;
@@ -169,11 +169,11 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                         }
                     },
                 },
-                secondBuffDropdown = new LuminaDropDownNode<Status> {
+                secondBuffDropdown = new DropDownNode<Status> {
                     Width = 355.0f,
-                    FilterFunction = status => status.IsFcBuff,
-                    LabelFunction = status => status.Name.ToString(),
+                    GetLabelFunction = status => status.Name.ToString(),
                     MaxListOptions = 10,
+                    Options = Services.DataManager.GetExcelSheet<Status>().Where(status => status.IsFcBuff).ToList(),
                     SelectedOption = Services.DataManager.GetExcelSheet<Status>().GetRow(ModuleConfig.SecondaryBuff),
                     OnOptionSelected = newOption => {
                         ModuleConfig.SecondaryBuff = newOption.RowId;

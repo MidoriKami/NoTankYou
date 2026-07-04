@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Premade.Node.Simple;
+using KamiToolKit.Nodes.Simplified;
 using KamiToolKit.Timelines;
 using NoTankYou.Classes;
 using NoTankYou.CustomNodes;
@@ -11,8 +11,6 @@ public class PartyListBackgroundNode : UpdatableNode {
     private readonly SimpleNineGridNode glowNode;
 
     public PartyListBackgroundNode() {
-        DisableCollisionNode = true;
-
         glowNode = new SimpleNineGridNode {
             TexturePath = "ui/uld/PartyListTargetBase.tex",
             TextureSize = new Vector2(48.0f, 48.0f),

@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Overlay.UiOverlay;
 using KamiToolKit.Timelines;
+using KamiToolKit.UiOverlay;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
 
@@ -21,9 +21,10 @@ public unsafe class WarningBannerOverlayNode : OverlayNode {
     public WarningBannerOverlayNode() {
         bannerListNode = new ListNode<WarningInfo, WarningBannerListItemNode> {
             ItemSpacing = 8.0f,
-            DisableCollisionNode = true,
             OptionsList = [],
-            ScrollBarNode = { IsVisible = false },
+            ScrollBarNode = {
+                IsVisible = false,
+            },
         };
         bannerListNode.AttachNode(this);
 
