@@ -121,6 +121,8 @@ public class ModuleBrowserWindow : NativeAddon {
     }
 
     protected override unsafe void OnUpdate(AtkUnitBase* addon) {
+        if (System.ModuleManager.IsUnloading) return;
+
         foreach (var (_, node) in moduleNodes ?? []) {
             if (node is UpdatableNode { IsVisible: true } updatableNode) {
                 updatableNode.Update();

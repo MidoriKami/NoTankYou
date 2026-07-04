@@ -96,6 +96,9 @@ public sealed unsafe class WarningBannerListItemNode : ListItemNode<WarningInfo>
     }
 
     protected override void SetNodeData(WarningInfo itemData) {
+        if (System.ModuleManager.IsUnloading) return;
+        if (itemData.SourceCharacter is null) return;
+
         messageTextNode.String = itemData.Message;
         playerTextNode.String = itemData.SourceCharacter->GetName().ToString();
         actionIconNode.IconId = itemData.IconId;

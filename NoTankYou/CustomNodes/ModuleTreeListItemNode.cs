@@ -16,7 +16,10 @@ public class ModuleTreeListItemNode : TreeListItemNode<LoadedModule>, ITreeListI
     protected override unsafe void SetNodeData(LoadedModule itemData) {
         labelTextNode.String = itemData.FeatureBase.Name;
 
+        checkboxNode.OnClick = null;
+        checkboxNode.IsEnabled = itemData.State is not LoadedState.Errored;
         checkboxNode.IsChecked = itemData.State is LoadedState.Enabled;
+        checkboxNode.OnClick = shouldEnable => Task.Run(() => ToggleModification(shouldEnable));
 
         if (itemData.FeatureBase.ModuleInfo.IconId is 0) {
             iconImageNode.IsVisible = false;

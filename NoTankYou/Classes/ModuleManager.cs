@@ -12,6 +12,7 @@ namespace NoTankYou.Classes;
 public class ModuleManager : IAsyncDisposable {
 
     public List<LoadedModule>? LoadedModules { get; private set; }
+    public bool IsUnloading { get; private set; }
 
     private List<ModuleBase>? warningGeneratingModules;
     private List<FeatureBase>? warningDisplayingModules;
@@ -62,6 +63,8 @@ public class ModuleManager : IAsyncDisposable {
             Services.PluginLog.Debug("No modules loaded");
             return;
         }
+
+        IsUnloading = true;
 
         Services.PluginLog.Debug("Disposing Module Manager, now disabling all Modules");
         Services.Framework.Update -= OnFrameworkUpdate;
