@@ -21,6 +21,8 @@ public class ModuleManager : IAsyncDisposable {
         => await UnloadModules();
 
     public async Task LoadModules() {
+        IsUnloading = false;
+
         var allModules = GetModuleTypes();
         LoadedModules = [];
         warningGeneratingModules = [];
