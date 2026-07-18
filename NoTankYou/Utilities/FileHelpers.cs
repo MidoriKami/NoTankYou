@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Dalamud.Plugin.Services;
 
 namespace NoTankYou.Utilities;
 
@@ -15,7 +16,7 @@ public static class FileHelpers {
         var fileInfo = new FileInfo(filePath);
         if (fileInfo is { Exists: true }) {
             try {
-                var fileText = await Services.ReliableFileStorage.ReadAllTextAsync(fileInfo.FullName);
+                var fileText = await IReliableFileStorage.Get().ReadAllTextAsync(fileInfo.FullName);
                 var dataObject = JsonSerializer.Deserialize<T>(fileText, SerializerOptions);
 
                 // If deserialize result is null, create a new instance instead and save it.
@@ -28,7 +29,7 @@ public static class FileHelpers {
             }
             catch (Exception e) {
                 // If there is any kind of error loading the file, generate a new one instead and save it.
-                Services.PluginLog.Error(e, $"Error trying to load file {filePath}, creating a new one instead.");
+                IPluginLog.Get().Error(e, $"Error trying to load file {filePath}, creating a new one instead.");
 
                 await SaveFile(defaultObject ?? new T(), filePath);
             }
@@ -43,15 +44,15 @@ public static class FileHelpers {
     public static async Task SaveFile<T>(T? file, string filePath) {
         try {
             if (file is null) {
-                Services.PluginLog.Error("Null file provided.");
+                IPluginLog.Get().Error("Null file provided.");
                 return;
             }
 
             var fileText = JsonSerializer.Serialize(file, file.GetType(), SerializerOptions);
-            await Services.ReliableFileStorage.WriteAllTextAsync(filePath, fileText);
+            await IReliableFileStorage.Get().WriteAllTextAsync(filePath, fileText);
         }
         catch (Exception e) {
-            Services.PluginLog.Error(e, $"Error trying to save file {filePath}");
+            IPluginLog.Get().Error(e, $"Error trying to save file {filePath}");
         }
     }
 
@@ -59,7 +60,7 @@ public static class FileHelpers {
         var fileInfo = new FileInfo(filePath);
         if (fileInfo is { Exists: true }) {
             try {
-                var dataObject = await Services.ReliableFileStorage.ReadAllBytesAsync(fileInfo.FullName);
+                var dataObject = await IReliableFileStorage.Get().ReadAllBytesAsync(fileInfo.FullName);
 
                 // If deserialize result is null, create a new instance instead and save it.
                 if (dataObject.Length != length) {
@@ -71,7 +72,7 @@ public static class FileHelpers {
             }
             catch (Exception e) {
                 // If there is any kind of error loading the file, generate a new one instead and save it.
-                Services.PluginLog.Error(e, $"Error trying to load file {filePath}, creating a new one instead.");
+                IPluginLog.Get().Error(e, $"Error trying to load file {filePath}, creating a new one instead.");
 
                 await SaveFile(new byte[length], filePath);
             }
@@ -85,15 +86,15 @@ public static class FileHelpers {
 
     public static async Task SaveBinaryFile(byte[] data, string filePath) {
         try {
-            await Services.ReliableFileStorage.WriteAllBytesAsync(filePath, data);
+            await IReliableFileStorage.Get().WriteAllBytesAsync(filePath, data);
         }
         catch (Exception e) {
-            Services.PluginLog.Error(e, $"Error trying to save binary data {filePath}");
+            IPluginLog.Get().Error(e, $"Error trying to save binary data {filePath}");
         }
     }
 
     public static FileInfo GetFileInfo(params string[] path) {
-        var directory = Services.PluginInterface.ConfigDirectory;
+        var directory = NoTankYouPlugin.PluginInterface.ConfigDirectory;
 
         for (var index = 0; index < path.Length - 1; index++) {
             directory = new DirectoryInfo(Path.Combine(directory.FullName, path[index]));
@@ -106,10 +107,10 @@ public static class FileHelpers {
     }
 
     public static string GetCharacterPath() {
-        if (!Services.ClientState.IsLoggedIn) {
+        if (!IClientState.Get().IsLoggedIn) {
             throw new Exception("Character is not logged in.");
         }
 
-        return Services.PlayerState.ContentId.ToString();
+        return IPlayerState.Get().ContentId.ToString();
     }
 }

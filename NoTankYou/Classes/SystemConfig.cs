@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dalamud.Plugin.Services;
 
 namespace NoTankYou.Classes;
 
@@ -12,7 +13,7 @@ public class SystemConfig {
         => await Utilities.Config.LoadCharacterConfig<SystemConfig>("system.config.json");
 
     public async Task Save() {
-        Services.PluginLog.Debug("Saving system.config.json");
+        IPluginLog.Get().Debug("Saving system.config.json");
         await Utilities.Config.SaveCharacterConfig(this, "system.config.json");
     }
 }

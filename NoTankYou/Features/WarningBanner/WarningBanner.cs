@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Dalamud.Plugin.Services;
 using KamiToolKit.BaseTypes;
 using KamiToolKit.UiOverlay;
 using NoTankYou.Classes;
@@ -39,7 +40,7 @@ public class WarningBanner : FeatureBase {
     }
 
     protected override async Task OnFeatureEnable() {
-        await Services.Framework.Run(() => {
+        await IFramework.Get().Run(() => {
             overlayController = new OverlayController();
             overlayController.AddNode(new WarningBannerOverlayNode {
                 Position = Config.Position,
@@ -50,13 +51,13 @@ public class WarningBanner : FeatureBase {
     }
 
     protected override async Task OnFeatureDisable() {
-        await Services.Framework.Run(() => overlayController?.Dispose());
+        await IFramework.Get().Run(() => overlayController?.Dispose());
         overlayController = null;
     }
 
     protected override void OnFeatureUpdate() {
         if (Config.SavePending) {
-            Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
+            IPluginLog.Get().Debug($"Saving {ModuleInfo.DisplayName} config");
             Task.Run(Config.Save);
         }
     }

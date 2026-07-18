@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dalamud.Plugin.Services;
 
 namespace NoTankYou.Classes;
 
@@ -14,7 +15,7 @@ public class Debouncer(TimeSpan delay) {
         if (lastState && !state) {
             characterWaitList.Add(objectId);
 
-            Services.Framework.RunOnTick(() => {
+            IFramework.Get().RunOnTick(() => {
                 characterWaitList.Remove(objectId);
             }, delay);
         }

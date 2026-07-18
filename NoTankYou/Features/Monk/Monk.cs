@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dalamud.Game.ClientState.JobGauge.Types;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.BaseTypes;
@@ -40,13 +41,13 @@ public class Monk : Module<MonkConfig> {
     }
 
     protected override unsafe void EvaluateWarnings(BattleChara* character) {
-        if (Services.Condition.IsInCombat) lastCombatTime = DateTime.UtcNow;
+        if (ICondition.Get().IsInCombat) lastCombatTime = DateTime.UtcNow;
 
         if (DateTime.UtcNow - lastCombatTime <= TimeSpan.FromSeconds(ModuleConfig.WarningDelay)) return;
 
         // Mantra
         if (character->Level >= MantraMinimumLevel) {
-            if (Services.JobGauges.Get<MNKGauge>().Chakra < 5) {
+            if (IJobGauges.Get().Get<MNKGauge>().Chakra < 5) {
                 GenerateWarning(MantraActionId, "Chakra", character);
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -16,7 +17,7 @@ public abstract class ConsumableModuleBase : Module<ConsumableModuleConfig> {
     protected abstract uint StatusId { get; }
 
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
-        if (ModuleConfig.SuppressInCombat && Services.Condition.IsInCombat) return false;
+        if (ModuleConfig.SuppressInCombat && ICondition.Get().IsInCombat) return false;
 
         if (ModuleConfig.SavageFilter || ModuleConfig.UltimateFilter || ModuleConfig.ExtremeUnrealFilter || ModuleConfig.CriterionFilter || ModuleConfig.ChaoticFilter) {
             var allowedZones = new List<DutyType>();
@@ -28,10 +29,10 @@ public abstract class ConsumableModuleBase : Module<ConsumableModuleConfig> {
             if (ModuleConfig.CriterionFilter) allowedZones.Add(DutyType.Criterion);
             if (ModuleConfig.ChaoticFilter) allowedZones.Add(DutyType.ChaoticAlliance);
 
-            var currentCfc = Services.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(GameMain.Instance()->CurrentContentFinderConditionId);
+            var currentCfc = IDataManager.Get().GetExcelSheet<ContentFinderCondition>().GetRow(GameMain.Instance()->CurrentContentFinderConditionId);
             if (currentCfc.RowId is 0) return false;
 
-            var currentDutyType = Services.DataManager.GetDutyType(currentCfc);
+            var currentDutyType = IDataManager.Get().GetDutyType(currentCfc);
             if (!allowedZones.Contains(currentDutyType)) return false;
         }
 

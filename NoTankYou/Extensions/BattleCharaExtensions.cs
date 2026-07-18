@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.Sheets;
@@ -8,7 +9,7 @@ namespace NoTankYou.Extensions;
 public static unsafe class BattleCharaExtensions {
     extension(ref BattleChara battleChara) {
         public bool IsTank
-            => Services.DataManager.GetExcelSheet<ClassJob>().GetRow(battleChara.ClassJob).Role is 1;
+            => IDataManager.Get().GetExcelSheet<ClassJob>().GetRow(battleChara.ClassJob).Role is 1;
 
         public int? HudIndex
             => AgentHUD.Instance()->GetMember(battleChara.EntityId)?.Index;

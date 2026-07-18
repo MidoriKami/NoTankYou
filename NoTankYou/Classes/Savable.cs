@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Dalamud.Plugin.Services;
 
 namespace NoTankYou.Classes;
 
@@ -16,11 +17,11 @@ public abstract class Savable {
         SavePending = false;
 
         if (FileName == string.Empty) {
-            Services.PluginLog.Error("Tried to save a config with no file name set");
+            IPluginLog.Get().Error("Tried to save a config with no file name set");
             return;
         }
 
-        Services.PluginLog.Debug($"Saving {FileName}{FileExtension}");
+        IPluginLog.Get().Debug($"Saving {FileName}{FileExtension}");
         await Utilities.Config.SaveCharacterConfig(this, $"{FileName}{FileExtension}");
     }
 }

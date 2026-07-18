@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.Interop;
@@ -20,7 +21,7 @@ public class Tanks : Module<TanksConfig> {
         IconId = 62019,
     };
 
-    private readonly uint[] tankStanceIdArray = Services.DataManager.GetExcelSheet<Status>()
+    private readonly uint[] tankStanceIdArray = IDataManager.Get().GetExcelSheet<Status>()
         .Where(status => status is { InflictedByActor: true, CanStatusOff: true, IsPermanent: true, ParamModifier: 500, PartyListPriority: 0 })
         .Select(status => status.RowId)
         .ToArray();
@@ -28,7 +29,7 @@ public class Tanks : Module<TanksConfig> {
     private const byte MinimumLevel = 10;
 
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
-        if (ModuleConfig.DisableInAlliance && Services.DataManager.CurrentDutyType is DutyType.Alliance) return false;
+        if (ModuleConfig.DisableInAlliance && IDataManager.Get().CurrentDutyType is DutyType.Alliance) return false;
         if (!character->IsTank) return false;
         if (character->Level < MinimumLevel) return false;
 
@@ -42,7 +43,7 @@ public class Tanks : Module<TanksConfig> {
             }
         }
         else {
-            if (ModuleConfig.CheckAllianceTanks && Services.DataManager.CurrentDutyType is DutyType.Alliance) {
+            if (ModuleConfig.CheckAllianceTanks && IDataManager.Get().CurrentDutyType is DutyType.Alliance) {
                 if (!AllianceMembers.Any(MemberHasTankStance) && !PartyMembers.Any(MemberHasTankStance)) {
                     GenerateWarning(GetActionIdForClass(character->ClassJob), "Alliance Missing Tank Stance", character);
                 }

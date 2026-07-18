@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiToolKit.BaseTypes;
 using KamiToolKit.Controllers;
@@ -54,17 +55,17 @@ public class PartyList : FeatureBase {
             };
         }
 
-        await Services.Framework.Run(partyListController.Enable);
+        await IFramework.Get().Run(partyListController.Enable);
     }
 
     protected override async Task OnFeatureDisable() {
-        await Services.Framework.Run(() => partyListController?.Dispose());
+        await IFramework.Get().Run(() => partyListController?.Dispose());
         partyListController = null;
     }
 
     protected override void OnFeatureUpdate() {
         if (Config.SavePending) {
-            Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
+            IPluginLog.Get().Debug($"Saving {ModuleInfo.DisplayName} config");
             Task.Run(Config.Save);
         }
     }

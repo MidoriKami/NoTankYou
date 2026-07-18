@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.BaseTypes;
@@ -23,9 +24,9 @@ public class FreeCompany : Module<FreeCompanyConfig> {
     };
 
     private const uint FreeCompanyActionId = 43;
-    private readonly uint freeCompanyIconId = (uint)Services.DataManager.GetExcelSheet<CompanyAction>().GetRow(FreeCompanyActionId).Icon;
+    private readonly uint freeCompanyIconId = (uint)IDataManager.Get().GetExcelSheet<CompanyAction>().GetRow(FreeCompanyActionId).Icon;
 
-    private readonly uint[] statusList = Services.DataManager.GetExcelSheet<Status>()
+    private readonly uint[] statusList = IDataManager.Get().GetExcelSheet<Status>()
         .Where(status => status.IsFcBuff)
         .Select(status => status.RowId)
         .ToArray();
@@ -40,7 +41,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
     }
 
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
-        if (Services.Condition.IsBoundByDuty) return false;
+        if (ICondition.Get().IsBoundByDuty) return false;
         if (character->ObjectIndex is not 0) return false;
         if (character->HomeWorld != character->CurrentWorld) return false;
 
@@ -135,7 +136,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                         if (!newValue) {
                             ModuleConfig.PrimaryBuff = 0;
                             ModuleConfig.MarkDirty();
-                            firstBuffDropdown?.SelectedOption = Services.DataManager.GetExcelSheet<Status>().GetRow(0);
+                            firstBuffDropdown?.SelectedOption = IDataManager.Get().GetExcelSheet<Status>().GetRow(0);
                         }
                     },
                 },
@@ -143,8 +144,8 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                     Width = 355.0f,
                     MaxListOptions = 10,
                     GetLabelFunction = item => item.Name.ToString(),
-                    Options = Services.DataManager.GetExcelSheet<Status>().Where(status => status.IsFcBuff).ToList(),
-                    SelectedOption = Services.DataManager.GetExcelSheet<Status>().GetRow(ModuleConfig.PrimaryBuff),
+                    Options = IDataManager.Get().GetExcelSheet<Status>().Where(status => status.IsFcBuff).ToList(),
+                    SelectedOption = IDataManager.Get().GetExcelSheet<Status>().GetRow(ModuleConfig.PrimaryBuff),
                     OnOptionSelected = newOption => {
                         ModuleConfig.PrimaryBuff = newOption.RowId;
                         ModuleConfig.MarkDirty();
@@ -165,7 +166,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                         if (!newValue) {
                             ModuleConfig.SecondaryBuff = 0;
                             ModuleConfig.MarkDirty();
-                            secondBuffDropdown?.SelectedOption = Services.DataManager.GetExcelSheet<Status>().GetRow(0);
+                            secondBuffDropdown?.SelectedOption = IDataManager.Get().GetExcelSheet<Status>().GetRow(0);
                         }
                     },
                 },
@@ -173,8 +174,8 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                     Width = 355.0f,
                     GetLabelFunction = status => status.Name.ToString(),
                     MaxListOptions = 10,
-                    Options = Services.DataManager.GetExcelSheet<Status>().Where(status => status.IsFcBuff).ToList(),
-                    SelectedOption = Services.DataManager.GetExcelSheet<Status>().GetRow(ModuleConfig.SecondaryBuff),
+                    Options = IDataManager.Get().GetExcelSheet<Status>().Where(status => status.IsFcBuff).ToList(),
+                    SelectedOption = IDataManager.Get().GetExcelSheet<Status>().GetRow(ModuleConfig.SecondaryBuff),
                     OnOptionSelected = newOption => {
                         ModuleConfig.SecondaryBuff = newOption.RowId;
                         ModuleConfig.MarkDirty();

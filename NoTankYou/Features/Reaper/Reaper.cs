@@ -1,4 +1,5 @@
 ﻿using System;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
@@ -30,7 +31,7 @@ public class Reaper : Module<ReaperConfig> {
     }
 
     protected override unsafe void EvaluateWarnings(BattleChara* character) {
-        if (Services.Condition.IsInCombat) lastCombatTime = DateTime.UtcNow;
+        if (ICondition.Get().IsInCombat) lastCombatTime = DateTime.UtcNow;
 
         if (DateTime.UtcNow - lastCombatTime <= TimeSpan.FromSeconds(ModuleConfig.WarningDelay)) return;
 

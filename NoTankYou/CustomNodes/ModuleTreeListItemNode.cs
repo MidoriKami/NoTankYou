@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using System.Threading.Tasks;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Interfaces;
@@ -90,7 +91,7 @@ public class ModuleTreeListItemNode : TreeListItemNode<LoadedModule>, ITreeListI
             checkboxNode.IsChecked = ItemData.State is LoadedState.Enabled;
         }
 
-        await Services.Framework.Run(() => OnClick?.Invoke(this));
+        await IFramework.Get().Run(() => OnClick?.Invoke(this));
     }
 
     private readonly CheckboxNode checkboxNode;

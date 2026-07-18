@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -18,11 +19,11 @@ public class Chocobo : Module<ChocoboConfig> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Chocobo",
         FileName = "Chocobo",
-        IconId = (uint) (62000 + Services.DataManager.GetExcelSheet<ClassJob>().Count - 2),
+        IconId = (uint) (62000 + IDataManager.Get().GetExcelSheet<ClassJob>().Count - 2),
         Type = ModuleType.OtherFeatures,
     };
 
-    private static Item GyshalGreensItem => Services.DataManager.GetExcelSheet<Item>().GetRow(GyshalGreensItemId);
+    private static Item GyshalGreensItem => IDataManager.Get().GetExcelSheet<Item>().GetRow(GyshalGreensItemId);
 
     private const uint GyshalGreensItemId = 4868;
     private readonly uint gyshalGreensIconId = GyshalGreensItem.Icon;
@@ -39,9 +40,9 @@ public class Chocobo : Module<ChocoboConfig> {
 
     protected override unsafe bool ShouldEvaluateWarnings(BattleChara* character) {
         if (character->ObjectIndex is not 0) return false;
-        if (!Services.Condition.CanSummonChocobo) return false;
-        if (Services.Condition.IsBoundByDuty) return false;
-        if (ModuleConfig.DisableInCombat && Services.Condition.IsInCombat) return false;
+        if (!ICondition.Get().CanSummonChocobo) return false;
+        if (ICondition.Get().IsBoundByDuty) return false;
+        if (ModuleConfig.DisableInCombat && ICondition.Get().IsInCombat) return false;
 
         return true;
     }

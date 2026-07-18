@@ -31,7 +31,7 @@ public class ModuleManager : IAsyncDisposable {
         List<Task> loadTasks = [];
 
         foreach (var module in allModules.OrderBy(module => module.ModuleInfo.Type).ThenBy(module => module.Name)) {
-            Services.PluginInterface.Inject(module);
+            NoTankYouPlugin.PluginInterface.Inject(module);
 
             var newLoadedModule = new LoadedModule(module, LoadedState.Disabled);
 
@@ -57,19 +57,19 @@ public class ModuleManager : IAsyncDisposable {
 
         LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
 
-        Services.Framework.Update += OnFrameworkUpdate;
+        IFramework.Get().Update += OnFrameworkUpdate;
     }
 
     public async Task UnloadModules() {
         if (LoadedModules is null) {
-            Services.PluginLog.Debug("No modules loaded");
+            IPluginLog.Get().Debug("No modules loaded");
             return;
         }
 
         IsUnloading = true;
 
-        Services.PluginLog.Debug("Disposing Module Manager, now disabling all Modules");
-        Services.Framework.Update -= OnFrameworkUpdate;
+        IPluginLog.Get().Debug("Disposing Module Manager, now disabling all Modules");
+        IFramework.Get().Update -= OnFrameworkUpdate;
 
         List<Task> unloadTasks = [];
 
@@ -77,12 +77,12 @@ public class ModuleManager : IAsyncDisposable {
             unloadTasks.Add(Task.Run(async () => {
                 if (loadedModule.State is LoadedState.Enabled) {
                     try {
-                        Services.PluginLog.Info($"Disabling {loadedModule.Name}");
+                        IPluginLog.Get().Info($"Disabling {loadedModule.Name}");
                         await loadedModule.FeatureBase.Disable();
-                        Services.PluginLog.Info($"Successfully Disabled {loadedModule.Name}");
+                        IPluginLog.Get().Info($"Successfully Disabled {loadedModule.Name}");
                     }
                     catch (Exception e) {
-                        Services.PluginLog.Error(e, $"Error while unloading modification {loadedModule.Name}");
+                        IPluginLog.Get().Error(e, $"Error while unloading modification {loadedModule.Name}");
                     }
                 }
 
@@ -97,20 +97,20 @@ public class ModuleManager : IAsyncDisposable {
 
     public static async Task TryEnableModule(LoadedModule module) {
         if (System.SystemConfig is null) {
-            Services.PluginLog.Error("System Config Failed to Load.");
+            IPluginLog.Get().Error("System Config Failed to Load.");
             return;
         }
 
         if (module.State is LoadedState.Errored) {
-            Services.PluginLog.Error($"[{module.Name}] Attempted to enable errored module");
+            IPluginLog.Get().Error($"[{module.Name}] Attempted to enable errored module");
             return;
         }
 
         try {
-            Services.PluginLog.Info($"Enabling {module.Name}");
+            IPluginLog.Get().Info($"Enabling {module.Name}");
             await module.FeatureBase.Enable();
             module.State = LoadedState.Enabled;
-            Services.PluginLog.Info($"Successfully Enabled {module.Name}");
+            IPluginLog.Get().Info($"Successfully Enabled {module.Name}");
 
             if (System.SystemConfig.EnabledModules.Add(module.Name)) {
                 await System.SystemConfig.Save();
@@ -119,41 +119,41 @@ public class ModuleManager : IAsyncDisposable {
         catch (Exception e) {
             module.State = LoadedState.Errored;
             module.ErrorMessage = "Failed to load, this module has been disabled.";
-            Services.PluginLog.Error(e, $"Error while enabling {module.Name}, attempting to disable");
+            IPluginLog.Get().Error(e, $"Error while enabling {module.Name}, attempting to disable");
 
             try {
                 await module.FeatureBase.Disable();
-                Services.PluginLog.Information($"Successfully disabled erroring module {module.Name}");
+                IPluginLog.Get().Information($"Successfully disabled erroring module {module.Name}");
             }
             catch (Exception fatal) {
                 module.ErrorMessage = "Critical Error: Module failed to load, and errored again while unloading.";
-                Services.PluginLog.Error(fatal, $"Critical Error while trying to unload erroring module: {module.Name}");
+                IPluginLog.Get().Error(fatal, $"Critical Error while trying to unload erroring module: {module.Name}");
             }
         }
     }
 
     public static async Task TryDisableModification(LoadedModule modification, bool removeFromList = true) {
         if (System.SystemConfig is null) {
-            Services.PluginLog.Error("System Config Failed to Load.");
+            IPluginLog.Get().Error("System Config Failed to Load.");
             return;
         }
 
         if (modification.State is LoadedState.Errored) {
-            Services.PluginLog.Error($"[{modification.Name}] Attempted to disable errored modification");
+            IPluginLog.Get().Error($"[{modification.Name}] Attempted to disable errored modification");
             return;
         }
 
         try {
-            Services.PluginLog.Info($"Disabling {modification.Name}");
+            IPluginLog.Get().Info($"Disabling {modification.Name}");
             await modification.FeatureBase.Disable();
             modification.FeatureBase.OpenConfigAction = null;
         }
         catch (Exception e) {
             modification.State = LoadedState.Errored;
-            Services.PluginLog.Error(e, $"Failed to Disable {modification.Name}");
+            IPluginLog.Get().Error(e, $"Failed to Disable {modification.Name}");
         } finally {
             modification.State = LoadedState.Disabled;
-            Services.PluginLog.Debug($"Successfully Disabled {modification.Name}");
+            IPluginLog.Get().Debug($"Successfully Disabled {modification.Name}");
 
             if (removeFromList) {
                 System.SystemConfig.EnabledModules.Remove(modification.Name);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dalamud.Game.ClientState.JobGauge.Types;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.BaseTypes;
@@ -42,19 +43,19 @@ public class Pictomancer : Module<PictomancerConfig> {
     }
 
     protected override unsafe void EvaluateWarnings(BattleChara* character) {
-        if (Services.Condition.IsInCombat) lastCombatTime = DateTime.UtcNow;
+        if (ICondition.Get().IsInCombat) lastCombatTime = DateTime.UtcNow;
 
         if (DateTime.UtcNow - lastCombatTime <= TimeSpan.FromSeconds(ModuleConfig.WarningDelay)) return;
 
-        if (character->Level >= CreatureMinimumLevel && !Services.JobGauges.Get<PCTGauge>().CreatureMotifDrawn) {
+        if (character->Level >= CreatureMinimumLevel && !IJobGauges.Get().Get<PCTGauge>().CreatureMotifDrawn) {
             GenerateWarning(CreatureActionId, "Creature Motif", character);
         }
 
-        if (character->Level >= WeaponMinimumLevel && !Services.JobGauges.Get<PCTGauge>().WeaponMotifDrawn) {
+        if (character->Level >= WeaponMinimumLevel && !IJobGauges.Get().Get<PCTGauge>().WeaponMotifDrawn) {
             GenerateWarning(WeaponActionId, "Weapon Motif", character);
         }
 
-        if (character->Level >= LandscapeMinimumLevel && !Services.JobGauges.Get<PCTGauge>().LandscapeMotifDrawn) {
+        if (character->Level >= LandscapeMinimumLevel && !IJobGauges.Get().Get<PCTGauge>().LandscapeMotifDrawn) {
             GenerateWarning(LandscapeActionId, "Landscape Motif", character);
         }
     }

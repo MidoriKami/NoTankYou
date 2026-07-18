@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Enums;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -49,7 +50,7 @@ public abstract class ModuleBase : FeatureBase {
 
     protected sealed override unsafe void OnFeatureUpdate() {
         if (ConfigBase.SavePending) {
-            Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
+            IPluginLog.Get().Debug($"Saving {ModuleInfo.DisplayName} config");
             Task.Run(ConfigBase.Save);
         }
 
@@ -59,13 +60,13 @@ public abstract class ModuleBase : FeatureBase {
         AllianceMembers.Clear();
 
         if (!IsEnabled) return;
-        if (Services.ClientState.IsPvPExcludingDen) return;
-        if (Services.Condition.IsCrossWorld) return;
-        if (Services.Condition.IsInCutsceneOrQuestEvent) return;
+        if (IClientState.Get().IsPvPExcludingDen) return;
+        if (ICondition.Get().IsCrossWorld) return;
+        if (ICondition.Get().IsInCutsceneOrQuestEvent) return;
         if (IsProhibitedTerritoryIntendedUse()) return;
         if (ConfigBase.DisableInSanctuary && TerritoryInfo.Instance()->InSanctuary) return;
-        if (ConfigBase.WaitForDutyStart && Services.Condition.IsBoundByDuty && !Services.DutyState.IsDutyStarted) return;
-        if (ConfigBase.DutiesOnly && !Services.Condition.IsBoundByDuty) return;
+        if (ConfigBase.WaitForDutyStart && ICondition.Get().IsBoundByDuty && !IDutyState.Get().IsDutyStarted) return;
+        if (ConfigBase.DutiesOnly && !ICondition.Get().IsBoundByDuty) return;
 
         // Collect the battle character pointers for use in each module's logic.
         foreach (var characterEntry in CharacterManager.Instance()->BattleCharas) {
@@ -109,9 +110,9 @@ public abstract class ModuleBase : FeatureBase {
 
     protected unsafe void GenerateWarning(uint actionId, string warningText, BattleChara* battleChara) => ActiveWarnings.Add(new WarningInfo {
         Priority = ConfigBase.Priority,
-        IconId = Services.DataManager.GetExcelSheet<Action>().GetRow(actionId).Icon,
+        IconId = IDataManager.Get().GetExcelSheet<Action>().GetRow(actionId).Icon,
         ActionId = actionId,
-        IconLabel = Services.DataManager.GetExcelSheet<Action>().GetRow(actionId).Name.ToString(),
+        IconLabel = IDataManager.Get().GetExcelSheet<Action>().GetRow(actionId).Name.ToString(),
         Message = ConfigBase.CustomWarningText.IsNullOrEmpty() ? warningText : ConfigBase.CustomWarningText,
         SourceCharacter = battleChara,
         SourceModule = ModuleInfo.DisplayName,
@@ -141,7 +142,7 @@ public abstract class ModuleBase : FeatureBase {
         if (HasWarnings) {
             if (timer.Elapsed.TotalSeconds >= ConfigBase.AutoSuppressTime) {
                 suppressedObjectIds.Add(character->EntityId);
-                Services.PluginLog.Warning($"[{Name}]: Adding {character->GetName()} to auto-suppression list");
+                IPluginLog.Get().Warning($"[{Name}]: Adding {character->GetName()} to auto-suppression list");
             }
         }
         else {
@@ -157,7 +158,7 @@ public abstract class ModuleBase : FeatureBase {
     };
 
     private static bool HasDisallowedCondition()
-        => Services.Condition.Any(ConditionFlag.Jumping61, ConditionFlag.Transformed, ConditionFlag.InThisState89);
+        => ICondition.Get().Any(ConditionFlag.Jumping61, ConditionFlag.Transformed, ConditionFlag.InThisState89);
 
     public sealed override NodeBase DisplayNode => new ScrollingNode<VerticalListNode> {
         ContentNode = {
