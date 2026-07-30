@@ -25,6 +25,7 @@ public unsafe class WarningBannerOverlayNode : OverlayNode {
             ScrollBarNode = {
                 IsVisible = false,
             },
+            ShowNoResultsPlaceholder = false,
         };
         bannerListNode.AttachNode(this);
 
