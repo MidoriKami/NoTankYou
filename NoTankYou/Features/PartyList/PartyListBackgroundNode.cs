@@ -52,6 +52,7 @@ public class PartyListBackgroundNode : UpdatableNode {
     }
 
     public override void Update() {
+        if (System.ModuleManager.IsUnloading) return;
         if (ActiveWarning is null) return;
         if (PartyList.PartyListConfig is not { } config) return;
 

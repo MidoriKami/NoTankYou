@@ -48,6 +48,8 @@ public unsafe class WarningBannerOverlayNode : OverlayNode {
     }
 
     protected override void OnUpdate() {
+        if (System.ModuleManager.IsUnloading) return;
+
         EnableMoving = Config.EnableMoving;
         EnableResizing = Config.EnableResizing;
 
