@@ -21,10 +21,11 @@ public class Tanks : Module<TanksConfig> {
         IconId = 62019,
     };
 
-    private readonly uint[] tankStanceIdArray = IDataManager.Get().GetExcelSheet<Status>()
-        .Where(status => status is { InflictedByActor: true, CanStatusOff: true, IsPermanent: true, ParamModifier: 500, PartyListPriority: 0 })
-        .Select(status => status.RowId)
-        .ToArray();
+    private readonly uint[] tankStanceIdArray = [
+        .. IDataManager.Get().GetExcelSheet<Status>()
+            .Where(status => status is { InflictedByActor: true, CanStatusOff: true, IsPermanent: true, ParamModifier: 500, PartyListPriority: 0 })
+            .Select(status => status.RowId),
+    ];
 
     private const byte MinimumLevel = 10;
 

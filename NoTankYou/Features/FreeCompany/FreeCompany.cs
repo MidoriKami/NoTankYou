@@ -26,10 +26,11 @@ public class FreeCompany : Module<FreeCompanyConfig> {
     private const uint FreeCompanyActionId = 43;
     private readonly uint freeCompanyIconId = (uint)IDataManager.Get().GetExcelSheet<CompanyAction>().GetRow(FreeCompanyActionId).Icon;
 
-    private readonly uint[] statusList = IDataManager.Get().GetExcelSheet<Status>()
-        .Where(status => status.IsFcBuff)
-        .Select(status => status.RowId)
-        .ToArray();
+    private readonly uint[] statusList = [
+        .. IDataManager.Get().GetExcelSheet<Status>()
+            .Where(status => status.IsFcBuff)
+            .Select(status => status.RowId),
+    ];
 
     protected override Task MigrateConfig() {
         ModuleConfig.DisableInSanctuary = false;
@@ -144,7 +145,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                     Width = 355.0f,
                     MaxListOptions = 10,
                     GetLabelFunction = item => item.Name.ToString(),
-                    Options = IDataManager.Get().GetExcelSheet<Status>().Where(status => status.IsFcBuff).ToList(),
+                    Options = [.. IDataManager.Get().GetExcelSheet<Status>().Where(status => status.IsFcBuff) ],
                     SelectedOption = IDataManager.Get().GetExcelSheet<Status>().GetRow(ModuleConfig.PrimaryBuff),
                     OnOptionSelected = newOption => {
                         ModuleConfig.PrimaryBuff = newOption.RowId;
@@ -174,7 +175,7 @@ public class FreeCompany : Module<FreeCompanyConfig> {
                     Width = 355.0f,
                     GetLabelFunction = status => status.Name.ToString(),
                     MaxListOptions = 10,
-                    Options = IDataManager.Get().GetExcelSheet<Status>().Where(status => status.IsFcBuff).ToList(),
+                    Options = [ .. IDataManager.Get().GetExcelSheet<Status>().Where(status => status.IsFcBuff)],
                     SelectedOption = IDataManager.Get().GetExcelSheet<Status>().GetRow(ModuleConfig.SecondaryBuff),
                     OnOptionSelected = newOption => {
                         ModuleConfig.SecondaryBuff = newOption.RowId;
