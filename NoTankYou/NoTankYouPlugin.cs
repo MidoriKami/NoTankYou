@@ -31,7 +31,7 @@ public sealed class NoTankYouPlugin : IAsyncDalamudPlugin {
         System.ModuleManager = new ModuleManager();
 
         if (IClientState.Get().IsLoggedIn) {
-            IFramework.Get().RunOnFrameworkThread(OnLogin);
+            IFramework.Get().Run(OnLogin, cancellationToken);
         }
 
         IClientState.Get().Login += OnLogin;
@@ -50,12 +50,10 @@ public sealed class NoTankYouPlugin : IAsyncDalamudPlugin {
         IClientState.Get().Login -= OnLogin;
         IClientState.Get().Logout -= OnLogout;
 
-        if (!IFramework.Get().IsFrameworkUnloading) {
-            await System.ConfigurationWindow.DisposeAsync();
-            await System.ModuleManager.DisposeAsync();
-        }
+        await System.ConfigurationWindow.DisposeAsync();
+        await System.ModuleManager.DisposeAsync();
 
-        await IFramework.Get().RunOnFrameworkThread(KamiToolKitLibrary.Dispose);
+        await IFramework.Get().Run(KamiToolKitLibrary.Dispose);
     }
 
     private static void OnCommand(string command, string arguments) {
