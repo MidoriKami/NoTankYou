@@ -28,6 +28,7 @@ public unsafe class WarningBannerOverlayNode : OverlayNode {
             ShowNoResultsPlaceholder = false,
         };
         bannerListNode.AttachNode(this);
+        bannerListNode.RemoveNodeFlags(NodeFlags.HasCollision);
 
         bannerListNode.AddTimeline(new TimelineBuilder()
             .BeginFrameSet(1, 60)
