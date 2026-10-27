@@ -14,8 +14,8 @@ namespace NoTankYou;
 public sealed class NoTankYouPlugin : IAsyncDalamudPlugin {
     [PluginService] internal static IDalamudPluginInterface PluginInterface { get; set; } = null!;
 
-    public Task LoadAsync(CancellationToken cancellationToken) {
-        KamiToolKitLibrary.Initialize(PluginInterface, "NoTankYou");
+    public async Task LoadAsync(CancellationToken cancellationToken) {
+        await KamiToolKitLibrary.InitializeAsync(PluginInterface, "NoTankYou");
 
         System.ConfigurationWindow = new ModuleBrowserWindow {
             InternalName = "NoTankYouConfig",
@@ -31,7 +31,7 @@ public sealed class NoTankYouPlugin : IAsyncDalamudPlugin {
         System.ModuleManager = new ModuleManager();
 
         if (IClientState.Get().IsLoggedIn) {
-            IFramework.Get().Run(OnLogin, cancellationToken);
+            await IFramework.Get().Run(OnLogin, cancellationToken);
         }
 
         IClientState.Get().Login += OnLogin;
@@ -39,8 +39,6 @@ public sealed class NoTankYouPlugin : IAsyncDalamudPlugin {
 
         PluginInterface.UiBuilder.OpenConfigUi += System.ConfigurationWindow.Toggle;
         PluginInterface.UiBuilder.OpenMainUi += System.ConfigurationWindow.Toggle;
-
-        return Task.CompletedTask;
     }
 
     public async ValueTask DisposeAsync() {
@@ -67,14 +65,14 @@ public sealed class NoTankYouPlugin : IAsyncDalamudPlugin {
         }
     }
 
-    private void OnLogin() {
+    private static void OnLogin() {
         Task.Run(async () => {
             System.SystemConfig = await SystemConfig.Load();
             await System.ModuleManager.LoadModules();
         });
     }
 
-    private void OnLogout(int type, int code) {
+    private static void OnLogout(int type, int code) {
         Task.Run(async () => {
             await System.ModuleManager.UnloadModules();
             System.SystemConfig = null;

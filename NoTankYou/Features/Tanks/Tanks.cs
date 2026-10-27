@@ -7,7 +7,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.Interop;
 using KamiToolKit.BaseTypes;
 using KamiToolKit.Nodes;
-using Lumina.Excel.Sheets;
+using Dalamud.Excel.Sheets;
 using NoTankYou.Classes;
 using NoTankYou.Enums;
 

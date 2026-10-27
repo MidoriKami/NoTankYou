@@ -16,7 +16,7 @@ using KamiToolKit.BaseTypes;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 using NoTankYou.CustomNodes;
-using Action = Lumina.Excel.Sheets.Action;
+using Action = Dalamud.Excel.Sheets.Action;
 
 namespace NoTankYou.Classes;
 
